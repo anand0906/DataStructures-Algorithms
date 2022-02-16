@@ -1,1 +1,1 @@
-<h1>Data Structure & Algorithms</h1>
+<h1>Data Structures & Algorithms</h1>
