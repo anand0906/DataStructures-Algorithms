@@ -61,5 +61,8 @@
 <ul>
 	<li>Merge sort</li>
 </ul>
-
-
+<hr>
+<h5>Resources</h5>
+<a href="https://www.codewithharry.com/videos/data-structures-and-algorithms-in-hindi-48/">CodeWithHarry</a>
+<a href="https://medium.com/@vaidehijoshi">medium</a>
+<a href="https://www.freecodecamp.org/">freecodecamp</a>
