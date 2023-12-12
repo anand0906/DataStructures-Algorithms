@@ -16,4 +16,14 @@
 <h3>Bottom-Up</h3>
 <p>In this approach, problem computation starts from subproblems and it leads to the main problem</p>
 <p>It can be achieved using iteration</p>
-
+<h3>Steps Involved in Solving Dynamic Programming</h3>
+<ol>
+  <li> Understand the problem and check whether it can be divided into subproblems</li>
+  <li> Check whether it supports overlapping sub-problems or optimum substructure</li>
+  <li> Find recurrence relation</li>
+  <li> Find Base Cases </li>
+  <li> Try recursive solution</li>
+  <li> Apply memorization</li>
+  <li> Try tabulation</li>
+  <li> Apply Optimization</li>
+</ol>
