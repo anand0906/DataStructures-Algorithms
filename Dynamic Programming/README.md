@@ -39,7 +39,7 @@
 <h4>Observe Time And Space Complexity</h4>
 <p>Find Time and Space Complexity for each approach, optimize the problem according to requirement</p>
 <h3>Problems</h3>
-<h4>Fibonacci Number</h4>
+<h4>1.Fibonacci Number</h4>
 <h5>The Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ……..</h5>
 <h5>The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, Given n, calculate F(n).</h5>
 <h5>Step-1 : Define The Problem</h5>
@@ -66,7 +66,7 @@
 <p>Recurrence relation => <b>f(n)=f(n-1)+f(n-2)</b></p>
 <h5>Step-5 : Recursive Solution</h5>
 
-  ```python
+```python
   def recursive(n):
     if(n<=1):
         return n
@@ -79,7 +79,7 @@
 
   n=int(input())
   print(recursive(n))
-  ```
+```
 <p>TC : O(2^n)</p>
 <p>SC : O(n)</p>
 <h5>Step-5 : Memorization</h5>
@@ -136,6 +136,140 @@
 ```python
   def optimization(n):
     prev=1
+    prev2=1
+    for i in range(3,n+1):
+        answer=prev+prev2
+        prev=prev2
+        prev2=answer
+    return prev2
+  n=int(input())
+  print(optimization(n))
+```
+<p>TC : O(n)</p>
+<p>SC : O(1)</p>
+
+<br>
+<br>
+
+<h4>1.Climbing Stairs : Count of ways : One or Two Steps</h4>
+<h5>Given a number of stairs. Starting from the 0th stair we need to climb to the “Nth” stair. At a time we can climb either one or two steps. We need to return the total number of distinct ways to reach from 0th to Nth stair.</h5>
+<pre>
+  Input: n = 2
+  Output: 2
+  Explanation: There are two ways to climb to the top.
+  1. 1 step + 1 step
+  2. 2 steps
+</pre>
+<pre>
+  Input: n = 3
+  Output: 3
+  Explanation: There are three ways to climb to the top.
+  1. 1 step + 1 step + 1 step
+  2. 1 step + 2 steps
+  3. 2 steps + 1 step
+</pre>
+<h5>Step-1 : Define The Problem</h5>
+<p>We have n steps, we are starting from 0th step, we have to reach the nth step</p>
+<p>At a time, we can jump to one step or two steps</p>
+<p>We have to fine total number of different ways to reach nth step</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+<p>Here we have to start from 0th step and reach to the nth step</p>
+<p>We might need 1-d array of size (n+1) to include 0th step also</p>
+<p>here , 0 to n represents step number we are at currently</p>
+<p>f(n) => represents function which return number of ways at nth step </p>
+<h5>Step-3 : Finding Base Cases</h5>
+<p>Suppose we are at starting 0th step and have to reach 0th step only, so there is only one way to stay there itself</p>
+<p>f(0)=1</p>
+<p>Suppose , we have to reach 1th step. Then there is only one way that is jumping to one step</p>
+<p>f(1)=1</p>
+<p>Suppose, we have to reach 2nd step, then there will be two ways, those are jump 1+1 or jump 2</p>
+<p>f(2)=2</p>
+<pre>
+  0->1
+  1->1
+  2->2
+</pre>
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+<p>Suppose, we have to reach 3rd step (n), basically we can jump 1 or 2 steps at a time.</p>
+<p>To Reach 3rd step, The previous step should either 2 (n-1 if takes one jump) or 1 (n-2 if take two jumps)</p>
+<p>if we know how many ways for to reach 2 (n-1) and 1 (n-2)</p>
+<p>By Combining the both ways, we can get total number of ways to reach nth step</p>
+<p>We know, f(1)=1 and f(2)=2 , hence f(3)=f(2)+f(1)=1+2=3</p>
+<p>Number of ways at n = number of ways at n-1 + number of ways at n-2</p>
+<p>Recurrance relation : <b>f(n)=f(n-1)+f(n-2)</b></p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+  def recursive(n):
+    if(n<=1):
+        return 1
+    if(n==2):
+        return 2 
+    prev=recursive(n-1)
+    prev2=recusive(n-2)
+    answer=prev+prev2
+    return answer
+  n=int(input())
+  print(recursive(n))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is n, since every n is unique for its answer</p>
+
+```python
+  def memorization(n,memo):
+    if n in memo:
+        return memo[n]
+    if(n<=1):
+        return 1
+    if(n==2):
+      return 2
+    a=memorization(n-1,memo)
+    b=memorization(n-2,memo)
+    answer=a+b
+    memo[n]=answer
+    return memo[n]
+  n=int(input())
+  memo={}
+  print(memorization(n,memo))
+```
+<p>TC : O(n)</p>
+<p>SC : O(n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we have to find the nth Fibonacci number, we have to store (n+1) subproblem answers including zero </p>
+<p>Create a 1-d array of size (n+1), fill 0 as defualt</p>
+<p>we know base cases, 0->0, 1->1, 2->1</p>
+<p> Fill base cases, index represent nth Fibonacci number</p>
+<p>loop from 3rd index up to n, find each answer based on recurrence relation</p>
+<p>f(n)=f(n-1)+f(n-2)</p>
+<p>dp[n]=dp[n-1]+dp[n-2]</p>
+
+```python
+  def tabulation(n):
+    dp=[0]*(n+1)
+    dp[0]=1
+    dp[1]=1
+    dp[2]=2
+    for i in range(3,n+1):
+        prev=dp[i-1]
+        prev2=dp[i-2]
+        answer=prev+prev2
+        dp[i]=answer
+    return dp[n]
+  n=int(input())
+  print(tabulation(n))
+```
+<p>TC : O(n)</p>
+<p>SC : O(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the last two answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+  def optimization(n):
+    prev=2
     prev2=1
     for i in range(3,n+1):
         answer=prev+prev2
