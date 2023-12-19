@@ -1,5 +1,5 @@
 #reccurance relation -> f(n)=f(n-1)+f(n-2)
-#base cases -> f(0)=0, f(1)=1
+#base cases -> f(0)=0, f(1)=1, f(2)=1
 #n is zero based
 
 #TC : O(2^n)
@@ -9,10 +9,12 @@ def recursion(n):
         return 0
     if(n==1):
         return 1
-    a=recursion(n-1)
-    b=recursion(n-2)
-    answer=a+b
-    return a+b
+    if(n==2):
+        return 1
+    prev=recursion(n-1)
+    prev2=recursion(n-2)
+    answer=prev+prev2
+    return answer
 
 #TC : O(n)
 #SC : O(n)
@@ -21,11 +23,13 @@ def memorization(n,memo):
         return memo[n]
     if(n<=1):
         return n
-    a=memorization(n-1,memo)
-    b=memorization(n-2,memo)
-    answer=a+b
+    if(n==2):
+        return 1
+    prev=memorization(n-1,memo)
+    prev2=memorization(n-2,memo)
+    answer=prev+prev2
     memo[n]=answer
-    return answer
+    return memo[n]
 
 #TC : O(n)
 #SC : O(n)
@@ -33,20 +37,21 @@ def tabulation(n):
     dp=[0]*(n+1) #it is zero based indexing and we need to find nth position value
     dp[0]=0
     dp[1]=1
-    for i in range(2,n+1):
+    dp[2]=1
+    for i in range(3,n+1):
         dp[i]=dp[i-1]+dp[i-2]
     return dp[n]
 
 #TC : O(n)
 #SC : O(1)
 def optimization(n):
-    a=0
-    b=1
-    for i in range(2,n+1):
-        c=a+b
-        a=b
-        b=c
-    return b
+    prev2=1 #f(1)
+    prev=1 #f(2)
+    for i in range(3,n+1):
+        answer=prev+prev2
+        prev2=prev
+        prev=answer
+    return prev
 n=int(input())
 memo={}
 print(recursion(n))
