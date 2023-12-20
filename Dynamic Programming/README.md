@@ -151,7 +151,7 @@
 <br>
 <br>
 
-<h4>1.Climbing Stairs : Count of ways : One or Two Steps</h4>
+<h4>2.Climbing Stairs : Count of ways : One or Two Steps</h4>
 <h5>Given a number of stairs. Starting from the 0th stair we need to climb to the “Nth” stair. At a time we can climb either one or two steps. We need to return the total number of distinct ways to reach from 0th to Nth stair.</h5>
 <pre>
   Input: n = 2
@@ -281,3 +281,147 @@
 ```
 <p>TC : O(n)</p>
 <p>SC : O(1)</p>
+
+<br>
+<br>
+
+<h4>3.Climbing Stairs : Count of ways : Up to K Steps</h4>
+<h5>Given a number of stairs. Starting from the 0th stair we need to climb to the “Nth” stair. At a time we can climb either k steps ( 1 or 2 or 3 ...k). We need to return the total number of distinct ways to reach from 0th to Nth stair.</h5>
+<pre>
+  Input: n = 2 , k = 2
+  Output: 2
+  Explanation: There are two ways to climb to the top.
+  1. 1 step + 1 step
+  2. 2 steps
+</pre>
+<pre>
+  Input: n = 3 , k=3
+  Output: 4
+  Explanation: There are four ways to climb to the top.
+  1. 1 step + 1 step + 1 step
+  2. 1 step + 2 steps
+  3. 2 steps + 1 step
+  4. 3 steps
+</pre>
+<h5>Step-1 : Define The Problem</h5>
+<p>We have n steps, we are starting from 0th step, we have to reach the nth step</p>
+<p>At a time, we can jump to up to k steps</p>
+<p>We have to fine total number of different ways to reach nth step</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+<p>Here we have to start from 0th step and reach to the nth step</p>
+<p>We might need 1-d array of size (n+1) to include 0th step also</p>
+<p>here , 0 to n represents step number we are at currently</p>
+<p>f(n) => represents function which return number of ways at nth step </p>
+<h5>Step-3 : Finding Base Cases</h5>
+<p>Suppose we are at starting 0th step and have to reach 0th step only, so there is only one way to stay there itself</p>
+<p>f(0)=1</p>
+<p>Suppose , we have to reach 1th step. Then there is only one way that is jumping to one step (Since minimum k value is 1)</p>
+<p>f(1)=1</p>
+<pre>
+  0->1
+  1->1
+</pre>
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+<h6>k=2</h6>
+<p>Suppose, we have to reach 3rd step (n), basically we can jump 1 or 2 steps at a time since k=2.</p>
+<p>To Reach 3rd step, The previous step should either 2 (n-1 if takes one jump) or 1 (n-2 if take two jumps)</p>
+<p>if we know how many ways for to reach 2 (n-1) and 1 (n-2)</p>
+<p>By Combining the both ways, we can get total number of ways to reach nth step</p>
+<p>We know, f(1)=1 and f(2)=2 , hence f(3)=f(2)+f(1)=1+2=3</p>
+<p>Number of ways at n = number of ways at n-1 + number of ways at n-2</p>
+<p>Recurrance relation : <b>f(n)=f(n-1)+f(n-2)</b></p>
+<h6>k=3</h6>
+<p>Suppose, we have to reach 3rd step (n), basically we can jump 1 or 2 or 3 steps at a time since k=3.</p>
+<p>To Reach 3rd step, The previous step should either 2 (n-1 if takes one jump) or 1 (n-2 if take two jumps) or 0 (n-3 if take three jumps)</p>
+<p>if we know how many ways for to reach 2 (n-1) and 1 (n-2) and 0 (n-3)</p>
+<p>By Combining the both ways, we can get total number of ways to reach nth step</p>
+<p>We know,f(0)=0, f(1)=1 and f(2)=2 , hence f(3)=f(2)+f(1)+f(0)=2+1+1=4</p>
+<p>Number of ways at n = number of ways at n-1 + number of ways at n-2 + number of ways at n-3</p>
+<p>Recurrance relation : <b>f(n)=f(n-1)+f(n-2)+f(n-2)</b></p>
+<h6>For K Steps</h6>
+<p>Suppose we have k choices, from nth stair, we have to found all ways for previous k steps</p>
+<p>Recurrance Relation : <b>f(n)=f(n-1)+f(n-2)+...+f(n-k)</b></p>
+
+<p>We have to remind that, (n-k) should not be less than 0. i.e f(-1) is meaning less</p>
+
+```python
+  total=0
+  for i in range(1,k+1):
+    if(n-i > 0):
+        total+=f(n-i)
+
+```
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+  def recursive(n,k):
+    if(n==0):
+        return 1
+    if(n==1):
+        return 1
+    total=0
+    for i in range(1,k+1):
+        if(n-i >= 0):
+            total+=recursive(n-i,k)
+    return total
+  n=int(input())
+  k=int(input())
+  print(recursive(n,k))
+```
+<p>TC : O(2^k)</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is n, since every n is unique for its answer</p>
+
+```python
+  def memorization(n,k,memo):
+    if(n in memo):
+        return memo[n]
+    if(n<=1):
+        return 1
+    totalWays=0
+    for i in range(1,k+1):
+        if(n-i>=0):
+            totalWays+=memorization(n-i,k,memo)
+    memo[n]=totalWays
+    return memo[n]
+  n=int(input())
+  k=int(input())
+  memo={}
+  print(memorization(n,k,memo))
+```
+<p>TC : O(n*k)</p>
+<p>SC : O(n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we have to find the nth Fibonacci number, we have to store (n+1) subproblem answers including zero </p>
+<p>Create a 1-d array of size (n+1), fill 0 as defualt</p>
+<p>we know base cases, 0->0, 1->1</p>
+<p> Fill base cases, index represent nth Fibonacci number</p>
+<p>loop from 2rd index up to n, find each answer based on recurrence relation</p>
+<p>f(n)=f(n-1)+f(n-2)+...+f(n-k)</p>
+<p>dp[n]=dp[n-1]+dp[n-2]+..+dp[n-k]</p>
+
+```python
+ def tabulation(n,k):
+    dp=[0]*(n+1)
+    dp[0],dp[1]=1,1
+    for i in range(2,n+1):
+        totalWays=0
+        for j in range(1,k+1):
+            if(i-j>=0):
+                totalWays+=dp[i-j]
+        dp[i]=totalWays
+    return dp[n]
+  n=int(input())
+  k=int(input())
+  print(tabulation(n,k))
+
+```
+<p>TC : O(n*k)</p>
+<p>SC : O(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're have to store last k answers</p>
+<p> We don't need all previous subproblem solutions</p>
+<p>Managing last k answers will consume less memory but increases time complexity</p>
+<p>hence it is not preferred</p>
