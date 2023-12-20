@@ -238,10 +238,10 @@
 <p>TC : O(n)</p>
 <p>SC : O(n)</p>
 <h5>Step-6 : Iterative Implementation / Tabulation</h5>
-<p>Since we have to find the nth Fibonacci number, we have to store (n+1) subproblem answers including zero </p>
+<p>Since we have to find the Number of ways at nth step, we have to store (n+1) subproblem answers including zero </p>
 <p>Create a 1-d array of size (n+1), fill 0 as defualt</p>
 <p>we know base cases, 0->0, 1->1, 2->1</p>
-<p> Fill base cases, index represent nth Fibonacci number</p>
+<p> Fill base cases, index represent nth step</p>
 <p>loop from 3rd index up to n, find each answer based on recurrence relation</p>
 <p>f(n)=f(n-1)+f(n-2)</p>
 <p>dp[n]=dp[n-1]+dp[n-2]</p>
@@ -368,7 +368,7 @@
   k=int(input())
   print(recursive(n,k))
 ```
-<p>TC : O(2^k)</p>
+<p>TC : O((n^k)*k)</p>
 <p>SC : O(n)</p>
 <h5>Step-5 : Memorization</h5>
 <p>Create a map, and store every answer</p>
@@ -394,10 +394,10 @@
 <p>TC : O(n*k)</p>
 <p>SC : O(n)</p>
 <h5>Step-6 : Iterative Implementation / Tabulation</h5>
-<p>Since we have to find the nth Fibonacci number, we have to store (n+1) subproblem answers including zero </p>
+<p>Since we have to find number of ways at nth step, we have to store (n+1) subproblem answers including zero </p>
 <p>Create a 1-d array of size (n+1), fill 0 as defualt</p>
 <p>we know base cases, 0->0, 1->1</p>
-<p> Fill base cases, index represent nth Fibonacci number</p>
+<p> Fill base cases, index represent nth Step</p>
 <p>loop from 2rd index up to n, find each answer based on recurrence relation</p>
 <p>f(n)=f(n-1)+f(n-2)+...+f(n-k)</p>
 <p>dp[n]=dp[n-1]+dp[n-2]+..+dp[n-k]</p>
@@ -425,3 +425,236 @@
 <p> We don't need all previous subproblem solutions</p>
 <p>Managing last k answers will consume less memory but increases time complexity</p>
 <p>hence it is not preferred</p>
+
+<br>
+<br>
+
+<h4>4.Frog Jump : Minimum Energy : One or Two Steps</h4>
+<h5>Given a number of stairs and a frog, the frog wants to climb from the 0th stair to the (N-1)th stair. At a time the frog can climb either one or two steps. A height[N] array is also given. Whenever the frog jumps from a stair i to stair j, the energy consumed in the jump is abs(height[i]- height[j]), where abs() means the absolute difference. We need to return the minimum energy that can be used by the frog to jump from stair 0 to stair N-1.</h5>
+<pre>
+  If the given ‘HEIGHT’ array is [10,20,30,10], the answer 20 as the frog can jump from 1st stair to 2nd stair (|20-10| = 10 energy lost) and then a jump from 2nd stair to last stair (|10-20| = 10 energy lost). So, the total energy lost is 20.
+</pre>
+<h5>Step-1 : Define The Problem</h5>
+<p>It is similar to climbing stairs problem. But here we have to find minimum energy requrired to reach nth step</p>
+<p>Frog is at 0th step, it has to reach nth step. It can jump one or two steps at a time</p>
+<p>Every step is asscocited with some height / energy. Energy consumed for a single jump from i to j is abs(height[i]- height[j])</p>
+<p>We have to find the minimum energy required to reach nth step</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+<p>Here we have to start from 0th step and reach to the n-1th step</p>
+<p>We might need 1-d array of size (n) to include 0th step also</p>
+<p>here , 0 to n represents step number we are at currently</p>
+<h5>Step-3 : Finding Base Cases</h5>
+<p>Suppose we are at starting 0th step and have to reach 0th step only, so we don't need to move, energy required is zero</p>
+<p>f(0)=0</p>
+<p>Suppose , we have to reach 1th step. Then there is only one way that is jumping to one step. Energy required is abs(height[0]-height[1])</p>
+<p>f(1)=abs(height[0]-height[1])</p>
+<pre>
+  0->1
+  1->abs(height[0]-height[1])
+</pre>
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+<p>We know energy required for 0 and 1 steps.</p>
+<p>suppose let's take step-2,To reach step-2, we have to come from either from 1st step or 0th step. Since we have two options only</p>
+<p>If we are coming from 1st step, energy=energy required reach 1st + enrgy required to jump 1st to 2nd (abs(height[1]-height[2]))</p>
+<p>If we are coming from 0th step, energy=energy required reach 0th step (0)+ enrgy required to jump 0th to 2nd (abs(height[0]-height[2]))</p>
+<p>Since we need minimum energy, just minimum of above two energies</p>
+<p>f(2)=min(f(2-1)+abs(height[1]-height[2]), f(2-2)+abs(height[0]-height[2]))</p>
+<p>Similary, To Reach nth step, we have to come from either (n-1)th step or (n-2)th step</p>
+<p>Minimum Energy Required At nth Step = Min(Energy Required at (n-1)th step + energy required to jump n-1 to nth step, Energy Required at (n-2)th step + energy required to jump n-2 to nth step)</p>
+<p>Recurrance Relation : <b>f(n)=min(f(n-1)+abs(height[n-1]-height[n]), f(n-2)+abs(height[n-2]-height[n]]))</b></p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+  def recursive(n,height):
+    if(n==0):
+        return 0
+    if(n==1):
+        return abs(height[1]-height[0])
+    prev=recursive(n-1,height)+abs(height[n-1]-height[n])
+    prev2=recursive(n-2,height)+abs(height[n-2]-height[n])
+    answer=min(prev,prev2)
+    return answer
+  n=int(input())
+  height=list(map(int,input().split()))
+  print(recursive(n,height))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is n, since every n is unique for its answer</p>
+
+```python
+  def memorization(n,height,memo):
+    if n in memo:
+        return memo
+    if(n==0):
+        return 0
+    if(n==1):
+        return abs(height[1]-height[0])
+    prev=memorization(n-1,height,memo)+abs(height[n-1]-height[n])
+    prev2=memorization(n-2,height,memo)+abs(height[n-2]-height[n])
+    answer=min(prev,prev2)
+    memo[n]=answer
+    return answer
+  n=int(input())
+  height=list(map(int,input().split()))
+  memo={}
+  print(memorization(n,height,memo))
+```
+<p>TC : O(n)</p>
+<p>SC : O(n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we have to reach n-1 step, we have to declare array of size n</p>
+<p>Fill base cases</p>
+<p>loop from 2 and fill all values based on recurrance relation</p>
+
+
+```python
+def tabulation(n,height):
+    dp=[0]*(n)
+    dp[0]=0
+    dp[1]=abs(height[0]-height[1])
+    for i in range(2,n):
+        prev=dp[i-1]+abs(height[i-1]-height[i])
+        prev2=dp[i-2]+abs(height[i-2]-height[i])
+        dp[i]=min(prev,prev2)
+    return dp[n-1]
+
+  n=int(input())
+  height=list(map(int,input().split()))
+  print(tabulation(n,height))
+
+```
+<p>TC : O(n)</p>
+<p>SC : O(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step, we are using only previous two step values</p>
+<p>we don't need to store all subproblem answers</p>
+
+```python
+def optimization(n,height):
+    prev2=0
+    prev=abs(height[0]-height[1])
+    for i in range(2,n):
+        a=prev+abs(height[i-1]-height[i])
+        b=prev2+abs(height[i-2]-height[i])
+        answer=min(a,b)
+        prev2=prev
+        prev=answer
+    return prev
+
+  n=int(input())
+  height=list(map(int,input().split()))
+  print(optimization(n,height))
+
+```
+<p>TC : O(n)</p>
+<p>SC : O(1)</p>
+
+<br>
+<br>
+
+<h4>4.Frog Jump : Minimum Energy : Up to k Steps</h4>
+<h5>This is a follow-up question to “Frog Jump” discussed in the previous problem. In the previous question, the frog was allowed to jump either one or two steps at a time. In this question, the frog is allowed to jump up to ‘K’ steps at a time. If K=4, the frog can jump 1,2,3, or 4 steps at every index.</h5>
+
+<h5>Step-1 : Define The Problem</h5>
+<p>Similar to previous problem, but here we can jump up to k steps at a time</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+<p>Here we have to start from 0th step and reach to the n-1th step</p>
+<p>We might need 1-d array of size (n) to include 0th step also</p>
+<h5>Step-3 : Finding Base Cases</h5>
+<p>At step 0, energy equal to zero, since we don't need to jump</p>
+<p>f(0)=0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+<p>To reach nth step, we can come from either n-1,n-2,n-3 ....n-k</p>
+<p>Calculte enregy required for all cases and take min out of it</p>
+
+```python
+f(n)=min(f(n-1)+abs(height[n-1]-height[n]),
+         f(n-2)+abs(height[n-2]-height[n])
+         f(n-3)+abs(height[n-3]-height[n])
+         ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
+         ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
+         f(n-k)+abs(height[n-k]-height[n])
+         )
+```
+<p> </p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+  def recursive(n,k,height):
+    if(n==0):
+        return 0
+    minEnergy=float('inf')
+    for i in range(1,k+1):
+        if((n-i)>=0):
+            temp=recursive(n-i,k,height)+abs(height[n-i]-height[n])
+            minEnergy=min(minEnergy,temp)
+    return minEnergy
+  n=int(input())
+  k=int(input())
+  height=list(map(int,input().split()))
+  print(recursive(n,k,height))
+```
+<p>TC : O((k^n))</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is n, since every n is unique for its answer</p>
+
+```python
+  def memorization(n,k,height,memo):
+    if n in memo:
+        return memo[n]
+    if(n==0):
+        return 0
+    minEnergy=float('inf')
+    for i in range(1,k+1):
+        if((n-i)>=0):
+            temp=memorization(n-i,k,height,memo)+abs(height[n-i]-height[n])
+            minEnergy=min(minEnergy,temp)
+    memo[n]=minEnergy
+    return minEnergy
+  n=int(input())
+  k=int(input())
+  height=list(map(int,input().split()))
+  memo={}
+  print(memorization(n,k,height,memo))
+```
+<p>TC : O(n*k)</p>
+<p>SC : O(n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we have to reach n-1 step, we have to declare array of size n</p>
+<p>Fill base cases</p>
+<p>loop from 2 and fill all values based on recurrance relation</p>
+
+
+```python
+def tabulation(n,k,height):
+    dp=[0]*n
+    dp[0]=0
+    for i in range(1,n):
+        minEnergy=float('inf')
+        for j in range(1,k+1):
+            if(i-j >=0):
+                temp=dp[i-j]+abs(height[i-j]-height[i])
+                minEnergy=min(temp,minEnergy)
+            dp[i]=minEnergy
+    return dp[n-1]
+
+  n=int(input())
+  k=int(input())
+  height=list(map(int,input().split()))
+  print(tabulation(n,k,height))
+
+```
+<p>TC : O(n*k)</p>
+<p>SC : O(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step, we are using only previous k step values</p>
+<p>we don't need to store all subproblem answers</p>
+<p> but managing previous k step values will effect Time complexity</p>
+<p>So, space optimization is not preffered</p>
+
+
