@@ -38,7 +38,11 @@
 <p>This will improve the space complexity</p>
 <h4>Observe Time And Space Complexity</h4>
 <p>Find Time and Space Complexity for each approach, optimize the problem according to requirement</p>
+
+
 <h3>Problems</h3>
+
+
 <h4>1.Fibonacci Number</h4>
 <h5>The Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ……..</h5>
 <h5>The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, Given n, calculate F(n).</h5>
@@ -555,7 +559,7 @@ def optimization(n,height):
 <br>
 <br>
 
-<h4>4.Frog Jump : Minimum Energy : Up to k Steps</h4>
+<h4>5.Frog Jump : Minimum Energy : Up to k Steps</h4>
 <h5>This is a follow-up question to “Frog Jump” discussed in the previous problem. In the previous question, the frog was allowed to jump either one or two steps at a time. In this question, the frog is allowed to jump up to ‘K’ steps at a time. If K=4, the frog can jump 1,2,3, or 4 steps at every index.</h5>
 
 <h5>Step-1 : Define The Problem</h5>
@@ -657,4 +661,177 @@ def tabulation(n,k,height):
 <p> but managing previous k step values will effect Time complexity</p>
 <p>So, space optimization is not preffered</p>
 
+<br>
+<br>
 
+<h4>6.Maximum Sum Of Non-Adjacent Elements</h4>
+<h5>Given an array of ‘N’  positive integers, we need to return the maximum sum of the subsequence such that no two elements of
+the subsequence are adjacent elements in the array.</h5>
+<h5>Note: A subsequence of an array is a list with elements of the array where some elements are deleted ( or not deleted at all) and the elements should be in the same order in the subsequence as in the array.</h5>
+<img src="https://lh6.googleusercontent.com/gQPoRaBGkwCKbJNy8cvXG2LBzD3khfxca938a6Zrph4HWQGLOxtVbDW3xO6WkDalQCBopYfBp5DX3oo_Drug3kRNBwhqDkYapMUu4LjwL_6_8dPot0h8ESZeMrbp1_3M_SW0zICR">
+<h5>Step-1 : Define The Problem</h5>
+<p>Given an array, we have to find maximum sum of element which are not adjacent together, No two elements should be together</p>
+<p>For Example, arr=[1,2,3,4]</p>
+<p>Non-Adjacenent Subsequences are</p>
+<p>[1,3],[2,4],[1,4],[1],[2],[3],[4]</p>
+<p>We have to return maximum sum of combination that is [2,4]=6</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+<p>Given an array, so each element has index</p>
+<p>Let us assume f(index), it represents maximum sum of non-adjacent elements from 0 to index</p>
+<p>we have to find, maximum sum at n-1 index , f(n-1), where n = size of array</p>
+<h5>Step-3 : Finding Base Cases</h5>
+<p>Array will contain atleast one element</p>
+<p>if array size=1, n=1, then there is no adjacency since it contains only one element</p>
+<p>f(0)=arr[0], where 0->index of first element</p>
+<p>if array contains two elements, since both are adjacent together, max sum will be max of two elements</p>
+<p>f(1)=max(arr[0],arr[1])</p>
+<p>Base Cases :</p>
+<p>f(0)->arr[0]</p>
+<p>f(1)->max(arr[0],arr[1])</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+<p>To find recurrence relation, lets solve smaller inputs</p>
+<p>we know base cases</p>
+<h4>arr=[1,2,3]</h4>
+<p>we know, f(0)=arr[0]=1 -> Maximum non-adjacent sum at index 0</p>
+<p>f(1)=max(arr[0],arr[1])=max(1,2)=2 -> Maximum non-adjacent sum from index 0 to index 1</p>
+<p>for f(2), i.e maximum non-adjacent sum from index 0 to index 2</p>
+<p>we have to choices</p>
+<p>1.Include element at index 2</p>
+<p>2.not include element at index 2</p>
+<p>Max of both choices will be answer</p>
+<p>If we are including element at index 2, we can't add element which is adjacent to it. so, we have to add maximum sum which just before its adjacent position. i.e f(n-2)</p>
+<p>f(2)=arr[2]+f(2-2)=2+f(0)=2+1=3</p>
+<p>If we are not including current element, we have to take adjacent sum, i.e f(n)=f(n-1)</p>
+<p>f(2)=f(n-1)=f(2-1)=f(1)=2</p>
+<p>we have to take max of two cases</p>
+<p>max(3,2)=3=f(2)-> this is the maximum obtained from index 0 to index 2</p>
+<p>Hence Recurrance realation at index n, will be</p>
+<p>f(n)=max(include current element, not include current element)</p>
+<p>Include Element= element at current index + previous no-adjecent index maximum sum=arr[n]+f(n-2)</p>
+<p>Exclude Element= Get the Maximum Sum Untill previous index = f(n-1)</p>
+<p>Recurrance relation : <b>f(n)=max(arr[n]+f(n-2),f(n-1))</b></p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+ def recursive(n,arr):
+    if(n==0):
+        return arr[0]
+    if(n==1):
+        return max(arr[0],arr[1])
+    include=arr[n]+recursive(n-2,arr)
+    exclude=recursive(n-1,arr)
+    answer=max(include,exclude)
+    return answer
+
+  n=int(input())
+  arr=list(map(int,input().split()))
+  print(recursive(n,arr))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is n, since every n is unique for its answer</p>
+
+```python
+  def memorization(n,arr,memo):
+    if n in memo:
+        return memo[n]
+    if(n==0):
+        return arr[0]
+    if(n==1):
+        return max(arr[0],arr[1])
+    include=arr[n]+memorization(n-2,arr,memo)
+    exclude=memorization(n-1,arr,memo)
+    answer=max(include,exclude)
+    memo[n]=answer
+    return memo[n]
+  n=int(input())
+  arr=list(map(int,input().split()))
+  memo={}
+  print(memorization(n,arr,memo))
+```
+<p>TC : O(n)</p>
+<p>SC : O(n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we need to find maximum sum from 0 to n-1, declare array of size n</p>
+<p>Intialize base cases</p>
+<p>loop from 2, since 2 values are aleady filled</p>
+<p>Based on recurrance relation</p>
+
+```python
+  def tabulation(n,arr):
+    dp=[0]*n
+    dp[0]=arr[0]
+    dp[1]=max(arr[0],arr[1])
+    for i in range(2,n):
+        include=arr[i]+dp[i-2]
+        exclude=dp[i-1]
+        dp[i]=max(include,exclude)
+    return dp[n-1]
+  n=int(input())
+  arr=list(map(int,input().split()))
+  print(tabulation(n,arr))
+```
+<p>TC : O(n)</p>
+<p>SC : O(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the last two answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+  def optimization(n,arr):
+    prev2=arr[0]
+    prev=max(arr[0],arr[1])
+    for i in range(2,n):
+        include=arr[i]+prev2
+        exclude=prev
+        answer=max(include,exclude)
+        prev2=prev
+        prev=answer
+    return prev
+  n=int(input())
+  arr=list(map(int,input().split()))
+  print(optimization(n,arr))
+```
+<p>TC : O(n)</p>
+<p>SC : O(1)</p>
+
+
+<br>
+<br>
+
+<h4>7.House Robber : Maximum Non Adjacent Sum : Circular manner</h4>
+<h5>A thief needs to rob money in a street. The houses in the street are arranged in a circular manner. Therefore the first and the last house are adjacent to each other. The security system in the street is such that if adjacent houses are robbed, the police will get notified.</h5>
+<h5>Given an array of integers “Arr” which represents money at each house, we need to return the maximum amount of money that the thief can rob without alerting the police.</h5>
+<h5>Step-1 : Define Problem</h5>
+<p>We were finding the maximum sum of non-adjacent elements in the previous questions. For a circular street, the first and last house are adjacent, therefore one thing we know for sure is that the answer will not consider the first and last element simultaneously (as they are adjacent).</p>
+<p>ow building on the article DP5, we can say that maybe the last element is not considered in the answer. In that case, we can consider the first element. Let’s call this answer ans1. Hence we have reduced our array(arr- last element), say arr1, and found ans1 on it by using the article DP5 approach.</p>
+<img src="https://lh3.googleusercontent.com/0mkwqypWCCVBzCR3p4y0kpIcfaOtXVj554Oppzazg3vz8R7BSgWstj6oIwKJtgmDVVZ7Ixn5I3q-KTAWMP3xWzQX88XoyrZBEZ7KcCH6T2IMGSserlmIDas4ZlI8OhMAe84kgL72">
+<p>Now, it can also happen that the final answer does consider the last element. If we consider the last element, we can’t consider the first element( again adjacent elements). We again use the same approach on our reduced array( arr – first element), say arr2. Let’s call the answer we get as ans2.</p>
+<img src="https://lh6.googleusercontent.com/0x1VzdE2zZniwJr84vvkNsZWQSeNsKu385q_o-ySKc7rdFGdj-Qhc7I6XSif0vldfl9NIfqEd92e7mlYkDc6Z05dgtO0pZX7Qg30W09hU7qOHFuzvvv0Sh8KgphfR5IZ2mVdFJqf">
+<p>Now, the final answer can be either ans1 or ans2. As we have to return the maximum money robbed by the robber, we will return max(ans1, ans2) as our final answer.</p>
+
+
+```python
+  def maxNonAdjSum(n,arr):
+    prev2=arr[0]
+    prev=max(arr[0],arr[1])
+    for i in range(2,n):
+        include=arr[i]+prev2
+        exclude=prev
+        answer=max(include,exclude)
+        prev2=prev
+        prev=answer
+    return prev
+n=int(input())
+arr=list(map(int,input().split()))
+excludeFirst=maxNonAdjSum(n-2,arr[1:])
+excludeLast=maxNonAdjSum(n-2,arr[:-1])
+print(max(excludeFirst,excludeLast))
+```
+<p>TC : O(n)</p>
+<p>SC : O(1)</p>
+
+<br>
+<br>
