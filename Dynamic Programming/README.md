@@ -835,3 +835,180 @@ print(max(excludeFirst,excludeLast))
 
 <br>
 <br>
+
+<h4>8.Ninja's Training : Maximum Points earned in n days by taking no consecutive activities</h4>
+<h5>A Ninja has an ‘N’ Day training schedule. He has to perform one of these three activities (Running, Fighting Practice, or Learning New Moves) each day. There are merit points associated with performing an activity each day. The same activity can’t be performed on two consecutive days. We need to find the maximum merit points the ninja can attain in N Days.</h5>
+<h5>We are given a 2D Array POINTS of size ‘N*3’ which tells us the merit point of specific activity on that particular day. Our task is to calculate the maximum number of merit points that the ninja can earn.</h5>
+<img src="https://lh3.googleusercontent.com/fGhKc0zD0hrkqCd-4jAGVuIiJgqFvyk1dSLmTiwWwTXmRmG_LoqpiaOwk1puC3jgVB_HZx3p0v0Ovq66QWwKhaYanSBF8yI09GLZwm-aumvQT8LPuSSvlDerGoN0uz2MyNhX8I67">
+<h5>Step-1 : Define The Problem</h5>
+<p>Given n days, and each day has 3 activities associated with three activities each has points</p>
+<p>we have to start from day one,has to pick one activity and can pickup different activity in next day</p>
+<p>We have to earn maxpoints by doing n activities in n days.</p>
+<p>Maximum points earned in nth day is the answer</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+<p>We have n days, each day has three activities. So we can store input in the form of matrix n*3, where n=days(rows) and 3=Activity Points(columns)</p>
+<p>Since matrix is zero based indexing,Problem has 0 to n-1 days(rows), 0 to 2 activities(columns)</p>
+<p>Has to start from 0th row, find answer at (n-1)th day</p>
+<h5>Step-3 : Finding Base Cases</h5>
+<p>if we have only one day, maximum of 3 activity points at day 1, f(0)=max(activity1,activity2,activity3)=max(points[0][0],points[0][1],points[0][2])</p>
+<p>If we have more than one day, on first day we may pick any one activity based on next day activity</p>
+<p>if next day activity=0, first day = max(activity2,activity3)=max(points[0][1],points[0][2])</p>
+<p>if next day activity=1, first day = max(activity1,activity3)=max(points[0][0],points[0][2])</p>
+<p>if next day activity=2, first day = max(activity1,activity2)=max(points[0][0],points[0][1])</p>
+<p>Based on next/last day previous/next day activity will be choosen</p>
+<p>Above all conditions will be written as follows</p>
+
+```python
+    maxi=float('inf')
+    for i in range(3):
+      if(i!=last):
+        maxi=max(maxi,points[0][i])
+    return maxi
+```
+<p>So the base condition will be as follows</p>
+<p>If last = -1, then there is only one day, other wise there are more than one day</p>
+<p>For Last = -1 , f(0)=max(activity1,activity2,activity3)=max(points[0][0],points[0][1]</p>
+<p>For Last = 0 , f(0)=max(activity2,activity3)=max(points[0][1],points[0][2])</p>
+<p>For Last = 1 , f(0)=max(activity1,activity3)=max(points[0][0],points[0][2])</p>
+<p>For Last = 2 , f(0)=max(activity1,activity2)=max(points[0][0],points[0][1])</p>
+<p>This applies for only 3 activities, if there are k activities, we can't follow this,so</p>
+<p>f(0)=</p>
+
+```python
+    maxi=float('-inf')
+    for i in range(3):
+      if(i!=last):
+        maxi=max(maxi,points[0][i])
+    return maxi
+```
+
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+<p>for first day, we have already discussed</p>
+<p>For day two, we have to pick a activity and find the maximum no consecutive activity in previous day</p>
+<p>By adding these two values, we can get maximum value we can get at day-2 for that particular activity at day-2</p>
+<p>By finding total points for each activity</p>
+<p>We can get the obtained points for each activity at day-2</p>
+<p>Maximum of those points will be answer for day-2</p>
+<p>So the recurrance relation will be as follows</p>
+
+```python 
+    for current_activity in range(3) : #looping throw each activity
+        maxi=float('-inf')
+        for last_activity in range(3):
+          if(current_activity!=last_activity):
+            maxi=max(maxi,current_activity_points+previous_activity_points)
+        current_activity_points=maxi
+
+```
+
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+ def recursive(day,last_picked_activity,points):
+    if(day==0):
+        maxi=float('-inf')
+        for activity in range(3):
+            if(activity!=last_picked_activity):
+                maxi=max(maxi,points[day][activity])
+        return maxi
+
+    final=float('-inf')
+    for activity in range(3):
+        if(activity!=last_picked_activity):
+            temp=points[day][activity]+recursive(day-1,activity,points)
+            final=max(final,temp)
+    return final
+
+  n=int(input())
+  points=[list(map(int,input().split())) for i in range(n)]
+  print(recursive(n-1,-1,points))
+```
+<p>TC : O(3^n)</p>
+<p>SC : O(n)+O(n*3)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is day + last_day, since it is unique for its answer</p>
+
+```python
+  def memorization(day,last,points,memo):
+    key=(day,last)
+    if key in memo:
+        return memo[key]
+    if(day==0):
+        maxi=float('-inf')
+        for i in range(3):
+            if(i!=last):
+                maxi=max(maxi,points[day][i])
+        return maxi
+    final=float('-inf')
+    for i in range(3):
+        if(i!=last):
+            temp=points[day][i]+memorization(day-1,i,points,memo)
+            final=max(final,temp)
+    memo[key]=final
+    return final
+  n=int(input())
+  points=[list(map(int,input().split())) for i in range(n)]
+  memo={}
+  print(memorization(n-1,-1,points,memo))
+```
+<p>TC : O(n*3*3)</p>
+<p>SC : O(n)+o(n*3)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+    def tabulation(n,points):
+      dp=[[0]*3 for i in range(n)]
+      for last in range(3):
+          maxi=float('-inf')
+          for i in range(3):
+              if(i!=last):
+                  maxi=max(maxi,points[0][i])
+          dp[0][last]=maxi
+      for day in range(1,n):
+          for last in range(3):
+              final=float('-inf')
+              for activity in range(3):
+                  if(last!=activity):
+                      temp=points[day][activity]+dp[day-1][activity]
+                      final=max(final,temp)
+              dp[day][last]=final
+      return max(dp[n-1])
+    n=int(input())
+    points=[list(map(int,input().split())) for i in range(n)]
+    print(tabulation(n,points))
+```
+<p>TC : O(n*3*3)</p>
+<p>SC : O(n*3)+o(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the last two answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+  def optimization(n,points):
+    dp_prev=[0,0,0]
+    
+    dp_curr=[0,0,0]
+    for last in range(3):
+        maxi=float('-inf')
+        for i in range(3):
+            if(i!=last):
+                maxi=max(maxi,points[0][i])
+        dp_prev[last]=maxi
+    for day in range(1,n):
+        for last in range(3):
+            final=float('-inf')
+            for activity in range(3):
+                if(last!=activity):
+                    temp=points[day][activity]+dp_prev[activity]
+                    final=max(final,temp)
+            dp_curr[last]=final
+        dp_prev=dp_curr.copy()
+    return max(dp_prev)
+    n=int(input())
+    points=[list(map(int,input().split())) for i in range(n)]
+    print(optimization(n,points))
+```
+<p>TC : O(n*3*3)</p>
+<p>SC : O(n*3)+o(n)</p>
+
