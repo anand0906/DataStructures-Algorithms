@@ -1012,3 +1012,128 @@ print(max(excludeFirst,excludeLast))
 <p>TC : O(n*3*3)</p>
 <p>SC : O(n*3)+o(n)</p>
 
+<h4>9.Grid Unique Paths : Number of Unique ways from top left to bottom-right</h4>
+<h5>Given two values M and N, which represent a matrix[M][N]. We need to find the total unique paths from the top-left cell (matrix[0][0]) to the rightmost cell (matrix[M-1][N-1]).</h5>
+<h5>At any cell we are allowed to move in only two directions:- bottom and right.</h5>
+<img src="https://lh3.googleusercontent.com/PDblNXbL7kmOxKoI7_0Yevnr7JF2FbXVr-9OaH9nn5uNeq6_P6fItMrWdEhs7fPUDBSoEKorJ9_lConrOtDUetBpq2s1bw4A9nIasR3dSJ">
+<h5>Step-1 : Define The Problem</h5>
+<p>Given two value m and n which represents row size and column size</p>
+<p>It represents a matrix of size m*n</p>
+<p>We have to start from top-left(matrix[0][0]) and has to reach bottom-right(matrix[m-1][n-1])</p>
+<p>We have to find number of unique ways</p>
+<p>We can move right or bottom only</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+<p>we have to use 2-d matrix to represent matrix of size m*n</p>
+<p>Find Number ways from matrix[0][0] to matrix[m-1][n-1]</p>
+<p>we have to f(m-1,n-1)-> number ways to reach matrix[m-1][n-1]</p>
+<p>f(x,y)->number of ways to reach matrix[x][y]</p>
+<h5>Step-3 : Finding Base Cases</h5>
+<p>if m==1 and n==1 there will be one block only, so number of ways=1</p>
+<p>if m==1 and n!=1 , then there will be single column only, for that we can move down only, then number ways to reach all block will be only one way</p>
+<p>if m!=1 and n==1 , then there will be single row only, for that also, we can move right only. then number of ways will be one only</p>
+<p>base cases : </p>
+<p>row==0 & colum==0 -> f(0,0)=1</p>
+<p>for row<0 or column<0, there is no more blocks</p>
+<p>row <0 or column<0 -> f(row,column)=0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+<p>m=1,n=1</p>
+<p>It will contain only one block, hence number of ways are 1</p>
+<p>m=1,n=2</p>
+<p>Here we are having two blocks, (0,0) and (0,1)</p>
+<p>f(0,0)=1</p>
+<p>for (0,1), to reach this block we have to come from either (0,0)(left) or (-1,0)(top)</p>
+<p>From top there is no way, so f(-1,0)=0</p>
+<p>for (0,0), the number ways will be f(0,0)=1</p>
+<p>So, total number ways to reach (0,1)=f(0,1)=f(0,0)+f(-1,0)=1+0=0</p>
+<p>Hence Recurrance Relation will be</p>
+<p>Number ways to reach (row,column)=f(row,column)=number ways which comes from left + number ways which comes from top</p>
+<p>Recurrance relation : <b>f(row,column)=f(row-1,column)+f(row,column-1)</b></p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+ def recursive(row,column):
+    if(row==0 and column==0):
+        return 1
+    if(row<0 or column<0):
+        return 0
+    left=recursive(row-1,column)
+    top=recursive(row,column-1)
+    return top+left
+
+  m,n=list(map(int,input().split()))
+  print(recursive(m-1,n-1))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(m*n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is day + last_day, since it is unique for its answer</p>
+
+```python
+  def memorization(row,column,memo):
+    key=(row,column)
+    if key in memo:
+        return memo[key]
+    if(row==0 and column==0):
+        return 1
+    if(row<0 or column<0):
+        return 0
+    left=memorization(row-1,column,memo)
+    top=memorization(row,column-1,memo)
+    memo[key]=top+left
+    return memo[key]
+  m,n=list(map(int,input().split()))
+  print(memorization(m-1,n-1,memo))
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m+n)+o(m*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+  def tabulation(m,n):
+    dp=[[0]*n for i in range(m)]
+    dp[0][0]=1
+    for i in range(m):
+        for j in range(n):
+            if(i==0 and j==0):
+                continue
+            left,right=0,0
+            if(i-1>=0):
+                left=dp[i-1][j]
+            if(j-1>=0):
+                right=dp[i][j-1]
+            dp[i][j]=left+right
+    return dp[m-1][n-1]
+  m,n=list(map(int,input().split()))
+  print(tabulation(m,n))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m*n)+o(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the last two answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+  def optimization(m,n):
+    dp_prev=[0]*n
+    dp_curr=[0]*n
+    dp_curr[0]=1
+    for i in range(m):
+        for j in range(n):
+            if(i==0 and j==0):
+                continue
+            left,top=0,0
+            if(j-1>=0):
+                left=dp_curr[j-1]
+            if(i-1>=0):
+                top=dp_prev[j]
+            dp_curr[j]=left+top
+        dp_prev=dp_curr.copy()
+    return dp_prev[n-1]
+
+  print(optimization(m,n))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : o(n)</p>
