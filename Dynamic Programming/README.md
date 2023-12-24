@@ -1012,6 +1012,9 @@ print(max(excludeFirst,excludeLast))
 <p>TC : O(n*3*3)</p>
 <p>SC : O(n*3)+o(n)</p>
 
+<br>
+<br>
+
 <h4>9.Grid Unique Paths : Number of Unique ways from top left to bottom-right</h4>
 <h5>Given two values M and N, which represent a matrix[M][N]. We need to find the total unique paths from the top-left cell (matrix[0][0]) to the rightmost cell (matrix[M-1][N-1]).</h5>
 <h5>At any cell we are allowed to move in only two directions:- bottom and right.</h5>
@@ -1056,8 +1059,8 @@ print(max(excludeFirst,excludeLast))
         return 1
     if(row<0 or column<0):
         return 0
-    left=recursive(row-1,column)
-    top=recursive(row,column-1)
+    left=recursive(row,column-1)
+    top=recursive(row-1,column)
     return top+left
 
   m,n=list(map(int,input().split()))
@@ -1078,8 +1081,8 @@ print(max(excludeFirst,excludeLast))
         return 1
     if(row<0 or column<0):
         return 0
-    left=memorization(row-1,column,memo)
-    top=memorization(row,column-1,memo)
+    left=memorization(row,column-1,memo)
+    top=memorization(row-1,column,memo)
     memo[key]=top+left
     return memo[key]
   m,n=list(map(int,input().split()))
@@ -1097,12 +1100,12 @@ print(max(excludeFirst,excludeLast))
         for j in range(n):
             if(i==0 and j==0):
                 continue
-            left,right=0,0
+            left,top=0,0
             if(i-1>=0):
-                left=dp[i-1][j]
+                top=dp[i-1][j]
             if(j-1>=0):
-                right=dp[i][j-1]
-            dp[i][j]=left+right
+                left=dp[i][j-1]
+            dp[i][j]=left+top
     return dp[m-1][n-1]
   m,n=list(map(int,input().split()))
   print(tabulation(m,n))
@@ -1137,3 +1140,255 @@ print(max(excludeFirst,excludeLast))
 ```
 <p>TC : O(m*n)</p>
 <p>SC : o(n)</p>
+
+<br>
+<br>
+
+<h4>10.Grid Unique Paths : Number of Unique ways from top left to bottom-right With Obstacle</h4>
+<h5>We are given an “N*M” Maze. The maze contains some obstacles. A cell is ‘blockage’ in the maze if its value is -1. 0 represents non-blockage. There is no path possible through a blocked cell.</h5>
+<h5>We need to count the total number of unique paths from the top-left corner of the maze to the bottom-right corner. At every cell, we can move either down or towards the right.</h5>
+<img src="https://lh6.googleusercontent.com/0DE0Aw9ic6x1B_dMqiuJah-CAgwLL4AKdE9r-1Ot1hyqBXC9YuAWf835zNh8vAbEvYu08hLQXrjIae0psqQqAYu6WVhPk6fsOzfgVaEHDRo6MweRI1Po4Q6I8a-y2qrpww4y02MA">
+<h5>Step-1 : Define The Problem</h5>
+  <p>It is same as previous problem, but here we are given matrix with value, 0->can have path -1->Blocked no path possible</p>
+  <p>We have to find number of unique ways from matrix[0][0] to matrix[m-1][n-1]</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>we have to use 2-d matrix to represent matrix of size m*n</p>
+  <p>Find Number ways from matrix[0][0] to matrix[m-1][n-1]</p>
+  <p>we have to f(m-1,n-1)-> number ways to reach matrix[m-1][n-1]</p>
+  <p>f(x,y)->number of ways to reach matrix[x][y]</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if we have only one element in matrix</p>
+  <p>row=0,column=0, f(0,0)=1</p>
+  <p>if row<0 or column <0 , f(<0,<0)=0</p>
+  <p>if there is an obtacle, f(row,column)=0 if matrix[row][column]=-1</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+  <p>Same as previous problem</p>
+  <p>f(row,column)=f(row-1,column)+f(column,row-1)</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+ def recursive(row,column,matrix):
+    if(row==0 and column==0 and matrix[row][column]==0):
+        return 1
+    if(row<0 or column<0):
+        return 0
+    if(matrix[row][column]==-1):
+        return 0
+    left=recursive(row,column-1,matrix)
+    top=recursive(row-1,column,matrix)
+    return left+top
+
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(recursive(m-1,n-1,matrix))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(m*n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is day + last_day, since it is unique for its answer</p>
+
+```python
+  def memorization(row,column,matrix,memo):
+    key=(row,column)
+    if key in memo:
+        return memo[key]
+    if(row==0 and column==0 and matrix[row][column]==0):
+        return 1
+    if(row<0 or column<0):
+        return 0
+    if(matrix[row][column]==-1):
+        return 0
+    left=memorization(row,column-1,matrix,memo)
+    top=memorization(row-1,column,matrix,memo)
+    memo[key]=left+top
+    return memo[key]
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(memorization(m-1,n-1,matrix,memo))
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m+n)+o(m*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+  def tabulation(m,n,matrix):
+    dp=[[0]*n for i in range(m)]
+    dp[0][0]=1
+    for i in range(m):
+        for j in range(n):
+            if(i==0 and j==0):
+                continue
+            left,top=0,0
+            if(j-1>=0 and matrix[i][j-1]==0):
+                left=dp[i][j-1]
+            if(i-1>=0 and matrix[i-1][j]==0):
+                top=dp[i-1][j]
+            dp[i][j]=left+top
+    return dp[m-1][n-1]
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(tabulation(m,n,matrix))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m*n)+o(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the last two row answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+  def optimization(m,n,matrix):
+    dp_prev=[0]*n
+    dp_curr=[0]*n
+    dp_curr[0]=1
+    for i in range(m):
+        for j in range(n):
+            if(i==0 and j==0):
+                continue
+            left,top=0,0
+            if(j-1>=0 and matrix[i][j-1]==0):
+                left=dp_curr[j-1]
+            if(i-1>=0 and matrix[i-1][j]==0):
+                top=dp_prev[j]
+            dp_curr[j]=left+top
+        dp_prev=dp_curr.copy()
+    return dp_prev[n-1]
+
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(optimization(m,n,matrix))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : o(n)</p>
+
+<br>
+<br>
+
+<h4>11.Minimum Path Sum In a Grid : Minimum Path Sum from top left to bottom-right</h4>
+
+  <h5>We are given an “M*N” matrix of integers. We need to find a path from the top-left corner to the bottom-right corner of the matrix, such that there is a minimum cost past that we select.</h5>
+  <h5>At every cell, we can move in only two directions: right and bottom. The cost of a path is given as the sum of values of cells of the given matrix.</h5>
+  <img src="https://lh3.googleusercontent.com/0NwVLxnlw_pj_A8zXJMtCtfxaVBdN9TckPiv3yLtHeROub8tvHjqeSBqqy29jBx4Cb8dqhkcsub6-zzC4K8Zwv5yDb4yKW4Irg2RmK1kvnK0IFaSjL82S1fUSApESPjwjcRayR4U">
+
+<h5>Step-1 : Define The Problem</h5>
+
+  <p>Given a matrix of size m*n, where m=row Size, n=column size</p>
+  <p>We have to start from top-left, i.e matrix[0][0] and has to reach bottom-right , i.e matrix[m-1][n-1]</p>
+  <p>we can move either right or bottom, there will be different ways.</p>
+  <p>we have to find a way which has minimum sum by finding sum of elements in that path</p>
+
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+
+  <p>We can use 2-d arrays to represent matrix of size m*n</p>
+  <p>we have to find maximum path from matrix[0][0] to matrix[m-1][n-1]</p>
+  <p>f(row,column) -> minimum sum obtained to reach matrix[row][column] from matrix[0][0]</p>
+  <p>We have to find, f(m-1,n-1)</p>
+
+<h5>Step-3 : Finding Base Cases</h5>
+  
+  <p>f(0,0)=matrix[0][0], we are at starting position only</p>
+  <p>f(row<0,column<0)=float('inf'), there is no path with row<0 or column<0, so consider maximum value as we are finding minimum value</p>
+
+<h5>Step-4 : Finding The Recurrence Relation</h5>
+
+  <p>f(row,column) -> minimum sum obtained to reach matrix[row][column] from matrix[0][0]</p>
+  <p>To Reach (row,column), we have to come from either left (row,column-1) or top (row-1,column)</p>
+  <p>Recurrance Relation : <b> f(row,column)=min(matrix[row][column]+f(row,column-1),matrix[row][column]+f(row-1,column))</b></p>
+  
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+ def recursive(row,column,matrix):
+    if(row==0 and column==0):
+        return matrix[0][0]
+    if(row<0 or column<0):
+        return float('inf')
+    left=matrix[row][column]+recursive(row,column-1,matrix)
+    top=matrix[row][column]+recursive(row-1,column,matrix)
+    return min(left,top)
+
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(recursive(m-1,n-1,matrix))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(m*n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is day + last_day, since it is unique for its answer</p>
+
+```python
+  def memorization(row,column,matrix,memo):
+    key=(row,column)
+    if key in memo:
+        return memo[key]
+    if(row==0 and column==0):
+        return matrix[0][0]
+    if(row<0 or column<0):
+        return float('inf')
+    left=matrix[row][column]+memorization(row,column-1,matrix,memo)
+    top=matrix[row][column]+memorization(row-1,column,matrix,memo)
+    memo[key]=min(left,top)
+    return memo[key]
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(memorization(m-1,n-1,matrix,memo))
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m+n)+o(m*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+  def tabulation(m,n,matrix):
+    dp=[[0]*n for i in range(m)]
+    dp[0][0]=matrix[0][0]
+    for i in range(m):
+        for j in range(n):
+            if(i==0 and j==0):
+                continue
+            left,top=float('inf'),float('inf')
+            if(j-1>=0):
+                left=matrix[i][j]+dp[i][j-1]
+            if(i-1>=0):
+                top=matrix[i][j]+dp[i-1][j]
+            dp[i][j]=min(left,top)
+    return dp[m-1][n-1]
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(tabulation(m,n,matrix))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m*n)+o(n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the last two row answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+  def optimization(m,n,matrix):
+    dp_prev=[0]*n
+    dp_curr=[0]*n
+    dp_curr[0]=matrix[0][0]
+    for i in range(m):
+        for j in range(n):
+            if(i==0 and j==0):
+                continue
+            left,top=float('inf'),float('inf')
+            if(j-1>=0):
+                left=matrix[i][j]+dp_curr[j-1]
+            if(i-1>=0):
+                top=matrix[i][j]+dp_prev[j]
+            dp_curr[j]=min(left,top)
+        dp_prev=dp_curr.copy()
+    return dp_prev[n-1]
+
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(optimization(m,n,matrix))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : o(n)</p>
+
