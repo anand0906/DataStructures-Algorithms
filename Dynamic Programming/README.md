@@ -506,24 +506,28 @@
   memo={}
   print(memorization(n,height,memo))
 ```
-<p>TC : O(n)</p>
-<p>SC : O(n)</p>
+<p>TC : O(n^2)</p>
+<p>SC : O(n^2)</p>
 <h5>Step-6 : Iterative Implementation / Tabulation</h5>
-<p>Since we have to reach n-1 step, we have to declare array of size n</p>
+<p>Since we have to reach from n-1 to 0 step, we have to declare array of size n</p>
 <p>Fill base cases</p>
-<p>loop from 2 and fill all values based on recurrance relation</p>
+<p>loop from n-2 to 0th row and fill all values based on recurrance relation</p>
 
 
 ```python
-def tabulation(n,height):
-    dp=[0]*(n)
-    dp[0]=0
-    dp[1]=abs(height[0]-height[1])
-    for i in range(2,n):
-        prev=dp[i-1]+abs(height[i-1]-height[i])
-        prev2=dp[i-2]+abs(height[i-2]-height[i])
-        dp[i]=min(prev,prev2)
-    return dp[n-1]
+def tabulation(n,matrix):
+    dp=[[0]*i for i in range(1,n+1)]
+    for i in range(n):
+        dp[n-1][i]=matrix[n-1][i]
+    for i in range(n-2,-1,-1):
+        for j in range(i+1):
+            bottom,bottomRight=float('inf'),float('inf')
+            if(i+1>0 and j<=(i+1)):
+                bottom=matrix[i][j]+dp[i+1][j]
+            if(i+1>0 and (j+1)<=(i+1)):
+                bottomRight=matrix[i][j]+dp[i+1][j+1]
+            dp[i][j]=min(bottom,bottomRight)
+    return dp[0][0]
 
   n=int(input())
   height=list(map(int,input().split()))
@@ -1392,3 +1396,279 @@ print(max(excludeFirst,excludeLast))
 <p>TC : O(m*n)</p>
 <p>SC : o(n)</p>
 
+<br>
+<br>
+
+<h4>12.Minimum Path Sum in Traingular Grid : Minimum Path Sum from First Row to Last Row</h4>
+
+  <h5>We are given a Triangular matrix. We need to find the minimum path sum from the first row to the last row.</h5>
+  <h5>At every cell we can move in only two directions: either to the bottom cell (↓) or to the bottom-right cell(↘)</h5>
+  <img src="https://lh3.googleusercontent.com/EIm_osUvLQDqDWEZ0AkumtyDzfn8TEefpZ-ZpIVIh1ITEKl2rnu_yLdXqZolvrqYkKNsGjicgLtS2gr9py0uCp89tu15PoROUcDj3wT9RQi3dIe4Cwb9ricoxjFEFOsu4rDVY1Yn">
+
+<h5>Step-1 : Define The Problem</h5>
+
+  <p>We have given a triangluar grid, we have to start from first row and has to reach last row</p>
+  <p>From first row, we can move either bottom or bottom-right to reach second row</p>
+  <p>each grid element has some value, find minimum path sum to reach last row from first row</p>
+
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+
+  <P>We will be given n , which represent the number of rows</P>
+  <p>Each row contains, row number of elements</p>
+  <p>We can use 2-d array to represent the trianglar grid</p>
+  <p>Since we have multiple ending points in last row, We have to find minimum path sum if we start from matrix[0][0]</p>
+  <p>We have to find f(0,0), f(i,j)-> minimum path sum from matrix[i][j] to last row</p>
+
+<h5>Step-3 : Finding Base Cases</h5>
+
+  <p>if we are at last row, minimum path sum = value at that particular grid</p>
+  <p>f(i,j)=matrix[i][j]</p>
+
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  
+  <p>If we are at current row, to move second row. either we can move bottom or bottom-right</p>
+  <p>Path sum for moving to bottom -> f(i,j)=matrix[i][j]+f(i+1,j)=value at current grid+path sum for bottom grid</p>
+  <p>Path sum for moving to bottom-right -> f(i,j)=matrix[i][j]+f(i+1,j+1)==value at current grid+path sum for bottom-right grid</p>
+  <p>We have to find minimum path sum</p>
+  <p>f(i,j)=min(matrix[i][j]+f(i+1,j),matrix[i][j]+f(i+1,j+1))</p>
+
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+ def recursive(n,i,j,matrix):
+    if(i==n-1):
+        return matrix[i][j]
+    if(i<0 or j<0 or j>(i+1)):
+        return float('inf')
+    bottom=matrix[i][j]+recursive(n,i+1,j,matrix)
+    bottomRight=matrix[i][j]+recursive(n,i+1,j+1,matrix)
+    return min(bottom,bottomRight)
+
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(recursive(m-1,n-1,matrix))
+```
+<p>TC : O(2^(n^2))</p>
+<p>SC : O(n^2)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is row + column, since it is unique for its answer</p>
+
+```python
+  def memorization(n,i,j,matrix,memo):
+    key=(i,j)
+    if key in memo:
+        return memo[key]
+    if(i==n-1):
+        return matrix[i][j]
+    if(i<0 or j<0 or j>(i+1)):
+        return float('inf')
+    bottom=matrix[i][j]+memorization(n,i+1,j,matrix,memo)
+    bottomRight=matrix[i][j]+memorization(n,i+1,j+1,matrix,memo)
+    memo[key]=min(bottom,bottomRight)
+    return memo[key]
+
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  memo={}
+  print(memorization(m-1,n-1,matrix,memo))
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m+n)+o(m*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+  def tabulation(m,n,matrix):
+    dp=[[0]*n for i in range(m)]
+    dp[0][0]=matrix[0][0]
+    for i in range(m):
+        for j in range(n):
+            if(i==0 and j==0):
+                continue
+            left,top=float('inf'),float('inf')
+            if(j-1>=0):
+                left=matrix[i][j]+dp[i][j-1]
+            if(i-1>=0):
+                top=matrix[i][j]+dp[i-1][j]
+            dp[i][j]=min(left,top)
+    return dp[m-1][n-1]
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(tabulation(m,n,matrix))
+
+```
+<p>TC : O(n^2)</p>
+<p>SC : O(n^2)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the next two row answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+def optimization(n,matrix):
+    dp_next=[0]*n
+    dp_current=[0]*(n-1)
+    for i in range(n):
+        dp_next[i]=matrix[n-1][i]
+    for i in range(n-2,-1,-1):
+        for j in range(i+1):
+            bottom,bottomRight=float('inf'),float('inf')
+            if((i+1)>0 and j<=(i+1)):
+                bottom=matrix[i][j]+dp_next[j]
+            if((i+1)>0 and (j+1)<=(i+1)):
+                bottomRight=matrix[i][j]+dp_next[j+1]
+            dp_current[j]=min(bottom,bottomRight)
+        dp_next=dp_current.copy()
+    return dp_next[0]
+
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(optimization(m,n,matrix))
+
+```
+<p>TC : O(n^2)</p>
+<p>SC : o(n)</p>
+
+
+
+<h4>13.Minimum Path Sum in Grid : Minimum Path Sum from First Row to Last Row</h4>
+
+  <h5>We are given a m*n matrix. We need to find the minimum path sum from the first row to the last row.</h5>
+  <h5>At every cell we can move in only two directions: either to the bottom cell (↓) or to the bottom-right cell(↘)</h5>
+  <img src="https://lh6.googleusercontent.com/xpFMcLpnK7M66ZKw8tK6zXQDNtd45bCEmY6BkkbOtb3jJzQiv1NreJTv63xCkkTOuMG-C0KjmN1cmP2m2hVxx7IDUS38Ut78Com243xZDJHO6dMsinsc5R_EhT7htyCp0s-TxLDw">
+
+<h5>Step-1 : Define The Problem</h5>
+
+  <p>We have given a m*n grid, we have to start from first row and has to reach last row</p>
+  <p>From first row, we can move either bottom or bottom-right to reach second row</p>
+  <p>each grid element has some value, find minimum path sum to reach last row from first row</p>
+
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+
+  <P>We will be given m , which represent the number of rows</P>
+  <P>We will be given n , which represent the number of columns</P>
+  <p>We can use 2-d array to represent the trianglar grid</p>
+  <p>Since we have multiple ending points in last row, We have to find minimum path sum if we start from matrix[0][0]</p>
+  <p>We have to find f(0,0), f(i,j)-> minimum path sum from matrix[i][j] to last row</p>
+
+<h5>Step-3 : Finding Base Cases</h5>
+
+  <p>if we are at last row, minimum path sum = value at that particular grid</p>
+  <p>f(i,j)=matrix[i][j]</p>
+
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  
+  <p>If we are at current row, to move second row. either we can move bottom or bottom-right</p>
+  <p>Path sum for moving to bottom -> f(i,j)=matrix[i][j]+f(i+1,j)=value at current grid+path sum for bottom grid</p>
+  <p>Path sum for moving to bottom-right -> f(i,j)=matrix[i][j]+f(i+1,j+1)==value at current grid+path sum for bottom-right grid</p>
+  <p>We have to find minimum path sum</p>
+  <p>f(i,j)=min(matrix[i][j]+f(i+1,j),matrix[i][j]+f(i+1,j+1))</p>
+
+<h5>Step-5 : Recursive Solution</h5>
+
+  <p>Since we have multiple starting points in first row</p>
+  <p>Consider all starting points, find minimum value for each starting and minimum out of it</p>
+
+```python
+ def recursive(n,i,j,matrix):
+    if(i==n-1):
+        return matrix[i][j]
+    if(i<0 or j<0 or j>(i+1)):
+        return float('inf')
+    bottom=matrix[i][j]+recursive(n,i+1,j,matrix)
+    bottomRight=matrix[i][j]+recursive(n,i+1,j+1,matrix)
+    return min(bottom,bottomRight)
+
+m,n=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(m)]
+final=float('-inf')
+for i in range(n):
+    temp=recursive(n,0,i,matrix)
+    final=max(final,temp)
+print(final)
+```
+<p>TC : O(2^(m*n))</p>
+<p>SC : O(m*n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Create a map, and store every answer</p>
+<p>Here Key for storing the answer is row + column, since it is unique for its answer</p>
+
+```python
+  def memorization(n,i,j,matrix,memo):
+    key=(i,j)
+    if key in memo:
+        return memo[key]
+    if(i==n-1):
+        return matrix[i][j]
+    if(i<0 or j<0 or j>(i+1)):
+        return float('inf')
+    bottom=matrix[i][j]+memorization(n,i+1,j,matrix,memo)
+    bottomRight=matrix[i][j]+memorization(n,i+1,j+1,matrix,memo)
+    memo[key]=min(bottom,bottomRight)
+    return memo[key]
+
+m,n=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(m)]
+final=float('-inf')
+for i in range(n):
+    memo={}
+    temp=memorization(n,0,i,matrix,memo)
+    final=max(final,temp)
+print(final)
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+  def tabulation(n,matrix):
+    n=len(matrix)
+    dp=[[0]*n for i in range(n)]
+    for i in range(n):
+        dp[n-1][i]=matrix[n-1][i]
+    for i in range(n-2,-1,-1):
+        for j in range(n):
+            bottom,bottomRight,bottomLeft=float('-inf'),float('-inf'),float('-inf')
+            bottom=matrix[i][j]+dp[i+1][j]
+            if(j+1<n):
+                bottomRight=matrix[i][j]+dp[i+1][j+1]
+            if(j-1>=0):
+                bottomLeft=matrix[i][j]+dp[i+1][j-1]
+            dp[i][j]=max(bottom,bottomLeft,bottomRight)
+    return max(dp[0])
+  m,n=list(map(int,input().split()))
+  matrix=[list(map(int,input().split())) for i in range(m)]
+  print(tabulation(m,n,matrix))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>At each step in tabulation, we're using the next two row answers only</p>
+<p> We don't need all previous subproblem solutions</p>
+
+```python
+def optimization(n,matrix):
+    n=len(matrix)
+    dp_next=[0]*n
+    dp_current=[0]*n
+    for i in range(n):
+        dp_next[i]=matrix[n-1][i]
+    for i in range(n-2,-1,-1):
+        for j in range(n):
+            bottom,bottomRight,bottomLeft=float('-inf'),float('-inf'),float('-inf')
+            bottom=matrix[i][j]+dp_next[j]
+            if(j+1<n):
+                bottomRight=matrix[i][j]+dp_next[j+1]
+            if(j-1>=0):
+                bottomLeft=matrix[i][j]+dp_next[j-1]
+            dp_current[j]=max(bottom,bottomLeft,bottomRight)
+        dp_next=dp_current.copy()
+    return max(dp_next)
+
+m,n=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(m)]
+print(optimization(m,n,matrix))
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : o(n)</p>
