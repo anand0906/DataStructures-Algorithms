@@ -1672,3 +1672,466 @@ print(optimization(m,n,matrix))
 ```
 <p>TC : O(m*n)</p>
 <p>SC : o(n)</p>
+
+<br>  
+<br>  
+
+<h4>14.Ninja Training Maximum Sum By Alice and Bob</h4>
+
+  
+
+<h5>Step-1 : Define The Problem</h5>
+
+  
+
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+
+  
+
+<h5>Step-3 : Finding Base Cases</h5>
+
+  
+
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  
+
+
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+
+```
+<p>TC : O(2^(m*n))</p>
+<p>SC : O(m*n)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+  
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : O(m*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+
+
+```
+<p>TC : O(m*n)</p>
+<p>SC : o(n)</p>
+
+
+<br>  
+<br>
+
+<h4>Problems On Subsequences</h4>
+
+<h4>15.Subset sum equal to target</h4>
+    <h5>We are given an array ‘ARR’ with N positive integers. We need to find if there is a subset in “ARR” with a sum equal to K. If there is, return true else return false.</h5>
+    <h5>A subset/subsequence is a contiguous or non-contiguous part of an array, where elements appear in the same order as the original array.</h5>
+    <p>For example, for the array: [2,3,1] , the subsequences will be [{2},{3},{1},{2,3},{2,1},{3,1},{2,3,1}} but {3,2} is not a subsequence because its elements are not in the same order as the original array.</p>
+    <img src="https://lh3.googleusercontent.com/rysBOW8CTed-bDzIHGURWVZDU-Ckn7F6Xhjl3QxKdbMY2f5cPZe0fk0FTpUxUqMDHamE3bTSK0PvMDZmwXWB3yta0JchhCVajBy0ieq4uOJ_lszEK7oJK9fBdEhy23WFZI1wR0jA">
+<h5>Step-1 : Define The Problem</h5>
+    <p>We are given an array and value k, we have to check whether there is subsequence of array with sum equal to k</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+    <p>We are given an array which is 0-based indexing and given a target value(k)</p>
+    <p>We have to return either True or False as a final answer</p>
+    <p>f(index,target) -> checks whether target sum subsequnce present from 0 to index</p>
+    <p>We have to find f(n-1,target), where n=len(arr) and target=k</p>
+<h5>Step-3 : Finding Base Cases</h5>
+    <p>if target=0, then answer is always True, because empty subsequnce sum equals to zero</p>
+    <p>f(index,0)=True</p>
+    <p>if index=0, array contains only one element, then we can check like target==arr[index]</p>
+    <p>if arr[0]==target, then target sum equals to element, that means answer is true</p>
+    <p>f(0,target)=(arr[0]==target)</p>
+    <p>f(0,target)=(target-arr[0]==0)</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+    <p>We know that, f(index,0)=True</p>
+    <p>f(0,target)=(target-arr[0]==0)</p>
+    <p>For Subsequnce Generation, we have to include current element and have to find all combintions</p>
+    <p>we have to exclude current element and have to find all combinations</p>
+    <p>Same principle we have to apply here</p>
+    <p>f(index,target) = f(index-1,target-arr[index]) or f(index-1,target)</p>
+    <p>f(index-1,target-arr[index]) -> Include current element (Reduce target) and move to next position</p>
+    <p>f(index-1,target) -> Exclude current element and move to next position</p>
+    <p>While including check, current element is less than or equal to target</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+  def recursive(arr,ind,target):
+    if(target==0):
+        return True
+    if(ind==0):
+        return target-arr[0]==0
+    exclude=recursive(arr,ind-1,target)
+    include=False
+    if(target>=arr[ind]):
+        include=recursive(arr,ind-1,target-arr[ind])
+    return exclude or include
+  n=int(input())
+  arr=list(map(int,input().split()))
+  target=int(input())
+  print(recursive(arr,n-1,target))
+```
+<p>TC : O(2^(n))</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Here key to store each subproblem answer is index and target sum</p>
+
+```python
+  def memorization(arr,ind,target,memo):
+    key=(ind,target)
+    if key in memo:
+        return memo[key]
+    if(target==0):
+        return True
+    if(ind==0):
+        return target-arr[0]==0
+    exclude=memorization(arr,ind-1,target,memo)
+    include=False
+    if(target>=arr[ind]):
+        include=memorization(arr,ind-1,target-arr[ind],memo)
+    memo[key]=exclude or include
+    return memo[key]
+  n=int(input())
+  arr=list(map(int,input().split()))
+  target=int(input())
+  memo={}
+  print(memorization(arr,n-1,target,memo))
+```
+<p>TC : O(target*n)</p>
+<p>SC : O(target*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<img src="https://lh4.googleusercontent.com/78km0lvY5WD_q5H3fJPcdXpwFoAjQueE1brTZN-IGImd_YyS9DFPgLyyNaZGxHJ3fwBznyuU1VDEy8CrgNkKCZtK7rKZA1KtJp04UhE6kHMI56eJA0fH9V0uZEvEu4nbxXyqjuAH">
+
+```python
+  def tabulation(n,arr,target):
+    dp=[[False for i in range(target+1)] for i in range(n)]
+    for i in range(n):
+        dp[i][0]=True
+    if(arr[0]<=target):
+        dp[0][arr[0]]=True
+    for i in range(1,n):
+        for j in range(1,target+1):
+            exclude=dp[i-1][j]
+            include=False
+            if(arr[i]<=j):
+                include=dp[i-1][j-arr[i]]
+            dp[i][j]=include or exclude
+    return dp[n-1][target]
+  n=int(input())
+  arr=list(map(int,input().split()))
+  target=int(input())
+  print(tabulation(n,arr,target))
+```
+<p>TC : O(target*n)</p>
+<p>SC : O(target*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>We are using current and previous row values only</p>
+<p>we don't need to store all answers</p>
+
+```python
+  def optimization(n,arr,target):
+    dp_prev=[False for i in range(target+1)]
+    dp_current=[False for i in range(target+1)]
+    dp_prev[0]=True
+    dp_current[0]=True
+    if(arr[0]<=target):
+        dp_prev[arr[0]]=True
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=False,False
+            exclude=dp_prev[j]
+            if(arr[i]<=target):
+                include=dp_prev[j-arr[i]]
+            dp_current[j]=include or exclude
+        dp_prev=dp_current.copy()
+    return dp_prev[target]
+
+```
+<p>TC : O(target*n)</p>
+<p>SC : o(target)</p>
+
+<br>
+<br>
+
+<h4>16.Unbounded Knapsack</h4>
+    <h5>A thief wants to rob a store. He is carrying a bag of capacity W. The store has ‘n’ items of infinite supply. Its weight is given by the ‘wt’ array and its value by the ‘val’ array. He can either include an item in its knapsack or exclude it but can’t partially have it as a fraction. We need to find the maximum value of items that the thief can steal. He can take a single item any number of times he wants and put it in his knapsack.</h5>
+    <img src="https://lh4.googleusercontent.com/NXDXKmwueWiUKdOgXhDuQlxTTRXjStKg8sQ8ddyaLI6IU0s1vhWnBHuifDDDDEvWJXD9SnaI8gNsahmRMl_g3p0GTy6O01jZ_TygtaobjxC38UwWTmeD7zOlyJTPJz5lIP8dC3fd">
+<h5>Step-1 : Define The Problem</h5>
+    <p>we have given some set of items , each of it associated with some weight and cost</p>
+    <p>We have given a bag, we have to include those items in such that it should carry those items perfectly</p>
+    <p>we have to store like, we can carry most amount items in bag</p>
+    <p>We can include same item many times</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+    <p>given cost and weight as arrays</p>
+    <p>let us assume, index -> represents the item</p>
+    <p>cost[index]-> cost of item</p>
+    <p>weight[index]-> weight of item</p>
+    <p>we have bag and its capacity(weight)</p>
+    <p>f(ind,currentWeight)-> represents maximum costly items (from 0 to index) in bag up to currentWeight</p>
+    <p>We have to find f(n-1,totalWeight)-> n-> number of items, totalWeight->Bag Capacity</p>
+<h5>Step-3 : Finding Base Cases</h5>
+    <p>if index=0, then there is only one item, then max cost we can gain is</p>
+    <p>f(0,currentWeight)-> cost[0]*(currentWeight//weight[0])</p>
+    <p>if currentWeight==0, max cost is 0</p>
+    <p>f(index,0)=0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+    <p>we know that, f(0,currentWeight)=cost[0]*(currentWeight//weight[0])</p>
+    <p>f(index,currentWeight)=max(include,exclude)</p>
+    <p>Include-> cost[index]+f(index,currentWeight-weight[index])</p>
+    <p>Exclude-> f(index-1,currentWeight)</p>
+    <p>f(index,currentWeight)=max(cost[index]+f(index,currentWeight-weight[index]),f(index-1,currentWeight))</p>
+    <p>While include, we are not moving to next position because we can include current element many times</p>
+    <p>While exclud, we are moving next position</p>
+    <p>While including , we have to check, current element weight is less than or equal top currentWeight</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+  def recursive(ind,cost,weight,currentWeight):
+    if(ind==0):
+        return (cost[0])*(currentWeight//weight[ind])
+    exclude=recursive(ind-1,cost,weight,currentWeight)
+    include=float('-inf')
+    if(weight[ind]<=currentWeight):
+        include=cost[ind]+recursive(ind,cost,weight,currentWeight-weight[ind])
+    return max(exclude,include)
+  n=int(input())
+  weight=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  currentWeight=int(input())
+  print(recursive(n-1,cost,weight,currentWeight))
+```
+<p>TC : O(2^(n))</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Here key to store each subproblem answer is index and currentWeight</p>
+
+```python
+  def memorization(ind,cost,weight,currentWeight,memo):
+    key=(ind,currentWeight)
+    if key in memo:
+        return memo[key]
+    if(ind==0):
+        return (cost[0])*(currentWeight//weight[ind])
+    exclude=memorization(ind-1,cost,weight,currentWeight,memo)
+    include=float('-inf')
+    if(weight[ind]<=currentWeight):
+        include=cost[ind]+memorization(ind,cost,weight,currentWeight-weight[ind],memo)
+    memo[key]=max(exclude,include)
+    return memo[key]
+  n=int(input())
+  weight=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  currentWeight=int(input())
+  memo={}
+  print(memorization(n-1,cost,weight,currentWeight))
+```
+<p>TC : O(w*n)</p>
+<p>SC : O(w*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<img src=" https://astikanand.github.io/techblogs/dynamic-programming-patterns/assets/unbounded_knapsack_tabulation.gif">
+<img src="https://astikanand.github.io/techblogs/dynamic-programming-patterns/assets/unbounded_knapsack_tabulation_final.png">
+
+```python
+  def tabulation(n,weight,cost,currentWeight):
+    dp=[[0 for i in range(currentWeight+1)] for i in range(n)]
+    for i in range(1,currentWeight+1):
+        dp[0][i]=(i//weight[0])*cost[0]
+    for i in range(1,n):
+        for j in range(1,currentWeight+1):
+            include,exclude=float('-inf'),float('-inf')
+            exclude=dp[i-1][j]
+            if(weight[i]<=j):
+                include=cost[i]+dp[i][j-weight[i]]
+            dp[i][j]=max(include,exclude)
+    return dp[n-1][currentWeight]
+  n=int(input())
+  weight=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  currentWeight=int(input())
+  print(tabulation(n,weight,cost,currentWeight)) 
+```
+<p>TC : O(w*n)</p>
+<p>SC : O(w*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>We are using current and previous row values only</p>
+<p>we don't need to store all answers</p>
+
+```python
+  def optimization(n,weight,cost,currentWeight):
+    dp_prev=[0 for i in range(currentWeight+1)]
+    dp_curr=[0 for i in range(currentWeight+1)]
+    for i in range(1,currentWeight+1):
+        dp_prev[i]=(i//weight[0])*cost[0]
+    for i in range(1,n):
+        for j in range(1,currentWeight+1):
+            include,exclude=float('-inf'),float('-inf')
+            exclude=dp_prev[j]
+            if(weight[i]<=j):
+                include=cost[i]+dp_curr[j-weight[i]]
+            dp_curr[j]=max(include,exclude)
+        dp_prev=dp_curr.copy()
+    return dp_prev[currentWeight]
+  n=int(input())
+  weight=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  currentWeight=int(input())
+  print(optimization(n,weight,cost,currentWeight))
+
+```
+<p>TC : O(w*n)</p>
+<p>SC : o(w)</p>
+
+<br>
+<br>
+
+
+<h4>16.Rod Cutting Problem</h4>
+    <h5>We are given a rod of size ‘N’. It can be cut into pieces. Each length of a piece has a particular price given by the price array. Our task is to find the maximum revenue that can be generated by selling the rod after cutting( if required) into pieces.</h5>
+    <img src="https://lh3.googleusercontent.com/xjrJJkoDBbO16Zh_F7AWOg4KWtaZp9DGiFWvGJcgpySH6WDfDU4k--N5hS2S6767_bdW5pfjxgFRK5koD9X7yUPERE5qcWig8xMIZsRYoJ11M3kvso0Sv3d30gJN_EPWlqoUg_jQ">
+<h5>Step-1 : Define The Problem</h5>
+    <p>We have given a rod of some size N</p>
+    <p>We can break that rod into some pieces of length 1...N</p>
+    <p>Eacch length has given some cost</p>
+    <p>We have to cut like to get maximum cost</p>
+    <p>Same as unbounded knapsack</p>
+    <p>rodSize=N</p>
+    <p>cost=cost of item</p>
+    <p>length 1..N=weight</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+    <p>given cost arrays</p>
+    <p>let us assume, index -> represents the length of piece</p>
+    <p>cost[index]-> cost of particular length piece</p>
+    <p>f(ind,currentRodSize)-> represents maximum costly pieces (from length 0 to index) up to currentRodSize</p>
+    <p>We have to find f(n-1,rodSize)-> n-> length of pieces, rodSize->rod Size</p>
+<h5>Step-3 : Finding Base Cases</h5>
+    <p>if index=0, then there is only single length piece, then max cost we can gain is</p>
+    <p>f(0,currentRodSize)-> cost[0]*(currentRodSize//length[0])</p>
+    <p>if currentRodSize==0, max cost is 0</p>
+    <p>f(index,0)=0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+    <p>we know that, f(0,currentRodSize)=cost[0]*(currentRodSize//length[0])</p>
+    <p>f(index,currentRodSize)=max(include,exclude)</p>
+    <p>Include-> cost[index]+f(index,currentRodSize-length[index])</p>
+    <p>Exclude-> f(index-1,currentRodSize)</p>
+    <p>f(index,currentRodSize)=max(cost[index]+f(index,currentRodSize-length[index]),f(index-1,currentRodSize))</p>
+    <p>While include, we are not moving to next position because we can include current element many times</p>
+    <p>While exclud, we are moving next position</p>
+    <p>While including , we have to check, current element weight is less than or equal top currentRodSize</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+  def recursive(ind,cost,length,rodSize):
+    if(ind==0):
+        return cost[0]*(rodSize//length[0])
+    exclude=recursive(ind-1,cost,length,rodSize)
+    include=float('-inf')
+    if(length[ind]<=rodSize):
+        include=cost[ind]+recursive(ind,cost,length,rodSize-length[ind])
+    return max(include,exclude)
+  n=int(input())
+  length=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  rodSize=int(input())
+  print(recursive(n-1,cost,length,rodSize))
+```
+<p>TC : O(2^(n))</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+<p>Here key to store each subproblem answer is index and currentRodSizes</p>
+
+```python
+  def memorization(ind,cost,length,rodSize,memo):
+    key=(ind,rodSize)
+    if key in memo:
+        return memo[key]
+    if(ind==0):
+        return cost[0]*(rodSize//length[0])
+    exclude=memorization(ind-1,cost,length,rodSize,memo)
+    include=float('-inf')
+    if(length[ind]<=rodSize):
+        include=cost[ind]+memorization(ind,cost,length,rodSize-length[ind],memo)
+    memo[key]=max(include,exclude)
+    return memo[key]
+  n=int(input())
+  length=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  rodSize=int(input())
+  memo={}
+  print(memorization(n-1,cost,length,rodSize,memo))
+```
+<p>TC : O(rodSize*n)</p>
+<p>SC : O(rosSize*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+  def tabulation(n,cost,length,rodSize):
+    dp=[[0 for i in range(rodSize+1)] for i in range(n)]
+    for i in range(rodSize+1):
+        dp[0][i]=cost[0]*(i//length[0])
+    for i in range(1,n):
+        for j in range(1,rodSize+1):
+            include,exclude=float('-inf'),float('-inf')
+            exclude=dp[i-1][j]
+            if(length[i]<=j):
+                include=cost[i]+dp[i][j-length[i]]
+            dp[i][j]=max(include,exclude)
+    return dp[n-1][rodSize]
+  n=int(input())
+  length=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  rodSize=int(input())
+  print(tabulation(n,cost,length,rodSize))
+   
+```
+<p>TC : O(rodSize*n)</p>
+<p>SC : O(rodSize*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>We are using current and previous row values only</p>
+<p>we don't need to store all answers</p>
+
+```python
+  def optimization(n,cost,length,rodSize):
+    dp_prev=[0 for i in range(rodSize+1)]
+    dp_curr=[0 for i in range(rodSize+1)]
+    for i in range(rodSize+1):
+        dp_prev[i]=cost[0]*(i//length[0])
+    for i in range(1,n):
+        for j in range(1,rodSize+1):
+            include,exclude=float('-inf'),float('-inf')
+            exclude=dp_prev[j]
+            if(length[i]<=j):
+                include=cost[i]+dp_curr[j-length[i]]
+            dp_curr[j]=max(include,exclude)
+        dp_prev=dp_curr.copy()
+    return dp_prev[rodSize]
+  n=int(input())
+  length=list(map(int,input().split()))
+  cost=list(map(int,input().split()))
+  rodSize=int(input())
+  print(optimization(n,cost,length,rodSize))
+
+```
+<p>TC : O(rodSize*n)</p>
+<p>SC : o(rodSize)</p>
+
+<br>
+<br>
+
+
