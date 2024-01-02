@@ -2134,4 +2134,86 @@ print(optimization(m,n,matrix))
 <br>
 <br>
 
+<h4>18.Partition Equal Subset Sum</h4>
+  <h5>We are given an array ‘ARR’ with N positive integers. We need to find if we can partition the array into two subsets such that the sum of elements of each subset is equal to the other.</h5>
+  <h5>If we can partition, return true else return false.</h5>
+  <img src="https://lh5.googleusercontent.com/4cpcGpegSp1TGUp1ItTKaOzmZt93QD6-ebefylt6HjWE8ta6haxobbjIkwprij5Pal9LHqqNu_JUeqo8F0Xr_cirKMXxv8uUlh5n6Y1lGe6Min8j8tyV7KPdUJ4qe_us8Gcf6a_x">
+<h4>Step-1 : Define The Problem</h4>
+  <p>We have given an array, we have to check like, whether we can divide the array into two subsequnces such that their sumr are equal</p>
+  <p>We have already solved subset sum equal to k</p>
+  <p>Lets say temp=sum(array)</p>
+  <p>if we divide total sum into two parts, half=temp//2</p>
+  <p>so, we have to check like whether there are two subsequnces with sum==half</p>
+  <p>Here we don't need to check for two subsequnces, because if we can check for one sequence, remaining will always equal to half</p>
+  <p>So, we have to check whethere there is subsequnce with sum equals to half of total sum</p>
+  <p>if totalSum is odd, its no possible for partion</p>
 
+```python
+def isSubsetSumEqualToK(n,arr,target):
+    dp=[[False]*(target+1) for i in range(n)]
+    for i in range(n):
+        dp[i][0]=True
+    if(target<=arr[0]):
+        dp[0][arr[0]]=True
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=False,False
+            exclude=dp[i-1][j]
+            if(arr[i]<=j):
+                include=dp[i-1][j-arr[i]]
+            dp[i][j]=include or exclude
+    return dp[n-1][target]
+
+n=int(input())
+arr=list(map(int,input().split()))
+totalSum=sum(arr)
+if(totalSum & 1):
+    print(False)
+else:
+    half=totalSum//2
+    print(isSubsetSumEqualToK(n,arr,half))
+```
+
+<h4>19.Partition Set Into 2 Subsets With Min Absolute Sum Diff</h4>
+  <h5>Partition A Set Into Two Subsets With Minimum Absolute Sum Difference</h5>
+  <h5>We are given an array ‘ARR’ with N positive integers. We need to partition the array into two subsets such that the absolute difference of the sum of elements of the subsets is minimum.</h5>
+  <h5>We need to return only the minimum absolute difference of the sum of elements of the two partitions.</h5>
+  <img src="https://lh5.googleusercontent.com/oICvHTjrORRPm9JUDytnyHqWrUlINxqjDiubEr6QuxIoOo9jSyour1Vj2_qHB_db7odN6GSMfwrjq9Xo-cW6bVucybEuGI8e5otDrZYJfJ9lOinss2svNF2l7WSFDOS4RjfB0e33">
+<h4>Step-1 : Define Problem</h4>
+  <p>We have given array, we have to split array into two subsequnces such that their difference in sum is minimum</p>
+  <p>In Subset Sum Equal to k tabulation approach</p>
+  <p>We have checked for each index, whether there is susequnce sum is there or not for 1 to target sum</p>
+  <p>The last row shows, subsequnce sum is there or not for given array from 1 to target sum</p>
+  <p>From This row, we can get all possible subsequnce sums</p>
+  <p>If we know one subseqnce sum, other will total-sum</p>
+  <p>easily we can get the difference</p>
+
+```python 
+def isSubsetSumEqualToK(n,arr,target):
+    dp=[[False]*(target+1) for i in range(n)]
+    for i in range(n):
+        dp[i][0]=True
+    if(target<=arr[0]):
+        dp[0][arr[0]]=True
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=False,False
+            exclude=dp[i-1][j]
+            if(arr[i]<=j):
+                include=dp[i-1][j-arr[i]]
+            dp[i][j]=include or exclude
+    return dp
+
+n=int(input())
+arr=list(map(int,input().split()))
+totalSum=sum(arr)
+dp=isSubsetSumEqualToK(n,arr,totalSum)
+final=float('inf')
+for i in range(1,totalSum+1):
+    if(dp[n-1][i]):
+        currentSum=i
+        otherSum=totalSum-i
+        diff=abs(currentSum-otherSum)
+        final=min(final,diff)
+print(final)
+```
