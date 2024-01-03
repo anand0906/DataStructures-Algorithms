@@ -1022,7 +1022,7 @@ print(max(excludeFirst,excludeLast))
 <h4>9.Grid Unique Paths : Number of Unique ways from top left to bottom-right</h4>
 <h5>Given two values M and N, which represent a matrix[M][N]. We need to find the total unique paths from the top-left cell (matrix[0][0]) to the rightmost cell (matrix[M-1][N-1]).</h5>
 <h5>At any cell we are allowed to move in only two directions:- bottom and right.</h5>
-<img src="https://lh3.googleusercontent.com/PDblNXbL7kmOxKoI7_0Yevnr7JF2FbXVr-9OaH9nn5uNeq6_P6fItMrWdEhs7fPUDBSoEKorJ9_lConrOtDUetBpq2s1bw4A9nIasR3dSJ">
+<img src="https://lh3.googleusercontent.com/PDblNXbL7kmOxKoI7_0Yevnr7JF2FbXVr_0mKBpY8lza4066Gqz7yvw-4bn6NATQ9OaH9nn5uNeq6_P6fItMrWdEhs7fPUDBSoEKorJ9_lConrOtDUetBpq2s1bw4A9nIasR3dSJ">
 <h5>Step-1 : Define The Problem</h5>
 <p>Given two value m and n which represents row size and column size</p>
 <p>It represents a matrix of size m*n</p>
@@ -2217,3 +2217,630 @@ for i in range(1,totalSum+1):
         final=min(final,diff)
 print(final)
 ```
+
+<br>
+<br>
+
+<h4>20.Count Subsets with Sum K</h4>
+  <h5>We are given an array ‘ARR’ with N positive integers and an integer K. We need to find the number of subsets whose sum is equal to K.</h5>
+  <img src="https://lh4.googleusercontent.com/pKgBxODRwO9eGi2OEQPcgpZwmOz-BaOcCpy29NqzoOau4IN_ioOJvjsnHkl5cB2bCJx67byJbceLB1sX7enyoTa1kwa1BE6NBdPX0szXrnzY7HADEQuo0BeRIkD28yq2WcVR8JzV">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given an array, we need find different subsequnces whose sum equal to k</p>
+  <p>we need to find the count of subsequences</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>We know aleady about finding subsequnces, i.e pick and not-pick technique</p>
+  <p>f(index,target)-> number of subsequences from 0 to index whose sum equal to k</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>Suppose we have only one element in array, then number os subsequnces that can be generated is only one</p>
+  <p>As per problem, Sum of subsequnce should equal to given target k</p>
+  <p>Then, if array contains only one element</p>
+  <p>f(0,target)=1 if(target==arr[0]) else 0</p>
+  <p>if target==0, then we found a way</p>
+  <p>f(index,0)=1</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>We know technique of generation of subsequnces</p>
+  <p>since we need count of subsequences, we will add</p>
+  <p>1.If we include current index in subsequnce -> f(index,target)=f(index-1,target-arr[index])</p>
+  <p>1.If we exclude current index in subsequnce -> f(index,target)=f(index-1,target)</p>
+  <p>f(index,target)->number of subsequences from 0 to index whose sum equal to k</p>
+  <p>f(index,target)->f(index-1,target-arr[i])+f(index-1,target)</p>
+  <p>When we are including, we have to check whether element is less than or equal to target</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+def recursive(arr,n,target):
+    if(target==0):
+        return 1
+    if(n==0):
+        if(target-arr[n]==0):
+            return 1
+        else:
+            return 0
+    exclude=recursive(arr,n-1,target)
+    include=0
+    if(arr[n]<=target):
+        include=recursive(arr,n-1,target-arr[n])
+    return include+exclude
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(recursive(arr,n-1,target))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(arr,n,target,memo):
+  key=(n,target)
+  if key in memo:
+      return memo[key]
+  if(target==0):
+      return 1
+  if(n==0):
+      if(target-arr[n]==0):
+          return 1
+      else:
+          return 0
+  exclude=memorization(arr,n-1,target,memo)
+  include=0
+  if(arr[n]<=target):
+      include=memorization(arr,n-1,target-arr[n],memo)
+  memo[key]=include+exclude
+  return memo[key]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+memo={}
+print(memorization(arr,n-1,target,memo))
+```
+<p>TC : O(N*target)</p>
+<p>SC : O(N)+O(N*Target)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+def tabulation(n,arr,target):
+    dp=[[0]*(target+1) for i in range(n)]
+    for i in range(n):
+        dp[i][0]=1
+    if(arr[0]<=target):
+        dp[0][arr[0]]=1
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=0,0
+            exclude=dp[i-1][j]
+            if(arr[i]<=j):
+                include=dp[i-1][j-arr[i]]
+            dp[i][j]=include+exclude
+    return dp[n-1][target]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(tabulation(n,arr,target))
+```
+<p>TC : O(n*target)</p>
+<p>SC : O(n*target)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+def optimization(n,arr,target):
+    dp_prev=[0]*(target+1)
+    dp_current=[0]*(target+1)
+    dp_prev[0]=1
+    dp_current[0]=1
+    if(arr[0]<=target):
+        dp_prev[arr[0]]=1
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=0,0
+            exclude=dp_prev[j]
+            if(arr[i]<=j):
+                include=dp_prev[j-arr[i]]
+            dp_current[j]=include+exclude
+        dp_prev=dp_current.copy()
+    return dp_prev[target]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(optimization(n,arr,target))
+```
+<p>TC : O(n*target)</p>
+<p>SC : o(target)</p>
+
+
+<br>  
+<br>
+
+
+<h4>21.Count Partitions with Given Difference</h4>
+  <h5>We are given an array ‘ARR’ with N positive integers and an integer D. We need to count the number of ways we can partition the given array into two subsets, S1 and S2 such that S1 – S2 = D and S1 is always greater than or equal to S2.</h5>
+  <img src="https://lh4.googleusercontent.com/e9O5M_ol5HElVA5aHG794M4VGdBiuHllaqMCokrYVkRVvvcK2oqd4SL37yFYhJ6GlT7Cp11TWH_LeDMqXaF-CwkWUULx_-BfCpaASzZhtOUOssxXX2VX8PwvntCP9ZHZLzL6_RNE">
+<h4>Step-1 : Define Problem</h4>
+  <p>We have given Difference D=S1-S2</p>
+  <p>We know, Total Sum S=S1+S2</p>
+  <p>If we know S1, S2=S-S1</p>
+  <p>Based on Above Equations, D-S=S1-S2-S1-S2=-S2</p>
+  <p>S2=(S-D)//2</p>
+  <p>so, if we are able to find number of subsequnce whose sum == S2, that will be our answer</p>
+  <p>if S-D is Odd, we can't divide into two parts</p>
+  <p>if S-D is zero, we can't find any ways</p>
+
+```python 
+def optimization(n,arr,target):
+    dp_prev=[0]*(target+1)
+    dp_current=[0]*(target+1)
+    dp_prev[0]=1
+    dp_current[0]=1
+    if(arr[0]<=target):
+        dp_prev[arr[0]]=1
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=0,0
+            exclude=dp_prev[j]
+            if(arr[i]<=j):
+                include=dp_prev[j-arr[i]]
+            dp_current[j]=include+exclude
+        dp_prev=dp_current.copy()
+    return dp_prev[target]
+
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+totalSum=sum(arr)
+if((totalSum-target)<0 or (totalSum-target)&1):
+    print(0)
+else:
+    temp=(totalSum-target)//2
+    print(optimization(n,arr,temp))
+```
+
+<p>TC : O(n*target)</p>
+<p>SC : o(target)</p>
+
+<br>  
+<br>  
+
+<h4>22.0/1 Knapsack</h4>
+  <h5>A thief wants to rob a store. He is carrying a bag of capacity W. The store has ‘n’ items. Its weight is given by the ‘wt’ array and its value by the ‘val’ array. He can either include an item in its knapsack or exclude it but can’t partially have it as a fraction. We need to find the maximum value of items that the thief can steal.</h5>
+  <img src="https://lh3.googleusercontent.com/bgxCoEMMmxwuN3HgXNgYZ_o_Gxb8QSyBXXTxwSpsP7757ECoAplkpCtBdoS5LFM-3C-YhAbIhIbB9XGKxTZBGm6GB7HstnwmKf3hix_8V3zfuHLrK70bOjr01PezXrYOymoEiCaZ">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given a knapsack of weight and given some n items , each has some weight and value</p>
+  <p>We can include items in bag such that, we should not exceed the bag weight and can earn max value</p>
+  <p>Find out all possible ways to include items in bag, find max value items list</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>Since we are check all possible ways and has to find max value</p>
+  <p>We need to use pick or not-pick technique</p>
+  <p>All items are reporesented in terms of indexes</p>
+  <p>f(index,weight)->Maximum valuable items collected in bag with atmost weight of bag</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if weight of bag is zero, we can't include any items, so max value=0</p>
+  <p>f(index,0)->0</p>
+  <p>if we have only one item left, we have some weight in bag, then we can include only when itemWeight <= weight</p>
+  <p>f(0,weight) -> val[0] if(W[0]<=weight) else float('inf')</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <P>We need to find all possible combinations, it can be found by </P>
+  <p>Include current index item -> find all ways further</p>
+  <p>Exclude current index item -> find all ways further</p>
+  <p>find max of both cases, that will be our answer</p>
+  <p>f(index,weight)=max(include,exclude)</p>
+  <p>include=val[index]+f(index-1,weight-w[index])</p>
+  <p>we can include current item only when w[index]<=weight</p>
+  <p>exclude=f(index-1,weight)</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+def recursive(index,weight,w,v):
+  if(index==0):
+      if(w[index]<=weight):
+          return v[index]
+  exclude=recursive(index-1,weight,w,v)
+  include=float('-inf')
+  if(w[index]<=weight):
+      include=v[index]+recursive(index-1,weight-w[index],w,v)
+  return max(include,exclude)
+n=int(input())
+w=list(map(int,input().split()))
+v=list(map(int,input().split()))
+weight=int(input())
+print(recursive(n-1,weight,w,v))
+```
+<p>TC : O(2^(n))</p>
+<p>SC : O(n)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(index,weight,w,v,memo):
+    key=(index,weight)
+    if key in memo:
+        return memo[key]
+    if(index==0):
+        if(w[index]<=weight):
+            return v[index]
+    exclude=memorization(index-1,weight,w,v,memo)
+    include=float('-inf')
+    if(w[index]<=weight):
+        include=v[index]+memorization(index-1,weight-w[index],w,v,memo)
+    memo[key]=max(include,exclude)
+    return memo[key]
+n=int(input())
+w=list(map(int,input().split()))
+v=list(map(int,input().split()))
+weight=int(input())
+memo={}
+print(memorization(n-1,weight,w,v,memo))
+```
+<p>TC : O(weight*n)</p>
+<p>SC : O(weight*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+def tabulation(n,weight,w,v):
+    dp=[[0]*(weight+1) for i in range(n)]
+    for j in range(1,weight+1):
+        if(w[0]<=j):
+            dp[0][j]=v[0]
+    for i in range(1,n):
+        for j in range(1,weight+1):
+            include,exclude=float('-inf'),float('-inf')
+            exclude=dp[i-1][j]
+            if(w[i]<=j):
+                include=v[i]+dp[i-1][j-w[i]]
+            dp[i][j]=max(include,exclude)
+    return dp[n-1][weight]
+n=int(input())
+w=list(map(int,input().split()))
+v=list(map(int,input().split()))
+weight=int(input())
+```
+<p>TC : O(weight*n)</p>
+<p>SC : O(weight*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+def optimization(n,weight,w,v):
+    dp_prev=[0]*(weight+1)
+    dp_curr=[0]*(weight+1)
+    for j in range(1,weight+1):
+        if(w[0]<=j):
+            dp_prev[j]=v[0]
+    for i in range(1,n):
+        for j in range(1,weight+1):
+            include,exclude=float('-inf'),float('-inf')
+            exclude=dp_prev[j]
+            if(w[i]<=j):
+                include=v[i]+dp_prev[j-w[i]]
+            dp_curr[j]=max(include,exclude)
+        dp_prev=dp_curr.copy()
+    return dp_prev[weight]
+n=int(input())
+w=list(map(int,input().split()))
+v=list(map(int,input().split()))
+weight=int(input())
+```
+<p>TC : O(weight*n)</p>
+<p>SC : o(n)</p>
+
+
+<br>  
+<br>
+
+<h4>23.Minimum Coins</h4>
+  <h5>We are given a target sum of ‘X’ and ‘N’ distinct numbers denoting the coin denominations. We need to tell the minimum number of coins required to reach the target sum. We can pick a coin denomination for any number of times we want.</h5>
+  <img src="https://lh3.googleusercontent.com/vjYc2Da63eMYCY65kP0Q_mrE1Uf7F-CReNgdvGiidaz2nAdR6-jPxSspcMrvzM9UONzBYjcCMdaIwF2z_t7idvIwNQQy4cCbDQN0YRgI3A6NPI6GoA6KrjEUavSlUfOGYnFI1cKy">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given some target sum and array of numbers</p>
+  <p>we need to make the sum with miniumum number of coins and we can use a number many times</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>Since we are check all possible ways and has to find min count of numbes</p>
+  <p>We need to use pick or not-pick technique</p>
+  <p>When we pick a number, istead of moving further lets give a chance to include same number again</p>
+  <p>All items are reporesented in terms of indexes</p>
+  <p>f(index,target)->Minimum number of coins used to make target sum using 0 to index coins </p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if target sum is zero, we can't include any coins, so coins required=0</p>
+  <p>f(index,0)->0</p>
+  <p>if we have only one coin left, we have some target sum, then we can include coins as many possible which nakes targetSum</p>
+  <p>if we can't make that sum with given coin, we can't make sum</p>
+  <p>f(0,weight) -> target//arr[0] if(target%arr[0]==0) else float('inf')</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <P>We need to find all possible combinations, it can be found by </P>
+  <p>Include current index item -> find all ways With same coin again</p>
+  <p>Exclude current index item -> find all ways further</p>
+  <p>find max of both cases, that will be our answer</p>
+  <p>f(index,target)=min(include,exclude)</p>
+  <p>include=1+f(index-1,target-arr[index])</p>
+  <p>we can include current item only when w[index]<=target</p>
+  <p>exclude=f(index-1,target)</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+def recursive(index,arr,target):
+    if(target==0):
+        return 0
+    if(index==0):
+        if(target%arr[0]==0):
+            return target//arr[0]
+        else:
+            return float('inf')
+    exclude=recursive(index-1,arr,target)
+    include=float('inf')
+    if(arr[index]<=target):
+        include=1+recursive(index,arr,target-arr[index])
+    return min(include,exclude)
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(recursive(n-1,arr,target))
+```
+<p>TC : O(2^(n*target))</p>
+<p>SC : O(n*target)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(index,arr,target,memo):
+    key=(index,target)
+    if key in memo:
+        return memo[key]
+    if(target==0):
+        return 0
+    if(index==0):
+        if(target%arr[0]==0):
+            return target//arr[0]
+        else:
+            return float('inf')
+    exclude=recursive(index-1,arr,target)
+    include=float('inf')
+    if(arr[index]<=target):
+        include=1+recursive(index,arr,target-arr[index])
+    memo[key]=min(include,exclude)
+    return memo[key]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+memo={}
+print(memorization(n-1,arr,target,memo))
+```
+<p>TC : O(target*n)</p>
+<p>SC : O(target*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+def tabulation(n,arr,target):
+    dp=[[0]*(target+1) for i in range(n)]
+    for i in range(1,target+1):
+        if(i%arr[0]==0):
+            dp[0][i]=(i//arr[0])
+        else:
+            dp[0][i]=float('inf')
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=float('inf'),float('inf')
+            exclude=dp[i-1][j]
+            if(arr[i]<=j):
+                include=1+dp[i][j-arr[i]]
+            dp[i][j]=min(include,exclude)
+    return dp[n-1][target]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(tabulation(n,arr,target))
+```
+<p>TC : O(target*n)</p>
+<p>SC : O(target*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+def optimization(n,arr,target):
+    dp_prev=[0]*(target+1)
+    dp_curr=[0]*(target+1)
+    for i in range(1,target+1):
+        if(i%arr[0]==0):
+            dp_prev[i]=(i//arr[0])
+        else:
+            dp_prev[i]=float('inf')
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=float('inf'),float('inf')
+            exclude=dp_prev[j]
+            if(arr[i]<=j):
+                include=1+dp_curr[j-arr[i]]
+            dp_curr[j]=min(include,exclude)
+        dp_prev=dp_curr.copy()
+    return dp_prev[target]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(optimization(n,arr,target))
+```
+<p>TC : O(target*n)</p>
+<p>SC : o(n)</p>
+
+
+<br>  
+<br>
+
+<h4>24.Target Sum </h4>
+  <h5>We are given an array ‘ARR’ of size ‘N’ and a number ‘Target’. Our task is to build an expression from the given array where we can place a ‘+’ or ‘-’ sign in front of an integer. We want to place a sign in front of every integer of the array and get our required target. We need to count the number of ways in which we can achieve our required target.</h5>
+  <img src="https://lh5.googleusercontent.com/vMo25kPQM_P2t1Uav9EXflTOGwHNajBPXO_GULWMbNbgnuPP7CcxksX_B0szm13u7OKd2JiouZYNoWFEomMibbxBAlt_hi66_-Zd2NtLeL9-9WgjxBFyaCNmh3HUT1orTLr6l_r1">
+<h4>Step-1 : Define Problem</h4>
+  <p>We have given array and target</p>
+  <p>We have to apply whether + or - to each element in array and has to make that expression value equal to target</p>
+  <p>We have to find the number of different ways</p>
+  <p>suppose, if array has [a,b,c,d,e]</p>
+  <p>if we apply + and -, a+b+c-d-e</p>
+  <p>it can be shown as (a+b+c)-(d+e)=target</p>
+  <p>it is similar to difference=S1-S2</p>
+  <p>This problem we have already discussed in Count of Subsets With given difference problem</p>
+
+```python 
+def optimization(n,arr,target):
+    dp_prev=[0]*(target+1)
+    dp_current=[0]*(target+1)
+    dp_prev[0]=1
+    dp_current[0]=1
+    if(arr[0]<=target):
+        dp_prev[arr[0]]=1
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=0,0
+            exclude=dp_prev[j]
+            if(arr[i]<=j):
+                include=dp_prev[j-arr[i]]
+            dp_current[j]=include+exclude
+        dp_prev=dp_current.copy()
+    return dp_prev[target]
+
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+totalSum=sum(arr)
+if((totalSum-target)<0 or (totalSum-target)&1):
+    print(0)
+else:
+    temp=(totalSum-target)//2
+    print(optimization(n,arr,temp))
+```
+
+<br>
+<br>
+
+<h4>23.Coin Change 2 : Count Of Ways to Make Target Coins Can Used Many Times</h4>
+  <h5>We are given an array Arr with N distinct coins and a target. We have an infinite supply of each coin denomination. We need to find the number of ways we sum up the coin values to give us the target.</h5>
+  <h5>Each coin can be used any number of times.</h5>
+  <img src="https://lh5.googleusercontent.com/iyZgys0bQ2_EjJUUXEjjtYn3y4ZKThe_MYqLQ0E9YKL93xHDV0KzsK1zaq1mrB7CzmTSuUtZA75JsaRBnDq-K4RigX31GOd6B3Tr9-Ts_yuf_OyELBFM3ZdR3ulCEXMSbHFC9nr9">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given some target sum and array of numbers</p>
+  <p>we need to make the sum with numbers of array and we can use a number many times</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>Since we are check all possible ways and has to find min count of numbes</p>
+  <p>We need to use pick or not-pick technique</p>
+  <p>When we pick a number, istead of moving further lets give a chance to include same number again</p>
+  <p>All items are reporesented in terms of indexes</p>
+  <p>f(index,target)->Number of Ways to make target sum using 0 to index coins </p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if target sum is zero, we can't include any coins, so coins required=0</p>
+  <p>f(index,0)->0</p>
+  <p>if we have only one coin left, we have some target sum, then we can include coins as many possible which nakes targetSum, Then there is one way</p>
+  <p>if we can't make that sum with given coin, we can't make sum</p>
+  <p>f(0,weight) -> 1 if(target%arr[0]==0) else 0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <P>We need to find all possible combinations, it can be found by </P>
+  <p>Include current index item -> find all ways With same coin again</p>
+  <p>Exclude current index item -> find all ways further</p>
+  <p>find max of both cases, that will be our answer</p>
+  <p>f(index,target)=include+exclude</p>
+  <p>include=f(index-1,target-arr[index])</p>
+  <p>we can include current item only when arr[index]<=target</p>
+  <p>exclude=f(index-1,target)</p>
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+def recursive(index,arr,target):
+    if(target==0):
+        return 1
+    if(index==0):
+        if(target%arr[0]==0):
+            return 1
+        else:
+            return 0
+    exclude=recursive(index-1,arr,target)
+    include=0
+    if(arr[index]<=target):
+        include=recursive(index,arr,target-arr[index])
+    return include+exclude
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(recursive(n-1,arr,target))
+```
+<p>TC : O(2^(n*target))</p>
+<p>SC : O(n*target)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(index,arr,target,memo):
+    key=(index,target)
+    if key in memo:
+        return memo[key]
+    if(target==0):
+        return 1
+    if(index==0):
+        if(target%arr[0]==0):
+            return 1
+        else:
+            return 0
+    exclude=recursive(index-1,arr,target)
+    include=0
+    if(arr[index]<=target):
+        include=recursive(index,arr,target-arr[index])
+    memo[key]=include+exclude
+    return memo[key]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+memo={}
+print(memorization(n-1,arr,target,memo))
+```
+<p>TC : O(target*n)</p>
+<p>SC : O(target*n)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+
+```python
+def tabulation(n,arr,target):
+    dp=[[0]*(target+1) for i in range(n)]
+    for i in range(n):
+        dp[i][0]=1
+    for i in range(1,target+1):
+        if(i%arr[0]==0):
+            dp[0][i]=1
+        else:
+            dp[0][i]=0
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=0,0
+            exclude=dp[i-1][j]
+            if(arr[i]<=j):
+                include=dp[i][j-arr[i]]
+            dp[i][j]=include+exclude
+    return dp[n-1][target]
+
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(tabulation(n,arr,target))
+```
+<p>TC : O(target*n)</p>
+<p>SC : O(target*n)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+def optimization(n,arr,target):
+    dp_prev=[0]*(target+1)
+    dp_curr=[0]*(target+1)
+    dp_prev[0]=1
+    dp_curr[0]=1
+    for i in range(1,target+1):
+        if(i%arr[0]==0):
+            dp_prev[i]=1
+        else:
+            dp_prev[i]=0
+    for i in range(1,n):
+        for j in range(1,target+1):
+            include,exclude=0,0
+            exclude=dp_prev[j]
+            if(arr[i]<=j):
+                include=dp_curr[j-arr[i]]
+            dp_curr[j]=include+exclude
+        dp_prev=dp_curr.copy()
+    return dp_prev[target]
+n=int(input())
+arr=list(map(int,input().split()))
+target=int(input())
+print(optimization(n,arr,target))
+```
+<p>TC : O(target*n)</p>
+<p>SC : o(n)</p>
+
+
+<br>  
+<br>
