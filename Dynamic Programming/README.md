@@ -2704,7 +2704,7 @@ else:
 <br>
 <br>
 
-<h4>23.Coin Change 2 : Count Of Ways to Make Target Coins Can Used Many Times</h4>
+<h4>25.Coin Change 2 : Count Of Ways to Make Target Coins Can Used Many Times</h4>
   <h5>We are given an array Arr with N distinct coins and a target. We have an infinite supply of each coin denomination. We need to find the number of ways we sum up the coin values to give us the target.</h5>
   <h5>Each coin can be used any number of times.</h5>
   <img src="https://lh5.googleusercontent.com/iyZgys0bQ2_EjJUUXEjjtYn3y4ZKThe_MYqLQ0E9YKL93xHDV0KzsK1zaq1mrB7CzmTSuUtZA75JsaRBnDq-K4RigX31GOd6B3Tr9-Ts_yuf_OyELBFM3ZdR3ulCEXMSbHFC9nr9">
@@ -2844,3 +2844,936 @@ print(optimization(n,arr,target))
 
 <br>  
 <br>
+
+<h3>DP On Strings</h3>
+
+<h4>26.Longest Common Subsequence</h4>
+  <h5>A subsequence of a string is a list of characters of the string where some characters are deleted ( or not deleted at all) and they should be in the same order in the subsequence as in the original string.</h5>
+  <h5>The longest Common Subsequence is defined for two strings. It is the common subsequence that has the greatest length.</h5>
+  <img src="https://lh4.googleusercontent.com/kqP_myXD1uP-WyUCAeuvaC9242HVbXUetsiMG-FF5DlYpDubYitw_SvLcfvVuviS0c_V32NBJp1Yok4Pn6mevktHwAVjGgoYc23p80nfVCkT7JZ_X6Ic--DRRxzU_TxP1cnbpTls">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given two strings s1 and s2, each of it have length n1 and n2</p>
+  <p>s1 will have some set of subsequnces abd s2 will have some set of subsequences</p>
+  <p>We have to find common subsequnce which is present in both string</p>
+  <p>We may have more than one common subsequences</p>
+  <p>We have find what is the length of longest subsequence present in both strings</p>
+  <p>Eg: s1=abc s=ac</p>
+  <p>abc -> [a,b,c,ab,bc,abc]</p>
+  <p>ac -> [a,c,ac]</p>
+  <p>Common -> [a,c,ac]</p>
+  <p>Longest -> ac</p>
+  <p>length of longest ->2</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>both strings can be represented interms index 0...n1-1, 0...n2-1</p>
+  <p>let us assume, f(index1,index2) -> it represents the length of longest common subsequence in s1 of 0 ... index1 and s2 of 0 ...index2</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if any one of the string have no characters, then there is no subsequnces for it</p>
+  <p>hence,there will be no common subsequnce, so answer will be 0</p>
+  <p>f(index1<0 (or) index2<0)->0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>Since we need length of common subsequnce in two string, we will just compare charcters of two string charcters</p>
+  <p>Since subsequnce should be in order, we will move in same direction while iteration</p>
+  <p>we have to compare the characters of both sequences, one by one</p>
+  <p>When comparing the characters: </p>
+  <p>If both characters in strings matches, then we found a common character for a sequence we will increase length by one, and move to next position for remaining common charcters</p>
+  <p>if(s1[index1]==s2p[index2]) 1+f(index1-1,index2-1)</p>
+  <p>If the characters don't match, you explore two possibilities:</p>
+  <p>Either the last characters of both sequences don't contribute to the common subsequence.</p>
+  <p>So, you try excluding the last character of Sequence 1 and compare again.</p>
+  <p>f(index1-1,index2)</p>
+  <p>Or you exclude the last character of Sequence 2 and compare again.</p>
+  <p>f(index1,index2-1)</p>
+  <p>You pick the longer subsequence of the two possibilities.</p>
+  <p>if(s1[index1]!=s2p[index2]) max(f(index1-1,index2),f(index1,index2-1))</p>
+  <p>recurrance relation</p>
+
+```python
+if seq1[i] == seq2[j]:
+    LCS[i][j] = 1 + LCS[i - 1][j - 1]  # if the characters match, add 1 to the LCS length
+else:
+    LCS[i][j] = max(LCS[i - 1][j], LCS[i][j - 1])  # characters don't match, take the maximum of the two possibilities
+
+```
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(S1,S2,index1,index2):
+    if(index1<0 or index2<0):
+        return 0
+    if(S1[index1]==S2[index2]):
+        return 1+recursive(S1,S2,index1-1,index2-1)
+    else:
+        excludeS1=recursive(S1,S2,index1-1,index2)
+        excludeS2=recursive(S1,S2,index1,index2-1)
+        return max(excludeS1,excludeS2)
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+print(recursive(S1,S2,n1-1,n2-1))
+```
+<p>TC : O(2^(n1*n2))</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(S1,S2,index1,index2,memo):
+  key=(index1,index2)
+  if key in memo:
+      return memo[key]
+  if(index1<0 or index2<0):
+      return 0
+  if(S1[index1]==S2[index2]):
+      memo[key]=1+ memorization(S1,S2,index1-1,index2-1,memo)
+      return memo[key]
+  else:
+      excludeS1= memorization(S1,S2,index1-1,index2,memo)
+      excludeS2= memorization(S1,S2,index1,index2-1,memo)
+      memo[key]=max(excludeS1,excludeS2)
+      return memo[key]
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+memo={}
+print(memorization(S1,S2,n1-1,n2-1,memo))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we are dealing with string, to implement tabulation we have to represent strings in 1-based indexing</p>
+<p>So that, for empty strings, index will be 0</p>
+
+```python
+def tabulation(S1,S2):
+    n1,n2=len(S1),len(S2)
+    dp=[[0]*(n2+1) for i in range(n1+1)]
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                dp[i][j]=1+dp[i-1][j-1]
+            else:
+                excludeS1=dp[i-1][j]
+                excludeS2=dp[i][j-1]
+                dp[i][j]=max(excludeS1,excludeS2)
+    return dp[n1][n2]
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+print(tabulation(S1,S2))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+def optimization(S1,S2):
+    n1,n2=len(S1),len(S2)
+    dp_prev=[0]*(n2+1)
+    dp_curr=[0]*(n2+1)
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                dp_curr[j]=1+dp_prev[j-1]
+            else:
+                excludeS1=dp_prev[j]
+                excludeS2=dp_curr[j-1]
+                dp_curr[j]=max(excludeS1,excludeS2)
+        dp_prev=dp_curr.copy()
+    return dp_curr[n2]
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+print(optimization(S1,S2))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : o(n2)</p>
+
+
+<br>  
+<br>
+
+<h4>27.WildCard Matching : '*' / '?' Check String1 matches String2 or not </h4>
+  <h5>We are given two strings ‘S1’ and ‘S2’. String S1 can have the following two special characters:</h5>
+  <h5>1.‘?’ can be matched to a single character of S2.</h5>
+  <h5>2.‘*’ can be matched to any sequence of characters of S2. (sequence can be of length zero or more).</h5>
+  <h5>We need to check whether strings S1 and S2 match or not.</h5>
+  <img src="https://lh6.googleusercontent.com/zR799fMPurVRIqbURhPX34iIwt7qov7AcczQnqMUfFIywmegsFWSSUg4hbhiVhBa1P6nJ_bM_ssJnm3rmomKuuiUfwhaOe2AqCKvpvoMFTUZ_Vl7sC73-zgrergtC8neAQ4_zfdp">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given two strings s1 and s2</p>
+  <p>We have to check whether two strings are equal or not</p>
+  <p>but, s1 may contain wildcards like '?' or '*'</p>
+  <p>? -> it is match any single charcter</p>
+  <p>* -> it can match any number of charcters</p>
+  <p>We have to find two strings can be equal or not.</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>both strings can be represented interms index 0...n1-1, 0...n2-1</p>
+  <p>let us assume, f(index1,index2) -> it represents both string are matched or not  in s1 from 0 ... index1 and s2 from 0 ...index2</p>
+  <p>We have to check total strings</p>
+  <p>so, we have to find f(n1-1,n2-1)</p>
+  <p>We have to return either True or False</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>we have to match the two string character by character</p>
+  <p>if both string charcters are compard and if there is nothing to compare, that means both are equal</p>
+  <p>index1<0 and index2<0 -> True</p>
+  <p>if first string charcters are completed, and second string characters left te compare, it means both strings are not matched</p>
+  <p>index1<0 and index2>=0 -> False</p>
+  <p>if second string charcters were compared, and first string characters left te compare, it has two cases</p>
+  <p>if first string contains only *'s , it means it may match empty also, that means both are matched</p>
+  <p>if first string contains other than *, both strings are not matched</p>
+  <p>index2<0 and index1>=0 -> True if(AllStar(S1,index1)) else False</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>we have to compare each character at same position in two strings</p>
+  <p>While comparing characters</p>
+  <p>if both characters are same, then move to next position in string</p>
+  <p>if string one character equals to ?, then it is always to equal any character at string two, then we will move to next position</p>
+  <p>if s1 character equals to * , then it has two cases</p>
+  <p>1.it may match nothing or single charcter in s2</p>
+  <p>we have to consider both cases</p>
+  <p>if matches nothing -> f(index1-1,index2) -> since it matches nothing, s1 will move and s2 will be at same position</p>
+  <p>if matches single character-> f(index1,index2-1)-> we will be at same position in s1, because, we may match multiple chacrters</p>
+  <p>if s1 character not equals to s2 character, then return False</p>
+
+```python
+if(S1[index1]==S2[index2] or s1[index1]=='?'):
+    return f(index1-1,index2-1) # both characters are equal
+else:
+    if(S1[index1]=='*'):
+        a=f(index1-1,index2) # matches nothing
+        b=f(index1,index2-1) # matches a character
+        return a or b 
+    else:
+         return False # both characters are not equal
+```
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(S1,S2,index1,index2):
+    if(index1<0 and index2<0):
+        return True
+    if(index1<0 and index2>=0):
+        return False
+    if(index2<0 and index1>=0):
+        if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+            return True
+        else:
+            return False
+
+    if(S1[index1]==S2[index2] or S1[index1]=='?'):
+        return recursive(S1,S2,index1-1,index2-1)
+    else:
+        if(S1[index1]=='*'):
+            excludeS1=recursive(S1,S2,index1-1,index2)
+            excludeS2=recursive(S1,S2,index1,index2-1)
+            return excludeS1 or excludeS2
+        else:
+            return False
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+print(recursive(S1,S2,n1-1,n2-1))
+```
+<p>TC : O(2^(n1*n2))</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(S1,S2,index1,index2,memo):
+    key=(index1,index2)
+    if key in memo:
+        return memo[key]
+    if(index1<0 and index2<0):
+        return True
+    if(index1<0 and index2>=0):
+        return False
+    if(index2<0 and index1>=0):
+        if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+            return True
+        else:
+            return False
+
+    if(S1[index1]==S2[index2] or S1[index1]=='?'):
+        memo[key]=memorization(S1,S2,index1-1,index2-1,memo)
+        return memo[key]
+    else:
+        if(S1[index1]=='*'):
+            excludeS1=memorization(S1,S2,index1-1,index2,memo)
+            excludeS2=memorization(S1,S2,index1,index2-1,memo)
+            memo[key]=excludeS1 or excludeS2
+            return memo[key]
+        else:
+            memo[key]=False
+            return memo[key]
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+memo={}
+print(memorization(S1,S2,n1-1,n2-1,memo))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we are dealing with string, to implement tabulation we have to represent strings in 1-based indexing</p>
+<p>So that, for empty strings, index will be 0</p>
+
+```python
+def tabulation(S1,S2,n1,n2):
+    dp=[[False]*(n2+1) for i in range(n1+1)]
+    dp[0][0]=True
+    for i in range(1,n2+1):
+        dp[0][i]=False
+    for i in range(1,n1+1):
+        index1=i-1
+        if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+            dp[i][0]=True
+        else:
+            dp[i][0]=False
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2] or S1[index1]=='?'):
+                dp[i][j]=dp[i-1][j-1]
+            else:
+                if(S1[index1]=='*'):
+                    dp[i][j]=dp[i-1][j] or dp[i][j-1]
+                else:
+                    dp[i][j]=False
+    return dp[n1][n2]
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+print(tabulation(S1,S2,n1,n2))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-7 : Space Optimization </h5>
+<p>Since we are dealing with string, to implement tabulation we have to represent strings in 1-based indexing</p>
+<p>So that, for empty strings, index will be 0</p>
+
+```python
+def optimization(S1,S2,n1,n2):
+    dp_prev=[False]*(n2+1)
+    dp_curr=[False]*(n2+1)
+    dp_prev[0]=True
+    for i in range(1,n2+1):
+        dp_prev[i]=False
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+                dp_curr[0]=True
+            else:
+                dp_curr[0]=False
+            if(S1[index1]==S2[index2] or S1[index1]=='?'):
+                dp_curr[j]=dp_prev[j-1]
+            else:
+                if(S1[index1]=='*'):
+                    dp_curr[j]=dp_prev[j] or dp_curr[j-1]
+                else:
+                    dp_curr[j]=False
+        dp_prev=dp_curr.copy()
+    return dp_curr[n2]
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+print(optimization(S1,S2,n1,n2))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : o(n2)</p>
+
+
+<br>  
+<br>
+
+<h4>28.Print Longest Common Subsequence</h4>
+  <h5>In the previous article Longest Common Subsequence, we learned to print the length of the longest common subsequence of two strings. In this article, we will learn to print the actual string of the longest common subsequence. </h5>
+  <img src="https://lh3.googleusercontent.com/rzY1hPZD4poztbgaEVhEqVUcaNmdMm6UQL0opF87uE9ALhBJIrHMsdZZ61J_e0cEiyKFrzeaf-eMdo8er2W2opBEh1SPNd5GJJac3GrS6h4yDQoEW5OPBTQ5Wsu68FCnN_zRv-Gz">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given two strings s1 and s2</p>
+  <p>We have to print the longest common subsequnces</p>
+<h5>Step=2 : Solution</h5>
+  <p>previously we have solved lcs problem</p>
+  <p>In that problem, we have found length of common subsequence in lcs tabulation</p>
+  <p>based on those lengths and how those are evaluated, we can print the lcs</p>
+  <p>we know that</p>
+  <p>if(S1[i-1] == S2[j-1]), then return 1 + dp[i-1][j-1] -> it means when two charcters are equal we are coming from diagnolly</p>
+  <p>if(S1[i-1] != S2[j-1]) , then return 0 + max(dp[i-1][j],dp[i][j-1]) -> it means when two charcters are not equal, then we two choise either vertically or horizontally, we have to take maximum</p>
+  <p>same formula applied from dp[n1][n2] to dp[0][0], in reverse way and if we found match will add it in an array</p>
+  <a href="https://takeuforward.org/data-structure/print-longest-common-subsequence-dp-26/">Refer Here</a>
+
+```python
+def tabulation(S1,S2,n1,n2):
+    dp=[[0]*(n2+1) for i in range(n1+1)]
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                dp[i][j]=1+dp[i-1][j-1]
+            else:
+                dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+    lcs=dp[n1][n2]
+    i,j=n1,n2
+    final=[]
+    while(i>0 and j>0):
+        index1,index2=i-1,j-1
+        if(S1[index1]==S2[index2]):
+            i-=1
+            j-=1
+            final.append(S1[index1])
+        else:
+            if(dp[i-1][j] > dp[i][j-1]):
+                i-=1
+            else:
+                j-=1
+    return "".join(final[::-1])
+S1=input()
+S2=input()
+n1,n2=len(S1),len(S2)
+print(tabulation(S1,S2,n1,n2))
+```  
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+
+
+<br>
+<br>
+
+<h4>29.Longest Common Substring</h4>
+  <p>A substring of a string is a subsequence in which all the characters are consecutive. Given two strings, we need to find the longest common substring.</p>
+  <p>We need to print the length of the longest common substring.</p>
+  <img src="https://lh5.googleusercontent.com/Ik0eDD_Ms5v1ag5jkvA9zLxXZjHivGNPY0VWtge8iQftgzebSpwFN8FqocTZGBIEmL2iHe64K08HibQbNfDZt27oMWW7CuQwqwdXTZtNldv1mg5w6ssV7zY66bHQEV82ejPKx_W8">
+<h4>Step-1 : Define The Problem</h4>
+  <p>we have given two strings s1 and s2</p>
+  <p>s1 will have some set of substrings and s2 will have some set of substrings</p>
+  <p>we need to find common substrings in both sets</p>
+  <p>We need to return length of longest common substring</p>
+  <p>It is similar to longest common subsequence, but here we need to find for substring</p>
+  <p>Substring should be occur in adjust charcters only</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>both strings can be represented interms index 0...n1-1, 0...n2-1</p>
+  <p>let us assume, f(index1,index2) -> it represents the length of longest common subsequence in s1 of 0 ... index1 and s2 of 0 ...index2</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if any one of the string have no characters, then there is no subsequnces for it</p>
+  <p>hence,there will be no common subsequnce, so answer will be 0</p>
+  <p>f(index1<0 (or) index2<0)->0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>Since we need length of common substring in two strings, we will just compare charcters of two string charcters</p>
+  <p>Since subsequnce should be in order, we will move in same direction while iteration</p>
+  <p>we have to compare the characters of both sequences, one by one</p>
+  <p>When comparing the characters: </p>
+  <p>If both characters in strings matches, then we found a common character for a sequence we will increase length by one, and move to next position for remaining common charcters</p>
+  <p>if(s1[index1]==s2p[index2]) 1+f(index1-1,index2-1)</p>
+  <p>If the characters don't match, substring ended there hence length will be come zero</p>
+  <p>So, will move to next position and repeat same process</p>
+  <p>We can take maximum value while increasing length</p>
+
+```python
+if seq1[i] == seq2[j]:
+    LCS[i][j] = 1 + LCS[i - 1][j - 1]  # if the characters match, add 1 to the LCS length
+else:
+    LCS[i][j] = 0  # characters don't match, substring length will be zero
+
+```
+```python
+def tabulation(S1,S2,n1,n2):
+    dp=[[0]*(n2+1) for i in range(n1+1)]
+    final=float('-inf')
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                temp=1+dp[i-1][j-1]
+                dp[i][j]=temp
+                final=max(final,temp)
+            else:
+                dp[i][j]=0
+    return final
+
+def optimization(S1,S2,n1,n2):
+    dp_prev=[0]*(n2+1)
+    dp_curr=[0]*(n2+1)
+    final=float('-inf')
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                temp=1+dp_prev[j-1]
+                dp_curr[j]=temp
+                final=max(final,temp)
+            else:
+                dp_curr[j]=0
+        dp_prev=dp_curr.copy()
+    return final
+S1=input()
+S2=input()
+n1,n2=len(S1),len(S2)
+print(tabulation(S1,S2,n1,n2))
+print(optimization(S1,S2,n1,n2))
+```
+
+
+<br>
+<br>
+
+<h4>30.Longest Palindromic Subsequence</h4>
+  <h5>A palindromic string is a string that is equal to its reverse. For example: “Nitin” is a palindromic string. Now the question states to find the length of the longest palindromic subsequence of a string. It is that palindromic subsequence of the given string with the greatest length. We need to print the length of the longest palindromic subsequence.</h5>
+  <img src="https://lh4.googleusercontent.com/fpGtOSDImpZYH646I4H-04UkBgm3ej5qD8inRrdWGLqSvQ5r-l6HZ9YVDnKR9NuPNrlS_Qi-hcnkItk97WYFGcekJqVB2jWsYpx_wLJAuElhXomvVBCjhAu1sCr3jAK4PbyFaCvv">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We know that longest common subsequence is common subsequence in two strings</p>
+  <p>here we have given a string, we need to find a subsequnce of it which should be palindrome</p>
+  <p>Palindrome is same as it is when we reverse it</p>
+  <p>Subsequnce which is common for both string and its reverse is called palindromic subsequence</p>
+  <p>so answer will be, Longest Common Subsequence for given string and its reverse</p>
+
+```python
+def optimizationlcs(S1,S2):
+    n1,n2=len(S1),len(S2)
+    dp_prev=[0]*(n2+1)
+    dp_curr=[0]*(n2+1)
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                dp_curr[j]=1+dp_prev[j-1]
+            else:
+                excludeS1=dp_prev[j]
+                excludeS2=dp_curr[j-1]
+                dp_curr[j]=max(excludeS1,excludeS2)
+        dp_prev=dp_curr.copy()
+    return dp_curr[n2]
+
+S1=input()
+S2=S1[::-1]
+n1=len(S1)
+n2=len(S2)
+print(optimizationlcs(S1,S2))
+```
+
+<h4>31.Minimum insertions to make string palindrome</h4>
+  <h5>A palindromic string is a string that is the same as its reverse. For example: “nitin” is a palindromic string. Now the question states that we are given a string, we need to find the minimum insertions that we can make in that string to make it a palindrome.</h5>
+  <img src="https://lh4.googleusercontent.com/tGTO25pL7yBykieDKbmcMGcwUGGim4YX-x97z_DxbOCGh9Lb7AN61pSZTUKEDT_T9WZVc8oRvAOTwPCYc6qan-AZC9-4LKmL5xo_t8ox1KhpHuySlvIRccODTsc8CzmRyQPpxkqH">
+
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given a string, we have to find number of min insertions to make string palindrome</p>
+  <p>Firstly, we have find already existing palindomic sequence present in given string</p>
+  <p>For remaining characters, to make them palindromic we all same characters again to it</p>
+  <p>answer=len(String)-length of longest palindromic subsequnce</p>
+
+```python
+def optimization(S1,S2):
+    n1,n2=len(S1),len(S2)
+    dp_prev=[0]*(n2+1)
+    dp_curr=[0]*(n2+1)
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                dp_curr[j]=1+dp_prev[j-1]
+            else:
+                excludeS1=dp_prev[j]
+                excludeS2=dp_curr[j-1]
+                dp_curr[j]=max(excludeS1,excludeS2)
+        dp_prev=dp_curr.copy()
+    return dp_curr[n2]
+
+S1=input()
+S2=S1[::-1]
+n1=len(S1)
+n2=len(S2)
+lcs=optimization(S1,S2)
+print(n1-lcs)
+```
+
+<br>
+<br>
+
+<h4>32.Minimum Insertions/Deletions to Convert String</h4>
+  <h5>Minimum Insertions/Deletions to Convert String A to String B</h5>
+  <h5>We are given two strings, str1 and str2. We are allowed the following operations:</h5>
+  <h5>Delete any number of characters from string str1.</h5>
+  <h5>Delete any number of characters from string str1.</h5>
+  <h5>We need to tell the minimum operations required to convert str1 to str2.</h5>
+  <img src="https://lh5.googleusercontent.com/A8n8o72QL6MTlp6mHwRPPIkAbNfSryFpp2SxQt-abKGqFhfVcbcwfdydf8gBeW-z6E1Yxumm6f6SFZdWPfWLQ41Ik_hmhZnUZs74L6RRHUbtp02g0LlcD0dTUXSEje1hi41EVJdf">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given two strings s1 and s2</p>
+  <p>We have to convert s1 into s2</p>
+  <p>We have to find minimum number of insertions and deletions required for it</p>
+  <p>To find the answer</p>
+  <p>first we have to find longest common characters</p>
+  <p>Then delete extra characters in s2</p>
+  <p>Then insert required characters in s2 to make s1</p>
+  <p>Answer = Number of deletions + Number of Insertion</p>
+  <p>Number of deletions = len(s2)-lcs</p>
+  <p>Number of insertions = len(s1)-lcs</p>
+
+```python
+def optimization(S1,S2):
+    n1,n2=len(S1),len(S2)
+    dp_prev=[0]*(n2+1)
+    dp_curr=[0]*(n2+1)
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                dp_curr[j]=1+dp_prev[j-1]
+            else:
+                excludeS1=dp_prev[j]
+                excludeS2=dp_curr[j-1]
+                dp_curr[j]=max(excludeS1,excludeS2)
+        dp_prev=dp_curr.copy()
+    return dp_curr[n2]
+
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+lcs=optimization(S1,S2)
+deletions=n1-lcs
+insertions=n2-lcs
+print(deletions+insertions)
+```
+<br>
+<br>
+
+<h4>33.Shortest Common Supersequence</h4>
+  <h5>We are given two strings ‘S1’ and ‘S2’. We need to return their shortest common supersequence. A supersequence is defined as the string which contains both the strings S1 and S2 as subsequences.</h5>
+  <img src="https://lh3.googleusercontent.com/yCJEIc5nB_P1SIqKzcBEcywKRgTAgQt3w1wHrYad81cPdwFQRcagmfJLtOtw7_NzhsmbX0VxPxsm64fyGSolB-j0jY0QeC_vDaA-iEdUIWJQAf9bzjKdeRyc7fcHlWkfVhEIsL4i">
+
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given two Strings s1 and s2</p>
+  <p>we need to find a string which contains both s1 and s2, It should have minimum length as possible</p>
+  <p>It similar to printing largest common subsequnces</p>
+  <p>While moving from dp[n1][n2] to dp[0][0]</p>
+  <p>If we got same characters, include it once only</p>
+  <p>When we get different characters, we will add both characters in order</p>
+  <p>So final string will contain both strings</p>
+  <p>Will loop through each string for remianinfg characters</p>
+
+```python
+def tabulation(S1,S2,n1,n2):
+    dp=[[0]*(n2+1) for i in range(n1+1)]
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(S1[index1]==S2[index2]):
+                dp[i][j]=1+dp[i-1][j-1]
+            else:
+                dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+    temp=[]
+    i,j=n1,n2
+    while(i>0 and j>0):
+        index1,index2=i-1,j-1
+        if(S1[index1]==S2[index2]):
+            temp.append(S1[index1])
+            i-=1
+            j-=1
+        else:
+            if(dp[i-1][j]>dp[i][j-1]):
+                temp.append(S1[index1])
+                i-=1
+            else:
+                temp.append(S2[index2])
+                j-=1
+    while i>0:
+        temp.append(S1[i-1])
+        i-=1
+    while j>0:
+        temp.append(S2[j-1])
+        j-=1
+    return "".join(temp[::-1])
+S1=input()
+S2=input()
+n1=len(S1)
+n2=len(S2)
+print(tabulation(S1,S2,n1,n2))
+```
+
+<br>
+<br>
+
+<h4>34.Distinct Subsequences : Count Of Different Subsequnces</h4>
+  <h5>We are given two strings S1 and S2, we want to know how many distinct subsequences of S2 are present in S1.</h5>
+  <img src="https://lh4.googleusercontent.com/xo9fySafqrICbnFuGmCaAooWdzSJFDUV0Vm_1-yyA_z23Qega-BRMN0NVWIYrmF9jnDKTKU1I07NhGhT5D5dmJc-5OTYXpzlwTXIseopikjJY-QM8VPJSrmhSaCDyXCZIwF-ABjr">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given two strings s1 and s2</p>
+  <p>We have to find number of times s2 present in s1</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>both strings can be represented interms index 0...n1-1, 0...n2-1</p>
+  <p>let us assume, f(index1,index2) -> it represents the count of s2 from 0 ...index2 present in s1 of 0 ... index1</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>Since we are finding s2 in s1</p>
+  <p>we are comparing s2 charcters with s1</p>
+  <p>If s2 characters all are compared and came to end, then s2 present in s1</p>
+  <p>index2<0 -> 1</p>
+  <p>if s1 characters all are compared and came to end, still s2 is there means, s2 not found in s1 anymore</p>
+  <p>index1<0 -> 0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>To check the existance of s2 in s1, we will compare characters of s2 with characters if s1 in order</p>
+  <p>when comparing, if Character of s2 matches with s1, then we will increase s1 position to find remaining characters</p>
+  <p>But, s2 will have two posibilities</p>
+  <p>1.S2 may exist another time also</p>
+  <p>2.S2 needs to compare for reminaing characters</p>
+  <p>We have to combine both cases, since we are finding total ways</p>
+  <p>f(index1-1,index2)=>check for another existance</p>
+  <p>f(index1-1,index2-1)=>checking for remianing characters of s2</p>
+  <p>f(index1-1,index2)+f(index1-1,index2-1) if(s1[index1]==s2[index2])</p>
+  <p>If characters of s1 and s2 at current position not mataches, then we will move to next position in s1</p>
+  <p>f(index1-1,index2) if(s1[index1]!=s2[index2])</p>
+
+```python
+  if(s1[index1]==s2[index2]):
+    return f(index1-1,index2)+f(index1-1,index2-1)
+  else:
+    return f(index1-1,index2)
+```
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(s1,s2,index1,index2):
+    if(index2<0):
+        return 1
+    if(index1<0):
+        return 0
+    if(s1[index1]==s2[index2]):
+        return recursive(s1,s2,index1-1,index2-1)+recursive(s1,s2,index1-1,index2)
+    else:
+        return recursive(s1,s2,index1-1,index2)
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+print(recursive(s1,s2,n1-1,n2-1))
+```
+<p>TC : O(2^(n1*n2))</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(s1,s2,index1,index2,memo):
+    key=(index1,index2)
+    if key in memo:
+        return memo[key]
+    if(index2<0):
+        return 1
+    if(index1<0):
+        return 0
+    if(s1[index1]==s2[index2]):
+        memo[key]=memorization(s1,s2,index1-1,index2-1,memo)+memorization(s1,s2,index1-1,index2,memo)
+        return memo[key]
+    else:
+        memo[key]=memorization(s1,s2,index1-1,index2,memo)
+        return memo[key]
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+memo={}
+print(memorization(s1,s2,n1-1,n2-1,memo))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we are dealing with string, to implement tabulation we have to represent strings in 1-based indexing</p>
+<p>So that, for empty strings, index will be 0</p>
+
+```python
+def tabulation(s1,s2,n1,n2):
+    dp=[[0]*(n2+1) for i in range(n1+1)]
+    for i in range(n2+1):
+        dp[i][0]=1
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(s1[index1]==s2[index2]):
+                dp[i][j]=dp[i-1][j-1]+dp[i-1][j]
+            else:
+                dp[i][j]=dp[i-1][j]
+    return dp[n1][n2]
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+print(tabulation(s1,s2,n1,n2))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+def optimization(s1,s2,n1,n2):
+    dp_prev=[0]*(n2+1)
+    dp_curr=[0]*(n2+1)
+    dp_prev[0]=1
+    dp_curr[0]=1
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(s1[index1]==s2[index2]):
+                dp_curr[j]=dp_prev[j-1]+dp_prev[j]
+            else:
+                dp_curr[j]=dp_prev[j]
+        dp_prev=dp_curr.copy()
+    return dp_curr[n2]
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+print(optimization(s1,s2,n1,n2))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : o(n2)</p>
+
+
+<br>
+<br>
+
+<h4>35.Edit Distance : Min Number Of Operations(insert/replace/delete) to Convert S1 to S2</h4>
+  <h5>We are given two strings ‘S1’ and ‘S2’. We need to convert S1 to S2. The following three operations are allowed:</h5>
+  <h5>1.Deletion of a character.</h5>
+  <h5>2.Replacement of a character with another one.</h5>
+  <h5>3.Insertion of a character.</h5>
+  <h5>We have to return the minimum number of operations required to convert S1 to S2 as our answer.</h5>
+  <img src="https://lh6.googleusercontent.com/Dxn0cvswqpu9nszd6gMXThvxbSwlyz_lLBUwzYmyNhvV9LcGNYWUjC9D8T9iP0pUlaf1WRtpYz061ttrSe8cvo-DvUeknkKX8MuDrBy4_JhsSqj4TVKoEoePOauIEpvN-UaeSZ5N">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have two strings s1 and s2, each of them has length n1 and n2</p>
+  <p>We have to convert s1 to s2, either we can insert,delete,replace operation</p>
+  <p>We have to find minium operations to convert s1 to s2</p>
+  <p>At a time we can do only one action on one character only</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>two strings can be represented in terms of index's, i.e 0..n1 and 0..n2</p>
+  <p>f(index1,index2) -> represents minimum operation to convert s1 in 0...index1 to s2 in 0...index2</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>while comparing, if s2 becomes empty and s1 has still characters, then minimum operations = number of characters left in s1, that has to be added in s2 to make it equal</p>
+  <p>index2<0 -> index1+1</p>
+    <p>while comparing, if s1 becomes empty and s2 has still characters, then minimum operations = number of characters left in s2, that has to be deleted in s2 to make it equal</p>
+  <p>index1<0 -> index2+1</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>To make s1==s2, we will compare each character in s1 and s2</p>
+  <p>if both are equal, we don't need any operation and move on to next position</p>
+  <p>f(index1-1,index2-1) if(s1[index1]==s2[index2])</p>
+  <p>if both are diiferent, we have three ways to make it equal</p>
+  <p>1.replace s1[index] with s2[index], then both positions has to move next position -> f(index1-1,index2-1)</p>
+  <p>2.we can delete s1[index] and try matching for next position -> f(index1-1,index2)</p>
+  <p>3.we can insert s2[index2] at index2, so that they become equal, so index1 position willnot change because new character inserted -> f(index1,index2-1)</p>
+  <p>we have to take minimum of all three posibilities</p>
+
+```python
+if(S1[index2]==S2[index2]):
+    return f(index1-1,index2-1)
+else:
+    replace=1+f(index1-1,index2-1)
+    insert=1+f(index1-1,index2)
+    delete=1+f(index1,index2-1)
+    return min(replace,insert,delete)
+```
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+def recursive(s1,s2,index1,index2):
+    if(index1<0):
+        return index2+1
+    if(index2<0):
+        return index1+1
+    if(s1[index1]==s2[index2]):
+        return recursive(s1,s2,index1-1,index2-1)
+    else:
+        replace=1+recursive(s1,s2,index1-1,index2-1)
+        insert=1+recursive(s1,s2,index1-1,index2)
+        delete=1+recursive(s1,s2,index1,index2-1)
+        return min(replace,insert,delete)
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+print(recursive(s1,s2,n1-1,n2-1))
+```
+<p>TC : O(2^(n1*n2))</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+def memorization(s1,s2,index1,index2,memo):
+    key=(index1,index2)
+    if key in memo:
+        return memo[key]
+    if(index1<0):
+        return index2+1
+    if(index2<0):
+        return index1+1
+    if(s1[index1]==s2[index2]):
+        memo[key]=memorization(s1,s2,index1-1,index2-1,memo)
+        return memo[key]
+    else:
+        replace=1+memorization(s1,s2,index1-1,index2-1,memo)
+        insert=1+memorization(s1,s2,index1-1,index2,memo)
+        delete=1+memorization(s1,s2,index1,index2-1,memo)
+        memo[key]=min(replace,insert,delete)
+        return memo[key]
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+memo={}
+print(memorization(s1,s2,n1-1,n2-1,memo))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+<p>Since we are dealing with string, to implement tabulation we have to represent strings in 1-based indexing</p>
+<p>So that, for empty strings, index will be 0</p>
+
+```python
+def tabulation(s1,s2,n1,n2):
+    dp=[[0]*(n2+1) for i in range(n1+1)]
+    for i in range(1,n1+1):
+        dp[i][0]=i
+    for i in range(1,n2+1):
+        dp[0][i]=i
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            index1,index2=i-1,j-1
+            if(s1[index1]==s2[index2]):
+                dp[i][j]=dp[i-1][j-1]
+            else:
+                replace=1+dp[i-1][j-1]
+                insert=1+dp[i-1][j]
+                delete=1+dp[i][j-1]
+                dp[i][j]=min(replace,insert,delete)
+    return dp[n1][n2]
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+print(tabulation(s1,s2,n1,n2))
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : O(n1*n2)</p>
+<h5>Step-7 : Space Optimization </h5>
+
+```python
+def optimization(s1,s2,n1,n2):
+    dp_prev=[0]*(n2+1)
+    dp_curr=[0]*(n2+1)
+    dp_curr[0]=0
+    for i in range(1,n2+1):
+        dp_prev[i]=i
+    for i in range(1,n1+1):
+        for j in range(1,n2+1):
+            dp_curr[0]=i
+            index1,index2=i-1,j-1
+            if(s1[index1]==s2[index2]):
+                dp_curr[j]=dp_prev[j-1]
+            else:
+                replace=1+dp_prev[j-1]
+                insert=1+dp_prev[j]
+                delete=1+dp_curr[j-1]
+                dp_curr[j]=min(replace,insert,delete)
+        dp_prev=dp_curr.copy()
+    return dp_curr[n2]
+s1,s2=input(),input()
+n1,n2=len(s1),len(s2)
+print(optimization(s1,s2,n1,n2))
+
+```
+<p>TC : O(n1*n2)</p>
+<p>SC : o(n2)</p>
