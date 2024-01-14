@@ -3772,3 +3772,852 @@ print(optimization(s1,s2,n1,n2))
 ```
 <p>TC : O(n1*n2)</p>
 <p>SC : o(n2)</p>
+
+
+<h4>Buy Stock And Sell Stock</h4>
+
+<h4>36.Stock Buy and Sell - Only Once</h4>
+  <h5>We are given an array Arr[] of length n. It represents the price of a stock on ‘n’ days. The following guidelines need to be followed:</h5>
+  <h5>1.We can buy and sell a stock only once.</h5>
+  <h5>2.We can buy and sell the stock on any day but to sell the stock, we need to first buy it on the same or any previous day</h5>
+  <h5>We need to tell the maximum profit one can get by buying and selling this stock.</h5>
+  <img src="https://lh5.googleusercontent.com/WaSUJP7a-wdh21ouptzUhMLo-BtsTuTFgTMMlHT04QuUNxMgTplPO5OM8YcSSVh7YJin-9McwXTgE3DhEt41NsEKWYrj0eQuHHy3OpLHd0Vxq0r_GAca6gDduslaKKDsPir_srCwPW-VWHMunw">
+<h5>Step-1 : Define The Problem</h5>
+  <p>We have given an array of size n, which has set stock prices</p>
+  <p>We have to buy a stock and sell</p>
+  <p>Profit will be = Price of buy - Price of sell</p>
+  <p>We have to find maximum profit</p>
+  <p>We can sell stock after buying it only</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>We have given array arr of size n</p>
+  <p>We have to find two elements such that, first element should be less than second</p>
+  <p>Difference between two elements should be maximum</p>
+  <p>Two elements should be in order, index of first < index of second</p>
+  <p>To Find Solution, we have to check all elements</p>
+  <p>Consider minimum value at first index, that means we bought stock at first day</p>
+  <p>Traverse from 2nd element last</p>
+  <p>Find profit for each element</p>
+  <p>Update minimum value with each current element</p>
+  <p>So that, for Each element we are considering small element before it</p>
+  <p>Find maximum profit among all elements</p>
+
+```python
+def solve(arr,n):
+    profit=0
+    minimum=arr[0]
+    buy=minimum
+    for i in range(1,n):
+        sell=arr[i]
+        currentProfit=sell-buy
+        profit=max(profit,currentProfit)
+        minimum=min(minimum,i)
+        buy=minimum
+    return profit
+
+n=int(input())
+arr=list(map(int,input().split()))
+print(solve(arr,n))
+```
+
+<p>TC : O(n)</p>
+<p>SC : O(1)</p>
+
+<br>  
+<br>  
+
+<h4>37.Buy and Sell Stock – II - Any Number Of Times</h4>
+  <h5>We are given an array Arr[] of length n. It represents the price of a stock on ‘n’ days. The following guidelines need to be followed:</h5>
+  <h5>1.We can buy and sell the stock any number of times.</h5>
+  <h5>2.In order to sell the stock, we need to first buy it on the same or any previous day.</h5>
+  <h5>3.We can’t buy a stock again after buying it once. In other words, we first buy a stock and then sell it. After selling we can buy and sell again. But we can’t sell before buying and can’t buy before selling any previously bought stock.</h5>
+  <img src="https://lh5.googleusercontent.com/zB6ZI4VKz1wuOUIcy34-72m4C_kl-zAgHhJxoqf4LcS1SvIRGIwGBrOa3Fd2Xkiva7oYDDKoNhpKl4TALlCRfTKTIhXVEiwUyLjo3WVZzPQUNjr_KZk6400qcz-kV6P4Q8D93kSnqHJ9D9yO3g">
+  <img src="https://lh5.googleusercontent.com/Ywcl51fuLn1PbwBi2CvwH_Crq0hGgLXk0wgOxh0Imiti_6f4iXi6Dz5GqOd8_m6T6QOIFnIeTka7HSwFDl8QzleMRm2g3cUMkFZ8XXoYaUOXUMGKCgoLSuMUPVVUeBcBYEz96HV1NWFByVsyHA">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given an array which represents the set of stock prices</p>
+  <p>We have to buy a stock and sell</p>
+  <p>Profit will be = Price of buy - Price of sell</p>
+  <p>We have to find maximum profit</p>
+  <P>we can buy and sell the stock any number of times</p>
+  <p>Before selling a stock we have to buy the stock first</p>
+  <p>We have to find total maximum profit</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>We have given an array which can be represented in terms of indexes</p>
+  <p>We have to find maximum profit we can get from 0 to n-1 stocks</p>
+  <p>f(index,buy)-> maximum profit we have earned from 0 to index stocks</p>
+  <p>Buy -> It represents the whether we can buy or sell stock, since we can sell stock only after buying</p>
+  <p>Buy (0) -> Stock can be sell</p>
+  <p>BUy (1) -> Stock can be buy</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if index == n, it means there no more stocks, profit will be zero</p>
+  <p>index == n -> 0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>Since, we have multiple options for buying and selling</p>
+  <p>We have to all possible options</p>
+  <p>Consider each stock for Buying and not Buying case</p>
+  <p>Consider each stock for Selling and not Selling case</p>
+  <p>We have to find maximum of all cases</p>
+  <p>We know that, for selling a stock it need to be bought before, for that we are using variable 'Buy'</p>
+  <p>if buy=1, it means we can buy stock and can't sell now</p>
+  <p>If we are buying a stock means, we are reducing our profit by arr[index] and moving forward to sell it</p>
+  <p>Another case is, we don't want to buy now try for next element</p>
+  <p>include=-arr[index]+f(index+1,0)</p>
+  <p>exclude=f(index+1,buy)</p>
+  <p>if buy=0, it means we can sell stock and can't buy now</p>
+  <p>If we are selling a stock means, we are increasing our profit by arr[index] and moving forward to buy it</p>
+  <p>Another case is, we don't want to sell now try for next element</p>
+  <p>include=arr[index]+f(index+1,1)</p>
+  <p>exclude=f(index+1,buy)</p>
+  <p>finally take maximum of all choices</p>
+
+```python
+    if(buy==1):
+      include=-arr[index]+f(index+1,0)
+      exclude=f(index+1,buy)
+    else:
+      include=arr[index]+f(index+1,1)
+      exclude=f(index+1,buy)
+    return max(include,exclude)
+```
+
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(arr,n,index,buy):
+    if(index==n):
+        return 0
+    if(buy==1):
+        include=-arr[index]+recursive(arr,n,index+1,0)
+        exclude=recursive(arr,n,index+1,buy)
+    else:
+        include=arr[index]+recursive(arr,n,index+1,1)
+        exclude=recursive(arr,n,index+1,buy)
+    return max(include,exclude)
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  print(recursive(arr,n,0,1))
+```
+<p>TC : O(2^N)</p>
+<p>SC : O(N)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+  def memorization(arr,n,index,buy,memo):
+    key=(index,buy)
+    if key in memo:
+        return memo[key]
+    if(index==n):
+        return 0
+    if(buy==1):
+        include=-arr[index]+memorization(arr,n,index+1,0,memo)
+        exclude=memorization(arr,n,index+1,buy,memo)
+    else:
+        include=arr[index]+memorization(arr,n,index+1,1,memo)
+        exclude=memorization(arr,n,index+1,buy,memo)
+    memo[key]=max(include,exclude)
+    return memo[key]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  memo={}
+  print(memorization(arr,n,0,1,memo))
+```
+<p>TC : O(N*2)</p>
+<p>SC : O(N)+O(N*2)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+  <p>Try out all possible cases like buy and sell at each element</p>
+  <p>Store each answer</p>
+  <p>return answer if we buy at first index</p>
+  <p>Since we have two option, we are creating an array of size n*2</p>
+
+```python
+  def tabulation(arr,n):
+    dp=[[0]*(n+1) for i in range(2)]
+    dp[0][n]=0
+    dp[1][n]=0
+    for i in range(n-1,-1,-1):
+        for buy in range(2):
+            if(buy==1):
+                include=-arr[i]+dp[0][i+1]
+                exclude=dp[buy][i+1]
+            else:
+                include=arr[i]+dp[1][i+1]
+                exclude=dp[buy][i+1]
+            dp[buy][i]=max(include,exclude)
+    return dp[1][0]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  print(tabulation(arr,n))
+```
+<p>TC : O(2*N)</p>
+<p>SC : O(2*N)</p>
+<h5>Step-7 : Space Optimization </h5>
+  <p>Since we are using next two answers only</p>
+  <p>We can use two variables instead of storing entire answers</p>
+
+```python
+  def optimization(arr,n):
+    dp_next=[0]*2
+    dp_curr=[0]*2
+    for i in range(n-1,-1,-1):
+        for buy in range(2):
+            if(buy==1):
+                include=-arr[i]+dp_next[0]
+                exclude=dp_next[buy]
+            else:
+                include=arr[i]+dp_next[1]
+                exclude=dp_next[buy]
+            dp_curr[buy]=max(include,exclude)
+        dp_next=dp_curr.copy()
+    return dp_curr[1]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  print(optimization(arr,n))
+```
+<p>TC : O(2*N)</p>
+<p>SC : o(2)</p>
+
+<br> 
+<br>`
+
+
+<h4>38.Buy and Sell Stock – III - Atmost Two Times</h4>
+  <h5>We are given an array Arr[] of length n. It represents the price of a stock on ‘n’ days. The following guidelines need to be followed:</h5>
+  <h5>1.We can buy and sell the stock two times.</h5>
+  <h5>2.In order to sell the stock, we need to first buy it on the same or any previous day.</h5>
+  <h5>3.We can’t buy a stock again after buying it once. In other words, we first buy a stock and then sell it. After selling we can buy and sell again. But we can’t sell before buying and can’t buy before selling any previously bought stock.</h5>
+  <h5>4.We can do at most 2 transactions.</h5>
+  <img src="https://lh5.googleusercontent.com/sB8AyklVerFBUFwlhAxcNefX_t3oLxtx8ONeYmdM6_WExtgUDmKQnJIbRwwaUJZ3BaFqMwJEgfKUJJ3T_gs6ZsbiPGtDXs-oJhHYMNpZdfCIQJq0N4Y9r6N6x3sJqSnWNH9eA24QKAJB-rRa2g">
+  <img src="https://lh4.googleusercontent.com/5bxjbzg4Tyh6SkOSZ-_XMGoEGdh900ihysHjta4IGWWmz1O9L9A7STNY6lF3w9qGYmqY6BYOiO2FXr3ckseN048uBj079TTXb1P9aJdx5NpbjkY76hAm0iuHclMuRmpx29RWlzQjU4rf25ermQ">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given an array which represents the set of stock prices</p>
+  <p>We have to buy a stock and sell</p>
+  <p>Profit will be = Price of buy - Price of sell</p>
+  <p>We have to find maximum profit</p>
+  <P>we can buy and sell the stock atmost two times</p>
+  <p>Before selling a stock we have to buy the stock first</p>
+  <p>We have to find total maximum profit</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>We have given an array which can be represented in terms of indexes</p>
+  <p>We have to find maximum profit we can get from 0 to n-1 stocks</p>
+  <p>f(index,buy,cap)-> maximum profit we have earned from 0 to index stocks with number transactions left cap</p>
+  <p>Buy -> It represents the whether we can buy or sell stock, since we can sell stock only after buying</p>
+  <p>cap -> Number time we have sold stocks till now</p>
+  <p>Buy (0) -> Stock can be sell</p>
+  <p>BUy (1) -> Stock can be buy</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if index == n, it means there no more stocks, profit will be zero</p>
+  <p>index == n -> 0</p>
+  <p>Since we can do atmost two transactions, we are using another variable capacity which used to track the number if times we have sold the stock</p>
+  <p>if capacity==0 -> it means we can't sell stock any more,so profit will be zero</p>
+  <p>capacity==0 -> 0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>It is completely similar to previous problem, but we are limiting tranasactions to 2 times</p>
+  <p>To track number transactions, we can count how many times we have sold stocks</p>
+  <p>So, whenever we sold stock, we will reduce cap with 1</p>
+
+```python
+    if(buy==1):
+      include=-arr[index]+f(index+1,0,cap)
+      exclude=f(index+1,buy,cap)
+    else:
+      include=arr[index]+f(index+1,1,cap-1)
+      exclude=f(index+1,buy,cap)
+    return max(include,exclude)
+```
+
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(arr,n,index,buy,cap):
+    if(index==n):
+        return 0
+    if(cap==0):
+        return 0
+    if(buy==1):
+        include=-arr[index]+recursive(arr,n,index+1,0,cap)
+        exclude=recursive(arr,n,index+1,buy,cap)
+    else:
+        include=arr[index]+recursive(arr,n,index+1,1,cap-1)
+        exclude=recursive(arr,n,index+1,buy,cap)
+    return max(include,exclude)
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  cap=2
+  print(recursive(arr,n,0,1,cap))
+```
+<p>TC : O(2^(N*3))</p>
+<p>SC : O(N)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+  def memorization(arr,n,index,buy,cap,memo):
+    key=(index,buy,cap)
+    if key in memo:
+        memo[key]
+    if(index==n):
+        return 0
+    if(cap==0):
+        return 0
+    if(buy==1):
+        include=-arr[index]+memorization(arr,n,index+1,0,cap,memo)
+        exclude=memorization(arr,n,index+1,buy,cap,memo)
+    else:
+        include=arr[index]+memorization(arr,n,index+1,1,cap-1,memo)
+        exclude=memorization(arr,n,index+1,buy,cap,memo)
+    memo[key]=max(include,exclude)
+    return memo[key]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  memo={}
+  cap=2
+  print(memorization(arr,n,0,1,cap,memo))
+```
+<p>TC : O(N*2*3)</p>
+<p>SC : O(N)+O(N*2*3)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+  <p>Try out all possible cases like buy and sell at each element</p>
+  <p>Store each answer</p>
+  <p>return answer if we buy at first index</p>
+  <p>Since we have two option and three transactions, we are creating an array of size n*2*3</p>
+
+```python
+  def tabulation(arr,n,capacity):
+    dp=[[[0]*(capacity+1) for i in range(2)] for i in range(n+1)]
+    for i in range(2):
+        for j in range(1,capacity+1):
+            dp[n][i][j]=0
+    for i in range(1,n+1):
+        for j in range(2):
+            dp[i][j][0]=0
+    for index in range(n-1,-1,-1):
+        for buy in range(2):
+            for cap in range(1,capacity+1):
+                if(buy==1):
+                    include=-arr[index]+dp[index+1][0][cap]
+                    exclude=dp[index+1][buy][cap]
+                else:
+                    include=arr[index]+dp[index+1][1][cap-1]
+                    exclude=dp[index+1][buy][cap]
+                dp[index][buy][cap]=max(include,exclude)
+    return dp[0][1][2]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  cap=2
+  print(tabulation(arr,n,cap))
+```
+<p>TC : O(2*N*3)</p>
+<p>SC : O(2*N*3)</p>
+<h5>Step-7 : Space Optimization </h5>
+  <p>Since we are using next two answers only</p>
+  <p>We can use two possible cases instead of storing entire answers</p>
+
+```python
+  def optimization(arr,n,capacity):
+    dp_prev=[[0]*(capacity+1) for i in range(2)]
+    dp_curr=[[0]*(capacity+1) for i in range(2)] 
+    for index in range(n-1,-1,-1):
+        for buy in range(2):
+            for cap in range(1,capacity+1):
+                if(buy==1):
+                    include=-arr[index]+dp_prev[0][cap]
+                    exclude=dp_prev[buy][cap]
+                else:
+                    include=arr[index]+dp_prev[1][cap-1]
+                    exclude=dp_prev[buy][cap]
+                dp_curr[buy][cap]=max(include,exclude)
+        dp_prev=dp_curr.copy()
+    return dp_curr[1][2]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  cap=2
+  print(optimization(arr,n,cap))
+```
+<p>TC : O(2*N*3)</p>
+<p>SC : o(2*3)</p>
+
+<br> 
+<br>
+
+<h4>38.Buy and Sell Stock – IV - Atmost K Times</h4>
+  <h5>We are given an array Arr[] of length n. It represents the price of a stock on ‘n’ days. The following guidelines need to be followed:</h5>
+  <h5>1.We can buy and sell the stock two times.</h5>
+  <h5>2.In order to sell the stock, we need to first buy it on the same or any previous day.</h5>
+  <h5>3.We can’t buy a stock again after buying it once. In other words, we first buy a stock and then sell it. After selling we can buy and sell again. But we can’t sell before buying and can’t buy before selling any previously bought stock.</h5>
+  <h5>4.We can do at most k transactions.</h5>
+  <img src="https://lh5.googleusercontent.com/sB8AyklVerFBUFwlhAxcNefX_t3oLxtx8ONeYmdM6_WExtgUDmKQnJIbRwwaUJZ3BaFqMwJEgfKUJJ3T_gs6ZsbiPGtDXs-oJhHYMNpZdfCIQJq0N4Y9r6N6x3sJqSnWNH9eA24QKAJB-rRa2g">
+  <img src="https://lh3.googleusercontent.com/sP2GC3TmU9AUN4w7LuD7KPS4xFOp4YcchlwZPCrLRW4ONCubtJUihGunwBQtgQRRVeIe8b0c3-hUsLyNSoW__onvwLekWOvzwP3nw88kJfeeoutcIJHmxAGfSYssSa2Ig8RkHcZ6xd2BDR0FHA">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given an array which represents the set of stock prices</p>
+  <p>We have to buy a stock and sell</p>
+  <p>Profit will be = Price of buy - Price of sell</p>
+  <p>We have to find maximum profit</p>
+  <P>we can buy and sell the stock atmost k times</p>
+  <p>Before selling a stock we have to buy the stock first</p>
+  <p>We have to find total maximum profit</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>We have given an array which can be represented in terms of indexes</p>
+  <p>We have to find maximum profit we can get from 0 to n-1 stocks</p>
+  <p>f(index,buy,cap)-> maximum profit we have earned from 0 to index stocks with number transactions left cap</p>
+  <p>Buy -> It represents the whether we can buy or sell stock, since we can sell stock only after buying</p>
+  <p>cap -> Number time we have sold stocks till now</p>
+  <p>Buy (0) -> Stock can be sell</p>
+  <p>BUy (1) -> Stock can be buy</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if index == n, it means there no more stocks, profit will be zero</p>
+  <p>index == n -> 0</p>
+  <p>Since we can do atmost two transactions, we are using another variable capacity which used to track the number if times we have sold the stock</p>
+  <p>if capacity==0 -> it means we can't sell stock any more,so profit will be zero</p>
+  <p>capacity==0 -> 0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>It is completely similar to previous problem, but we are limiting tranasactions to 2 times</p>
+  <p>To track number transactions, we can count how many times we have sold stocks</p>
+  <p>So, whenever we sold stock, we will reduce cap with 1</p>
+
+```python
+    if(buy==1):
+      include=-arr[index]+f(index+1,0,cap)
+      exclude=f(index+1,buy,cap)
+    else:
+      include=arr[index]+f(index+1,1,cap-1)
+      exclude=f(index+1,buy,cap)
+    return max(include,exclude)
+```
+
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(arr,n,index,buy,cap):
+    if(index==n):
+        return 0
+    if(cap==0):
+        return 0
+    if(buy==1):
+        include=-arr[index]+recursive(arr,n,index+1,0,cap)
+        exclude=recursive(arr,n,index+1,buy,cap)
+    else:
+        include=arr[index]+recursive(arr,n,index+1,1,cap-1)
+        exclude=recursive(arr,n,index+1,buy,cap)
+    return max(include,exclude)
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  cap=int(input())
+  print(recursive(arr,n,0,1,cap))
+```
+<p>TC : O(2^(N*k))</p>
+<p>SC : O(N)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+  def memorization(arr,n,index,buy,cap,memo):
+    key=(index,buy,cap)
+    if key in memo:
+        memo[key]
+    if(index==n):
+        return 0
+    if(cap==0):
+        return 0
+    if(buy==1):
+        include=-arr[index]+memorization(arr,n,index+1,0,cap,memo)
+        exclude=memorization(arr,n,index+1,buy,cap,memo)
+    else:
+        include=arr[index]+memorization(arr,n,index+1,1,cap-1,memo)
+        exclude=memorization(arr,n,index+1,buy,cap,memo)
+    memo[key]=max(include,exclude)
+    return memo[key]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  memo={}
+  cap=int(input())
+  print(memorization(arr,n,0,1,cap,memo))
+```
+<p>TC : O(N*2*k)</p>
+<p>SC : O(N)+O(N*2*k)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+  <p>Try out all possible cases like buy and sell at each element</p>
+  <p>Store each answer</p>
+  <p>return answer if we buy at first index</p>
+  <p>Since we have k option and three transactions, we are creating an array of size n*2*k</p>
+
+```python
+  def tabulation(arr,n,capacity):
+    dp=[[[0]*(capacity+1) for i in range(2)] for i in range(n+1)]
+    for i in range(2):
+        for j in range(1,capacity+1):
+            dp[n][i][j]=0
+    for i in range(1,n+1):
+        for j in range(2):
+            dp[i][j][0]=0
+    for index in range(n-1,-1,-1):
+        for buy in range(2):
+            for cap in range(1,capacity+1):
+                if(buy==1):
+                    include=-arr[index]+dp[index+1][0][cap]
+                    exclude=dp[index+1][buy][cap]
+                else:
+                    include=arr[index]+dp[index+1][1][cap-1]
+                    exclude=dp[index+1][buy][cap]
+                dp[index][buy][cap]=max(include,exclude)
+    return dp[0][1][2]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  cap=int(input())
+  print(tabulation(arr,n,cap))
+```
+<p>TC : O(2*N*k)</p>
+<p>SC : O(2*N*k)</p>
+<h5>Step-7 : Space Optimization </h5>
+  <p>Since we are using next k answers only</p>
+  <p>We can use two possible cases instead of storing entire answers</p>
+
+```python
+  def optimization(arr,n,capacity):
+    dp_prev=[[0]*(capacity+1) for i in range(2)]
+    dp_curr=[[0]*(capacity+1) for i in range(2)] 
+    for index in range(n-1,-1,-1):
+        for buy in range(2):
+            for cap in range(1,capacity+1):
+                if(buy==1):
+                    include=-arr[index]+dp_prev[0][cap]
+                    exclude=dp_prev[buy][cap]
+                else:
+                    include=arr[index]+dp_prev[1][cap-1]
+                    exclude=dp_prev[buy][cap]
+                dp_curr[buy][cap]=max(include,exclude)
+        dp_prev=dp_curr.copy()
+    return dp_curr[1][2]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  cap=int(input())
+  print(optimization(arr,n,cap))
+```
+<p>TC : O(2*N*k)</p>
+<p>SC : o(2*k)</p>
+
+<br> 
+<br>
+
+<h4>40.Buy and Sell Stocks With Cooldown : Non-Adjacent Buying</h4>
+  <h5>We are given an array Arr[] of length n. It represents the price of a stock on ‘n’ days. The following guidelines need to be followed:</h5>
+  <h5>1.We can buy and sell the stock any number of times.</h5>
+  <h5>2.In order to sell the stock, we need to first buy it on the same or any previous day.</h5>
+  <h5>3.We can’t buy a stock again after buying it once. In other words, we first buy a stock and then sell it. After selling we can buy and sell again. But we can’t sell before buying and can’t buy before selling any previously bought stock.</h5>
+  <p>4.We can’t buy a stock on the very next day of selling it. This is the cooldown clause.</p>
+  <img src="https://lh6.googleusercontent.com/4Zn1umvHMA2nKuNoqoh7RxjiymbzBm5KiDJnjbJT8XalxRVZpexPXPFd9ztYVMVPgBJwDv-uZ5R9C4gQVhZbHZnS0Yf7Fsgnbz_wbsyuRxIWGIqa34RZT_4x8PRtPAU44tRXg_30a1Ds90DBHw">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given an array which represents the set of stock prices</p>
+  <p>We have to buy a stock and sell</p>
+  <p>Profit will be = Price of buy - Price of sell</p>
+  <p>We have to find maximum profit</p>
+  <P>we can buy and sell the stock any number of times</p>
+  <p>Before selling a stock we have to buy the stock first</p>
+  <p>after selling a stock, we can't buy the immediate to it.</p>
+  <p>We have to find total maximum profit</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>We have given an array which can be represented in terms of indexes</p>
+  <p>We have to find maximum profit we can get from 0 to n-1 stocks</p>
+  <p>f(index,buy)-> maximum profit we have earned from 0 to index stocks</p>
+  <p>Buy -> It represents the whether we can buy or sell stock, since we can sell stock only after buying</p>
+  <p>Buy (0) -> Stock can be sell</p>
+  <p>BUy (1) -> Stock can be buy</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if index >= n, it means there no more stocks, profit will be zero</p>
+  <p>index >= n -> 0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>Since, we have multiple options for buying and selling</p>
+  <p>We have to all possible options</p>
+  <p>Consider each stock for Buying and not Buying case</p>
+  <p>Consider each stock for Selling and not Selling case</p>
+  <p>We have to find maximum of all cases</p>
+  <p>We know that, for selling a stock it need to be bought before, for that we are using variable 'Buy'</p>
+  <p>if buy=1, it means we can buy stock and can't sell now</p>
+  <p>If we are buying a stock means, we are reducing our profit by arr[index] and moving forward to sell it</p>
+  <p>Another case is, we don't want to buy now try for next element</p>
+  <p>include=-arr[index]+f(index+1,0)</p>
+  <p>exclude=f(index+1,buy)</p>
+  <p>if buy=0, it means we can sell stock and can't buy now</p>
+  <p>If we are selling a stock means, we are increasing our profit by arr[index] and moving forward to buy it</p>
+  <p>since we can't buy immediate to it, we have to move 2 indexes forward</p>
+  <p>Another case is, we don't want to sell now try for next element</p>
+  <p>include=arr[index]+f(index+2,1)</p>
+  <p>exclude=f(index+1,buy)</p>
+  <p>finally take maximum of all choices</p>
+
+```python
+    if(buy==1):
+      include=-arr[index]+f(index+1,0)
+      exclude=f(index+1,buy)
+    else:
+      include=arr[index]+f(index+2,1)
+      exclude=f(index+1,buy)
+    return max(include,exclude)
+```
+
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(arr,n,index,buy):
+    if(index>=n):
+        return 0
+    if(buy==1):
+        include=-arr[index]+recursive(arr,n,index+1,0)
+        exclude=recursive(arr,n,index+1,buy)
+    else:
+        include=arr[index]+recursive(arr,n,index+2,1)
+        exclude=recursive(arr,n,index+1,buy)
+    return max(include,exclude)
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  print(recursive(arr,n,0,1))
+```
+<p>TC : O(2^N)</p>
+<p>SC : O(N)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+  def memorization(arr,n,index,buy,memo):
+    key=(index,buy)
+    if key in memo:
+        return memo[key]
+    if(index>=n):
+        return 0
+    if(buy==1):
+        include=-arr[index]+memorization(arr,n,index+1,0,memo)
+        exclude=memorization(arr,n,index+1,buy,memo)
+    else:
+        include=arr[index]+memorization(arr,n,index+2,1,memo)
+        exclude=memorization(arr,n,index+1,buy,memo)
+    memo[key]=max(include,exclude)
+    return memo[key]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  memo={}
+  print(memorization(arr,n,0,1,memo))
+```
+<p>TC : O(N*2)</p>
+<p>SC : O(N)+O(N*2)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+  <p>Try out all possible cases like buy and sell at each element</p>
+  <p>Store each answer</p>
+  <p>return answer if we buy at first index</p>
+  <p>Since we have two option, we are creating an array of size n*2</p>
+
+```python
+  def optimization(arr,n):
+    dp_1=[0]*2
+    dp_2=[0]*2
+    dp_curr=[0]*2
+    for i in range(n-1,-1,-1):
+        for buy in range(2):
+            if(buy==1):
+                include=-arr[i]+dp_1[0]
+                exclude=dp_1[buy]
+            else:
+                include=arr[i]+dp_2[1]
+                exclude=dp_1[buy]
+            dp_curr[buy]=max(include,exclude)
+        dp_2=dp_1.copy()
+        dp_1=dp_curr.copy()
+    return dp_curr[1]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  print(tabulation(arr,n))
+```
+<p>TC : O(2*N)</p>
+<p>SC : O(2*N)</p>
+<h5>Step-7 : Space Optimization </h5>
+  <p>Since we are using next two answers only</p>
+  <p>We can use two variables instead of storing entire answers</p>
+
+```python
+  def optimization(arr,n):
+    dp_next=[0]*2
+    dp_curr=[0]*2
+    for i in range(n-1,-1,-1):
+        for buy in range(2):
+            if(buy==1):
+                include=-arr[i]+dp_next[0]
+                exclude=dp_next[buy]
+            else:
+                include=arr[i]+dp_next[1]
+                exclude=dp_next[buy]
+            dp_curr[buy]=max(include,exclude)
+        dp_next=dp_curr.copy()
+    return dp_curr[1]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  print(optimization(arr,n))
+```
+<p>TC : O(2*N)</p>
+<p>SC : o(2)</p>
+
+<br> 
+<br>
+
+<h4>41.Buy and Sell Stocks With Transaction Fees</h4>
+  <h5>We are given an array Arr[] of length n. It represents the price of a stock on ‘n’ days. The following guidelines need to be followed:</h5>
+  <h5>1.We can buy and sell the stock any number of times.</h5>
+  <h5>2.In order to sell the stock, we need to first buy it on the same or any previous day.</h5>
+  <h5>3.We can’t buy a stock again after buying it once. In other words, we first buy a stock and then sell it. After selling we can buy and sell again. But we can’t sell before buying and can’t buy before selling any previously bought stock.</h5>
+  <h5>After every transaction, there is a transaction fee (‘fee’) associated with it.</h5>
+  <img src="https://lh6.googleusercontent.com/866cL-zsSTzdcjj4UDPIDuq_hoVRl4h1bft6tRtz-0Rt1J8YE1AA60A0ykrd9flbU_7t1vXAyTzoUISze1GNl5vLYRkFdIec0T5FeojfHmHl4PhzBLAsREic7aqg621KkCnq33ykxJ-zKSDe6Q">
+  <img src="https://lh3.googleusercontent.com/Idhh02-mIl8QIOk9qs-V5Y-Y4tVKaMoiEPYhoJcCqJJtuk2fHXxhnHp0wizveQTn2d7wydD96s5MfioAnFjN1hE_OEVyOrJZqLtU8rjygm5BP8SvyKqYzOGinYgrhQg5nf9znufY57gMubbELw">
+<h5>Step-1 : Define The Problem</h5>
+  <p>we have given an array which represents the set of stock prices</p>
+  <p>We have to buy a stock and sell</p>
+  <p>Profit will be = Price of buy - Price of sell</p>
+  <p>We have to find maximum profit</p>
+  <P>we can buy and sell the stock any number of times</p>
+  <p>Before selling a stock we have to buy the stock first</p>
+  <p>After Selling every stock , there will be some transaction fee, we have to reduce it from profit</p>
+  <p>We have to find total maximum profit</p>
+<h5>Step-2 : Represent the Problem Programmatically</h5>
+  <p>We have given an array which can be represented in terms of indexes</p>
+  <p>We have to find maximum profit we can get from 0 to n-1 stocks</p>
+  <p>f(index,buy)-> maximum profit we have earned from 0 to index stocks</p>
+  <p>Buy -> It represents the whether we can buy or sell stock, since we can sell stock only after buying</p>
+  <p>Buy (0) -> Stock can be sell</p>
+  <p>BUy (1) -> Stock can be buy</p>
+<h5>Step-3 : Finding Base Cases</h5>
+  <p>if index == n, it means there no more stocks, profit will be zero</p>
+  <p>index == n -> 0</p>
+<h5>Step-4 : Finding The Recurrence Relation</h5> 
+  <p>Since, we have multiple options for buying and selling</p>
+  <p>We have to all possible options</p>
+  <p>Consider each stock for Buying and not Buying case</p>
+  <p>Consider each stock for Selling and not Selling case</p>
+  <p>We have to find maximum of all cases</p>
+  <p>We know that, for selling a stock it need to be bought before, for that we are using variable 'Buy'</p>
+  <p>if buy=1, it means we can buy stock and can't sell now</p>
+  <p>If we are buying a stock means, we are reducing our profit by arr[index] and moving forward to sell it</p>
+  <p>Another case is, we don't want to buy now try for next element</p>
+  <p>include=-arr[index]+f(index+1,0)</p>
+  <p>exclude=f(index+1,buy)</p>
+  <p>if buy=0, it means we can sell stock and can't buy now</p>
+  <p>If we are selling a stock means, we are increasing our profit by arr[index] and moving forward to buy it</p>
+  <p>Whenver we are selling we have to reduce transaction fee also</p>
+  <p>Another case is, we don't want to sell now try for next element</p>
+  <p>include=arr[index]-fee+f(index+1,1)</p>
+  <p>exclude=f(index+1,buy)</p>
+  <p>finally take maximum of all choices</p>
+
+```python
+    if(buy==1):
+      include=-arr[index]+f(index+1,0)
+      exclude=f(index+1,buy)
+    else:
+      include=arr[index]-fee+f(index+1,1)
+      exclude=f(index+1,buy)
+    return max(include,exclude)
+```
+
+<h5>Step-5 : Recursive Solution</h5>
+
+
+
+```python
+def recursive(arr,n,fee,index,buy):
+    if(index==n):
+        return 0
+    if(buy==1):
+        include=-arr[index]+recursive(arr,n,fee,index+1,0)
+        exclude=recursive(arr,n,fee,index+1,buy)
+    else:
+        include=arr[index]-fee+recursive(arr,n,fee,index+1,1)
+        exclude=recursive(arr,n,fee,index+1,buy)
+    return max(include,exclude)
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  fee=int(input())
+  print(recursive(arr,n,fee,0,1))
+```
+<p>TC : O(2^N)</p>
+<p>SC : O(N)</p>
+<h5>Step-5 : Memorization</h5>
+
+```python
+  def memorization(arr,n,fee,index,buy,memo):
+    key=(index,buy)
+    if key in memo:
+        return memo[key]
+    if(index==n):
+        return 0
+    if(buy==1):
+        include=-arr[index]+memorization(arr,n,fee,index+1,0,memo)
+        exclude=memorization(arr,n,fee,index+1,buy,memo)
+    else:
+        include=arr[index]-fee+memorization(arr,n,fee,index+1,1,memo)
+        exclude=memorization(arr,n,fee,index+1,buy,memo)
+    memo[key]=max(include,exclude)
+    return memo[key]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  memo={}
+  fee=int(input())
+  print(memorization(arr,n,fee,0,1,memo))
+```
+<p>TC : O(N*2)</p>
+<p>SC : O(N)+O(N*2)</p>
+<h5>Step-6 : Iterative Implementation / Tabulation</h5>
+  <p>Try out all possible cases like buy and sell at each element</p>
+  <p>Store each answer</p>
+  <p>return answer if we buy at first index</p>
+  <p>Since we have two option, we are creating an array of size n*2</p>
+
+```python
+  def tabulation(arr,n,fee):
+    dp=[[0]*(n+1) for i in range(2)]
+    dp[0][n]=0
+    dp[1][n]=0
+    for i in range(n-1,-1,-1):
+        for buy in range(2):
+            if(buy==1):
+                include=-arr[i]+dp[0][i+1]
+                exclude=dp[buy][i+1]
+            else:
+                include=arr[i]-fee+dp[1][i+1]
+                exclude=dp[buy][i+1]
+            dp[buy][i]=max(include,exclude)
+    return dp[1][0]
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  fee=int(input())
+  print(tabulation(arr,n,fee))
+```
+<p>TC : O(2*N)</p>
+<p>SC : O(2*N)</p>
+<h5>Step-7 : Space Optimization </h5>
+  <p>Since we are using next two answers only</p>
+  <p>We can use two variables instead of storing entire answers</p>
+
+```python
+  def optimization(arr,n,fee):
+    dp_next=[0]*2
+    dp_curr=[0]*2
+    for i in range(n-1,-1,-1):
+        for buy in range(2):
+            if(buy==1):
+                include=-arr[i]+dp_next[0]
+                exclude=dp_next[buy]
+            else:
+                include=arr[i]-fee+dp_next[1]
+                exclude=dp_next[buy]
+            dp_curr[buy]=max(include,exclude)
+        dp_next=dp_curr.copy()
+    return dp_curr[1
+  arr=list(map(int,input().split()))
+  n=len(arr)
+  fee=int(input())
+  print(optimization(arr,n,fee))
+```
+<p>TC : O(2*N)</p>
+<p>SC : o(2)</p>
+
+<br> 
+<br>
