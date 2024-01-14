@@ -1474,20 +1474,19 @@ print(max(excludeFirst,excludeLast))
 <h5>Step-6 : Iterative Implementation / Tabulation</h5>
 
 ```python
-  def tabulation(m,n,matrix):
-    dp=[[0]*n for i in range(m)]
-    dp[0][0]=matrix[0][0]
-    for i in range(m):
-        for j in range(n):
-            if(i==0 and j==0):
-                continue
-            left,top=float('inf'),float('inf')
-            if(j-1>=0):
-                left=matrix[i][j]+dp[i][j-1]
-            if(i-1>=0):
-                top=matrix[i][j]+dp[i-1][j]
-            dp[i][j]=min(left,top)
-    return dp[m-1][n-1]
+  def tabulation(n,matrix):
+    dp=[[0]*i for i in range(1,n+1)]
+    for i in range(n):
+        dp[n-1][i]=matrix[n-1][i]
+    for i in range(n-2,-1,-1):
+        for j in range(i+1):
+            bottom,bottomRight=float('inf'),float('inf')
+            if(i+1>0 and j<=(i+1)):
+                bottom=matrix[i][j]+dp[i+1][j]
+            if(i+1>0 and (j+1)<=(i+1)):
+                bottomRight=matrix[i][j]+dp[i+1][j+1]
+            dp[i][j]=min(bottom,bottomRight)
+    return dp[0][0]
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
   print(tabulation(m,n,matrix))
