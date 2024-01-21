@@ -227,8 +227,486 @@ For example, consider the following directed graph representation...
 <br>
 <img src="http://www.btechsmartclass.com/data_structures/ds_images/Graph%20Incidence%20Matrix.jpg">
 <br>
+<h3>Problems</h3>
+<h4>Creating Graph</h4>
+<p>A graph can be represented in either adjacency matrix and adjacency list</p>
+<p>Adjacency List</p>
+
+<p>Undirected Graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i),int(j)) for i,j in edges]
+graph={i:set() for i in range(1,n+1)}
+for i,j in edges_conv:
+    graph[i].add(j)
+    graph[j].add(i)
+print(graph)
+```
+
+<p>Directed Graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i),int(j)) for i,j in edges]
+graph={i:set() for i in range(1,n+1)}
+for i,j in edges_conv:
+    graph[i].add(j)
+print(graph)
+```
+
+<p>Undirected Weighted Graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i),int(j),int(w)) for i,j,w in edges]
+graph={i:dict() for i in range(1,n+1)}
+for i,j,w in edges_conv:
+    graph[i][j]=w
+    graph[j][i]=w
+print(graph)
+```
+
+<p>Directed Weighted Graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i),int(j),int(w)) for i,j,w in edges]
+graph={i:dict() for i in range(1,n+1)}
+for i,j,w in edges_conv:
+    graph[i][j]=w
+print(graph)
+```
+
+<p>Adjacency Matrix</p>
+
+<p>Undirected graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i)-1,int(j)-1) for i,j in edges]
+graph=[[0]*n for i in range(n)]
+for i,j in edges_conv:
+    graph[i][j]=1
+    graph[j][i]=1
+print(*graph,sep="\n")
+```
+
+<p>Directed graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i)-1,int(j)-1) for i,j in edges]
+graph=[[0]*n for i in range(n)]
+for i,j in edges_conv:
+    graph[i][j]=1
+print(*graph,sep="\n")
+```
+
+<p>Weighted Undirected graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i)-1,int(j)-1,int(w)) for i,j,w in edges]
+graph=[[0]*n for i in range(n)]
+for i,j,w in edges_conv:
+    graph[i][j]=w
+    graph[j][i]=w
+print(*graph,sep="\n")
+```
+
+<p>Weighted directed graph</p>
+
+```python
+n,e=list(map(int,input().split()))
+edges=[input().split() for i in range(e)]
+edges_conv=[(int(i)-1,int(j)-1,int(w)) for i,j,w in edges]
+graph=[[0]*n for i in range(n)]
+for i,j,w in edges_conv:
+    graph[i][j]=w
+print(*graph,sep="\n")
+```
+
+<h5>Breadth First Search</h5>
+
+```python
+queue=[]
+visited={i:False for i in range(1,n+1)}
+queue.append(1)
+visited[1]=True
+while queue:
+    temp=queue.pop(0)
+    print(temp,end="->")
+    for i in graph[temp]:
+        if not visited[i]:
+            visited[i]=True
+            queue.append(i)
+```
+
+<h5>Depth First Search</h5>
+
+```python
+stack=[]
+visited={i:False for i in range(1,n+1)}
+visited[1]=True
+stack.append(1)
+while stack:
+    temp=stack.pop()
+    print(temp,end="->")
+    for i in graph[temp]:
+        if not visited[i]:
+            visited[i]=True
+            stack.append(i)
+
+```
+
+<p>Using Recursion</p>
+
+```python
+def dfs(node):
+    global visited
+    visited[node]=True
+    print(node,end="->")
+    for i in graph[node]:
+        if not visited[i]:
+            dfs(i)
+visited={i:False for i in range(1,n+1)}
+for i in range(1,n+1):
+	dfs(i)
+```
+
+<h5>1.Number of Provinces</h5>
+<p>Given an undirected graph with V vertices. We say two vertices u and v belong to a single province if there is a path from u to v or v to u. Your task is to find the number of provinces.</p>
+<img src="https://lh4.googleusercontent.com/Vwi5EtntYRGiFEYNhOgiQvlBxmD7RklrbgeseG7kjf1sYVDmcdTtr3HtklVbhdvvmNeQomW7wcbnOgVnYtcWcYoMeld67HC_-HCg5weQktMUY3gFN5koWPhoXONLtSerDkJBK6F7BegkK-CN1iwGSNM"/>
+
+```python
+def bfs(graph,i):
+    global visited
+    queue=[i]
+    visited[i]=False
+    while queue:
+        temp=queue.pop(0)
+        for j in graph[temp]:
+            if(not visited[j]):
+                visited[j]=True
+                queue.append(j)
+
+n,e=int(input("Enter number of nodes : ")),int(input("Enter number of edges : "))
+edges=[input().split() for i in range(e)]
+edges_converted=[(int(i),int(j)) for i,j in edges]
+graph={i:set() for i in range(1,n+1)}
+for i,j in edges_converted:
+    graph[i].add(j)
+    graph[j].add(i)
+visited={i:False for i in range(1,n+1)}
+count=0
+for i in range(1,n+1):
+    if(not visited[i]):
+        count+=1
+        bfs(graph,i)
+        
+print(count)
+```
+
+<h5>2.Number of Islands</h5>
+<p>Given a grid of size NxM (N is the number of rows and M is the number of columns in the grid) consisting of ‘0’s (Water) and ‘1’s(Land). Find the number of islands.</p>
+<p>An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically or diagonally i.e., in all 8 directions.</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/08/image-2.png"/>
+<p>Output: 3</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/08/image-4.png"/>
+<p>Output: 1</p>
+
+```python
+def bfs(matrix,i,j):
+    global visited
+    queue=[(i,j)]
+    visited[i][j]=1
+    while queue:
+        temp=queue.pop(0)
+        r,c=temp
+        for row in range(-1,2):
+            for col in range(-1,2):
+                ro=r+row
+                co=c+col
+                if(ro>=0 and ro<n and co>=0 and co<m and matrix[ro][co] and (not visited[ro][co])):
+                    visited[ro][co]=1
+                    queue.append((ro,co))
+    
+n,m=int(input("Enter row size : ")),int(input("Enter column size : "))
+matrix=[list(map(int,input().split())) for i in range(n)]
+visited=[[0 for j in range(m)] for i in range(n)]
+count=0
+for i in range(n):
+    for j in range(m):
+        if(matrix[i][j] and (not visited[i][j])):
+            count+=1
+            bfs(matrix,i,j)
+print(count)
+```
+
+<h5>3.Rotten Oranges : Min time to rot all oranges : BFS</h5>
+<p>You will be given an m x n grid, where each cell has the following values : </p>
+<p>2  –  represents a rotten orange</p>
+<p>1  –  represents a Fresh orange</p>
+<p>0  –  represents an Empty Cell</p>
+<p>Every minute, if a Fresh Orange is adjacent to a Rotten Orange in 4-direction ( upward, downwards, right, and left ) it becomes Rotten. 
+Return the minimum number of minutes required such that none of the cells has a Fresh Orange. If it’s not possible, return -1.</p>
+<img src="https://lh3.googleusercontent.com/L1EzxJ4FUwvQb7G8pJ9rO1Crx5SykbcRrsSn_lW9ZlT6E6KtqfCfg3twYfTGZw3q9fD0RCzo84oktZTuwsbiJYN-osewe9BaJHAKstiqiT_kiZh4ZPBnKoVSGm89e5QRXYA-5i13"/>
+<img src="https://lh3.googleusercontent.com/XKWocUensy0Kubpp05af0peLXbkLylI6BoSd66v7siGsp-dYljICrSJF5ggo6ueqtDTZ9MVZHNVTJEi2cR3c4ByQwHel9xLzVsPlkxVPnwyL6wefOmBUzGArazUivXI0efsUbsvF"/>
+
+```python
+n=int(input("Enter row size : "))
+m=int(input("Enter column size : "))
+matrix=[list(map(int,input().split())) for i in range(n)]
+queue=[]
+count=0
+ct=0
+final=-float('inf')
+for i in range(n):
+    for j in range(m):
+        if(matrix[i][j]==2):
+            queue.append((i,j,0))
+        if(matrix[i][j]==1):
+            count+=1
+a,b=[0,0,1,-1],[1,-1,0,0]
+while queue:
+    temp=queue.pop(0)
+    r,c,v=temp
+    for i in range(4):
+        r1=r+a[i]
+        c1=c+b[i]
+        if(r1>=0 and r1<n and c1<m and c1>=0 and matrix[r1][c1]==1):
+            matrix[r1][c1]+=1
+            ct+=1
+            queue.append((r1,c1,v+1))
+            final=max(final,v+1)
+print(*matrix,sep="\n")
+if(ct==count):
+    print(final)
+else:
+    print(-1)
+```
+
+<h5>4.Flood Fill Algorithm</h5>
+<p>An image is represented by a 2-D array of integers, each integer representing the pixel value of the image. Given a coordinate (sr, sc) representing the starting pixel (row and column) of the flood fill, and a pixel value newColor, “flood fill” the image.</p>
+<p>To perform a “flood fill”, consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same colour as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same colour as the starting pixel), and so on. Replace the colour of all of the aforementioned pixels with the newColor.</p>
+<p>Input :</p>
+<p>sr = 1, sc = 1, newColor = 2</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/08/Screenshot-2022-08-12-at-9.57.33-PM.png"/>
+<p>Output : </p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/08/Screenshot-2022-08-12-at-9.58.15-PM.png"/>
+
+```python
+n=int(input("Enter row size : "))
+m=int(input("Enter column size : "))
+matrix=[list(map(int,input().split())) for i in range(n)]
+sr=int(input("Enter starting row : "))
+sc=int(input("Enter starting column : "))
+newColor=int(input("Enter new color : "))
+queue=[(sr,sc)]
+target=matrix[sr][sc]
+a,b=[0,0,1,-1],[-1,1,0,0]
+matrix[sr][sc]=newColor
+while queue:
+    temp=queue.pop(0)
+    r,c=temp
+    for i in range(4):
+        r1,c1=r+a[i],c+b[i]
+        if(r1>=0 and r1<n and c1>=0 and c1<m and matrix[r1][c1]==target):
+            matrix[r1][c1]=newColor
+            queue.append((r1,c1))
+print(*matrix,sep="\n")
+```
+
+<h5>5.Distance of nearest cell having 1</h5>
+<p>The distance is calculated as |i1  – i2| + |j1 – j2|, where i1, j1 are the row number and column number of the current cell, and i2, j2 are the row number and column number of the nearest cell having value 1.</p>
+<p>Input :</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image.png"/>
+<p>Output :</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image-1.png"/>
+<p>Input :</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image-2.png"/>
+<p>Output :</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image-3.png"/>
+
+```python
+n=int(input("Enter row size : "))
+m=int(input("Enter column size : "))
+matrix=[list(map(int,input().split())) for i in range(n)]
+distance=[[0]*m for i in range(n)]
+visited=[[False]*m for i in range(n)]
+queue=[]
+for i in range(n):
+    for j in range(m):
+        if(matrix[i][j]==1):
+            queue.append((i,j,0))
+            visited[i][j]=True
+while queue:
+    temp=queue.pop(0)
+    i,j,v=temp
+    distance[i][j]=v
+    for r,c in zip([0,0,1,-1],[1,-1,0,0]):
+        row=i+r
+        col=j+c
+        if(row>=0 and row<n and col>=0 and col<m and (not visited[row][col])):
+            queue.append((row,col,v+1))
+            visited[row][col]=True
+print(*distance,sep="\n")
+```
+
+<h5>6.Surrounded Regions | Replace O’s with X’s</h5>
+<p>Given a matrix mat of size N x M where every element is either ‘O’ or ‘X’. Replace all ‘O’ with ‘X’ that is surrounded by ‘X’. An ‘O’ (or a set of ‘O’) is considered to be surrounded by ‘X’ if there are ‘X’ at locations just below, just above just left, and just right of it.</p>
+<p>Input : </p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image-4.png" />
+<p>Output : </p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image-5.png" />
+
+```python
+n=int(input("Enter row size : "))
+m=int(input("Enter column size : "))
+matrix=[input().split() for i in range(n)]
+visited=[[False]*m for i in range(n)]
+queue=[]
+for i in range(n):
+    if(matrix[i][0]=='0'):
+        queue.append((i,0))
+        visited[i][0]=True
+    if(matrix[i][m-1]=='0'):
+        queue.append((i,m-1))
+        visited[i][m-1]=True
+        
+for j in range(m):
+    if(matrix[0][j]=='0'):
+        queue.append((0,j))
+        visited[0][j]=True
+    if(matrix[n-1][j]=='0'):
+        queue.append((n-1,j))
+        visited[n-1][j]=True
+while queue:
+    temp=queue.pop(0)
+    for i,j in zip([0,0,1,-1],[1,-1,0,0]):
+        r=temp[0]+i
+        c=temp[1]+j
+        if(r<n and r>=0 and c<m and c>=0 and (not visited[r][c]) and matrix[r][c]=='0'):
+            queue.append((r,c))
+            visited[r][c]=True
+for i in range(n):
+    for j in range(m):
+        if(visited[i][j]==False and matrix[i][j]=='0'):
+            matrix[i][j]="x"
+print(*matrix,sep="\n")
+```
+
+<h5>7.Number of Enclaves</h5>
+<p>You are given an N x M binary matrix grid, where 0 represents a sea cell and 1 represents a land cell. A move consists of walking from one land cell to another adjacent (4-directionally) land cell or walking off the boundary of the grid. Find the number of land cells in the grid for which we cannot walk off the boundary of the grid in any number of moves.</p>
+<p>Input : </p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image-8.png"/>
+<p>Output : </p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/09/image-9.png"/>
+
+```python
+n=int(input("Enter row size : "))
+m=int(input("Enter column size : "))
+matrix=[list(map(int,input().split())) for i in range(n)]
+queue=[]
+visited=[[False]*m for i in range(n)]
+for i in range(n):
+    if(matrix[i][0]==1):
+        queue.append((i,0))
+    if(matrix[i][m-1]==1):
+        queue.append((i,m-1))
+for i in range(m):
+    if(matrix[0][i]==1):
+        queue.append((0,i))
+    if(matrix[n-1][i]==1):
+        queue.append((n-1,i))
+while queue:
+    temp=queue.pop(0)
+    r,c=temp
+    for i,j in zip([0,0,1,-1],[1,-1,0,0]):
+        row,col=r+i,c+j
+        if(row<n and col<m and row>=0 and col>=0 and (not visited[row][col]) and matrix[row][col]==1):
+            queue.append((row,col))
+            visited[row][col]=True
+count=0
+for i in range(n):
+    for j in range(m):
+        if((not visited[i][j]) and (matrix[i][j]==1)):
+            count+=1
+print(count)
+```
+<h5>8.Bipartite Graph | DFS Implementation</h5>
+<p>Given an adjacency list of a graph adj of V no. of vertices having 0 based index. Check whether the graph is bipartite or not.</p>
+<p>If we are able to colour a graph with two colours such that no adjacent nodes have the same colour, it is called a bipartite graph.</p>	
+<p>Input : </p>
+<img src="https://lh6.googleusercontent.com/f1-CHQzuniIrn7WtinG5FaUW7Fh9qv-nh08tQIKzRR7eiH92ENP5zyEfhvVNVHcgd1eXYPXDaHuFBfcradut28yMnASlUzXs74hNSohogzR2ek3UmcKW__W4IVIklgGkz6uNUorESJaak5roRO5EKrb5gg377GenUZngD8O7Nq7UXQJ7RKWXbrG1dg"/>
+<p>Output : 1</p>
+
+<p>Input : </p>
+<img src="https://lh4.googleusercontent.com/4uqS1cCTVVM7Y00AdKr344FE_xUnr0CcQTlV1gNrRey72wzHh-uyDQPbkT-KMSxQ9kiAIOQ-MCvSX211CivMoXf4rtQ1cKn4d8o7_OmtEtuFZ6I3h_8pNE6ReNXZvOg-5OVLUXZRYNTk1OGr6O8CBFtR5CiJqW8ub96i8hb3NJRUN28QjNXJzTxz_g"/>
+<p>Output : 0</p>
+
+```python
+def bfs(graph,i,col):
+    global color
+    queue=[(i,col)]
+    color[i]=col
+    while queue:
+        temp=queue.pop(0)
+        j,c=temp
+        for k in graph[j]:
+            if(color[k]==-1):
+                color[k]=(int(not c))
+                queue.append((k,int(not c)))
+            elif(color[k]==c):
+                return False
+    return True
+
+def dfs(i,col):
+    global color
+    color[i]=col
+    for j in graph[i]:
+        if(color[j]==-1):
+            temp=dfs(j,int(not col))
+            if(temp==False):
+                return False
+        elif(color[j]==col):
+            return False
+    return True
 
 
+n=int(input("Enter number of nodes : "))
+e=int(input("Enter number of edges : "))
+edges=[list(map(int,input().split())) for i in range(e)]
+graph={i:set() for i in range(1,n+1)}
+for i,j in edges:
+    graph[i].add(j)
+    graph[j].add(i)
+color={i:-1 for i in range(1,n+1)}
+for i in range(1,n+1):
+    if(color[i]==-1):
+        temp=bfs(graph,i,0)
+        if(not temp):
+            print("It is not biparite graph")
+            break
+else:
+    print("It is biparite graph")
 
-
+color={i:-1 for i in range(1,n+1)}
+for i in range(1,n+1):
+    if(color[i]==-1):
+        temp=dfs(i,0)
+        if(not temp):
+            print("It is not biparite graph")
+            break
+else:
+    print("It is biparite graph")
+```
 
