@@ -72,14 +72,14 @@
 
 ```python
   def recursive(n):
-    if(n<=1):
-        return n
-    if(n==2):
-        return 1 
-    prev=recursive(n-1)
-    prev2=recusive(n-2)
-    answer=prev+prev2
-    return answer
+	if(n<=1):
+		return n
+	if(n==2):
+		return 1 
+	prev=recursive(n-1)
+	prev2=recusive(n-2)
+	answer=prev+prev2
+	return answer
 
   n=int(input())
   print(recursive(n))
@@ -92,15 +92,15 @@
 
 ```python
   def memorization(n,memo):
-    if n in memo:
-        return memo[n]
-    if(n<=1):
-        return n
-    a=memorization(n-1,memo)
-    b=memorization(n-2,memo)
-    answer=a+b
-    memo[n]=answer
-    return memo[n]
+	if n in memo:
+		return memo[n]
+	if(n<=1):
+		return n
+	a=memorization(n-1,memo)
+	b=memorization(n-2,memo)
+	answer=a+b
+	memo[n]=answer
+	return memo[n]
   n=int(input())
   memo={}
   print(memorization(n,memo))
@@ -118,16 +118,16 @@
 
 ```python
   def tabulation(n):
-    dp=[0]*(n+1)
-    dp[0]=0
-    dp[1]=1
-    dp[2]=1
-    for i in range(3,n+1):
-        prev=dp[i-1]
-        prev2=dp[i-2]
-        answer=prev+prev2
-        dp[i]=answer
-    return dp[n]
+	dp=[0]*(n+1)
+	dp[0]=0
+	dp[1]=1
+	dp[2]=1
+	for i in range(3,n+1):
+		prev=dp[i-1]
+		prev2=dp[i-2]
+		answer=prev+prev2
+		dp[i]=answer
+	return dp[n]
   n=int(input())
   print(tabulation(n))
 ```
@@ -139,13 +139,13 @@
 
 ```python
   def optimization(n):
-    prev=1
-    prev2=1
-    for i in range(3,n+1):
-        answer=prev+prev2
-        prev=prev2
-        prev2=answer
-    return prev2
+	prev=1
+	prev2=1
+	for i in range(3,n+1):
+		answer=prev+prev2
+		prev=prev2
+		prev2=answer
+	return prev2
   n=int(input())
   print(optimization(n))
 ```
@@ -205,14 +205,14 @@
 
 ```python
   def recursive(n):
-    if(n<=1):
-        return 1
-    if(n==2):
-        return 2 
-    prev=recursive(n-1)
-    prev2=recusive(n-2)
-    answer=prev+prev2
-    return answer
+	if(n<=1):
+		return 1
+	if(n==2):
+		return 2 
+	prev=recursive(n-1)
+	prev2=recusive(n-2)
+	answer=prev+prev2
+	return answer
   n=int(input())
   print(recursive(n))
 ```
@@ -224,17 +224,17 @@
 
 ```python
   def memorization(n,memo):
-    if n in memo:
-        return memo[n]
-    if(n<=1):
-        return 1
-    if(n==2):
-      return 2
-    a=memorization(n-1,memo)
-    b=memorization(n-2,memo)
-    answer=a+b
-    memo[n]=answer
-    return memo[n]
+	if n in memo:
+		return memo[n]
+	if(n<=1):
+		return 1
+	if(n==2):
+	  return 2
+	a=memorization(n-1,memo)
+	b=memorization(n-2,memo)
+	answer=a+b
+	memo[n]=answer
+	return memo[n]
   n=int(input())
   memo={}
   print(memorization(n,memo))
@@ -252,16 +252,16 @@
 
 ```python
   def tabulation(n):
-    dp=[0]*(n+1)
-    dp[0]=1
-    dp[1]=1
-    dp[2]=2
-    for i in range(3,n+1):
-        prev=dp[i-1]
-        prev2=dp[i-2]
-        answer=prev+prev2
-        dp[i]=answer
-    return dp[n]
+	dp=[0]*(n+1)
+	dp[0]=1
+	dp[1]=1
+	dp[2]=2
+	for i in range(3,n+1):
+		prev=dp[i-1]
+		prev2=dp[i-2]
+		answer=prev+prev2
+		dp[i]=answer
+	return dp[n]
   n=int(input())
   print(tabulation(n))
 ```
@@ -273,13 +273,13 @@
 
 ```python
   def optimization(n):
-    prev=2
-    prev2=1
-    for i in range(3,n+1):
-        answer=prev+prev2
-        prev=prev2
-        prev2=answer
-    return prev2
+	prev=2
+	prev2=1
+	for i in range(3,n+1):
+		answer=prev+prev2
+		prev=prev2
+		prev2=answer
+	return prev2
   n=int(input())
   print(optimization(n))
 ```
@@ -351,23 +351,23 @@
 ```python
   total=0
   for i in range(1,k+1):
-    if(n-i > 0):
-        total+=f(n-i)
+	if(n-i > 0):
+		total+=f(n-i)
 
 ```
 <h5>Step-5 : Recursive Solution</h5>
 
 ```python
   def recursive(n,k):
-    if(n==0):
-        return 1
-    if(n==1):
-        return 1
-    total=0
-    for i in range(1,k+1):
-        if(n-i >= 0):
-            total+=recursive(n-i,k)
-    return total
+	if(n==0):
+		return 1
+	if(n==1):
+		return 1
+	total=0
+	for i in range(1,k+1):
+		if(n-i >= 0):
+			total+=recursive(n-i,k)
+	return total
   n=int(input())
   k=int(input())
   print(recursive(n,k))
@@ -380,16 +380,16 @@
 
 ```python
   def memorization(n,k,memo):
-    if(n in memo):
-        return memo[n]
-    if(n<=1):
-        return 1
-    totalWays=0
-    for i in range(1,k+1):
-        if(n-i>=0):
-            totalWays+=memorization(n-i,k,memo)
-    memo[n]=totalWays
-    return memo[n]
+	if(n in memo):
+		return memo[n]
+	if(n<=1):
+		return 1
+	totalWays=0
+	for i in range(1,k+1):
+		if(n-i>=0):
+			totalWays+=memorization(n-i,k,memo)
+	memo[n]=totalWays
+	return memo[n]
   n=int(input())
   k=int(input())
   memo={}
@@ -408,15 +408,15 @@
 
 ```python
  def tabulation(n,k):
-    dp=[0]*(n+1)
-    dp[0],dp[1]=1,1
-    for i in range(2,n+1):
-        totalWays=0
-        for j in range(1,k+1):
-            if(i-j>=0):
-                totalWays+=dp[i-j]
-        dp[i]=totalWays
-    return dp[n]
+	dp=[0]*(n+1)
+	dp[0],dp[1]=1,1
+	for i in range(2,n+1):
+		totalWays=0
+		for j in range(1,k+1):
+			if(i-j>=0):
+				totalWays+=dp[i-j]
+		dp[i]=totalWays
+	return dp[n]
   n=int(input())
   k=int(input())
   print(tabulation(n,k))
@@ -470,14 +470,14 @@
 
 ```python
   def recursive(n,height):
-    if(n==0):
-        return 0
-    if(n==1):
-        return abs(height[1]-height[0])
-    prev=recursive(n-1,height)+abs(height[n-1]-height[n])
-    prev2=recursive(n-2,height)+abs(height[n-2]-height[n])
-    answer=min(prev,prev2)
-    return answer
+	if(n==0):
+		return 0
+	if(n==1):
+		return abs(height[1]-height[0])
+	prev=recursive(n-1,height)+abs(height[n-1]-height[n])
+	prev2=recursive(n-2,height)+abs(height[n-2]-height[n])
+	answer=min(prev,prev2)
+	return answer
   n=int(input())
   height=list(map(int,input().split()))
   print(recursive(n,height))
@@ -490,17 +490,17 @@
 
 ```python
   def memorization(n,height,memo):
-    if n in memo:
-        return memo
-    if(n==0):
-        return 0
-    if(n==1):
-        return abs(height[1]-height[0])
-    prev=memorization(n-1,height,memo)+abs(height[n-1]-height[n])
-    prev2=memorization(n-2,height,memo)+abs(height[n-2]-height[n])
-    answer=min(prev,prev2)
-    memo[n]=answer
-    return answer
+	if n in memo:
+		return memo
+	if(n==0):
+		return 0
+	if(n==1):
+		return abs(height[1]-height[0])
+	prev=memorization(n-1,height,memo)+abs(height[n-1]-height[n])
+	prev2=memorization(n-2,height,memo)+abs(height[n-2]-height[n])
+	answer=min(prev,prev2)
+	memo[n]=answer
+	return answer
   n=int(input())
   height=list(map(int,input().split()))
   memo={}
@@ -516,14 +516,14 @@
 
 ```python
 def tabulation(n,height):
-    dp=[0]*(n)
-    dp[0]=0
-    dp[1]=abs(height[0]-height[1])
-    for i in range(2,n):
-        prev=dp[i-1]+abs(height[i-1]-height[i])
-        prev2=dp[i-2]+abs(height[i-2]-height[i])
-        dp[i]=min(prev,prev2)
-    return dp[n-1]
+	dp=[0]*(n)
+	dp[0]=0
+	dp[1]=abs(height[0]-height[1])
+	for i in range(2,n):
+		prev=dp[i-1]+abs(height[i-1]-height[i])
+		prev2=dp[i-2]+abs(height[i-2]-height[i])
+		dp[i]=min(prev,prev2)
+	return dp[n-1]
 
   n=int(input())
   height=list(map(int,input().split()))
@@ -538,15 +538,15 @@ def tabulation(n,height):
 
 ```python
 def optimization(n,height):
-    prev2=0
-    prev=abs(height[0]-height[1])
-    for i in range(2,n):
-        a=prev+abs(height[i-1]-height[i])
-        b=prev2+abs(height[i-2]-height[i])
-        answer=min(a,b)
-        prev2=prev
-        prev=answer
-    return prev
+	prev2=0
+	prev=abs(height[0]-height[1])
+	for i in range(2,n):
+		a=prev+abs(height[i-1]-height[i])
+		b=prev2+abs(height[i-2]-height[i])
+		answer=min(a,b)
+		prev2=prev
+		prev=answer
+	return prev
 
   n=int(input())
   height=list(map(int,input().split()))
@@ -576,26 +576,26 @@ def optimization(n,height):
 
 ```python
 f(n)=min(f(n-1)+abs(height[n-1]-height[n]),
-         f(n-2)+abs(height[n-2]-height[n])
-         f(n-3)+abs(height[n-3]-height[n])
-         ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
-         ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
-         f(n-k)+abs(height[n-k]-height[n])
-         )
+		 f(n-2)+abs(height[n-2]-height[n])
+		 f(n-3)+abs(height[n-3]-height[n])
+		 ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
+		 ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
+		 f(n-k)+abs(height[n-k]-height[n])
+		 )
 ```
 <p> </p>
 <h5>Step-5 : Recursive Solution</h5>
 
 ```python
   def recursive(n,k,height):
-    if(n==0):
-        return 0
-    minEnergy=float('inf')
-    for i in range(1,k+1):
-        if((n-i)>=0):
-            temp=recursive(n-i,k,height)+abs(height[n-i]-height[n])
-            minEnergy=min(minEnergy,temp)
-    return minEnergy
+	if(n==0):
+		return 0
+	minEnergy=float('inf')
+	for i in range(1,k+1):
+		if((n-i)>=0):
+			temp=recursive(n-i,k,height)+abs(height[n-i]-height[n])
+			minEnergy=min(minEnergy,temp)
+	return minEnergy
   n=int(input())
   k=int(input())
   height=list(map(int,input().split()))
@@ -609,17 +609,17 @@ f(n)=min(f(n-1)+abs(height[n-1]-height[n]),
 
 ```python
   def memorization(n,k,height,memo):
-    if n in memo:
-        return memo[n]
-    if(n==0):
-        return 0
-    minEnergy=float('inf')
-    for i in range(1,k+1):
-        if((n-i)>=0):
-            temp=memorization(n-i,k,height,memo)+abs(height[n-i]-height[n])
-            minEnergy=min(minEnergy,temp)
-    memo[n]=minEnergy
-    return minEnergy
+	if n in memo:
+		return memo[n]
+	if(n==0):
+		return 0
+	minEnergy=float('inf')
+	for i in range(1,k+1):
+		if((n-i)>=0):
+			temp=memorization(n-i,k,height,memo)+abs(height[n-i]-height[n])
+			minEnergy=min(minEnergy,temp)
+	memo[n]=minEnergy
+	return minEnergy
   n=int(input())
   k=int(input())
   height=list(map(int,input().split()))
@@ -636,16 +636,16 @@ f(n)=min(f(n-1)+abs(height[n-1]-height[n]),
 
 ```python
 def tabulation(n,k,height):
-    dp=[0]*n
-    dp[0]=0
-    for i in range(1,n):
-        minEnergy=float('inf')
-        for j in range(1,k+1):
-            if(i-j >=0):
-                temp=dp[i-j]+abs(height[i-j]-height[i])
-                minEnergy=min(temp,minEnergy)
-            dp[i]=minEnergy
-    return dp[n-1]
+	dp=[0]*n
+	dp[0]=0
+	for i in range(1,n):
+		minEnergy=float('inf')
+		for j in range(1,k+1):
+			if(i-j >=0):
+				temp=dp[i-j]+abs(height[i-j]-height[i])
+				minEnergy=min(temp,minEnergy)
+			dp[i]=minEnergy
+	return dp[n-1]
 
   n=int(input())
   k=int(input())
@@ -714,14 +714,14 @@ the subsequence are adjacent elements in the array.</h5>
 
 ```python
  def recursive(n,arr):
-    if(n==0):
-        return arr[0]
-    if(n==1):
-        return max(arr[0],arr[1])
-    include=arr[n]+recursive(n-2,arr)
-    exclude=recursive(n-1,arr)
-    answer=max(include,exclude)
-    return answer
+	if(n==0):
+		return arr[0]
+	if(n==1):
+		return max(arr[0],arr[1])
+	include=arr[n]+recursive(n-2,arr)
+	exclude=recursive(n-1,arr)
+	answer=max(include,exclude)
+	return answer
 
   n=int(input())
   arr=list(map(int,input().split()))
@@ -735,17 +735,17 @@ the subsequence are adjacent elements in the array.</h5>
 
 ```python
   def memorization(n,arr,memo):
-    if n in memo:
-        return memo[n]
-    if(n==0):
-        return arr[0]
-    if(n==1):
-        return max(arr[0],arr[1])
-    include=arr[n]+memorization(n-2,arr,memo)
-    exclude=memorization(n-1,arr,memo)
-    answer=max(include,exclude)
-    memo[n]=answer
-    return memo[n]
+	if n in memo:
+		return memo[n]
+	if(n==0):
+		return arr[0]
+	if(n==1):
+		return max(arr[0],arr[1])
+	include=arr[n]+memorization(n-2,arr,memo)
+	exclude=memorization(n-1,arr,memo)
+	answer=max(include,exclude)
+	memo[n]=answer
+	return memo[n]
   n=int(input())
   arr=list(map(int,input().split()))
   memo={}
@@ -761,14 +761,14 @@ the subsequence are adjacent elements in the array.</h5>
 
 ```python
   def tabulation(n,arr):
-    dp=[0]*n
-    dp[0]=arr[0]
-    dp[1]=max(arr[0],arr[1])
-    for i in range(2,n):
-        include=arr[i]+dp[i-2]
-        exclude=dp[i-1]
-        dp[i]=max(include,exclude)
-    return dp[n-1]
+	dp=[0]*n
+	dp[0]=arr[0]
+	dp[1]=max(arr[0],arr[1])
+	for i in range(2,n):
+		include=arr[i]+dp[i-2]
+		exclude=dp[i-1]
+		dp[i]=max(include,exclude)
+	return dp[n-1]
   n=int(input())
   arr=list(map(int,input().split()))
   print(tabulation(n,arr))
@@ -781,15 +781,15 @@ the subsequence are adjacent elements in the array.</h5>
 
 ```python
   def optimization(n,arr):
-    prev2=arr[0]
-    prev=max(arr[0],arr[1])
-    for i in range(2,n):
-        include=arr[i]+prev2
-        exclude=prev
-        answer=max(include,exclude)
-        prev2=prev
-        prev=answer
-    return prev
+	prev2=arr[0]
+	prev=max(arr[0],arr[1])
+	for i in range(2,n):
+		include=arr[i]+prev2
+		exclude=prev
+		answer=max(include,exclude)
+		prev2=prev
+		prev=answer
+	return prev
   n=int(input())
   arr=list(map(int,input().split()))
   print(optimization(n,arr))
@@ -815,15 +815,15 @@ the subsequence are adjacent elements in the array.</h5>
 
 ```python
   def maxNonAdjSum(n,arr):
-    prev2=arr[0]
-    prev=max(arr[0],arr[1])
-    for i in range(2,n):
-        include=arr[i]+prev2
-        exclude=prev
-        answer=max(include,exclude)
-        prev2=prev
-        prev=answer
-    return prev
+	prev2=arr[0]
+	prev=max(arr[0],arr[1])
+	for i in range(2,n):
+		include=arr[i]+prev2
+		exclude=prev
+		answer=max(include,exclude)
+		prev2=prev
+		prev=answer
+	return prev
 n=int(input())
 arr=list(map(int,input().split()))
 excludeFirst=maxNonAdjSum(n-2,arr[1:])
@@ -859,11 +859,11 @@ print(max(excludeFirst,excludeLast))
 <p>Above all conditions will be written as follows</p>
 
 ```python
-    maxi=float('inf')
-    for i in range(3):
-      if(i!=last):
-        maxi=max(maxi,points[0][i])
-    return maxi
+	maxi=float('inf')
+	for i in range(3):
+	  if(i!=last):
+		maxi=max(maxi,points[0][i])
+	return maxi
 ```
 <p>So the base condition will be as follows</p>
 <p>If last = -1, then there is only one day, other wise there are more than one day</p>
@@ -875,11 +875,11 @@ print(max(excludeFirst,excludeLast))
 <p>f(0)=</p>
 
 ```python
-    maxi=float('-inf')
-    for i in range(3):
-      if(i!=last):
-        maxi=max(maxi,points[0][i])
-    return maxi
+	maxi=float('-inf')
+	for i in range(3):
+	  if(i!=last):
+		maxi=max(maxi,points[0][i])
+	return maxi
 ```
 
 <h5>Step-4 : Finding The Recurrence Relation</h5>
@@ -892,12 +892,12 @@ print(max(excludeFirst,excludeLast))
 <p>So the recurrance relation will be as follows</p>
 
 ```python 
-    for current_activity in range(3) : #looping throw each activity
-        maxi=float('-inf')
-        for last_activity in range(3):
-          if(current_activity!=last_activity):
-            maxi=max(maxi,current_activity_points+previous_activity_points)
-        current_activity_points=maxi
+	for current_activity in range(3) : #looping throw each activity
+		maxi=float('-inf')
+		for last_activity in range(3):
+		  if(current_activity!=last_activity):
+			maxi=max(maxi,current_activity_points+previous_activity_points)
+		current_activity_points=maxi
 
 ```
 
@@ -905,19 +905,19 @@ print(max(excludeFirst,excludeLast))
 
 ```python
  def recursive(day,last_picked_activity,points):
-    if(day==0):
-        maxi=float('-inf')
-        for activity in range(3):
-            if(activity!=last_picked_activity):
-                maxi=max(maxi,points[day][activity])
-        return maxi
+	if(day==0):
+		maxi=float('-inf')
+		for activity in range(3):
+			if(activity!=last_picked_activity):
+				maxi=max(maxi,points[day][activity])
+		return maxi
 
-    final=float('-inf')
-    for activity in range(3):
-        if(activity!=last_picked_activity):
-            temp=points[day][activity]+recursive(day-1,activity,points)
-            final=max(final,temp)
-    return final
+	final=float('-inf')
+	for activity in range(3):
+		if(activity!=last_picked_activity):
+			temp=points[day][activity]+recursive(day-1,activity,points)
+			final=max(final,temp)
+	return final
 
   n=int(input())
   points=[list(map(int,input().split())) for i in range(n)]
@@ -931,22 +931,22 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def memorization(day,last,points,memo):
-    key=(day,last)
-    if key in memo:
-        return memo[key]
-    if(day==0):
-        maxi=float('-inf')
-        for i in range(3):
-            if(i!=last):
-                maxi=max(maxi,points[day][i])
-        return maxi
-    final=float('-inf')
-    for i in range(3):
-        if(i!=last):
-            temp=points[day][i]+memorization(day-1,i,points,memo)
-            final=max(final,temp)
-    memo[key]=final
-    return final
+	key=(day,last)
+	if key in memo:
+		return memo[key]
+	if(day==0):
+		maxi=float('-inf')
+		for i in range(3):
+			if(i!=last):
+				maxi=max(maxi,points[day][i])
+		return maxi
+	final=float('-inf')
+	for i in range(3):
+		if(i!=last):
+			temp=points[day][i]+memorization(day-1,i,points,memo)
+			final=max(final,temp)
+	memo[key]=final
+	return final
   n=int(input())
   points=[list(map(int,input().split())) for i in range(n)]
   memo={}
@@ -957,26 +957,26 @@ print(max(excludeFirst,excludeLast))
 <h5>Step-6 : Iterative Implementation / Tabulation</h5>
 
 ```python
-    def tabulation(n,points):
-      dp=[[0]*3 for i in range(n)]
-      for last in range(3):
-          maxi=float('-inf')
-          for i in range(3):
-              if(i!=last):
-                  maxi=max(maxi,points[0][i])
-          dp[0][last]=maxi
-      for day in range(1,n):
-          for last in range(3):
-              final=float('-inf')
-              for activity in range(3):
-                  if(last!=activity):
-                      temp=points[day][activity]+dp[day-1][activity]
-                      final=max(final,temp)
-              dp[day][last]=final
-      return max(dp[n-1])
-    n=int(input())
-    points=[list(map(int,input().split())) for i in range(n)]
-    print(tabulation(n,points))
+	def tabulation(n,points):
+	  dp=[[0]*3 for i in range(n)]
+	  for last in range(3):
+		  maxi=float('-inf')
+		  for i in range(3):
+			  if(i!=last):
+				  maxi=max(maxi,points[0][i])
+		  dp[0][last]=maxi
+	  for day in range(1,n):
+		  for last in range(3):
+			  final=float('-inf')
+			  for activity in range(3):
+				  if(last!=activity):
+					  temp=points[day][activity]+dp[day-1][activity]
+					  final=max(final,temp)
+			  dp[day][last]=final
+	  return max(dp[n-1])
+	n=int(input())
+	points=[list(map(int,input().split())) for i in range(n)]
+	print(tabulation(n,points))
 ```
 <p>TC : O(n*3*3)</p>
 <p>SC : O(n*3)+o(n)</p>
@@ -986,28 +986,28 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def optimization(n,points):
-    dp_prev=[0,0,0]
-    
-    dp_curr=[0,0,0]
-    for last in range(3):
-        maxi=float('-inf')
-        for i in range(3):
-            if(i!=last):
-                maxi=max(maxi,points[0][i])
-        dp_prev[last]=maxi
-    for day in range(1,n):
-        for last in range(3):
-            final=float('-inf')
-            for activity in range(3):
-                if(last!=activity):
-                    temp=points[day][activity]+dp_prev[activity]
-                    final=max(final,temp)
-            dp_curr[last]=final
-        dp_prev=dp_curr.copy()
-    return max(dp_prev)
-    n=int(input())
-    points=[list(map(int,input().split())) for i in range(n)]
-    print(optimization(n,points))
+	dp_prev=[0,0,0]
+	
+	dp_curr=[0,0,0]
+	for last in range(3):
+		maxi=float('-inf')
+		for i in range(3):
+			if(i!=last):
+				maxi=max(maxi,points[0][i])
+		dp_prev[last]=maxi
+	for day in range(1,n):
+		for last in range(3):
+			final=float('-inf')
+			for activity in range(3):
+				if(last!=activity):
+					temp=points[day][activity]+dp_prev[activity]
+					final=max(final,temp)
+			dp_curr[last]=final
+		dp_prev=dp_curr.copy()
+	return max(dp_prev)
+	n=int(input())
+	points=[list(map(int,input().split())) for i in range(n)]
+	print(optimization(n,points))
 ```
 <p>TC : O(n*3*3)</p>
 <p>SC : O(n*3)+o(n)</p>
@@ -1055,13 +1055,13 @@ print(max(excludeFirst,excludeLast))
 
 ```python
  def recursive(row,column):
-    if(row==0 and column==0):
-        return 1
-    if(row<0 or column<0):
-        return 0
-    left=recursive(row,column-1)
-    top=recursive(row-1,column)
-    return top+left
+	if(row==0 and column==0):
+		return 1
+	if(row<0 or column<0):
+		return 0
+	left=recursive(row,column-1)
+	top=recursive(row-1,column)
+	return top+left
 
   m,n=list(map(int,input().split()))
   print(recursive(m-1,n-1))
@@ -1074,17 +1074,17 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def memorization(row,column,memo):
-    key=(row,column)
-    if key in memo:
-        return memo[key]
-    if(row==0 and column==0):
-        return 1
-    if(row<0 or column<0):
-        return 0
-    left=memorization(row,column-1,memo)
-    top=memorization(row-1,column,memo)
-    memo[key]=top+left
-    return memo[key]
+	key=(row,column)
+	if key in memo:
+		return memo[key]
+	if(row==0 and column==0):
+		return 1
+	if(row<0 or column<0):
+		return 0
+	left=memorization(row,column-1,memo)
+	top=memorization(row-1,column,memo)
+	memo[key]=top+left
+	return memo[key]
   m,n=list(map(int,input().split()))
   print(memorization(m-1,n-1,memo))
 ```
@@ -1094,19 +1094,19 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def tabulation(m,n):
-    dp=[[0]*n for i in range(m)]
-    dp[0][0]=1
-    for i in range(m):
-        for j in range(n):
-            if(i==0 and j==0):
-                continue
-            left,top=0,0
-            if(i-1>=0):
-                top=dp[i-1][j]
-            if(j-1>=0):
-                left=dp[i][j-1]
-            dp[i][j]=left+top
-    return dp[m-1][n-1]
+	dp=[[0]*n for i in range(m)]
+	dp[0][0]=1
+	for i in range(m):
+		for j in range(n):
+			if(i==0 and j==0):
+				continue
+			left,top=0,0
+			if(i-1>=0):
+				top=dp[i-1][j]
+			if(j-1>=0):
+				left=dp[i][j-1]
+			dp[i][j]=left+top
+	return dp[m-1][n-1]
   m,n=list(map(int,input().split()))
   print(tabulation(m,n))
 
@@ -1119,21 +1119,21 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def optimization(m,n):
-    dp_prev=[0]*n
-    dp_curr=[0]*n
-    dp_curr[0]=1
-    for i in range(m):
-        for j in range(n):
-            if(i==0 and j==0):
-                continue
-            left,top=0,0
-            if(j-1>=0):
-                left=dp_curr[j-1]
-            if(i-1>=0):
-                top=dp_prev[j]
-            dp_curr[j]=left+top
-        dp_prev=dp_curr.copy()
-    return dp_prev[n-1]
+	dp_prev=[0]*n
+	dp_curr=[0]*n
+	dp_curr[0]=1
+	for i in range(m):
+		for j in range(n):
+			if(i==0 and j==0):
+				continue
+			left,top=0,0
+			if(j-1>=0):
+				left=dp_curr[j-1]
+			if(i-1>=0):
+				top=dp_prev[j]
+			dp_curr[j]=left+top
+		dp_prev=dp_curr.copy()
+	return dp_prev[n-1]
 
   print(optimization(m,n))
 
@@ -1168,15 +1168,15 @@ print(max(excludeFirst,excludeLast))
 
 ```python
  def recursive(row,column,matrix):
-    if(row==0 and column==0 and matrix[row][column]==0):
-        return 1
-    if(row<0 or column<0):
-        return 0
-    if(matrix[row][column]==-1):
-        return 0
-    left=recursive(row,column-1,matrix)
-    top=recursive(row-1,column,matrix)
-    return left+top
+	if(row==0 and column==0 and matrix[row][column]==0):
+		return 1
+	if(row<0 or column<0):
+		return 0
+	if(matrix[row][column]==-1):
+		return 0
+	left=recursive(row,column-1,matrix)
+	top=recursive(row-1,column,matrix)
+	return left+top
 
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1190,19 +1190,19 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def memorization(row,column,matrix,memo):
-    key=(row,column)
-    if key in memo:
-        return memo[key]
-    if(row==0 and column==0 and matrix[row][column]==0):
-        return 1
-    if(row<0 or column<0):
-        return 0
-    if(matrix[row][column]==-1):
-        return 0
-    left=memorization(row,column-1,matrix,memo)
-    top=memorization(row-1,column,matrix,memo)
-    memo[key]=left+top
-    return memo[key]
+	key=(row,column)
+	if key in memo:
+		return memo[key]
+	if(row==0 and column==0 and matrix[row][column]==0):
+		return 1
+	if(row<0 or column<0):
+		return 0
+	if(matrix[row][column]==-1):
+		return 0
+	left=memorization(row,column-1,matrix,memo)
+	top=memorization(row-1,column,matrix,memo)
+	memo[key]=left+top
+	return memo[key]
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
   print(memorization(m-1,n-1,matrix,memo))
@@ -1213,19 +1213,19 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def tabulation(m,n,matrix):
-    dp=[[0]*n for i in range(m)]
-    dp[0][0]=1
-    for i in range(m):
-        for j in range(n):
-            if(i==0 and j==0):
-                continue
-            left,top=0,0
-            if(j-1>=0 and matrix[i][j-1]==0):
-                left=dp[i][j-1]
-            if(i-1>=0 and matrix[i-1][j]==0):
-                top=dp[i-1][j]
-            dp[i][j]=left+top
-    return dp[m-1][n-1]
+	dp=[[0]*n for i in range(m)]
+	dp[0][0]=1
+	for i in range(m):
+		for j in range(n):
+			if(i==0 and j==0):
+				continue
+			left,top=0,0
+			if(j-1>=0 and matrix[i][j-1]==0):
+				left=dp[i][j-1]
+			if(i-1>=0 and matrix[i-1][j]==0):
+				top=dp[i-1][j]
+			dp[i][j]=left+top
+	return dp[m-1][n-1]
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
   print(tabulation(m,n,matrix))
@@ -1239,21 +1239,21 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def optimization(m,n,matrix):
-    dp_prev=[0]*n
-    dp_curr=[0]*n
-    dp_curr[0]=1
-    for i in range(m):
-        for j in range(n):
-            if(i==0 and j==0):
-                continue
-            left,top=0,0
-            if(j-1>=0 and matrix[i][j-1]==0):
-                left=dp_curr[j-1]
-            if(i-1>=0 and matrix[i-1][j]==0):
-                top=dp_prev[j]
-            dp_curr[j]=left+top
-        dp_prev=dp_curr.copy()
-    return dp_prev[n-1]
+	dp_prev=[0]*n
+	dp_curr=[0]*n
+	dp_curr[0]=1
+	for i in range(m):
+		for j in range(n):
+			if(i==0 and j==0):
+				continue
+			left,top=0,0
+			if(j-1>=0 and matrix[i][j-1]==0):
+				left=dp_curr[j-1]
+			if(i-1>=0 and matrix[i-1][j]==0):
+				top=dp_prev[j]
+			dp_curr[j]=left+top
+		dp_prev=dp_curr.copy()
+	return dp_prev[n-1]
 
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1301,13 +1301,13 @@ print(max(excludeFirst,excludeLast))
 
 ```python
  def recursive(row,column,matrix):
-    if(row==0 and column==0):
-        return matrix[0][0]
-    if(row<0 or column<0):
-        return float('inf')
-    left=matrix[row][column]+recursive(row,column-1,matrix)
-    top=matrix[row][column]+recursive(row-1,column,matrix)
-    return min(left,top)
+	if(row==0 and column==0):
+		return matrix[0][0]
+	if(row<0 or column<0):
+		return float('inf')
+	left=matrix[row][column]+recursive(row,column-1,matrix)
+	top=matrix[row][column]+recursive(row-1,column,matrix)
+	return min(left,top)
 
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1321,17 +1321,17 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def memorization(row,column,matrix,memo):
-    key=(row,column)
-    if key in memo:
-        return memo[key]
-    if(row==0 and column==0):
-        return matrix[0][0]
-    if(row<0 or column<0):
-        return float('inf')
-    left=matrix[row][column]+memorization(row,column-1,matrix,memo)
-    top=matrix[row][column]+memorization(row-1,column,matrix,memo)
-    memo[key]=min(left,top)
-    return memo[key]
+	key=(row,column)
+	if key in memo:
+		return memo[key]
+	if(row==0 and column==0):
+		return matrix[0][0]
+	if(row<0 or column<0):
+		return float('inf')
+	left=matrix[row][column]+memorization(row,column-1,matrix,memo)
+	top=matrix[row][column]+memorization(row-1,column,matrix,memo)
+	memo[key]=min(left,top)
+	return memo[key]
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
   print(memorization(m-1,n-1,matrix,memo))
@@ -1342,19 +1342,19 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def tabulation(m,n,matrix):
-    dp=[[0]*n for i in range(m)]
-    dp[0][0]=matrix[0][0]
-    for i in range(m):
-        for j in range(n):
-            if(i==0 and j==0):
-                continue
-            left,top=float('inf'),float('inf')
-            if(j-1>=0):
-                left=matrix[i][j]+dp[i][j-1]
-            if(i-1>=0):
-                top=matrix[i][j]+dp[i-1][j]
-            dp[i][j]=min(left,top)
-    return dp[m-1][n-1]
+	dp=[[0]*n for i in range(m)]
+	dp[0][0]=matrix[0][0]
+	for i in range(m):
+		for j in range(n):
+			if(i==0 and j==0):
+				continue
+			left,top=float('inf'),float('inf')
+			if(j-1>=0):
+				left=matrix[i][j]+dp[i][j-1]
+			if(i-1>=0):
+				top=matrix[i][j]+dp[i-1][j]
+			dp[i][j]=min(left,top)
+	return dp[m-1][n-1]
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
   print(tabulation(m,n,matrix))
@@ -1368,21 +1368,21 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def optimization(m,n,matrix):
-    dp_prev=[0]*n
-    dp_curr=[0]*n
-    dp_curr[0]=matrix[0][0]
-    for i in range(m):
-        for j in range(n):
-            if(i==0 and j==0):
-                continue
-            left,top=float('inf'),float('inf')
-            if(j-1>=0):
-                left=matrix[i][j]+dp_curr[j-1]
-            if(i-1>=0):
-                top=matrix[i][j]+dp_prev[j]
-            dp_curr[j]=min(left,top)
-        dp_prev=dp_curr.copy()
-    return dp_prev[n-1]
+	dp_prev=[0]*n
+	dp_curr=[0]*n
+	dp_curr[0]=matrix[0][0]
+	for i in range(m):
+		for j in range(n):
+			if(i==0 and j==0):
+				continue
+			left,top=float('inf'),float('inf')
+			if(j-1>=0):
+				left=matrix[i][j]+dp_curr[j-1]
+			if(i-1>=0):
+				top=matrix[i][j]+dp_prev[j]
+			dp_curr[j]=min(left,top)
+		dp_prev=dp_curr.copy()
+	return dp_prev[n-1]
 
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1432,13 +1432,13 @@ print(max(excludeFirst,excludeLast))
 
 ```python
  def recursive(n,i,j,matrix):
-    if(i==n-1):
-        return matrix[i][j]
-    if(i<0 or j<0 or j>(i+1)):
-        return float('inf')
-    bottom=matrix[i][j]+recursive(n,i+1,j,matrix)
-    bottomRight=matrix[i][j]+recursive(n,i+1,j+1,matrix)
-    return min(bottom,bottomRight)
+	if(i==n-1):
+		return matrix[i][j]
+	if(i<0 or j<0 or j>(i+1)):
+		return float('inf')
+	bottom=matrix[i][j]+recursive(n,i+1,j,matrix)
+	bottomRight=matrix[i][j]+recursive(n,i+1,j+1,matrix)
+	return min(bottom,bottomRight)
 
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1452,17 +1452,17 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def memorization(n,i,j,matrix,memo):
-    key=(i,j)
-    if key in memo:
-        return memo[key]
-    if(i==n-1):
-        return matrix[i][j]
-    if(i<0 or j<0 or j>(i+1)):
-        return float('inf')
-    bottom=matrix[i][j]+memorization(n,i+1,j,matrix,memo)
-    bottomRight=matrix[i][j]+memorization(n,i+1,j+1,matrix,memo)
-    memo[key]=min(bottom,bottomRight)
-    return memo[key]
+	key=(i,j)
+	if key in memo:
+		return memo[key]
+	if(i==n-1):
+		return matrix[i][j]
+	if(i<0 or j<0 or j>(i+1)):
+		return float('inf')
+	bottom=matrix[i][j]+memorization(n,i+1,j,matrix,memo)
+	bottomRight=matrix[i][j]+memorization(n,i+1,j+1,matrix,memo)
+	memo[key]=min(bottom,bottomRight)
+	return memo[key]
 
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1475,18 +1475,18 @@ print(max(excludeFirst,excludeLast))
 
 ```python
   def tabulation(n,matrix):
-    dp=[[0]*i for i in range(1,n+1)]
-    for i in range(n):
-        dp[n-1][i]=matrix[n-1][i]
-    for i in range(n-2,-1,-1):
-        for j in range(i+1):
-            bottom,bottomRight=float('inf'),float('inf')
-            if(i+1>0 and j<=(i+1)):
-                bottom=matrix[i][j]+dp[i+1][j]
-            if(i+1>0 and (j+1)<=(i+1)):
-                bottomRight=matrix[i][j]+dp[i+1][j+1]
-            dp[i][j]=min(bottom,bottomRight)
-    return dp[0][0]
+	dp=[[0]*i for i in range(1,n+1)]
+	for i in range(n):
+		dp[n-1][i]=matrix[n-1][i]
+	for i in range(n-2,-1,-1):
+		for j in range(i+1):
+			bottom,bottomRight=float('inf'),float('inf')
+			if(i+1>0 and j<=(i+1)):
+				bottom=matrix[i][j]+dp[i+1][j]
+			if(i+1>0 and (j+1)<=(i+1)):
+				bottomRight=matrix[i][j]+dp[i+1][j+1]
+			dp[i][j]=min(bottom,bottomRight)
+	return dp[0][0]
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
   print(tabulation(m,n,matrix))
@@ -1500,20 +1500,20 @@ print(max(excludeFirst,excludeLast))
 
 ```python
 def optimization(n,matrix):
-    dp_next=[0]*n
-    dp_current=[0]*(n-1)
-    for i in range(n):
-        dp_next[i]=matrix[n-1][i]
-    for i in range(n-2,-1,-1):
-        for j in range(i+1):
-            bottom,bottomRight=float('inf'),float('inf')
-            if((i+1)>0 and j<=(i+1)):
-                bottom=matrix[i][j]+dp_next[j]
-            if((i+1)>0 and (j+1)<=(i+1)):
-                bottomRight=matrix[i][j]+dp_next[j+1]
-            dp_current[j]=min(bottom,bottomRight)
-        dp_next=dp_current.copy()
-    return dp_next[0]
+	dp_next=[0]*n
+	dp_current=[0]*(n-1)
+	for i in range(n):
+		dp_next[i]=matrix[n-1][i]
+	for i in range(n-2,-1,-1):
+		for j in range(i+1):
+			bottom,bottomRight=float('inf'),float('inf')
+			if((i+1)>0 and j<=(i+1)):
+				bottom=matrix[i][j]+dp_next[j]
+			if((i+1)>0 and (j+1)<=(i+1)):
+				bottomRight=matrix[i][j]+dp_next[j+1]
+			dp_current[j]=min(bottom,bottomRight)
+		dp_next=dp_current.copy()
+	return dp_next[0]
 
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1565,20 +1565,20 @@ def optimization(n,matrix):
 
 ```python
  def recursive(n,i,j,matrix):
-    if(i==n-1):
-        return matrix[i][j]
-    if(i<0 or j<0 or j>(i+1)):
-        return float('inf')
-    bottom=matrix[i][j]+recursive(n,i+1,j,matrix)
-    bottomRight=matrix[i][j]+recursive(n,i+1,j+1,matrix)
-    return min(bottom,bottomRight)
+	if(i==n-1):
+		return matrix[i][j]
+	if(i<0 or j<0 or j>(i+1)):
+		return float('inf')
+	bottom=matrix[i][j]+recursive(n,i+1,j,matrix)
+	bottomRight=matrix[i][j]+recursive(n,i+1,j+1,matrix)
+	return min(bottom,bottomRight)
 
 m,n=list(map(int,input().split()))
 matrix=[list(map(int,input().split())) for i in range(m)]
 final=float('-inf')
 for i in range(n):
-    temp=recursive(n,0,i,matrix)
-    final=max(final,temp)
+	temp=recursive(n,0,i,matrix)
+	final=max(final,temp)
 print(final)
 ```
 <p>TC : O(2^(m*n))</p>
@@ -1589,25 +1589,25 @@ print(final)
 
 ```python
   def memorization(n,i,j,matrix,memo):
-    key=(i,j)
-    if key in memo:
-        return memo[key]
-    if(i==n-1):
-        return matrix[i][j]
-    if(i<0 or j<0 or j>(i+1)):
-        return float('inf')
-    bottom=matrix[i][j]+memorization(n,i+1,j,matrix,memo)
-    bottomRight=matrix[i][j]+memorization(n,i+1,j+1,matrix,memo)
-    memo[key]=min(bottom,bottomRight)
-    return memo[key]
+	key=(i,j)
+	if key in memo:
+		return memo[key]
+	if(i==n-1):
+		return matrix[i][j]
+	if(i<0 or j<0 or j>(i+1)):
+		return float('inf')
+	bottom=matrix[i][j]+memorization(n,i+1,j,matrix,memo)
+	bottomRight=matrix[i][j]+memorization(n,i+1,j+1,matrix,memo)
+	memo[key]=min(bottom,bottomRight)
+	return memo[key]
 
 m,n=list(map(int,input().split()))
 matrix=[list(map(int,input().split())) for i in range(m)]
 final=float('-inf')
 for i in range(n):
-    memo={}
-    temp=memorization(n,0,i,matrix,memo)
-    final=max(final,temp)
+	memo={}
+	temp=memorization(n,0,i,matrix,memo)
+	final=max(final,temp)
 print(final)
 ```
 <p>TC : O(m*n)</p>
@@ -1616,20 +1616,20 @@ print(final)
 
 ```python
   def tabulation(n,matrix):
-    n=len(matrix)
-    dp=[[0]*n for i in range(n)]
-    for i in range(n):
-        dp[n-1][i]=matrix[n-1][i]
-    for i in range(n-2,-1,-1):
-        for j in range(n):
-            bottom,bottomRight,bottomLeft=float('-inf'),float('-inf'),float('-inf')
-            bottom=matrix[i][j]+dp[i+1][j]
-            if(j+1<n):
-                bottomRight=matrix[i][j]+dp[i+1][j+1]
-            if(j-1>=0):
-                bottomLeft=matrix[i][j]+dp[i+1][j-1]
-            dp[i][j]=max(bottom,bottomLeft,bottomRight)
-    return max(dp[0])
+	n=len(matrix)
+	dp=[[0]*n for i in range(n)]
+	for i in range(n):
+		dp[n-1][i]=matrix[n-1][i]
+	for i in range(n-2,-1,-1):
+		for j in range(n):
+			bottom,bottomRight,bottomLeft=float('-inf'),float('-inf'),float('-inf')
+			bottom=matrix[i][j]+dp[i+1][j]
+			if(j+1<n):
+				bottomRight=matrix[i][j]+dp[i+1][j+1]
+			if(j-1>=0):
+				bottomLeft=matrix[i][j]+dp[i+1][j-1]
+			dp[i][j]=max(bottom,bottomLeft,bottomRight)
+	return max(dp[0])
   m,n=list(map(int,input().split()))
   matrix=[list(map(int,input().split())) for i in range(m)]
   print(tabulation(m,n,matrix))
@@ -1643,22 +1643,22 @@ print(final)
 
 ```python
 def optimization(n,matrix):
-    n=len(matrix)
-    dp_next=[0]*n
-    dp_current=[0]*n
-    for i in range(n):
-        dp_next[i]=matrix[n-1][i]
-    for i in range(n-2,-1,-1):
-        for j in range(n):
-            bottom,bottomRight,bottomLeft=float('-inf'),float('-inf'),float('-inf')
-            bottom=matrix[i][j]+dp_next[j]
-            if(j+1<n):
-                bottomRight=matrix[i][j]+dp_next[j+1]
-            if(j-1>=0):
-                bottomLeft=matrix[i][j]+dp_next[j-1]
-            dp_current[j]=max(bottom,bottomLeft,bottomRight)
-        dp_next=dp_current.copy()
-    return max(dp_next)
+	n=len(matrix)
+	dp_next=[0]*n
+	dp_current=[0]*n
+	for i in range(n):
+		dp_next[i]=matrix[n-1][i]
+	for i in range(n-2,-1,-1):
+		for j in range(n):
+			bottom,bottomRight,bottomLeft=float('-inf'),float('-inf'),float('-inf')
+			bottom=matrix[i][j]+dp_next[j]
+			if(j+1<n):
+				bottomRight=matrix[i][j]+dp_next[j+1]
+			if(j-1>=0):
+				bottomLeft=matrix[i][j]+dp_next[j-1]
+			dp_current[j]=max(bottom,bottomLeft,bottomRight)
+		dp_next=dp_current.copy()
+	return max(dp_next)
 
 m,n=list(map(int,input().split()))
 matrix=[list(map(int,input().split())) for i in range(m)]
@@ -1731,49 +1731,49 @@ print(optimization(m,n,matrix))
 <h4>Problems On Subsequences</h4>
 
 <h4>15.Subset sum equal to target</h4>
-    <h5>We are given an array ‘ARR’ with N positive integers. We need to find if there is a subset in “ARR” with a sum equal to K. If there is, return true else return false.</h5>
-    <h5>A subset/subsequence is a contiguous or non-contiguous part of an array, where elements appear in the same order as the original array.</h5>
-    <p>For example, for the array: [2,3,1] , the subsequences will be [{2},{3},{1},{2,3},{2,1},{3,1},{2,3,1}} but {3,2} is not a subsequence because its elements are not in the same order as the original array.</p>
-    <img src="https://lh3.googleusercontent.com/rysBOW8CTed-bDzIHGURWVZDU-Ckn7F6Xhjl3QxKdbMY2f5cPZe0fk0FTpUxUqMDHamE3bTSK0PvMDZmwXWB3yta0JchhCVajBy0ieq4uOJ_lszEK7oJK9fBdEhy23WFZI1wR0jA">
+	<h5>We are given an array ‘ARR’ with N positive integers. We need to find if there is a subset in “ARR” with a sum equal to K. If there is, return true else return false.</h5>
+	<h5>A subset/subsequence is a contiguous or non-contiguous part of an array, where elements appear in the same order as the original array.</h5>
+	<p>For example, for the array: [2,3,1] , the subsequences will be [{2},{3},{1},{2,3},{2,1},{3,1},{2,3,1}} but {3,2} is not a subsequence because its elements are not in the same order as the original array.</p>
+	<img src="https://lh3.googleusercontent.com/rysBOW8CTed-bDzIHGURWVZDU-Ckn7F6Xhjl3QxKdbMY2f5cPZe0fk0FTpUxUqMDHamE3bTSK0PvMDZmwXWB3yta0JchhCVajBy0ieq4uOJ_lszEK7oJK9fBdEhy23WFZI1wR0jA">
 <h5>Step-1 : Define The Problem</h5>
-    <p>We are given an array and value k, we have to check whether there is subsequence of array with sum equal to k</p>
+	<p>We are given an array and value k, we have to check whether there is subsequence of array with sum equal to k</p>
 <h5>Step-2 : Represent the Problem Programmatically</h5>
-    <p>We are given an array which is 0-based indexing and given a target value(k)</p>
-    <p>We have to return either True or False as a final answer</p>
-    <p>f(index,target) -> checks whether target sum subsequnce present from 0 to index</p>
-    <p>We have to find f(n-1,target), where n=len(arr) and target=k</p>
+	<p>We are given an array which is 0-based indexing and given a target value(k)</p>
+	<p>We have to return either True or False as a final answer</p>
+	<p>f(index,target) -> checks whether target sum subsequnce present from 0 to index</p>
+	<p>We have to find f(n-1,target), where n=len(arr) and target=k</p>
 <h5>Step-3 : Finding Base Cases</h5>
-    <p>if target=0, then answer is always True, because empty subsequnce sum equals to zero</p>
-    <p>f(index,0)=True</p>
-    <p>if index=0, array contains only one element, then we can check like target==arr[index]</p>
-    <p>if arr[0]==target, then target sum equals to element, that means answer is true</p>
-    <p>f(0,target)=(arr[0]==target)</p>
-    <p>f(0,target)=(target-arr[0]==0)</p>
+	<p>if target=0, then answer is always True, because empty subsequnce sum equals to zero</p>
+	<p>f(index,0)=True</p>
+	<p>if index=0, array contains only one element, then we can check like target==arr[index]</p>
+	<p>if arr[0]==target, then target sum equals to element, that means answer is true</p>
+	<p>f(0,target)=(arr[0]==target)</p>
+	<p>f(0,target)=(target-arr[0]==0)</p>
 <h5>Step-4 : Finding The Recurrence Relation</h5> 
-    <p>We know that, f(index,0)=True</p>
-    <p>f(0,target)=(target-arr[0]==0)</p>
-    <p>For Subsequnce Generation, we have to include current element and have to find all combintions</p>
-    <p>we have to exclude current element and have to find all combinations</p>
-    <p>Same principle we have to apply here</p>
-    <p>f(index,target) = f(index-1,target-arr[index]) or f(index-1,target)</p>
-    <p>f(index-1,target-arr[index]) -> Include current element (Reduce target) and move to next position</p>
-    <p>f(index-1,target) -> Exclude current element and move to next position</p>
-    <p>While including check, current element is less than or equal to target</p>
+	<p>We know that, f(index,0)=True</p>
+	<p>f(0,target)=(target-arr[0]==0)</p>
+	<p>For Subsequnce Generation, we have to include current element and have to find all combintions</p>
+	<p>we have to exclude current element and have to find all combinations</p>
+	<p>Same principle we have to apply here</p>
+	<p>f(index,target) = f(index-1,target-arr[index]) or f(index-1,target)</p>
+	<p>f(index-1,target-arr[index]) -> Include current element (Reduce target) and move to next position</p>
+	<p>f(index-1,target) -> Exclude current element and move to next position</p>
+	<p>While including check, current element is less than or equal to target</p>
 <h5>Step-5 : Recursive Solution</h5>
 
 
 
 ```python
   def recursive(arr,ind,target):
-    if(target==0):
-        return True
-    if(ind==0):
-        return target-arr[0]==0
-    exclude=recursive(arr,ind-1,target)
-    include=False
-    if(target>=arr[ind]):
-        include=recursive(arr,ind-1,target-arr[ind])
-    return exclude or include
+	if(target==0):
+		return True
+	if(ind==0):
+		return target-arr[0]==0
+	exclude=recursive(arr,ind-1,target)
+	include=False
+	if(target>=arr[ind]):
+		include=recursive(arr,ind-1,target-arr[ind])
+	return exclude or include
   n=int(input())
   arr=list(map(int,input().split()))
   target=int(input())
@@ -1786,19 +1786,19 @@ print(optimization(m,n,matrix))
 
 ```python
   def memorization(arr,ind,target,memo):
-    key=(ind,target)
-    if key in memo:
-        return memo[key]
-    if(target==0):
-        return True
-    if(ind==0):
-        return target-arr[0]==0
-    exclude=memorization(arr,ind-1,target,memo)
-    include=False
-    if(target>=arr[ind]):
-        include=memorization(arr,ind-1,target-arr[ind],memo)
-    memo[key]=exclude or include
-    return memo[key]
+	key=(ind,target)
+	if key in memo:
+		return memo[key]
+	if(target==0):
+		return True
+	if(ind==0):
+		return target-arr[0]==0
+	exclude=memorization(arr,ind-1,target,memo)
+	include=False
+	if(target>=arr[ind]):
+		include=memorization(arr,ind-1,target-arr[ind],memo)
+	memo[key]=exclude or include
+	return memo[key]
   n=int(input())
   arr=list(map(int,input().split()))
   target=int(input())
@@ -1812,19 +1812,19 @@ print(optimization(m,n,matrix))
 
 ```python
   def tabulation(n,arr,target):
-    dp=[[False for i in range(target+1)] for i in range(n)]
-    for i in range(n):
-        dp[i][0]=True
-    if(arr[0]<=target):
-        dp[0][arr[0]]=True
-    for i in range(1,n):
-        for j in range(1,target+1):
-            exclude=dp[i-1][j]
-            include=False
-            if(arr[i]<=j):
-                include=dp[i-1][j-arr[i]]
-            dp[i][j]=include or exclude
-    return dp[n-1][target]
+	dp=[[False for i in range(target+1)] for i in range(n)]
+	for i in range(n):
+		dp[i][0]=True
+	if(arr[0]<=target):
+		dp[0][arr[0]]=True
+	for i in range(1,n):
+		for j in range(1,target+1):
+			exclude=dp[i-1][j]
+			include=False
+			if(arr[i]<=j):
+				include=dp[i-1][j-arr[i]]
+			dp[i][j]=include or exclude
+	return dp[n-1][target]
   n=int(input())
   arr=list(map(int,input().split()))
   target=int(input())
@@ -1838,21 +1838,21 @@ print(optimization(m,n,matrix))
 
 ```python
   def optimization(n,arr,target):
-    dp_prev=[False for i in range(target+1)]
-    dp_current=[False for i in range(target+1)]
-    dp_prev[0]=True
-    dp_current[0]=True
-    if(arr[0]<=target):
-        dp_prev[arr[0]]=True
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=False,False
-            exclude=dp_prev[j]
-            if(arr[i]<=target):
-                include=dp_prev[j-arr[i]]
-            dp_current[j]=include or exclude
-        dp_prev=dp_current.copy()
-    return dp_prev[target]
+	dp_prev=[False for i in range(target+1)]
+	dp_current=[False for i in range(target+1)]
+	dp_prev[0]=True
+	dp_current[0]=True
+	if(arr[0]<=target):
+		dp_prev[arr[0]]=True
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=False,False
+			exclude=dp_prev[j]
+			if(arr[i]<=target):
+				include=dp_prev[j-arr[i]]
+			dp_current[j]=include or exclude
+		dp_prev=dp_current.copy()
+	return dp_prev[target]
 
 ```
 <p>TC : O(target*n)</p>
@@ -1862,48 +1862,48 @@ print(optimization(m,n,matrix))
 <br>
 
 <h4>16.Unbounded Knapsack</h4>
-    <h5>A thief wants to rob a store. He is carrying a bag of capacity W. The store has ‘n’ items of infinite supply. Its weight is given by the ‘wt’ array and its value by the ‘val’ array. He can either include an item in its knapsack or exclude it but can’t partially have it as a fraction. We need to find the maximum value of items that the thief can steal. He can take a single item any number of times he wants and put it in his knapsack.</h5>
-    <img src="https://lh4.googleusercontent.com/NXDXKmwueWiUKdOgXhDuQlxTTRXjStKg8sQ8ddyaLI6IU0s1vhWnBHuifDDDDEvWJXD9SnaI8gNsahmRMl_g3p0GTy6O01jZ_TygtaobjxC38UwWTmeD7zOlyJTPJz5lIP8dC3fd">
+	<h5>A thief wants to rob a store. He is carrying a bag of capacity W. The store has ‘n’ items of infinite supply. Its weight is given by the ‘wt’ array and its value by the ‘val’ array. He can either include an item in its knapsack or exclude it but can’t partially have it as a fraction. We need to find the maximum value of items that the thief can steal. He can take a single item any number of times he wants and put it in his knapsack.</h5>
+	<img src="https://lh4.googleusercontent.com/NXDXKmwueWiUKdOgXhDuQlxTTRXjStKg8sQ8ddyaLI6IU0s1vhWnBHuifDDDDEvWJXD9SnaI8gNsahmRMl_g3p0GTy6O01jZ_TygtaobjxC38UwWTmeD7zOlyJTPJz5lIP8dC3fd">
 <h5>Step-1 : Define The Problem</h5>
-    <p>we have given some set of items , each of it associated with some weight and cost</p>
-    <p>We have given a bag, we have to include those items in such that it should carry those items perfectly</p>
-    <p>we have to store like, we can carry most amount items in bag</p>
-    <p>We can include same item many times</p>
+	<p>we have given some set of items , each of it associated with some weight and cost</p>
+	<p>We have given a bag, we have to include those items in such that it should carry those items perfectly</p>
+	<p>we have to store like, we can carry most amount items in bag</p>
+	<p>We can include same item many times</p>
 <h5>Step-2 : Represent the Problem Programmatically</h5>
-    <p>given cost and weight as arrays</p>
-    <p>let us assume, index -> represents the item</p>
-    <p>cost[index]-> cost of item</p>
-    <p>weight[index]-> weight of item</p>
-    <p>we have bag and its capacity(weight)</p>
-    <p>f(ind,currentWeight)-> represents maximum costly items (from 0 to index) in bag up to currentWeight</p>
-    <p>We have to find f(n-1,totalWeight)-> n-> number of items, totalWeight->Bag Capacity</p>
+	<p>given cost and weight as arrays</p>
+	<p>let us assume, index -> represents the item</p>
+	<p>cost[index]-> cost of item</p>
+	<p>weight[index]-> weight of item</p>
+	<p>we have bag and its capacity(weight)</p>
+	<p>f(ind,currentWeight)-> represents maximum costly items (from 0 to index) in bag up to currentWeight</p>
+	<p>We have to find f(n-1,totalWeight)-> n-> number of items, totalWeight->Bag Capacity</p>
 <h5>Step-3 : Finding Base Cases</h5>
-    <p>if index=0, then there is only one item, then max cost we can gain is</p>
-    <p>f(0,currentWeight)-> cost[0]*(currentWeight//weight[0])</p>
-    <p>if currentWeight==0, max cost is 0</p>
-    <p>f(index,0)=0</p>
+	<p>if index=0, then there is only one item, then max cost we can gain is</p>
+	<p>f(0,currentWeight)-> cost[0]*(currentWeight//weight[0])</p>
+	<p>if currentWeight==0, max cost is 0</p>
+	<p>f(index,0)=0</p>
 <h5>Step-4 : Finding The Recurrence Relation</h5> 
-    <p>we know that, f(0,currentWeight)=cost[0]*(currentWeight//weight[0])</p>
-    <p>f(index,currentWeight)=max(include,exclude)</p>
-    <p>Include-> cost[index]+f(index,currentWeight-weight[index])</p>
-    <p>Exclude-> f(index-1,currentWeight)</p>
-    <p>f(index,currentWeight)=max(cost[index]+f(index,currentWeight-weight[index]),f(index-1,currentWeight))</p>
-    <p>While include, we are not moving to next position because we can include current element many times</p>
-    <p>While exclud, we are moving next position</p>
-    <p>While including , we have to check, current element weight is less than or equal top currentWeight</p>
+	<p>we know that, f(0,currentWeight)=cost[0]*(currentWeight//weight[0])</p>
+	<p>f(index,currentWeight)=max(include,exclude)</p>
+	<p>Include-> cost[index]+f(index,currentWeight-weight[index])</p>
+	<p>Exclude-> f(index-1,currentWeight)</p>
+	<p>f(index,currentWeight)=max(cost[index]+f(index,currentWeight-weight[index]),f(index-1,currentWeight))</p>
+	<p>While include, we are not moving to next position because we can include current element many times</p>
+	<p>While exclud, we are moving next position</p>
+	<p>While including , we have to check, current element weight is less than or equal top currentWeight</p>
 <h5>Step-5 : Recursive Solution</h5>
 
 
 
 ```python
   def recursive(ind,cost,weight,currentWeight):
-    if(ind==0):
-        return (cost[0])*(currentWeight//weight[ind])
-    exclude=recursive(ind-1,cost,weight,currentWeight)
-    include=float('-inf')
-    if(weight[ind]<=currentWeight):
-        include=cost[ind]+recursive(ind,cost,weight,currentWeight-weight[ind])
-    return max(exclude,include)
+	if(ind==0):
+		return (cost[0])*(currentWeight//weight[ind])
+	exclude=recursive(ind-1,cost,weight,currentWeight)
+	include=float('-inf')
+	if(weight[ind]<=currentWeight):
+		include=cost[ind]+recursive(ind,cost,weight,currentWeight-weight[ind])
+	return max(exclude,include)
   n=int(input())
   weight=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -1917,17 +1917,17 @@ print(optimization(m,n,matrix))
 
 ```python
   def memorization(ind,cost,weight,currentWeight,memo):
-    key=(ind,currentWeight)
-    if key in memo:
-        return memo[key]
-    if(ind==0):
-        return (cost[0])*(currentWeight//weight[ind])
-    exclude=memorization(ind-1,cost,weight,currentWeight,memo)
-    include=float('-inf')
-    if(weight[ind]<=currentWeight):
-        include=cost[ind]+memorization(ind,cost,weight,currentWeight-weight[ind],memo)
-    memo[key]=max(exclude,include)
-    return memo[key]
+	key=(ind,currentWeight)
+	if key in memo:
+		return memo[key]
+	if(ind==0):
+		return (cost[0])*(currentWeight//weight[ind])
+	exclude=memorization(ind-1,cost,weight,currentWeight,memo)
+	include=float('-inf')
+	if(weight[ind]<=currentWeight):
+		include=cost[ind]+memorization(ind,cost,weight,currentWeight-weight[ind],memo)
+	memo[key]=max(exclude,include)
+	return memo[key]
   n=int(input())
   weight=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -1943,17 +1943,17 @@ print(optimization(m,n,matrix))
 
 ```python
   def tabulation(n,weight,cost,currentWeight):
-    dp=[[0 for i in range(currentWeight+1)] for i in range(n)]
-    for i in range(1,currentWeight+1):
-        dp[0][i]=(i//weight[0])*cost[0]
-    for i in range(1,n):
-        for j in range(1,currentWeight+1):
-            include,exclude=float('-inf'),float('-inf')
-            exclude=dp[i-1][j]
-            if(weight[i]<=j):
-                include=cost[i]+dp[i][j-weight[i]]
-            dp[i][j]=max(include,exclude)
-    return dp[n-1][currentWeight]
+	dp=[[0 for i in range(currentWeight+1)] for i in range(n)]
+	for i in range(1,currentWeight+1):
+		dp[0][i]=(i//weight[0])*cost[0]
+	for i in range(1,n):
+		for j in range(1,currentWeight+1):
+			include,exclude=float('-inf'),float('-inf')
+			exclude=dp[i-1][j]
+			if(weight[i]<=j):
+				include=cost[i]+dp[i][j-weight[i]]
+			dp[i][j]=max(include,exclude)
+	return dp[n-1][currentWeight]
   n=int(input())
   weight=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -1968,19 +1968,19 @@ print(optimization(m,n,matrix))
 
 ```python
   def optimization(n,weight,cost,currentWeight):
-    dp_prev=[0 for i in range(currentWeight+1)]
-    dp_curr=[0 for i in range(currentWeight+1)]
-    for i in range(1,currentWeight+1):
-        dp_prev[i]=(i//weight[0])*cost[0]
-    for i in range(1,n):
-        for j in range(1,currentWeight+1):
-            include,exclude=float('-inf'),float('-inf')
-            exclude=dp_prev[j]
-            if(weight[i]<=j):
-                include=cost[i]+dp_curr[j-weight[i]]
-            dp_curr[j]=max(include,exclude)
-        dp_prev=dp_curr.copy()
-    return dp_prev[currentWeight]
+	dp_prev=[0 for i in range(currentWeight+1)]
+	dp_curr=[0 for i in range(currentWeight+1)]
+	for i in range(1,currentWeight+1):
+		dp_prev[i]=(i//weight[0])*cost[0]
+	for i in range(1,n):
+		for j in range(1,currentWeight+1):
+			include,exclude=float('-inf'),float('-inf')
+			exclude=dp_prev[j]
+			if(weight[i]<=j):
+				include=cost[i]+dp_curr[j-weight[i]]
+			dp_curr[j]=max(include,exclude)
+		dp_prev=dp_curr.copy()
+	return dp_prev[currentWeight]
   n=int(input())
   weight=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -1996,50 +1996,50 @@ print(optimization(m,n,matrix))
 
 
 <h4>16.Rod Cutting Problem</h4>
-    <h5>We are given a rod of size ‘N’. It can be cut into pieces. Each length of a piece has a particular price given by the price array. Our task is to find the maximum revenue that can be generated by selling the rod after cutting( if required) into pieces.</h5>
-    <img src="https://lh3.googleusercontent.com/xjrJJkoDBbO16Zh_F7AWOg4KWtaZp9DGiFWvGJcgpySH6WDfDU4k--N5hS2S6767_bdW5pfjxgFRK5koD9X7yUPERE5qcWig8xMIZsRYoJ11M3kvso0Sv3d30gJN_EPWlqoUg_jQ">
+	<h5>We are given a rod of size ‘N’. It can be cut into pieces. Each length of a piece has a particular price given by the price array. Our task is to find the maximum revenue that can be generated by selling the rod after cutting( if required) into pieces.</h5>
+	<img src="https://lh3.googleusercontent.com/xjrJJkoDBbO16Zh_F7AWOg4KWtaZp9DGiFWvGJcgpySH6WDfDU4k--N5hS2S6767_bdW5pfjxgFRK5koD9X7yUPERE5qcWig8xMIZsRYoJ11M3kvso0Sv3d30gJN_EPWlqoUg_jQ">
 <h5>Step-1 : Define The Problem</h5>
-    <p>We have given a rod of some size N</p>
-    <p>We can break that rod into some pieces of length 1...N</p>
-    <p>Eacch length has given some cost</p>
-    <p>We have to cut like to get maximum cost</p>
-    <p>Same as unbounded knapsack</p>
-    <p>rodSize=N</p>
-    <p>cost=cost of item</p>
-    <p>length 1..N=weight</p>
+	<p>We have given a rod of some size N</p>
+	<p>We can break that rod into some pieces of length 1...N</p>
+	<p>Eacch length has given some cost</p>
+	<p>We have to cut like to get maximum cost</p>
+	<p>Same as unbounded knapsack</p>
+	<p>rodSize=N</p>
+	<p>cost=cost of item</p>
+	<p>length 1..N=weight</p>
 <h5>Step-2 : Represent the Problem Programmatically</h5>
-    <p>given cost arrays</p>
-    <p>let us assume, index -> represents the length of piece</p>
-    <p>cost[index]-> cost of particular length piece</p>
-    <p>f(ind,currentRodSize)-> represents maximum costly pieces (from length 0 to index) up to currentRodSize</p>
-    <p>We have to find f(n-1,rodSize)-> n-> length of pieces, rodSize->rod Size</p>
+	<p>given cost arrays</p>
+	<p>let us assume, index -> represents the length of piece</p>
+	<p>cost[index]-> cost of particular length piece</p>
+	<p>f(ind,currentRodSize)-> represents maximum costly pieces (from length 0 to index) up to currentRodSize</p>
+	<p>We have to find f(n-1,rodSize)-> n-> length of pieces, rodSize->rod Size</p>
 <h5>Step-3 : Finding Base Cases</h5>
-    <p>if index=0, then there is only single length piece, then max cost we can gain is</p>
-    <p>f(0,currentRodSize)-> cost[0]*(currentRodSize//length[0])</p>
-    <p>if currentRodSize==0, max cost is 0</p>
-    <p>f(index,0)=0</p>
+	<p>if index=0, then there is only single length piece, then max cost we can gain is</p>
+	<p>f(0,currentRodSize)-> cost[0]*(currentRodSize//length[0])</p>
+	<p>if currentRodSize==0, max cost is 0</p>
+	<p>f(index,0)=0</p>
 <h5>Step-4 : Finding The Recurrence Relation</h5> 
-    <p>we know that, f(0,currentRodSize)=cost[0]*(currentRodSize//length[0])</p>
-    <p>f(index,currentRodSize)=max(include,exclude)</p>
-    <p>Include-> cost[index]+f(index,currentRodSize-length[index])</p>
-    <p>Exclude-> f(index-1,currentRodSize)</p>
-    <p>f(index,currentRodSize)=max(cost[index]+f(index,currentRodSize-length[index]),f(index-1,currentRodSize))</p>
-    <p>While include, we are not moving to next position because we can include current element many times</p>
-    <p>While exclud, we are moving next position</p>
-    <p>While including , we have to check, current element weight is less than or equal top currentRodSize</p>
+	<p>we know that, f(0,currentRodSize)=cost[0]*(currentRodSize//length[0])</p>
+	<p>f(index,currentRodSize)=max(include,exclude)</p>
+	<p>Include-> cost[index]+f(index,currentRodSize-length[index])</p>
+	<p>Exclude-> f(index-1,currentRodSize)</p>
+	<p>f(index,currentRodSize)=max(cost[index]+f(index,currentRodSize-length[index]),f(index-1,currentRodSize))</p>
+	<p>While include, we are not moving to next position because we can include current element many times</p>
+	<p>While exclud, we are moving next position</p>
+	<p>While including , we have to check, current element weight is less than or equal top currentRodSize</p>
 <h5>Step-5 : Recursive Solution</h5>
 
 
 
 ```python
   def recursive(ind,cost,length,rodSize):
-    if(ind==0):
-        return cost[0]*(rodSize//length[0])
-    exclude=recursive(ind-1,cost,length,rodSize)
-    include=float('-inf')
-    if(length[ind]<=rodSize):
-        include=cost[ind]+recursive(ind,cost,length,rodSize-length[ind])
-    return max(include,exclude)
+	if(ind==0):
+		return cost[0]*(rodSize//length[0])
+	exclude=recursive(ind-1,cost,length,rodSize)
+	include=float('-inf')
+	if(length[ind]<=rodSize):
+		include=cost[ind]+recursive(ind,cost,length,rodSize-length[ind])
+	return max(include,exclude)
   n=int(input())
   length=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -2053,17 +2053,17 @@ print(optimization(m,n,matrix))
 
 ```python
   def memorization(ind,cost,length,rodSize,memo):
-    key=(ind,rodSize)
-    if key in memo:
-        return memo[key]
-    if(ind==0):
-        return cost[0]*(rodSize//length[0])
-    exclude=memorization(ind-1,cost,length,rodSize,memo)
-    include=float('-inf')
-    if(length[ind]<=rodSize):
-        include=cost[ind]+memorization(ind,cost,length,rodSize-length[ind],memo)
-    memo[key]=max(include,exclude)
-    return memo[key]
+	key=(ind,rodSize)
+	if key in memo:
+		return memo[key]
+	if(ind==0):
+		return cost[0]*(rodSize//length[0])
+	exclude=memorization(ind-1,cost,length,rodSize,memo)
+	include=float('-inf')
+	if(length[ind]<=rodSize):
+		include=cost[ind]+memorization(ind,cost,length,rodSize-length[ind],memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
   n=int(input())
   length=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -2077,17 +2077,17 @@ print(optimization(m,n,matrix))
 
 ```python
   def tabulation(n,cost,length,rodSize):
-    dp=[[0 for i in range(rodSize+1)] for i in range(n)]
-    for i in range(rodSize+1):
-        dp[0][i]=cost[0]*(i//length[0])
-    for i in range(1,n):
-        for j in range(1,rodSize+1):
-            include,exclude=float('-inf'),float('-inf')
-            exclude=dp[i-1][j]
-            if(length[i]<=j):
-                include=cost[i]+dp[i][j-length[i]]
-            dp[i][j]=max(include,exclude)
-    return dp[n-1][rodSize]
+	dp=[[0 for i in range(rodSize+1)] for i in range(n)]
+	for i in range(rodSize+1):
+		dp[0][i]=cost[0]*(i//length[0])
+	for i in range(1,n):
+		for j in range(1,rodSize+1):
+			include,exclude=float('-inf'),float('-inf')
+			exclude=dp[i-1][j]
+			if(length[i]<=j):
+				include=cost[i]+dp[i][j-length[i]]
+			dp[i][j]=max(include,exclude)
+	return dp[n-1][rodSize]
   n=int(input())
   length=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -2103,19 +2103,19 @@ print(optimization(m,n,matrix))
 
 ```python
   def optimization(n,cost,length,rodSize):
-    dp_prev=[0 for i in range(rodSize+1)]
-    dp_curr=[0 for i in range(rodSize+1)]
-    for i in range(rodSize+1):
-        dp_prev[i]=cost[0]*(i//length[0])
-    for i in range(1,n):
-        for j in range(1,rodSize+1):
-            include,exclude=float('-inf'),float('-inf')
-            exclude=dp_prev[j]
-            if(length[i]<=j):
-                include=cost[i]+dp_curr[j-length[i]]
-            dp_curr[j]=max(include,exclude)
-        dp_prev=dp_curr.copy()
-    return dp_prev[rodSize]
+	dp_prev=[0 for i in range(rodSize+1)]
+	dp_curr=[0 for i in range(rodSize+1)]
+	for i in range(rodSize+1):
+		dp_prev[i]=cost[0]*(i//length[0])
+	for i in range(1,n):
+		for j in range(1,rodSize+1):
+			include,exclude=float('-inf'),float('-inf')
+			exclude=dp_prev[j]
+			if(length[i]<=j):
+				include=cost[i]+dp_curr[j-length[i]]
+			dp_curr[j]=max(include,exclude)
+		dp_prev=dp_curr.copy()
+	return dp_prev[rodSize]
   n=int(input())
   length=list(map(int,input().split()))
   cost=list(map(int,input().split()))
@@ -2145,28 +2145,28 @@ print(optimization(m,n,matrix))
 
 ```python
 def isSubsetSumEqualToK(n,arr,target):
-    dp=[[False]*(target+1) for i in range(n)]
-    for i in range(n):
-        dp[i][0]=True
-    if(target<=arr[0]):
-        dp[0][arr[0]]=True
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=False,False
-            exclude=dp[i-1][j]
-            if(arr[i]<=j):
-                include=dp[i-1][j-arr[i]]
-            dp[i][j]=include or exclude
-    return dp[n-1][target]
+	dp=[[False]*(target+1) for i in range(n)]
+	for i in range(n):
+		dp[i][0]=True
+	if(target<=arr[0]):
+		dp[0][arr[0]]=True
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=False,False
+			exclude=dp[i-1][j]
+			if(arr[i]<=j):
+				include=dp[i-1][j-arr[i]]
+			dp[i][j]=include or exclude
+	return dp[n-1][target]
 
 n=int(input())
 arr=list(map(int,input().split()))
 totalSum=sum(arr)
 if(totalSum & 1):
-    print(False)
+	print(False)
 else:
-    half=totalSum//2
-    print(isSubsetSumEqualToK(n,arr,half))
+	half=totalSum//2
+	print(isSubsetSumEqualToK(n,arr,half))
 ```
 
 <h4>19.Partition Set Into 2 Subsets With Min Absolute Sum Diff</h4>
@@ -2185,19 +2185,19 @@ else:
 
 ```python 
 def isSubsetSumEqualToK(n,arr,target):
-    dp=[[False]*(target+1) for i in range(n)]
-    for i in range(n):
-        dp[i][0]=True
-    if(target<=arr[0]):
-        dp[0][arr[0]]=True
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=False,False
-            exclude=dp[i-1][j]
-            if(arr[i]<=j):
-                include=dp[i-1][j-arr[i]]
-            dp[i][j]=include or exclude
-    return dp
+	dp=[[False]*(target+1) for i in range(n)]
+	for i in range(n):
+		dp[i][0]=True
+	if(target<=arr[0]):
+		dp[0][arr[0]]=True
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=False,False
+			exclude=dp[i-1][j]
+			if(arr[i]<=j):
+				include=dp[i-1][j-arr[i]]
+			dp[i][j]=include or exclude
+	return dp
 
 n=int(input())
 arr=list(map(int,input().split()))
@@ -2205,11 +2205,11 @@ totalSum=sum(arr)
 dp=isSubsetSumEqualToK(n,arr,totalSum)
 final=float('inf')
 for i in range(1,totalSum+1):
-    if(dp[n-1][i]):
-        currentSum=i
-        otherSum=totalSum-i
-        diff=abs(currentSum-otherSum)
-        final=min(final,diff)
+	if(dp[n-1][i]):
+		currentSum=i
+		otherSum=totalSum-i
+		diff=abs(currentSum-otherSum)
+		final=min(final,diff)
 print(final)
 ```
 
@@ -2244,18 +2244,18 @@ print(final)
 
 ```python
 def recursive(arr,n,target):
-    if(target==0):
-        return 1
-    if(n==0):
-        if(target-arr[n]==0):
-            return 1
-        else:
-            return 0
-    exclude=recursive(arr,n-1,target)
-    include=0
-    if(arr[n]<=target):
-        include=recursive(arr,n-1,target-arr[n])
-    return include+exclude
+	if(target==0):
+		return 1
+	if(n==0):
+		if(target-arr[n]==0):
+			return 1
+		else:
+			return 0
+	exclude=recursive(arr,n-1,target)
+	include=0
+	if(arr[n]<=target):
+		include=recursive(arr,n-1,target-arr[n])
+	return include+exclude
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2269,18 +2269,18 @@ print(recursive(arr,n-1,target))
 def memorization(arr,n,target,memo):
   key=(n,target)
   if key in memo:
-      return memo[key]
+	  return memo[key]
   if(target==0):
-      return 1
+	  return 1
   if(n==0):
-      if(target-arr[n]==0):
-          return 1
-      else:
-          return 0
+	  if(target-arr[n]==0):
+		  return 1
+	  else:
+		  return 0
   exclude=memorization(arr,n-1,target,memo)
   include=0
   if(arr[n]<=target):
-      include=memorization(arr,n-1,target-arr[n],memo)
+	  include=memorization(arr,n-1,target-arr[n],memo)
   memo[key]=include+exclude
   return memo[key]
 n=int(input())
@@ -2295,19 +2295,19 @@ print(memorization(arr,n-1,target,memo))
 
 ```python
 def tabulation(n,arr,target):
-    dp=[[0]*(target+1) for i in range(n)]
-    for i in range(n):
-        dp[i][0]=1
-    if(arr[0]<=target):
-        dp[0][arr[0]]=1
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=0,0
-            exclude=dp[i-1][j]
-            if(arr[i]<=j):
-                include=dp[i-1][j-arr[i]]
-            dp[i][j]=include+exclude
-    return dp[n-1][target]
+	dp=[[0]*(target+1) for i in range(n)]
+	for i in range(n):
+		dp[i][0]=1
+	if(arr[0]<=target):
+		dp[0][arr[0]]=1
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=0,0
+			exclude=dp[i-1][j]
+			if(arr[i]<=j):
+				include=dp[i-1][j-arr[i]]
+			dp[i][j]=include+exclude
+	return dp[n-1][target]
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2319,21 +2319,21 @@ print(tabulation(n,arr,target))
 
 ```python
 def optimization(n,arr,target):
-    dp_prev=[0]*(target+1)
-    dp_current=[0]*(target+1)
-    dp_prev[0]=1
-    dp_current[0]=1
-    if(arr[0]<=target):
-        dp_prev[arr[0]]=1
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=0,0
-            exclude=dp_prev[j]
-            if(arr[i]<=j):
-                include=dp_prev[j-arr[i]]
-            dp_current[j]=include+exclude
-        dp_prev=dp_current.copy()
-    return dp_prev[target]
+	dp_prev=[0]*(target+1)
+	dp_current=[0]*(target+1)
+	dp_prev[0]=1
+	dp_current[0]=1
+	if(arr[0]<=target):
+		dp_prev[arr[0]]=1
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=0,0
+			exclude=dp_prev[j]
+			if(arr[i]<=j):
+				include=dp_prev[j-arr[i]]
+			dp_current[j]=include+exclude
+		dp_prev=dp_current.copy()
+	return dp_prev[target]
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2362,31 +2362,31 @@ print(optimization(n,arr,target))
 
 ```python 
 def optimization(n,arr,target):
-    dp_prev=[0]*(target+1)
-    dp_current=[0]*(target+1)
-    dp_prev[0]=1
-    dp_current[0]=1
-    if(arr[0]<=target):
-        dp_prev[arr[0]]=1
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=0,0
-            exclude=dp_prev[j]
-            if(arr[i]<=j):
-                include=dp_prev[j-arr[i]]
-            dp_current[j]=include+exclude
-        dp_prev=dp_current.copy()
-    return dp_prev[target]
+	dp_prev=[0]*(target+1)
+	dp_current=[0]*(target+1)
+	dp_prev[0]=1
+	dp_current[0]=1
+	if(arr[0]<=target):
+		dp_prev[arr[0]]=1
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=0,0
+			exclude=dp_prev[j]
+			if(arr[i]<=j):
+				include=dp_prev[j-arr[i]]
+			dp_current[j]=include+exclude
+		dp_prev=dp_current.copy()
+	return dp_prev[target]
 
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
 totalSum=sum(arr)
 if((totalSum-target)<0 or (totalSum-target)&1):
-    print(0)
+	print(0)
 else:
-    temp=(totalSum-target)//2
-    print(optimization(n,arr,temp))
+	temp=(totalSum-target)//2
+	print(optimization(n,arr,temp))
 ```
 
 <p>TC : O(n*target)</p>
@@ -2426,12 +2426,12 @@ else:
 ```python
 def recursive(index,weight,w,v):
   if(index==0):
-      if(w[index]<=weight):
-          return v[index]
+	  if(w[index]<=weight):
+		  return v[index]
   exclude=recursive(index-1,weight,w,v)
   include=float('-inf')
   if(w[index]<=weight):
-      include=v[index]+recursive(index-1,weight-w[index],w,v)
+	  include=v[index]+recursive(index-1,weight-w[index],w,v)
   return max(include,exclude)
 n=int(input())
 w=list(map(int,input().split()))
@@ -2445,18 +2445,18 @@ print(recursive(n-1,weight,w,v))
 
 ```python
 def memorization(index,weight,w,v,memo):
-    key=(index,weight)
-    if key in memo:
-        return memo[key]
-    if(index==0):
-        if(w[index]<=weight):
-            return v[index]
-    exclude=memorization(index-1,weight,w,v,memo)
-    include=float('-inf')
-    if(w[index]<=weight):
-        include=v[index]+memorization(index-1,weight-w[index],w,v,memo)
-    memo[key]=max(include,exclude)
-    return memo[key]
+	key=(index,weight)
+	if key in memo:
+		return memo[key]
+	if(index==0):
+		if(w[index]<=weight):
+			return v[index]
+	exclude=memorization(index-1,weight,w,v,memo)
+	include=float('-inf')
+	if(w[index]<=weight):
+		include=v[index]+memorization(index-1,weight-w[index],w,v,memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
 n=int(input())
 w=list(map(int,input().split()))
 v=list(map(int,input().split()))
@@ -2470,18 +2470,18 @@ print(memorization(n-1,weight,w,v,memo))
 
 ```python
 def tabulation(n,weight,w,v):
-    dp=[[0]*(weight+1) for i in range(n)]
-    for j in range(1,weight+1):
-        if(w[0]<=j):
-            dp[0][j]=v[0]
-    for i in range(1,n):
-        for j in range(1,weight+1):
-            include,exclude=float('-inf'),float('-inf')
-            exclude=dp[i-1][j]
-            if(w[i]<=j):
-                include=v[i]+dp[i-1][j-w[i]]
-            dp[i][j]=max(include,exclude)
-    return dp[n-1][weight]
+	dp=[[0]*(weight+1) for i in range(n)]
+	for j in range(1,weight+1):
+		if(w[0]<=j):
+			dp[0][j]=v[0]
+	for i in range(1,n):
+		for j in range(1,weight+1):
+			include,exclude=float('-inf'),float('-inf')
+			exclude=dp[i-1][j]
+			if(w[i]<=j):
+				include=v[i]+dp[i-1][j-w[i]]
+			dp[i][j]=max(include,exclude)
+	return dp[n-1][weight]
 n=int(input())
 w=list(map(int,input().split()))
 v=list(map(int,input().split()))
@@ -2493,20 +2493,20 @@ weight=int(input())
 
 ```python
 def optimization(n,weight,w,v):
-    dp_prev=[0]*(weight+1)
-    dp_curr=[0]*(weight+1)
-    for j in range(1,weight+1):
-        if(w[0]<=j):
-            dp_prev[j]=v[0]
-    for i in range(1,n):
-        for j in range(1,weight+1):
-            include,exclude=float('-inf'),float('-inf')
-            exclude=dp_prev[j]
-            if(w[i]<=j):
-                include=v[i]+dp_prev[j-w[i]]
-            dp_curr[j]=max(include,exclude)
-        dp_prev=dp_curr.copy()
-    return dp_prev[weight]
+	dp_prev=[0]*(weight+1)
+	dp_curr=[0]*(weight+1)
+	for j in range(1,weight+1):
+		if(w[0]<=j):
+			dp_prev[j]=v[0]
+	for i in range(1,n):
+		for j in range(1,weight+1):
+			include,exclude=float('-inf'),float('-inf')
+			exclude=dp_prev[j]
+			if(w[i]<=j):
+				include=v[i]+dp_prev[j-w[i]]
+			dp_curr[j]=max(include,exclude)
+		dp_prev=dp_curr.copy()
+	return dp_prev[weight]
 n=int(input())
 w=list(map(int,input().split()))
 v=list(map(int,input().split()))
@@ -2550,18 +2550,18 @@ weight=int(input())
 
 ```python
 def recursive(index,arr,target):
-    if(target==0):
-        return 0
-    if(index==0):
-        if(target%arr[0]==0):
-            return target//arr[0]
-        else:
-            return float('inf')
-    exclude=recursive(index-1,arr,target)
-    include=float('inf')
-    if(arr[index]<=target):
-        include=1+recursive(index,arr,target-arr[index])
-    return min(include,exclude)
+	if(target==0):
+		return 0
+	if(index==0):
+		if(target%arr[0]==0):
+			return target//arr[0]
+		else:
+			return float('inf')
+	exclude=recursive(index-1,arr,target)
+	include=float('inf')
+	if(arr[index]<=target):
+		include=1+recursive(index,arr,target-arr[index])
+	return min(include,exclude)
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2573,22 +2573,22 @@ print(recursive(n-1,arr,target))
 
 ```python
 def memorization(index,arr,target,memo):
-    key=(index,target)
-    if key in memo:
-        return memo[key]
-    if(target==0):
-        return 0
-    if(index==0):
-        if(target%arr[0]==0):
-            return target//arr[0]
-        else:
-            return float('inf')
-    exclude=recursive(index-1,arr,target)
-    include=float('inf')
-    if(arr[index]<=target):
-        include=1+recursive(index,arr,target-arr[index])
-    memo[key]=min(include,exclude)
-    return memo[key]
+	key=(index,target)
+	if key in memo:
+		return memo[key]
+	if(target==0):
+		return 0
+	if(index==0):
+		if(target%arr[0]==0):
+			return target//arr[0]
+		else:
+			return float('inf')
+	exclude=recursive(index-1,arr,target)
+	include=float('inf')
+	if(arr[index]<=target):
+		include=1+recursive(index,arr,target-arr[index])
+	memo[key]=min(include,exclude)
+	return memo[key]
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2601,20 +2601,20 @@ print(memorization(n-1,arr,target,memo))
 
 ```python
 def tabulation(n,arr,target):
-    dp=[[0]*(target+1) for i in range(n)]
-    for i in range(1,target+1):
-        if(i%arr[0]==0):
-            dp[0][i]=(i//arr[0])
-        else:
-            dp[0][i]=float('inf')
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=float('inf'),float('inf')
-            exclude=dp[i-1][j]
-            if(arr[i]<=j):
-                include=1+dp[i][j-arr[i]]
-            dp[i][j]=min(include,exclude)
-    return dp[n-1][target]
+	dp=[[0]*(target+1) for i in range(n)]
+	for i in range(1,target+1):
+		if(i%arr[0]==0):
+			dp[0][i]=(i//arr[0])
+		else:
+			dp[0][i]=float('inf')
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=float('inf'),float('inf')
+			exclude=dp[i-1][j]
+			if(arr[i]<=j):
+				include=1+dp[i][j-arr[i]]
+			dp[i][j]=min(include,exclude)
+	return dp[n-1][target]
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2626,22 +2626,22 @@ print(tabulation(n,arr,target))
 
 ```python
 def optimization(n,arr,target):
-    dp_prev=[0]*(target+1)
-    dp_curr=[0]*(target+1)
-    for i in range(1,target+1):
-        if(i%arr[0]==0):
-            dp_prev[i]=(i//arr[0])
-        else:
-            dp_prev[i]=float('inf')
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=float('inf'),float('inf')
-            exclude=dp_prev[j]
-            if(arr[i]<=j):
-                include=1+dp_curr[j-arr[i]]
-            dp_curr[j]=min(include,exclude)
-        dp_prev=dp_curr.copy()
-    return dp_prev[target]
+	dp_prev=[0]*(target+1)
+	dp_curr=[0]*(target+1)
+	for i in range(1,target+1):
+		if(i%arr[0]==0):
+			dp_prev[i]=(i//arr[0])
+		else:
+			dp_prev[i]=float('inf')
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=float('inf'),float('inf')
+			exclude=dp_prev[j]
+			if(arr[i]<=j):
+				include=1+dp_curr[j-arr[i]]
+			dp_curr[j]=min(include,exclude)
+		dp_prev=dp_curr.copy()
+	return dp_prev[target]
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2669,31 +2669,31 @@ print(optimization(n,arr,target))
 
 ```python 
 def optimization(n,arr,target):
-    dp_prev=[0]*(target+1)
-    dp_current=[0]*(target+1)
-    dp_prev[0]=1
-    dp_current[0]=1
-    if(arr[0]<=target):
-        dp_prev[arr[0]]=1
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=0,0
-            exclude=dp_prev[j]
-            if(arr[i]<=j):
-                include=dp_prev[j-arr[i]]
-            dp_current[j]=include+exclude
-        dp_prev=dp_current.copy()
-    return dp_prev[target]
+	dp_prev=[0]*(target+1)
+	dp_current=[0]*(target+1)
+	dp_prev[0]=1
+	dp_current[0]=1
+	if(arr[0]<=target):
+		dp_prev[arr[0]]=1
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=0,0
+			exclude=dp_prev[j]
+			if(arr[i]<=j):
+				include=dp_prev[j-arr[i]]
+			dp_current[j]=include+exclude
+		dp_prev=dp_current.copy()
+	return dp_prev[target]
 
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
 totalSum=sum(arr)
 if((totalSum-target)<0 or (totalSum-target)&1):
-    print(0)
+	print(0)
 else:
-    temp=(totalSum-target)//2
-    print(optimization(n,arr,temp))
+	temp=(totalSum-target)//2
+	print(optimization(n,arr,temp))
 ```
 
 <br>
@@ -2731,18 +2731,18 @@ else:
 
 ```python
 def recursive(index,arr,target):
-    if(target==0):
-        return 1
-    if(index==0):
-        if(target%arr[0]==0):
-            return 1
-        else:
-            return 0
-    exclude=recursive(index-1,arr,target)
-    include=0
-    if(arr[index]<=target):
-        include=recursive(index,arr,target-arr[index])
-    return include+exclude
+	if(target==0):
+		return 1
+	if(index==0):
+		if(target%arr[0]==0):
+			return 1
+		else:
+			return 0
+	exclude=recursive(index-1,arr,target)
+	include=0
+	if(arr[index]<=target):
+		include=recursive(index,arr,target-arr[index])
+	return include+exclude
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2754,22 +2754,22 @@ print(recursive(n-1,arr,target))
 
 ```python
 def memorization(index,arr,target,memo):
-    key=(index,target)
-    if key in memo:
-        return memo[key]
-    if(target==0):
-        return 1
-    if(index==0):
-        if(target%arr[0]==0):
-            return 1
-        else:
-            return 0
-    exclude=recursive(index-1,arr,target)
-    include=0
-    if(arr[index]<=target):
-        include=recursive(index,arr,target-arr[index])
-    memo[key]=include+exclude
-    return memo[key]
+	key=(index,target)
+	if key in memo:
+		return memo[key]
+	if(target==0):
+		return 1
+	if(index==0):
+		if(target%arr[0]==0):
+			return 1
+		else:
+			return 0
+	exclude=recursive(index-1,arr,target)
+	include=0
+	if(arr[index]<=target):
+		include=recursive(index,arr,target-arr[index])
+	memo[key]=include+exclude
+	return memo[key]
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2782,22 +2782,22 @@ print(memorization(n-1,arr,target,memo))
 
 ```python
 def tabulation(n,arr,target):
-    dp=[[0]*(target+1) for i in range(n)]
-    for i in range(n):
-        dp[i][0]=1
-    for i in range(1,target+1):
-        if(i%arr[0]==0):
-            dp[0][i]=1
-        else:
-            dp[0][i]=0
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=0,0
-            exclude=dp[i-1][j]
-            if(arr[i]<=j):
-                include=dp[i][j-arr[i]]
-            dp[i][j]=include+exclude
-    return dp[n-1][target]
+	dp=[[0]*(target+1) for i in range(n)]
+	for i in range(n):
+		dp[i][0]=1
+	for i in range(1,target+1):
+		if(i%arr[0]==0):
+			dp[0][i]=1
+		else:
+			dp[0][i]=0
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=0,0
+			exclude=dp[i-1][j]
+			if(arr[i]<=j):
+				include=dp[i][j-arr[i]]
+			dp[i][j]=include+exclude
+	return dp[n-1][target]
 
 n=int(input())
 arr=list(map(int,input().split()))
@@ -2810,24 +2810,24 @@ print(tabulation(n,arr,target))
 
 ```python
 def optimization(n,arr,target):
-    dp_prev=[0]*(target+1)
-    dp_curr=[0]*(target+1)
-    dp_prev[0]=1
-    dp_curr[0]=1
-    for i in range(1,target+1):
-        if(i%arr[0]==0):
-            dp_prev[i]=1
-        else:
-            dp_prev[i]=0
-    for i in range(1,n):
-        for j in range(1,target+1):
-            include,exclude=0,0
-            exclude=dp_prev[j]
-            if(arr[i]<=j):
-                include=dp_curr[j-arr[i]]
-            dp_curr[j]=include+exclude
-        dp_prev=dp_curr.copy()
-    return dp_prev[target]
+	dp_prev=[0]*(target+1)
+	dp_curr=[0]*(target+1)
+	dp_prev[0]=1
+	dp_curr[0]=1
+	for i in range(1,target+1):
+		if(i%arr[0]==0):
+			dp_prev[i]=1
+		else:
+			dp_prev[i]=0
+	for i in range(1,n):
+		for j in range(1,target+1):
+			include,exclude=0,0
+			exclude=dp_prev[j]
+			if(arr[i]<=j):
+				include=dp_curr[j-arr[i]]
+			dp_curr[j]=include+exclude
+		dp_prev=dp_curr.copy()
+	return dp_prev[target]
 n=int(input())
 arr=list(map(int,input().split()))
 target=int(input())
@@ -2884,9 +2884,9 @@ print(optimization(n,arr,target))
 
 ```python
 if seq1[i] == seq2[j]:
-    LCS[i][j] = 1 + LCS[i - 1][j - 1]  # if the characters match, add 1 to the LCS length
+	LCS[i][j] = 1 + LCS[i - 1][j - 1]  # if the characters match, add 1 to the LCS length
 else:
-    LCS[i][j] = max(LCS[i - 1][j], LCS[i][j - 1])  # characters don't match, take the maximum of the two possibilities
+	LCS[i][j] = max(LCS[i - 1][j], LCS[i][j - 1])  # characters don't match, take the maximum of the two possibilities
 
 ```
 <h5>Step-5 : Recursive Solution</h5>
@@ -2895,14 +2895,14 @@ else:
 
 ```python
 def recursive(S1,S2,index1,index2):
-    if(index1<0 or index2<0):
-        return 0
-    if(S1[index1]==S2[index2]):
-        return 1+recursive(S1,S2,index1-1,index2-1)
-    else:
-        excludeS1=recursive(S1,S2,index1-1,index2)
-        excludeS2=recursive(S1,S2,index1,index2-1)
-        return max(excludeS1,excludeS2)
+	if(index1<0 or index2<0):
+		return 0
+	if(S1[index1]==S2[index2]):
+		return 1+recursive(S1,S2,index1-1,index2-1)
+	else:
+		excludeS1=recursive(S1,S2,index1-1,index2)
+		excludeS2=recursive(S1,S2,index1,index2-1)
+		return max(excludeS1,excludeS2)
 S1=input()
 S2=input()
 n1=len(S1)
@@ -2917,17 +2917,17 @@ print(recursive(S1,S2,n1-1,n2-1))
 def memorization(S1,S2,index1,index2,memo):
   key=(index1,index2)
   if key in memo:
-      return memo[key]
+	  return memo[key]
   if(index1<0 or index2<0):
-      return 0
+	  return 0
   if(S1[index1]==S2[index2]):
-      memo[key]=1+ memorization(S1,S2,index1-1,index2-1,memo)
-      return memo[key]
+	  memo[key]=1+ memorization(S1,S2,index1-1,index2-1,memo)
+	  return memo[key]
   else:
-      excludeS1= memorization(S1,S2,index1-1,index2,memo)
-      excludeS2= memorization(S1,S2,index1,index2-1,memo)
-      memo[key]=max(excludeS1,excludeS2)
-      return memo[key]
+	  excludeS1= memorization(S1,S2,index1-1,index2,memo)
+	  excludeS2= memorization(S1,S2,index1,index2-1,memo)
+	  memo[key]=max(excludeS1,excludeS2)
+	  return memo[key]
 S1=input()
 S2=input()
 n1=len(S1)
@@ -2943,18 +2943,18 @@ print(memorization(S1,S2,n1-1,n2-1,memo))
 
 ```python
 def tabulation(S1,S2):
-    n1,n2=len(S1),len(S2)
-    dp=[[0]*(n2+1) for i in range(n1+1)]
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                dp[i][j]=1+dp[i-1][j-1]
-            else:
-                excludeS1=dp[i-1][j]
-                excludeS2=dp[i][j-1]
-                dp[i][j]=max(excludeS1,excludeS2)
-    return dp[n1][n2]
+	n1,n2=len(S1),len(S2)
+	dp=[[0]*(n2+1) for i in range(n1+1)]
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				dp[i][j]=1+dp[i-1][j-1]
+			else:
+				excludeS1=dp[i-1][j]
+				excludeS2=dp[i][j-1]
+				dp[i][j]=max(excludeS1,excludeS2)
+	return dp[n1][n2]
 S1=input()
 S2=input()
 n1=len(S1)
@@ -2967,20 +2967,20 @@ print(tabulation(S1,S2))
 
 ```python
 def optimization(S1,S2):
-    n1,n2=len(S1),len(S2)
-    dp_prev=[0]*(n2+1)
-    dp_curr=[0]*(n2+1)
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                dp_curr[j]=1+dp_prev[j-1]
-            else:
-                excludeS1=dp_prev[j]
-                excludeS2=dp_curr[j-1]
-                dp_curr[j]=max(excludeS1,excludeS2)
-        dp_prev=dp_curr.copy()
-    return dp_curr[n2]
+	n1,n2=len(S1),len(S2)
+	dp_prev=[0]*(n2+1)
+	dp_curr=[0]*(n2+1)
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				dp_curr[j]=1+dp_prev[j-1]
+			else:
+				excludeS1=dp_prev[j]
+				excludeS2=dp_curr[j-1]
+				dp_curr[j]=max(excludeS1,excludeS2)
+		dp_prev=dp_curr.copy()
+	return dp_curr[n2]
 S1=input()
 S2=input()
 n1=len(S1)
@@ -3037,14 +3037,14 @@ print(optimization(S1,S2))
 
 ```python
 if(S1[index1]==S2[index2] or s1[index1]=='?'):
-    return f(index1-1,index2-1) # both characters are equal
+	return f(index1-1,index2-1) # both characters are equal
 else:
-    if(S1[index1]=='*'):
-        a=f(index1-1,index2) # matches nothing
-        b=f(index1,index2-1) # matches a character
-        return a or b 
-    else:
-         return False # both characters are not equal
+	if(S1[index1]=='*'):
+		a=f(index1-1,index2) # matches nothing
+		b=f(index1,index2-1) # matches a character
+		return a or b 
+	else:
+		 return False # both characters are not equal
 ```
 <h5>Step-5 : Recursive Solution</h5>
 
@@ -3052,25 +3052,25 @@ else:
 
 ```python
 def recursive(S1,S2,index1,index2):
-    if(index1<0 and index2<0):
-        return True
-    if(index1<0 and index2>=0):
-        return False
-    if(index2<0 and index1>=0):
-        if(S1[index1]=='*' and len(set(S1[index1:]))==1):
-            return True
-        else:
-            return False
+	if(index1<0 and index2<0):
+		return True
+	if(index1<0 and index2>=0):
+		return False
+	if(index2<0 and index1>=0):
+		if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+			return True
+		else:
+			return False
 
-    if(S1[index1]==S2[index2] or S1[index1]=='?'):
-        return recursive(S1,S2,index1-1,index2-1)
-    else:
-        if(S1[index1]=='*'):
-            excludeS1=recursive(S1,S2,index1-1,index2)
-            excludeS2=recursive(S1,S2,index1,index2-1)
-            return excludeS1 or excludeS2
-        else:
-            return False
+	if(S1[index1]==S2[index2] or S1[index1]=='?'):
+		return recursive(S1,S2,index1-1,index2-1)
+	else:
+		if(S1[index1]=='*'):
+			excludeS1=recursive(S1,S2,index1-1,index2)
+			excludeS2=recursive(S1,S2,index1,index2-1)
+			return excludeS1 or excludeS2
+		else:
+			return False
 S1=input()
 S2=input()
 n1=len(S1)
@@ -3083,31 +3083,31 @@ print(recursive(S1,S2,n1-1,n2-1))
 
 ```python
 def memorization(S1,S2,index1,index2,memo):
-    key=(index1,index2)
-    if key in memo:
-        return memo[key]
-    if(index1<0 and index2<0):
-        return True
-    if(index1<0 and index2>=0):
-        return False
-    if(index2<0 and index1>=0):
-        if(S1[index1]=='*' and len(set(S1[index1:]))==1):
-            return True
-        else:
-            return False
+	key=(index1,index2)
+	if key in memo:
+		return memo[key]
+	if(index1<0 and index2<0):
+		return True
+	if(index1<0 and index2>=0):
+		return False
+	if(index2<0 and index1>=0):
+		if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+			return True
+		else:
+			return False
 
-    if(S1[index1]==S2[index2] or S1[index1]=='?'):
-        memo[key]=memorization(S1,S2,index1-1,index2-1,memo)
-        return memo[key]
-    else:
-        if(S1[index1]=='*'):
-            excludeS1=memorization(S1,S2,index1-1,index2,memo)
-            excludeS2=memorization(S1,S2,index1,index2-1,memo)
-            memo[key]=excludeS1 or excludeS2
-            return memo[key]
-        else:
-            memo[key]=False
-            return memo[key]
+	if(S1[index1]==S2[index2] or S1[index1]=='?'):
+		memo[key]=memorization(S1,S2,index1-1,index2-1,memo)
+		return memo[key]
+	else:
+		if(S1[index1]=='*'):
+			excludeS1=memorization(S1,S2,index1-1,index2,memo)
+			excludeS2=memorization(S1,S2,index1,index2-1,memo)
+			memo[key]=excludeS1 or excludeS2
+			return memo[key]
+		else:
+			memo[key]=False
+			return memo[key]
 S1=input()
 S2=input()
 n1=len(S1)
@@ -3123,27 +3123,27 @@ print(memorization(S1,S2,n1-1,n2-1,memo))
 
 ```python
 def tabulation(S1,S2,n1,n2):
-    dp=[[False]*(n2+1) for i in range(n1+1)]
-    dp[0][0]=True
-    for i in range(1,n2+1):
-        dp[0][i]=False
-    for i in range(1,n1+1):
-        index1=i-1
-        if(S1[index1]=='*' and len(set(S1[index1:]))==1):
-            dp[i][0]=True
-        else:
-            dp[i][0]=False
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2] or S1[index1]=='?'):
-                dp[i][j]=dp[i-1][j-1]
-            else:
-                if(S1[index1]=='*'):
-                    dp[i][j]=dp[i-1][j] or dp[i][j-1]
-                else:
-                    dp[i][j]=False
-    return dp[n1][n2]
+	dp=[[False]*(n2+1) for i in range(n1+1)]
+	dp[0][0]=True
+	for i in range(1,n2+1):
+		dp[0][i]=False
+	for i in range(1,n1+1):
+		index1=i-1
+		if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+			dp[i][0]=True
+		else:
+			dp[i][0]=False
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2] or S1[index1]=='?'):
+				dp[i][j]=dp[i-1][j-1]
+			else:
+				if(S1[index1]=='*'):
+					dp[i][j]=dp[i-1][j] or dp[i][j-1]
+				else:
+					dp[i][j]=False
+	return dp[n1][n2]
 S1=input()
 S2=input()
 n1=len(S1)
@@ -3158,27 +3158,27 @@ print(tabulation(S1,S2,n1,n2))
 
 ```python
 def optimization(S1,S2,n1,n2):
-    dp_prev=[False]*(n2+1)
-    dp_curr=[False]*(n2+1)
-    dp_prev[0]=True
-    for i in range(1,n2+1):
-        dp_prev[i]=False
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]=='*' and len(set(S1[index1:]))==1):
-                dp_curr[0]=True
-            else:
-                dp_curr[0]=False
-            if(S1[index1]==S2[index2] or S1[index1]=='?'):
-                dp_curr[j]=dp_prev[j-1]
-            else:
-                if(S1[index1]=='*'):
-                    dp_curr[j]=dp_prev[j] or dp_curr[j-1]
-                else:
-                    dp_curr[j]=False
-        dp_prev=dp_curr.copy()
-    return dp_curr[n2]
+	dp_prev=[False]*(n2+1)
+	dp_curr=[False]*(n2+1)
+	dp_prev[0]=True
+	for i in range(1,n2+1):
+		dp_prev[i]=False
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]=='*' and len(set(S1[index1:]))==1):
+				dp_curr[0]=True
+			else:
+				dp_curr[0]=False
+			if(S1[index1]==S2[index2] or S1[index1]=='?'):
+				dp_curr[j]=dp_prev[j-1]
+			else:
+				if(S1[index1]=='*'):
+					dp_curr[j]=dp_prev[j] or dp_curr[j-1]
+				else:
+					dp_curr[j]=False
+		dp_prev=dp_curr.copy()
+	return dp_curr[n2]
 S1=input()
 S2=input()
 n1=len(S1)
@@ -3210,29 +3210,29 @@ print(optimization(S1,S2,n1,n2))
 
 ```python
 def tabulation(S1,S2,n1,n2):
-    dp=[[0]*(n2+1) for i in range(n1+1)]
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                dp[i][j]=1+dp[i-1][j-1]
-            else:
-                dp[i][j]=max(dp[i-1][j],dp[i][j-1])
-    lcs=dp[n1][n2]
-    i,j=n1,n2
-    final=[]
-    while(i>0 and j>0):
-        index1,index2=i-1,j-1
-        if(S1[index1]==S2[index2]):
-            i-=1
-            j-=1
-            final.append(S1[index1])
-        else:
-            if(dp[i-1][j] > dp[i][j-1]):
-                i-=1
-            else:
-                j-=1
-    return "".join(final[::-1])
+	dp=[[0]*(n2+1) for i in range(n1+1)]
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				dp[i][j]=1+dp[i-1][j-1]
+			else:
+				dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+	lcs=dp[n1][n2]
+	i,j=n1,n2
+	final=[]
+	while(i>0 and j>0):
+		index1,index2=i-1,j-1
+		if(S1[index1]==S2[index2]):
+			i-=1
+			j-=1
+			final.append(S1[index1])
+		else:
+			if(dp[i-1][j] > dp[i][j-1]):
+				i-=1
+			else:
+				j-=1
+	return "".join(final[::-1])
 S1=input()
 S2=input()
 n1,n2=len(S1),len(S2)
@@ -3276,41 +3276,41 @@ print(tabulation(S1,S2,n1,n2))
 
 ```python
 if seq1[i] == seq2[j]:
-    LCS[i][j] = 1 + LCS[i - 1][j - 1]  # if the characters match, add 1 to the LCS length
+	LCS[i][j] = 1 + LCS[i - 1][j - 1]  # if the characters match, add 1 to the LCS length
 else:
-    LCS[i][j] = 0  # characters don't match, substring length will be zero
+	LCS[i][j] = 0  # characters don't match, substring length will be zero
 
 ```
 ```python
 def tabulation(S1,S2,n1,n2):
-    dp=[[0]*(n2+1) for i in range(n1+1)]
-    final=float('-inf')
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                temp=1+dp[i-1][j-1]
-                dp[i][j]=temp
-                final=max(final,temp)
-            else:
-                dp[i][j]=0
-    return final
+	dp=[[0]*(n2+1) for i in range(n1+1)]
+	final=float('-inf')
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				temp=1+dp[i-1][j-1]
+				dp[i][j]=temp
+				final=max(final,temp)
+			else:
+				dp[i][j]=0
+	return final
 
 def optimization(S1,S2,n1,n2):
-    dp_prev=[0]*(n2+1)
-    dp_curr=[0]*(n2+1)
-    final=float('-inf')
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                temp=1+dp_prev[j-1]
-                dp_curr[j]=temp
-                final=max(final,temp)
-            else:
-                dp_curr[j]=0
-        dp_prev=dp_curr.copy()
-    return final
+	dp_prev=[0]*(n2+1)
+	dp_curr=[0]*(n2+1)
+	final=float('-inf')
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				temp=1+dp_prev[j-1]
+				dp_curr[j]=temp
+				final=max(final,temp)
+			else:
+				dp_curr[j]=0
+		dp_prev=dp_curr.copy()
+	return final
 S1=input()
 S2=input()
 n1,n2=len(S1),len(S2)
@@ -3334,20 +3334,20 @@ print(optimization(S1,S2,n1,n2))
 
 ```python
 def optimizationlcs(S1,S2):
-    n1,n2=len(S1),len(S2)
-    dp_prev=[0]*(n2+1)
-    dp_curr=[0]*(n2+1)
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                dp_curr[j]=1+dp_prev[j-1]
-            else:
-                excludeS1=dp_prev[j]
-                excludeS2=dp_curr[j-1]
-                dp_curr[j]=max(excludeS1,excludeS2)
-        dp_prev=dp_curr.copy()
-    return dp_curr[n2]
+	n1,n2=len(S1),len(S2)
+	dp_prev=[0]*(n2+1)
+	dp_curr=[0]*(n2+1)
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				dp_curr[j]=1+dp_prev[j-1]
+			else:
+				excludeS1=dp_prev[j]
+				excludeS2=dp_curr[j-1]
+				dp_curr[j]=max(excludeS1,excludeS2)
+		dp_prev=dp_curr.copy()
+	return dp_curr[n2]
 
 S1=input()
 S2=S1[::-1]
@@ -3368,20 +3368,20 @@ print(optimizationlcs(S1,S2))
 
 ```python
 def optimization(S1,S2):
-    n1,n2=len(S1),len(S2)
-    dp_prev=[0]*(n2+1)
-    dp_curr=[0]*(n2+1)
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                dp_curr[j]=1+dp_prev[j-1]
-            else:
-                excludeS1=dp_prev[j]
-                excludeS2=dp_curr[j-1]
-                dp_curr[j]=max(excludeS1,excludeS2)
-        dp_prev=dp_curr.copy()
-    return dp_curr[n2]
+	n1,n2=len(S1),len(S2)
+	dp_prev=[0]*(n2+1)
+	dp_curr=[0]*(n2+1)
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				dp_curr[j]=1+dp_prev[j-1]
+			else:
+				excludeS1=dp_prev[j]
+				excludeS2=dp_curr[j-1]
+				dp_curr[j]=max(excludeS1,excludeS2)
+		dp_prev=dp_curr.copy()
+	return dp_curr[n2]
 
 S1=input()
 S2=S1[::-1]
@@ -3415,20 +3415,20 @@ print(n1-lcs)
 
 ```python
 def optimization(S1,S2):
-    n1,n2=len(S1),len(S2)
-    dp_prev=[0]*(n2+1)
-    dp_curr=[0]*(n2+1)
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                dp_curr[j]=1+dp_prev[j-1]
-            else:
-                excludeS1=dp_prev[j]
-                excludeS2=dp_curr[j-1]
-                dp_curr[j]=max(excludeS1,excludeS2)
-        dp_prev=dp_curr.copy()
-    return dp_curr[n2]
+	n1,n2=len(S1),len(S2)
+	dp_prev=[0]*(n2+1)
+	dp_curr=[0]*(n2+1)
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				dp_curr[j]=1+dp_prev[j-1]
+			else:
+				excludeS1=dp_prev[j]
+				excludeS2=dp_curr[j-1]
+				dp_curr[j]=max(excludeS1,excludeS2)
+		dp_prev=dp_curr.copy()
+	return dp_curr[n2]
 
 S1=input()
 S2=input()
@@ -3458,36 +3458,36 @@ print(deletions+insertions)
 
 ```python
 def tabulation(S1,S2,n1,n2):
-    dp=[[0]*(n2+1) for i in range(n1+1)]
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(S1[index1]==S2[index2]):
-                dp[i][j]=1+dp[i-1][j-1]
-            else:
-                dp[i][j]=max(dp[i-1][j],dp[i][j-1])
-    temp=[]
-    i,j=n1,n2
-    while(i>0 and j>0):
-        index1,index2=i-1,j-1
-        if(S1[index1]==S2[index2]):
-            temp.append(S1[index1])
-            i-=1
-            j-=1
-        else:
-            if(dp[i-1][j]>dp[i][j-1]):
-                temp.append(S1[index1])
-                i-=1
-            else:
-                temp.append(S2[index2])
-                j-=1
-    while i>0:
-        temp.append(S1[i-1])
-        i-=1
-    while j>0:
-        temp.append(S2[j-1])
-        j-=1
-    return "".join(temp[::-1])
+	dp=[[0]*(n2+1) for i in range(n1+1)]
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(S1[index1]==S2[index2]):
+				dp[i][j]=1+dp[i-1][j-1]
+			else:
+				dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+	temp=[]
+	i,j=n1,n2
+	while(i>0 and j>0):
+		index1,index2=i-1,j-1
+		if(S1[index1]==S2[index2]):
+			temp.append(S1[index1])
+			i-=1
+			j-=1
+		else:
+			if(dp[i-1][j]>dp[i][j-1]):
+				temp.append(S1[index1])
+				i-=1
+			else:
+				temp.append(S2[index2])
+				j-=1
+	while i>0:
+		temp.append(S1[i-1])
+		i-=1
+	while j>0:
+		temp.append(S2[j-1])
+		j-=1
+	return "".join(temp[::-1])
 S1=input()
 S2=input()
 n1=len(S1)
@@ -3529,9 +3529,9 @@ print(tabulation(S1,S2,n1,n2))
 
 ```python
   if(s1[index1]==s2[index2]):
-    return f(index1-1,index2)+f(index1-1,index2-1)
+	return f(index1-1,index2)+f(index1-1,index2-1)
   else:
-    return f(index1-1,index2)
+	return f(index1-1,index2)
 ```
 <h5>Step-5 : Recursive Solution</h5>
 
@@ -3539,14 +3539,14 @@ print(tabulation(S1,S2,n1,n2))
 
 ```python
 def recursive(s1,s2,index1,index2):
-    if(index2<0):
-        return 1
-    if(index1<0):
-        return 0
-    if(s1[index1]==s2[index2]):
-        return recursive(s1,s2,index1-1,index2-1)+recursive(s1,s2,index1-1,index2)
-    else:
-        return recursive(s1,s2,index1-1,index2)
+	if(index2<0):
+		return 1
+	if(index1<0):
+		return 0
+	if(s1[index1]==s2[index2]):
+		return recursive(s1,s2,index1-1,index2-1)+recursive(s1,s2,index1-1,index2)
+	else:
+		return recursive(s1,s2,index1-1,index2)
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 print(recursive(s1,s2,n1-1,n2-1))
@@ -3557,19 +3557,19 @@ print(recursive(s1,s2,n1-1,n2-1))
 
 ```python
 def memorization(s1,s2,index1,index2,memo):
-    key=(index1,index2)
-    if key in memo:
-        return memo[key]
-    if(index2<0):
-        return 1
-    if(index1<0):
-        return 0
-    if(s1[index1]==s2[index2]):
-        memo[key]=memorization(s1,s2,index1-1,index2-1,memo)+memorization(s1,s2,index1-1,index2,memo)
-        return memo[key]
-    else:
-        memo[key]=memorization(s1,s2,index1-1,index2,memo)
-        return memo[key]
+	key=(index1,index2)
+	if key in memo:
+		return memo[key]
+	if(index2<0):
+		return 1
+	if(index1<0):
+		return 0
+	if(s1[index1]==s2[index2]):
+		memo[key]=memorization(s1,s2,index1-1,index2-1,memo)+memorization(s1,s2,index1-1,index2,memo)
+		return memo[key]
+	else:
+		memo[key]=memorization(s1,s2,index1-1,index2,memo)
+		return memo[key]
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 memo={}
@@ -3583,17 +3583,17 @@ print(memorization(s1,s2,n1-1,n2-1,memo))
 
 ```python
 def tabulation(s1,s2,n1,n2):
-    dp=[[0]*(n2+1) for i in range(n1+1)]
-    for i in range(n2+1):
-        dp[i][0]=1
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(s1[index1]==s2[index2]):
-                dp[i][j]=dp[i-1][j-1]+dp[i-1][j]
-            else:
-                dp[i][j]=dp[i-1][j]
-    return dp[n1][n2]
+	dp=[[0]*(n2+1) for i in range(n1+1)]
+	for i in range(n2+1):
+		dp[i][0]=1
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(s1[index1]==s2[index2]):
+				dp[i][j]=dp[i-1][j-1]+dp[i-1][j]
+			else:
+				dp[i][j]=dp[i-1][j]
+	return dp[n1][n2]
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 print(tabulation(s1,s2,n1,n2))
@@ -3604,19 +3604,19 @@ print(tabulation(s1,s2,n1,n2))
 
 ```python
 def optimization(s1,s2,n1,n2):
-    dp_prev=[0]*(n2+1)
-    dp_curr=[0]*(n2+1)
-    dp_prev[0]=1
-    dp_curr[0]=1
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(s1[index1]==s2[index2]):
-                dp_curr[j]=dp_prev[j-1]+dp_prev[j]
-            else:
-                dp_curr[j]=dp_prev[j]
-        dp_prev=dp_curr.copy()
-    return dp_curr[n2]
+	dp_prev=[0]*(n2+1)
+	dp_curr=[0]*(n2+1)
+	dp_prev[0]=1
+	dp_curr[0]=1
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(s1[index1]==s2[index2]):
+				dp_curr[j]=dp_prev[j-1]+dp_prev[j]
+			else:
+				dp_curr[j]=dp_prev[j]
+		dp_prev=dp_curr.copy()
+	return dp_curr[n2]
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 print(optimization(s1,s2,n1,n2))
@@ -3646,7 +3646,7 @@ print(optimization(s1,s2,n1,n2))
 <h5>Step-3 : Finding Base Cases</h5>
   <p>while comparing, if s2 becomes empty and s1 has still characters, then minimum operations = number of characters left in s1, that has to be added in s2 to make it equal</p>
   <p>index2<0 -> index1+1</p>
-    <p>while comparing, if s1 becomes empty and s2 has still characters, then minimum operations = number of characters left in s2, that has to be deleted in s2 to make it equal</p>
+	<p>while comparing, if s1 becomes empty and s2 has still characters, then minimum operations = number of characters left in s2, that has to be deleted in s2 to make it equal</p>
   <p>index1<0 -> index2+1</p>
 <h5>Step-4 : Finding The Recurrence Relation</h5> 
   <p>To make s1==s2, we will compare each character in s1 and s2</p>
@@ -3660,28 +3660,28 @@ print(optimization(s1,s2,n1,n2))
 
 ```python
 if(S1[index2]==S2[index2]):
-    return f(index1-1,index2-1)
+	return f(index1-1,index2-1)
 else:
-    replace=1+f(index1-1,index2-1)
-    insert=1+f(index1-1,index2)
-    delete=1+f(index1,index2-1)
-    return min(replace,insert,delete)
+	replace=1+f(index1-1,index2-1)
+	insert=1+f(index1-1,index2)
+	delete=1+f(index1,index2-1)
+	return min(replace,insert,delete)
 ```
 <h5>Step-5 : Recursive Solution</h5>
 
 ```python
 def recursive(s1,s2,index1,index2):
-    if(index1<0):
-        return index2+1
-    if(index2<0):
-        return index1+1
-    if(s1[index1]==s2[index2]):
-        return recursive(s1,s2,index1-1,index2-1)
-    else:
-        replace=1+recursive(s1,s2,index1-1,index2-1)
-        insert=1+recursive(s1,s2,index1-1,index2)
-        delete=1+recursive(s1,s2,index1,index2-1)
-        return min(replace,insert,delete)
+	if(index1<0):
+		return index2+1
+	if(index2<0):
+		return index1+1
+	if(s1[index1]==s2[index2]):
+		return recursive(s1,s2,index1-1,index2-1)
+	else:
+		replace=1+recursive(s1,s2,index1-1,index2-1)
+		insert=1+recursive(s1,s2,index1-1,index2)
+		delete=1+recursive(s1,s2,index1,index2-1)
+		return min(replace,insert,delete)
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 print(recursive(s1,s2,n1-1,n2-1))
@@ -3692,22 +3692,22 @@ print(recursive(s1,s2,n1-1,n2-1))
 
 ```python
 def memorization(s1,s2,index1,index2,memo):
-    key=(index1,index2)
-    if key in memo:
-        return memo[key]
-    if(index1<0):
-        return index2+1
-    if(index2<0):
-        return index1+1
-    if(s1[index1]==s2[index2]):
-        memo[key]=memorization(s1,s2,index1-1,index2-1,memo)
-        return memo[key]
-    else:
-        replace=1+memorization(s1,s2,index1-1,index2-1,memo)
-        insert=1+memorization(s1,s2,index1-1,index2,memo)
-        delete=1+memorization(s1,s2,index1,index2-1,memo)
-        memo[key]=min(replace,insert,delete)
-        return memo[key]
+	key=(index1,index2)
+	if key in memo:
+		return memo[key]
+	if(index1<0):
+		return index2+1
+	if(index2<0):
+		return index1+1
+	if(s1[index1]==s2[index2]):
+		memo[key]=memorization(s1,s2,index1-1,index2-1,memo)
+		return memo[key]
+	else:
+		replace=1+memorization(s1,s2,index1-1,index2-1,memo)
+		insert=1+memorization(s1,s2,index1-1,index2,memo)
+		delete=1+memorization(s1,s2,index1,index2-1,memo)
+		memo[key]=min(replace,insert,delete)
+		return memo[key]
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 memo={}
@@ -3721,22 +3721,22 @@ print(memorization(s1,s2,n1-1,n2-1,memo))
 
 ```python
 def tabulation(s1,s2,n1,n2):
-    dp=[[0]*(n2+1) for i in range(n1+1)]
-    for i in range(1,n1+1):
-        dp[i][0]=i
-    for i in range(1,n2+1):
-        dp[0][i]=i
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            index1,index2=i-1,j-1
-            if(s1[index1]==s2[index2]):
-                dp[i][j]=dp[i-1][j-1]
-            else:
-                replace=1+dp[i-1][j-1]
-                insert=1+dp[i-1][j]
-                delete=1+dp[i][j-1]
-                dp[i][j]=min(replace,insert,delete)
-    return dp[n1][n2]
+	dp=[[0]*(n2+1) for i in range(n1+1)]
+	for i in range(1,n1+1):
+		dp[i][0]=i
+	for i in range(1,n2+1):
+		dp[0][i]=i
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			index1,index2=i-1,j-1
+			if(s1[index1]==s2[index2]):
+				dp[i][j]=dp[i-1][j-1]
+			else:
+				replace=1+dp[i-1][j-1]
+				insert=1+dp[i-1][j]
+				delete=1+dp[i][j-1]
+				dp[i][j]=min(replace,insert,delete)
+	return dp[n1][n2]
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 print(tabulation(s1,s2,n1,n2))
@@ -3747,24 +3747,24 @@ print(tabulation(s1,s2,n1,n2))
 
 ```python
 def optimization(s1,s2,n1,n2):
-    dp_prev=[0]*(n2+1)
-    dp_curr=[0]*(n2+1)
-    dp_curr[0]=0
-    for i in range(1,n2+1):
-        dp_prev[i]=i
-    for i in range(1,n1+1):
-        for j in range(1,n2+1):
-            dp_curr[0]=i
-            index1,index2=i-1,j-1
-            if(s1[index1]==s2[index2]):
-                dp_curr[j]=dp_prev[j-1]
-            else:
-                replace=1+dp_prev[j-1]
-                insert=1+dp_prev[j]
-                delete=1+dp_curr[j-1]
-                dp_curr[j]=min(replace,insert,delete)
-        dp_prev=dp_curr.copy()
-    return dp_curr[n2]
+	dp_prev=[0]*(n2+1)
+	dp_curr=[0]*(n2+1)
+	dp_curr[0]=0
+	for i in range(1,n2+1):
+		dp_prev[i]=i
+	for i in range(1,n1+1):
+		for j in range(1,n2+1):
+			dp_curr[0]=i
+			index1,index2=i-1,j-1
+			if(s1[index1]==s2[index2]):
+				dp_curr[j]=dp_prev[j-1]
+			else:
+				replace=1+dp_prev[j-1]
+				insert=1+dp_prev[j]
+				delete=1+dp_curr[j-1]
+				dp_curr[j]=min(replace,insert,delete)
+		dp_prev=dp_curr.copy()
+	return dp_curr[n2]
 s1,s2=input(),input()
 n1,n2=len(s1),len(s2)
 print(optimization(s1,s2,n1,n2))
@@ -3803,16 +3803,16 @@ print(optimization(s1,s2,n1,n2))
 
 ```python
 def solve(arr,n):
-    profit=0
-    minimum=arr[0]
-    buy=minimum
-    for i in range(1,n):
-        sell=arr[i]
-        currentProfit=sell-buy
-        profit=max(profit,currentProfit)
-        minimum=min(minimum,i)
-        buy=minimum
-    return profit
+	profit=0
+	minimum=arr[0]
+	buy=minimum
+	for i in range(1,n):
+		sell=arr[i]
+		currentProfit=sell-buy
+		profit=max(profit,currentProfit)
+		minimum=min(minimum,i)
+		buy=minimum
+	return profit
 
 n=int(input())
 arr=list(map(int,input().split()))
@@ -3870,13 +3870,13 @@ print(solve(arr,n))
   <p>finally take maximum of all choices</p>
 
 ```python
-    if(buy==1):
-      include=-arr[index]+f(index+1,0)
-      exclude=f(index+1,buy)
-    else:
-      include=arr[index]+f(index+1,1)
-      exclude=f(index+1,buy)
-    return max(include,exclude)
+	if(buy==1):
+	  include=-arr[index]+f(index+1,0)
+	  exclude=f(index+1,buy)
+	else:
+	  include=arr[index]+f(index+1,1)
+	  exclude=f(index+1,buy)
+	return max(include,exclude)
 ```
 
 <h5>Step-5 : Recursive Solution</h5>
@@ -3885,15 +3885,15 @@ print(solve(arr,n))
 
 ```python
 def recursive(arr,n,index,buy):
-    if(index==n):
-        return 0
-    if(buy==1):
-        include=-arr[index]+recursive(arr,n,index+1,0)
-        exclude=recursive(arr,n,index+1,buy)
-    else:
-        include=arr[index]+recursive(arr,n,index+1,1)
-        exclude=recursive(arr,n,index+1,buy)
-    return max(include,exclude)
+	if(index==n):
+		return 0
+	if(buy==1):
+		include=-arr[index]+recursive(arr,n,index+1,0)
+		exclude=recursive(arr,n,index+1,buy)
+	else:
+		include=arr[index]+recursive(arr,n,index+1,1)
+		exclude=recursive(arr,n,index+1,buy)
+	return max(include,exclude)
   arr=list(map(int,input().split()))
   n=len(arr)
   print(recursive(arr,n,0,1))
@@ -3904,19 +3904,19 @@ def recursive(arr,n,index,buy):
 
 ```python
   def memorization(arr,n,index,buy,memo):
-    key=(index,buy)
-    if key in memo:
-        return memo[key]
-    if(index==n):
-        return 0
-    if(buy==1):
-        include=-arr[index]+memorization(arr,n,index+1,0,memo)
-        exclude=memorization(arr,n,index+1,buy,memo)
-    else:
-        include=arr[index]+memorization(arr,n,index+1,1,memo)
-        exclude=memorization(arr,n,index+1,buy,memo)
-    memo[key]=max(include,exclude)
-    return memo[key]
+	key=(index,buy)
+	if key in memo:
+		return memo[key]
+	if(index==n):
+		return 0
+	if(buy==1):
+		include=-arr[index]+memorization(arr,n,index+1,0,memo)
+		exclude=memorization(arr,n,index+1,buy,memo)
+	else:
+		include=arr[index]+memorization(arr,n,index+1,1,memo)
+		exclude=memorization(arr,n,index+1,buy,memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
   arr=list(map(int,input().split()))
   n=len(arr)
   memo={}
@@ -3932,19 +3932,19 @@ def recursive(arr,n,index,buy):
 
 ```python
   def tabulation(arr,n):
-    dp=[[0]*(n+1) for i in range(2)]
-    dp[0][n]=0
-    dp[1][n]=0
-    for i in range(n-1,-1,-1):
-        for buy in range(2):
-            if(buy==1):
-                include=-arr[i]+dp[0][i+1]
-                exclude=dp[buy][i+1]
-            else:
-                include=arr[i]+dp[1][i+1]
-                exclude=dp[buy][i+1]
-            dp[buy][i]=max(include,exclude)
-    return dp[1][0]
+	dp=[[0]*(n+1) for i in range(2)]
+	dp[0][n]=0
+	dp[1][n]=0
+	for i in range(n-1,-1,-1):
+		for buy in range(2):
+			if(buy==1):
+				include=-arr[i]+dp[0][i+1]
+				exclude=dp[buy][i+1]
+			else:
+				include=arr[i]+dp[1][i+1]
+				exclude=dp[buy][i+1]
+			dp[buy][i]=max(include,exclude)
+	return dp[1][0]
   arr=list(map(int,input().split()))
   n=len(arr)
   print(tabulation(arr,n))
@@ -3957,19 +3957,19 @@ def recursive(arr,n,index,buy):
 
 ```python
   def optimization(arr,n):
-    dp_next=[0]*2
-    dp_curr=[0]*2
-    for i in range(n-1,-1,-1):
-        for buy in range(2):
-            if(buy==1):
-                include=-arr[i]+dp_next[0]
-                exclude=dp_next[buy]
-            else:
-                include=arr[i]+dp_next[1]
-                exclude=dp_next[buy]
-            dp_curr[buy]=max(include,exclude)
-        dp_next=dp_curr.copy()
-    return dp_curr[1]
+	dp_next=[0]*2
+	dp_curr=[0]*2
+	for i in range(n-1,-1,-1):
+		for buy in range(2):
+			if(buy==1):
+				include=-arr[i]+dp_next[0]
+				exclude=dp_next[buy]
+			else:
+				include=arr[i]+dp_next[1]
+				exclude=dp_next[buy]
+			dp_curr[buy]=max(include,exclude)
+		dp_next=dp_curr.copy()
+	return dp_curr[1]
   arr=list(map(int,input().split()))
   n=len(arr)
   print(optimization(arr,n))
@@ -4017,13 +4017,13 @@ def recursive(arr,n,index,buy):
   <p>So, whenever we sold stock, we will reduce cap with 1</p>
 
 ```python
-    if(buy==1):
-      include=-arr[index]+f(index+1,0,cap)
-      exclude=f(index+1,buy,cap)
-    else:
-      include=arr[index]+f(index+1,1,cap-1)
-      exclude=f(index+1,buy,cap)
-    return max(include,exclude)
+	if(buy==1):
+	  include=-arr[index]+f(index+1,0,cap)
+	  exclude=f(index+1,buy,cap)
+	else:
+	  include=arr[index]+f(index+1,1,cap-1)
+	  exclude=f(index+1,buy,cap)
+	return max(include,exclude)
 ```
 
 <h5>Step-5 : Recursive Solution</h5>
@@ -4032,17 +4032,17 @@ def recursive(arr,n,index,buy):
 
 ```python
 def recursive(arr,n,index,buy,cap):
-    if(index==n):
-        return 0
-    if(cap==0):
-        return 0
-    if(buy==1):
-        include=-arr[index]+recursive(arr,n,index+1,0,cap)
-        exclude=recursive(arr,n,index+1,buy,cap)
-    else:
-        include=arr[index]+recursive(arr,n,index+1,1,cap-1)
-        exclude=recursive(arr,n,index+1,buy,cap)
-    return max(include,exclude)
+	if(index==n):
+		return 0
+	if(cap==0):
+		return 0
+	if(buy==1):
+		include=-arr[index]+recursive(arr,n,index+1,0,cap)
+		exclude=recursive(arr,n,index+1,buy,cap)
+	else:
+		include=arr[index]+recursive(arr,n,index+1,1,cap-1)
+		exclude=recursive(arr,n,index+1,buy,cap)
+	return max(include,exclude)
   arr=list(map(int,input().split()))
   n=len(arr)
   cap=2
@@ -4054,21 +4054,21 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
   def memorization(arr,n,index,buy,cap,memo):
-    key=(index,buy,cap)
-    if key in memo:
-        memo[key]
-    if(index==n):
-        return 0
-    if(cap==0):
-        return 0
-    if(buy==1):
-        include=-arr[index]+memorization(arr,n,index+1,0,cap,memo)
-        exclude=memorization(arr,n,index+1,buy,cap,memo)
-    else:
-        include=arr[index]+memorization(arr,n,index+1,1,cap-1,memo)
-        exclude=memorization(arr,n,index+1,buy,cap,memo)
-    memo[key]=max(include,exclude)
-    return memo[key]
+	key=(index,buy,cap)
+	if key in memo:
+		memo[key]
+	if(index==n):
+		return 0
+	if(cap==0):
+		return 0
+	if(buy==1):
+		include=-arr[index]+memorization(arr,n,index+1,0,cap,memo)
+		exclude=memorization(arr,n,index+1,buy,cap,memo)
+	else:
+		include=arr[index]+memorization(arr,n,index+1,1,cap-1,memo)
+		exclude=memorization(arr,n,index+1,buy,cap,memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
   arr=list(map(int,input().split()))
   n=len(arr)
   memo={}
@@ -4085,24 +4085,24 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
   def tabulation(arr,n,capacity):
-    dp=[[[0]*(capacity+1) for i in range(2)] for i in range(n+1)]
-    for i in range(2):
-        for j in range(1,capacity+1):
-            dp[n][i][j]=0
-    for i in range(1,n+1):
-        for j in range(2):
-            dp[i][j][0]=0
-    for index in range(n-1,-1,-1):
-        for buy in range(2):
-            for cap in range(1,capacity+1):
-                if(buy==1):
-                    include=-arr[index]+dp[index+1][0][cap]
-                    exclude=dp[index+1][buy][cap]
-                else:
-                    include=arr[index]+dp[index+1][1][cap-1]
-                    exclude=dp[index+1][buy][cap]
-                dp[index][buy][cap]=max(include,exclude)
-    return dp[0][1][2]
+	dp=[[[0]*(capacity+1) for i in range(2)] for i in range(n+1)]
+	for i in range(2):
+		for j in range(1,capacity+1):
+			dp[n][i][j]=0
+	for i in range(1,n+1):
+		for j in range(2):
+			dp[i][j][0]=0
+	for index in range(n-1,-1,-1):
+		for buy in range(2):
+			for cap in range(1,capacity+1):
+				if(buy==1):
+					include=-arr[index]+dp[index+1][0][cap]
+					exclude=dp[index+1][buy][cap]
+				else:
+					include=arr[index]+dp[index+1][1][cap-1]
+					exclude=dp[index+1][buy][cap]
+				dp[index][buy][cap]=max(include,exclude)
+	return dp[0][1][2]
   arr=list(map(int,input().split()))
   n=len(arr)
   cap=2
@@ -4116,20 +4116,20 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
   def optimization(arr,n,capacity):
-    dp_prev=[[0]*(capacity+1) for i in range(2)]
-    dp_curr=[[0]*(capacity+1) for i in range(2)] 
-    for index in range(n-1,-1,-1):
-        for buy in range(2):
-            for cap in range(1,capacity+1):
-                if(buy==1):
-                    include=-arr[index]+dp_prev[0][cap]
-                    exclude=dp_prev[buy][cap]
-                else:
-                    include=arr[index]+dp_prev[1][cap-1]
-                    exclude=dp_prev[buy][cap]
-                dp_curr[buy][cap]=max(include,exclude)
-        dp_prev=dp_curr.copy()
-    return dp_curr[1][2]
+	dp_prev=[[0]*(capacity+1) for i in range(2)]
+	dp_curr=[[0]*(capacity+1) for i in range(2)] 
+	for index in range(n-1,-1,-1):
+		for buy in range(2):
+			for cap in range(1,capacity+1):
+				if(buy==1):
+					include=-arr[index]+dp_prev[0][cap]
+					exclude=dp_prev[buy][cap]
+				else:
+					include=arr[index]+dp_prev[1][cap-1]
+					exclude=dp_prev[buy][cap]
+				dp_curr[buy][cap]=max(include,exclude)
+		dp_prev=dp_curr.copy()
+	return dp_curr[1][2]
   arr=list(map(int,input().split()))
   n=len(arr)
   cap=2
@@ -4177,13 +4177,13 @@ def recursive(arr,n,index,buy,cap):
   <p>So, whenever we sold stock, we will reduce cap with 1</p>
 
 ```python
-    if(buy==1):
-      include=-arr[index]+f(index+1,0,cap)
-      exclude=f(index+1,buy,cap)
-    else:
-      include=arr[index]+f(index+1,1,cap-1)
-      exclude=f(index+1,buy,cap)
-    return max(include,exclude)
+	if(buy==1):
+	  include=-arr[index]+f(index+1,0,cap)
+	  exclude=f(index+1,buy,cap)
+	else:
+	  include=arr[index]+f(index+1,1,cap-1)
+	  exclude=f(index+1,buy,cap)
+	return max(include,exclude)
 ```
 
 <h5>Step-5 : Recursive Solution</h5>
@@ -4192,17 +4192,17 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
 def recursive(arr,n,index,buy,cap):
-    if(index==n):
-        return 0
-    if(cap==0):
-        return 0
-    if(buy==1):
-        include=-arr[index]+recursive(arr,n,index+1,0,cap)
-        exclude=recursive(arr,n,index+1,buy,cap)
-    else:
-        include=arr[index]+recursive(arr,n,index+1,1,cap-1)
-        exclude=recursive(arr,n,index+1,buy,cap)
-    return max(include,exclude)
+	if(index==n):
+		return 0
+	if(cap==0):
+		return 0
+	if(buy==1):
+		include=-arr[index]+recursive(arr,n,index+1,0,cap)
+		exclude=recursive(arr,n,index+1,buy,cap)
+	else:
+		include=arr[index]+recursive(arr,n,index+1,1,cap-1)
+		exclude=recursive(arr,n,index+1,buy,cap)
+	return max(include,exclude)
   arr=list(map(int,input().split()))
   n=len(arr)
   cap=int(input())
@@ -4214,21 +4214,21 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
   def memorization(arr,n,index,buy,cap,memo):
-    key=(index,buy,cap)
-    if key in memo:
-        memo[key]
-    if(index==n):
-        return 0
-    if(cap==0):
-        return 0
-    if(buy==1):
-        include=-arr[index]+memorization(arr,n,index+1,0,cap,memo)
-        exclude=memorization(arr,n,index+1,buy,cap,memo)
-    else:
-        include=arr[index]+memorization(arr,n,index+1,1,cap-1,memo)
-        exclude=memorization(arr,n,index+1,buy,cap,memo)
-    memo[key]=max(include,exclude)
-    return memo[key]
+	key=(index,buy,cap)
+	if key in memo:
+		memo[key]
+	if(index==n):
+		return 0
+	if(cap==0):
+		return 0
+	if(buy==1):
+		include=-arr[index]+memorization(arr,n,index+1,0,cap,memo)
+		exclude=memorization(arr,n,index+1,buy,cap,memo)
+	else:
+		include=arr[index]+memorization(arr,n,index+1,1,cap-1,memo)
+		exclude=memorization(arr,n,index+1,buy,cap,memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
   arr=list(map(int,input().split()))
   n=len(arr)
   memo={}
@@ -4245,24 +4245,24 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
   def tabulation(arr,n,capacity):
-    dp=[[[0]*(capacity+1) for i in range(2)] for i in range(n+1)]
-    for i in range(2):
-        for j in range(1,capacity+1):
-            dp[n][i][j]=0
-    for i in range(1,n+1):
-        for j in range(2):
-            dp[i][j][0]=0
-    for index in range(n-1,-1,-1):
-        for buy in range(2):
-            for cap in range(1,capacity+1):
-                if(buy==1):
-                    include=-arr[index]+dp[index+1][0][cap]
-                    exclude=dp[index+1][buy][cap]
-                else:
-                    include=arr[index]+dp[index+1][1][cap-1]
-                    exclude=dp[index+1][buy][cap]
-                dp[index][buy][cap]=max(include,exclude)
-    return dp[0][1][2]
+	dp=[[[0]*(capacity+1) for i in range(2)] for i in range(n+1)]
+	for i in range(2):
+		for j in range(1,capacity+1):
+			dp[n][i][j]=0
+	for i in range(1,n+1):
+		for j in range(2):
+			dp[i][j][0]=0
+	for index in range(n-1,-1,-1):
+		for buy in range(2):
+			for cap in range(1,capacity+1):
+				if(buy==1):
+					include=-arr[index]+dp[index+1][0][cap]
+					exclude=dp[index+1][buy][cap]
+				else:
+					include=arr[index]+dp[index+1][1][cap-1]
+					exclude=dp[index+1][buy][cap]
+				dp[index][buy][cap]=max(include,exclude)
+	return dp[0][1][2]
   arr=list(map(int,input().split()))
   n=len(arr)
   cap=int(input())
@@ -4276,20 +4276,20 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
   def optimization(arr,n,capacity):
-    dp_prev=[[0]*(capacity+1) for i in range(2)]
-    dp_curr=[[0]*(capacity+1) for i in range(2)] 
-    for index in range(n-1,-1,-1):
-        for buy in range(2):
-            for cap in range(1,capacity+1):
-                if(buy==1):
-                    include=-arr[index]+dp_prev[0][cap]
-                    exclude=dp_prev[buy][cap]
-                else:
-                    include=arr[index]+dp_prev[1][cap-1]
-                    exclude=dp_prev[buy][cap]
-                dp_curr[buy][cap]=max(include,exclude)
-        dp_prev=dp_curr.copy()
-    return dp_curr[1][2]
+	dp_prev=[[0]*(capacity+1) for i in range(2)]
+	dp_curr=[[0]*(capacity+1) for i in range(2)] 
+	for index in range(n-1,-1,-1):
+		for buy in range(2):
+			for cap in range(1,capacity+1):
+				if(buy==1):
+					include=-arr[index]+dp_prev[0][cap]
+					exclude=dp_prev[buy][cap]
+				else:
+					include=arr[index]+dp_prev[1][cap-1]
+					exclude=dp_prev[buy][cap]
+				dp_curr[buy][cap]=max(include,exclude)
+		dp_prev=dp_curr.copy()
+	return dp_curr[1][2]
   arr=list(map(int,input().split()))
   n=len(arr)
   cap=int(input())
@@ -4348,13 +4348,13 @@ def recursive(arr,n,index,buy,cap):
   <p>finally take maximum of all choices</p>
 
 ```python
-    if(buy==1):
-      include=-arr[index]+f(index+1,0)
-      exclude=f(index+1,buy)
-    else:
-      include=arr[index]+f(index+2,1)
-      exclude=f(index+1,buy)
-    return max(include,exclude)
+	if(buy==1):
+	  include=-arr[index]+f(index+1,0)
+	  exclude=f(index+1,buy)
+	else:
+	  include=arr[index]+f(index+2,1)
+	  exclude=f(index+1,buy)
+	return max(include,exclude)
 ```
 
 <h5>Step-5 : Recursive Solution</h5>
@@ -4363,15 +4363,15 @@ def recursive(arr,n,index,buy,cap):
 
 ```python
 def recursive(arr,n,index,buy):
-    if(index>=n):
-        return 0
-    if(buy==1):
-        include=-arr[index]+recursive(arr,n,index+1,0)
-        exclude=recursive(arr,n,index+1,buy)
-    else:
-        include=arr[index]+recursive(arr,n,index+2,1)
-        exclude=recursive(arr,n,index+1,buy)
-    return max(include,exclude)
+	if(index>=n):
+		return 0
+	if(buy==1):
+		include=-arr[index]+recursive(arr,n,index+1,0)
+		exclude=recursive(arr,n,index+1,buy)
+	else:
+		include=arr[index]+recursive(arr,n,index+2,1)
+		exclude=recursive(arr,n,index+1,buy)
+	return max(include,exclude)
   arr=list(map(int,input().split()))
   n=len(arr)
   print(recursive(arr,n,0,1))
@@ -4382,19 +4382,19 @@ def recursive(arr,n,index,buy):
 
 ```python
   def memorization(arr,n,index,buy,memo):
-    key=(index,buy)
-    if key in memo:
-        return memo[key]
-    if(index>=n):
-        return 0
-    if(buy==1):
-        include=-arr[index]+memorization(arr,n,index+1,0,memo)
-        exclude=memorization(arr,n,index+1,buy,memo)
-    else:
-        include=arr[index]+memorization(arr,n,index+2,1,memo)
-        exclude=memorization(arr,n,index+1,buy,memo)
-    memo[key]=max(include,exclude)
-    return memo[key]
+	key=(index,buy)
+	if key in memo:
+		return memo[key]
+	if(index>=n):
+		return 0
+	if(buy==1):
+		include=-arr[index]+memorization(arr,n,index+1,0,memo)
+		exclude=memorization(arr,n,index+1,buy,memo)
+	else:
+		include=arr[index]+memorization(arr,n,index+2,1,memo)
+		exclude=memorization(arr,n,index+1,buy,memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
   arr=list(map(int,input().split()))
   n=len(arr)
   memo={}
@@ -4410,21 +4410,21 @@ def recursive(arr,n,index,buy):
 
 ```python
   def optimization(arr,n):
-    dp_1=[0]*2
-    dp_2=[0]*2
-    dp_curr=[0]*2
-    for i in range(n-1,-1,-1):
-        for buy in range(2):
-            if(buy==1):
-                include=-arr[i]+dp_1[0]
-                exclude=dp_1[buy]
-            else:
-                include=arr[i]+dp_2[1]
-                exclude=dp_1[buy]
-            dp_curr[buy]=max(include,exclude)
-        dp_2=dp_1.copy()
-        dp_1=dp_curr.copy()
-    return dp_curr[1]
+	dp_1=[0]*2
+	dp_2=[0]*2
+	dp_curr=[0]*2
+	for i in range(n-1,-1,-1):
+		for buy in range(2):
+			if(buy==1):
+				include=-arr[i]+dp_1[0]
+				exclude=dp_1[buy]
+			else:
+				include=arr[i]+dp_2[1]
+				exclude=dp_1[buy]
+			dp_curr[buy]=max(include,exclude)
+		dp_2=dp_1.copy()
+		dp_1=dp_curr.copy()
+	return dp_curr[1]
   arr=list(map(int,input().split()))
   n=len(arr)
   print(tabulation(arr,n))
@@ -4437,19 +4437,19 @@ def recursive(arr,n,index,buy):
 
 ```python
   def optimization(arr,n):
-    dp_next=[0]*2
-    dp_curr=[0]*2
-    for i in range(n-1,-1,-1):
-        for buy in range(2):
-            if(buy==1):
-                include=-arr[i]+dp_next[0]
-                exclude=dp_next[buy]
-            else:
-                include=arr[i]+dp_next[1]
-                exclude=dp_next[buy]
-            dp_curr[buy]=max(include,exclude)
-        dp_next=dp_curr.copy()
-    return dp_curr[1]
+	dp_next=[0]*2
+	dp_curr=[0]*2
+	for i in range(n-1,-1,-1):
+		for buy in range(2):
+			if(buy==1):
+				include=-arr[i]+dp_next[0]
+				exclude=dp_next[buy]
+			else:
+				include=arr[i]+dp_next[1]
+				exclude=dp_next[buy]
+			dp_curr[buy]=max(include,exclude)
+		dp_next=dp_curr.copy()
+	return dp_curr[1]
   arr=list(map(int,input().split()))
   n=len(arr)
   print(optimization(arr,n))
@@ -4508,13 +4508,13 @@ def recursive(arr,n,index,buy):
   <p>finally take maximum of all choices</p>
 
 ```python
-    if(buy==1):
-      include=-arr[index]+f(index+1,0)
-      exclude=f(index+1,buy)
-    else:
-      include=arr[index]-fee+f(index+1,1)
-      exclude=f(index+1,buy)
-    return max(include,exclude)
+	if(buy==1):
+	  include=-arr[index]+f(index+1,0)
+	  exclude=f(index+1,buy)
+	else:
+	  include=arr[index]-fee+f(index+1,1)
+	  exclude=f(index+1,buy)
+	return max(include,exclude)
 ```
 
 <h5>Step-5 : Recursive Solution</h5>
@@ -4523,15 +4523,15 @@ def recursive(arr,n,index,buy):
 
 ```python
 def recursive(arr,n,fee,index,buy):
-    if(index==n):
-        return 0
-    if(buy==1):
-        include=-arr[index]+recursive(arr,n,fee,index+1,0)
-        exclude=recursive(arr,n,fee,index+1,buy)
-    else:
-        include=arr[index]-fee+recursive(arr,n,fee,index+1,1)
-        exclude=recursive(arr,n,fee,index+1,buy)
-    return max(include,exclude)
+	if(index==n):
+		return 0
+	if(buy==1):
+		include=-arr[index]+recursive(arr,n,fee,index+1,0)
+		exclude=recursive(arr,n,fee,index+1,buy)
+	else:
+		include=arr[index]-fee+recursive(arr,n,fee,index+1,1)
+		exclude=recursive(arr,n,fee,index+1,buy)
+	return max(include,exclude)
   arr=list(map(int,input().split()))
   n=len(arr)
   fee=int(input())
@@ -4543,19 +4543,19 @@ def recursive(arr,n,fee,index,buy):
 
 ```python
   def memorization(arr,n,fee,index,buy,memo):
-    key=(index,buy)
-    if key in memo:
-        return memo[key]
-    if(index==n):
-        return 0
-    if(buy==1):
-        include=-arr[index]+memorization(arr,n,fee,index+1,0,memo)
-        exclude=memorization(arr,n,fee,index+1,buy,memo)
-    else:
-        include=arr[index]-fee+memorization(arr,n,fee,index+1,1,memo)
-        exclude=memorization(arr,n,fee,index+1,buy,memo)
-    memo[key]=max(include,exclude)
-    return memo[key]
+	key=(index,buy)
+	if key in memo:
+		return memo[key]
+	if(index==n):
+		return 0
+	if(buy==1):
+		include=-arr[index]+memorization(arr,n,fee,index+1,0,memo)
+		exclude=memorization(arr,n,fee,index+1,buy,memo)
+	else:
+		include=arr[index]-fee+memorization(arr,n,fee,index+1,1,memo)
+		exclude=memorization(arr,n,fee,index+1,buy,memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
   arr=list(map(int,input().split()))
   n=len(arr)
   memo={}
@@ -4572,19 +4572,19 @@ def recursive(arr,n,fee,index,buy):
 
 ```python
   def tabulation(arr,n,fee):
-    dp=[[0]*(n+1) for i in range(2)]
-    dp[0][n]=0
-    dp[1][n]=0
-    for i in range(n-1,-1,-1):
-        for buy in range(2):
-            if(buy==1):
-                include=-arr[i]+dp[0][i+1]
-                exclude=dp[buy][i+1]
-            else:
-                include=arr[i]-fee+dp[1][i+1]
-                exclude=dp[buy][i+1]
-            dp[buy][i]=max(include,exclude)
-    return dp[1][0]
+	dp=[[0]*(n+1) for i in range(2)]
+	dp[0][n]=0
+	dp[1][n]=0
+	for i in range(n-1,-1,-1):
+		for buy in range(2):
+			if(buy==1):
+				include=-arr[i]+dp[0][i+1]
+				exclude=dp[buy][i+1]
+			else:
+				include=arr[i]-fee+dp[1][i+1]
+				exclude=dp[buy][i+1]
+			dp[buy][i]=max(include,exclude)
+	return dp[1][0]
   arr=list(map(int,input().split()))
   n=len(arr)
   fee=int(input())
@@ -4598,19 +4598,19 @@ def recursive(arr,n,fee,index,buy):
 
 ```python
   def optimization(arr,n,fee):
-    dp_next=[0]*2
-    dp_curr=[0]*2
-    for i in range(n-1,-1,-1):
-        for buy in range(2):
-            if(buy==1):
-                include=-arr[i]+dp_next[0]
-                exclude=dp_next[buy]
-            else:
-                include=arr[i]-fee+dp_next[1]
-                exclude=dp_next[buy]
-            dp_curr[buy]=max(include,exclude)
-        dp_next=dp_curr.copy()
-    return dp_curr[1
+	dp_next=[0]*2
+	dp_curr=[0]*2
+	for i in range(n-1,-1,-1):
+		for buy in range(2):
+			if(buy==1):
+				include=-arr[i]+dp_next[0]
+				exclude=dp_next[buy]
+			else:
+				include=arr[i]-fee+dp_next[1]
+				exclude=dp_next[buy]
+			dp_curr[buy]=max(include,exclude)
+		dp_next=dp_curr.copy()
+	return dp_curr[1
   arr=list(map(int,input().split()))
   n=len(arr)
   fee=int(input())
@@ -4621,3 +4621,480 @@ def recursive(arr,n,fee,index,buy):
 
 <br> 
 <br>
+
+<h4>Longest Increasing Subsequence</h4>
+
+<h4>42.Longest Increasing Subsequence</h4>
+	<h5>The longest increasing subsequence is described as a subsequence of an array where:</h5>
+	<h5>All elements of the subsequence are in increasing order.</h5>
+	<h5>This subsequence itself is of the longest length possible.</h5>
+	<img src="https://lh6.googleusercontent.com/7Y4v7hcxpISAigs1Vvd9vpu_VnxD2HYS5WFNxusE5l-XURyfF8CDPzPrWHscZPPxLkaK_mIV0Z5pKH9pp3c6cfY0olD_3W0opVADet-dUayVn7yJkdjswThmxBNFJZ_yKZGazVNx5U-Guyc-sgg"/>
+	<h5>We need to return the length of the longest increasing subsequence as the answer.</h5>
+<h5>Step-1 : Define The Problem</h5>
+	<p>Given an array of length n , which has some numbers</p>
+	<p>We need find the subsequnces whose elements should be in increasing order</p>
+	<p>We need to return length of longest subsequnce</p>
+<h5>Step-2 : Represent The Problem Programitically</h5>
+	<p>The given array can be represented in terms of indexes</p>
+	<p>f(index,last_index) -> Longest Increasing Subsequnce length from index to 0 , where last index is previous index to index element</p>
+	<p>We need to find f(0,-1), -1 -> no previous index</p>
+<h5>Step-3 : Finding Base Cases </h5>
+	<p>if index -> n , then there no more elements, hence possible longest length is zero</p>
+	<p>index == n -> 0 </p>
+<h5>Step-4 : Finding The Recurrance Relation </h5>
+	<p>We have to find all possible subsequnces and have to find longest one</p>
+	<p>We know how to generate all subsequnces</p>
+	<p>In Subsequnce generation, we have two cases including currenting element or excluding</p>
+	<p>We have to find max out of both cases</p>
+	<p>To include in current sequence, it should be greater than previous element or it should be first element</p>
+	<p>if we include, we will increase length of sequence and move to next index and update current index as last_index</p>
+	<p>if we exclude, we will move to next index and carry last index as same</p>
+
+```python
+   exclude=f(index+1,last_index)
+   include=float('-inf')
+   if(last_index==-1 or arr[index] > arr[last_index]):
+		include=1+f(index+1,index)
+   return max(include,exclude)
+```
+
+<h5>Step-5 : Recursive Solution</h5>
+
+```python
+def recursive(arr,n,index,last_index):
+	if(index==n):
+		return 0
+	exclude=recursive(arr,n,index+1,last_index)
+	include=0
+	if(last_index==-1 or arr[index]>arr[last_index]):
+		include=1+recursive(arr,n,index+1,index)
+	return max(include,exclude)
+arr=list(map(int,input().split()))
+n=len(arr)
+print(recursive(arr,n,0,-1))
+```
+<p>TC : O(2^n)</p>
+<p>SC : O(n)</p>
+
+<h5>Step-6 : Memorization</h5>
+	<p>Here Unique Subproblem can be identified using current index and last Index</p>
+
+```python
+def memorization(arr,n,index,last_index,memo):
+	key=(index,last_index)
+	if key in memo:
+		return memo[key]
+	if(index==n):
+		return 0
+	exclude=memorization(arr,n,index+1,last_index,memo)
+	include=0
+	if(last_index==-1 or arr[index]>arr[last_index]):
+		include=1+memorization(arr,n,index+1,index,memo)
+	memo[key]=max(include,exclude)
+	return memo[key]
+arr=list(map(int,input().split()))
+n=len(arr)
+memo={}
+print(memorization(arr,n,0,-1,memo))
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : O(n*2)+o(n)</p>
+
+<h5>Step-7 : Tabulation</h5>
+	<p>Here f(index) depends on f(index+1)</p>
+	<p>So, we have to find subproblem answers from n to 0</p>
+	<p>As last index starts from -1, since we can't represent in tabulation</p>
+	<p>consider last index -1 as 0,i.e last_index starts from 0 to n</p>
+	<p>last_index ,  -1->0, 0->1,1->2....last_index->last_index+1</p>
+	<p>We need array of size [n+1][n+1]</p>
+
+```python
+def tabulation(arr,n):
+	dp=[[0]*(n+1) for i in range(n+1)]
+	for index in range(n-1,-1,-1):
+		for last_index in range(n-1,-2,-1):
+			include,exclude=0,0
+			exclude=dp[index+1][last_index+1]
+			if(last_index==-1 or arr[index] > arr[last_index]):
+				include=1+dp[index+1][index+1]
+			dp[index][last_index+1]=max(include,exclude)
+	return dp[0][0]
+arr=list(map(int,input().split()))
+n=len(arr)
+print(tabulation(arr,n))
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : O(n*2)</p>
+
+<h5>Step-8 : Optimization</h5>
+	<p>Since at each row, we are using next row answers only so we can store only next row answers only</p>
+
+```python
+def optmization(arr,n):
+	dp_curr=[0]*(n+1)
+	dp_next=[0]*(n+1)
+	for index in range(n-1,-1,-1):
+		for last_index in range(n-1,-2,-1):
+			include,exclude=0,0
+			exclude=dp_next[last_index+1]
+			if(last_index==-1 or arr[index]>arr[last_index]):
+				include=1+dp_next[index+1]
+			dp_curr[last_index+1]=max(include,exclude)
+		dp_next=dp_curr.copy()
+	return dp_curr[0]
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optmization(arr,n))   
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : o(n)</p>
+
+
+<h5>Algorthmic Approach</h5>
+	<p>We can observe in optimization, for each index we are checking all elements as last_inde x and increasing count by one if its greater that current index and tracking maximum value for each index</p>
+	<p>We can modify this approach, starting from index 0 to n-1</p>
+	<p>Declare array of size n and fill it with 1 for every index, it stores longest increasing subsequence from 0 to index</p>
+	<p>for each index, check all its previous indexes as last_index and if current element is greater than last_index element increase count and store in array</p>
+	<p>Here we are using previous index answers, to find current index answer</p>
+
+```python
+def algorithmic(arr,n):
+	dp=[0]*n
+	for i in range(n):
+		dp[i]=1
+	for index in range(1,n):
+		for last_index in range(index):
+			if(arr[index] > arr[last_index]):
+				temp=1+dp[last_index]
+				dp[index]=max(dp[index],temp)
+	final=0
+	for i in dp:
+		final=max(final,i)
+	return final
+arr=list(map(int,input().split()))
+n=len(arr)
+print(algorithmic(arr,n))
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : o(n)</p>
+
+
+<h4>43. Print Longest Increasing Subsequence</h4>
+	<h5>The longest increasing subsequence is described as a subsequence of an array where:</h5>
+	<h5>All elements of the subsequence are in increasing order.</h5>
+	<h5>This subsequence itself is of the longest length possible.</h5>
+	<h5>We need to print the longest increasing subsequence as the answer.</h5>
+
+<h5>Solution : </h5>
+	<p>We know already how to find length of longest increasing subsequnce</p>
+	<p>If we observe, algorithmic approach</p>
+	<p>at each index, we are checking all previous indexes and increasing count </p>
+	<p>at the end we are taking large length</p>
+	<p>If we can track, from which last_index the count is getting increased</p>
+	<p>from index which has large count, we can backtrack to starting index and print the subsequnce</p>
+
+```python
+def algorithmic(arr,n):
+	dp=[0]*n
+	for i in range(n):
+		dp[i]=1
+	track={}
+	for index in range(n):
+		track[index]=index
+		for last_index in range(index):
+			 if(arr[index] > arr[last_index] and (1+dp[last_index])>dp[index]):
+				 dp[index]=1+dp[last_index]
+				 track[index]=last_index
+	final=-1
+	maxIndex=-1
+	for i in range(n):
+		if(dp[i]>final):
+			final=dp[i]
+			maxIndex=i
+	temp=[]
+	temp.append(arr[maxIndex])
+	last_index=maxIndex
+	while track[last_index]!=last_index:
+		last_index=track[last_index]
+		temp.append(arr[last_index])
+	return final,temp[::-1]
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(algorithmic(arr,n))
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : o(n)</p>
+
+<h4>44. Longest Increasing Subsequence Using Binary Search</h4>
+	<h5>The longest increasing subsequence is described as a subsequence of an array where:</h5>
+	<h5>All elements of the subsequence are in increasing order.</h5>
+	<h5>This subsequence itself is of the longest length possible.</h5>
+	<h5>We need to print the length of longest increasing subsequence as the answer.</h5>
+
+<h5>Solution : </h5>
+	<p>We have to find increasing subsequence</p>
+	<p>create a array temp and start adding elements from index 0,</p>
+	<p>add current element if its greater than last element of temp </p>
+	<p>if it is less than or equal, just insert into temp array where it can be placed using lower bound approach, so that sequence won't increase</p>
+	<p>sequence will increase only when current element > last_element</p>
+
+```python
+
+
+#TC : O(log n)
+def lowerbound(arr,left,right,target):
+	while left<=right:
+		mid=(left+right)//2
+		if(target>=arr[mid]):
+			left=mid+1
+		else:
+			right=mid-1
+	return left
+
+#TC : O(n*log n)
+#SC : O(n)
+def solve(arr,n):
+	temp=[arr[0]]
+	currentLength=1
+	for index in range(1,n):
+		if(arr[index]>temp[currentLength-1]):
+			temp.append(arr[index])
+			currentLength+=1
+		else:
+			i=lowerbound(temp,0,currentLength-1,arr[index])
+			temp[i]=arr[index]
+	return currentLength
+			
+		
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(solve(arr,n))
+
+```
+
+<p>TC : O(n*log(n))</p>
+<p>SC : o(n)</p>
+
+
+<h4>45.Longest Divisible Subset</h4>
+	<h5>Let us first understand the difference between subset and subsequence.</h5>
+	<img src="https://lh4.googleusercontent.com/CcjICS62cNUAA76cfKr8jJY3-wyKsQ0n10kn-tYhOWe23rYHVAoelzOUOjKrmNJBtLC9b_iqii5x74-OllOGGfF4wAeJZ2VwniFU-yGwCEeiTYbvzXuG0e2eGUnk14vaNMl0RTsVPjFHm-QqFdc"/>
+	<h5>In a subsequence, the elements need to follow the order of the original array whereas in a subset there is no constraint on the order of the elements. </h5>
+	<h5>Divisible Subset</h5>
+	<h5>A divisible subset is the one in which if we pick two elements i and j from the subset, then either arr[i]%arr[j] == 0 or arr[j] % arr[i] == 0. For example, [16,8,4] is a divisible subset.</h5>
+	<img src="https://lh6.googleusercontent.com/dKMYYr36wXVvzBelVKI7B8C6AbjBpXj2XeFYrrI5DdM1yeCF_6IN0VJNibs-P7S6zPNUEJrHake5pdqXWIhWDw1rbgw_T_LSbPmlfYDWo1W3BKPhU7lswUvQITxcpOfpS0QVOlRBJSbr1_1tLG0"/>
+	<h5>Given an array with distinct elements, we need to print its longest divisible subset. We can print any answer.</h5>
+	<img src="https://lh6.googleusercontent.com/_Bvvi8L-YiG-qfRx5JwCuSsDkkWNJrnsnfn33Q6k0JTfK_llX8q3GqbRGF4KGcxybIHBUYjzKjwbGQPayGWC-mfl4GCutmjNuHDpfvx52dgXiSwiEpFnFAGZfaw4UHQ2K090rsJkYOAU5_viOwY"/>
+
+<h5>Solution : </h5>
+	<p>It is similar to Longest Common Subsequnce</p>
+	<p>Here we need to find longest subset , whose elemets should be divisible with each other</p>
+	<p>Here we have to find subset, which doesn't need to be in sequence</p>
+	<p>So, first we will sort the array</p>
+	<p>We will apply alogorthimic approach</p>
+	<p>But, to increase count , current element should be divisible by last_index element</p>
+	<p>By adding that condition we can find answer</p>
+
+```python
+#TC : O(N*N)
+#SC : O(N)
+def algorithmic(arr,n):
+	dp=[0]*n
+	for i in range(n):
+		dp[i]=1
+	for index in range(n):
+		for last_index in range(index):
+			if(arr[index]%arr[last_index]==0):
+				temp=1+dp[last_index]
+				dp[index]=max(dp[index],temp)
+	final=-1
+	for i in dp:
+		final=max(final,i)
+	return final
+
+#TC : O(N*N)
+#SC : O(N)
+def printLDS(arr,n):
+	dp=[0]*n
+	for i in range(n):
+		dp[i]=1
+	track={}
+	for index in range(n):
+		track[index]=index
+		for last_index in range(index):
+			if(arr[index]%arr[last_index]==0 and 1+dp[last_index] > dp[index]):
+				temp=1+dp[last_index]
+				dp[index]=max(dp[index],temp)
+				track[index]=last_index
+	final=-1
+	maxIndex=-1
+	for i in range(n):
+		if(dp[i]>final):
+			final=dp[i]
+			maxIndex=i
+	last_index=maxIndex
+	temp=[arr[last_index]]
+	while track[last_index]!=last_index:
+		last_index=track[last_index]
+		temp.append(arr[last_index])
+	return temp[::-1]
+
+arr=list(map(int,input().split()))
+n=len(arr)
+arr=sorted(arr)
+print(algorithmic(arr,n))
+print(printLDS(arr,n))
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : o(n)</p>
+
+<h4>46.Longest String Chain</h4>
+	<h5>We are given an array of strings (sat words[ ]), and we need to return the longest string chain. This longest string chain is defined as:</h5>
+	<h5>A subsequence of words[ ] of the string.</h5>
+	<h5>Every element of this subsequence ( a string) except the first one can be formed by inserting a single character into the previous element.</h5>
+	<h5>The first element of this subsequence can be any string from the words[ ] array.</h5>
+	<img src="https://lh5.googleusercontent.com/NXCPBCrRlqaIiRIGKNvnfiL3J-FyWDgD7aoKDz6jdfTKp6YFKzcvsQaelX7XH3kV6iuPcf6F-4JGVobvyjuCZkAA1fwGclMTD-etLdeQrio4f1beXgb4S1trPOZr_A5OhVBPfXRTZuQhyNxX5JU"/>
+	<h5>We need to print the length of the longest string chain, in this case: 4.</h5>
+	<h5>Two consecutive strings in this string chain need to have an insertion of a single character. The character can be added to any place on the string.</h5>
+	<img src="https://lh5.googleusercontent.com/tt8oYLojLW1fk1zlgB3c7qyCOpUjO5KCQe22T8MiDvtlw5Zr1k5XNxKOb8GY1HHF0Ur0ICZkfolpv0bSxjaWX1cl6KqjzXn7T8ateW_t8cgSMF_2qnLEjm-unrUWtC0Fov5JnEgdRVygaTN1ZmQ"/>
+
+<h5>Solution : </h5>
+	<p>It is similar to Longest Increasing subsequnce</p>
+	<p>Here we will increase count, if current element has one character extra when compares to last index element</p>
+
+```python
+def compare(s1,s2):
+	if(len(s1)!=len(s2)+1):
+		return False
+	n1,n2=0,0
+	while n1<len(s1):
+		if(n2<len(s2) and s1[n1]==s2[n2]):
+			n1+=1
+			n2+=1
+		else:
+			n1+=1
+	if(n1==len(s1) and n2==len(s2)):
+		return True
+	return False
+
+
+def solve(arr,n):
+	dp=[0]*n
+	for i in range(n):
+		dp[i]=1
+	for index in range(n):
+		for last_index in range(index):
+			if(compare(arr[index],arr[last_index])):
+				temp=1+dp[last_index]
+				dp[index]=max(dp[index],temp)
+	final=-1
+	for i in dp:
+		final=max(final,i)
+	return final
+arr=input().split()
+n=len(arr)
+print(solve(arr,n))
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : o(n)</p>
+
+<h4>47.Longest Biotonic Sequence</h4>
+	<h5>A bitonic subsequence is a subsequence of an array in which the elements can be any of these three:</h5>
+	<h5>First, increase till a point and then decrease.</h5>
+	<h5>Goes on increasing (Longest increasing subsequence)</h5>
+	<h5>Goes on decreasing (Longest decreasing subsequence)</h5>
+	<img src="https://lh3.googleusercontent.com/t0G5UmQxtq019ibxd8FeK8rh54wi4CYdgXoX9fF3lG8uRm5pgE-L18uOU4M8YzsatQ_zmuYiHVJ5uKv2qjhpoGkvNp--LEWGS6VtHLsOoGgKLxu2aDAgMHTdPEWvJKtBvUppyBpXNVmpBU6atKPPsg1XL9shJ1-nb8B4pF14rGVBH0iJ1cVNU3dEcg"/>
+	<h5>Bitonic subsequence for the below example is:</h5>
+	<img src="https://lh5.googleusercontent.com/e1nPzUbfZ2eZfIkNY7kb1dxuaf_gAnEtCM2qUfzuC0TN5K_ctGNdr0B0pn6AJzPBM5ETE2qN433hm5ovCnHkAaJsaGhp1ARrQwZLx78gb7iZ16LTy5Pg49RTAE0GK5vJWERZx3RIsdnOtTqqo-qn86B3v7sojO-niTGItNlU4TIUJlICjzkjQJ5fwA"/>
+	<h5>Similarly, a subsequence having the elements in either increasing or decreasing order only also counts as a bitonic subsequence. For example:</h5>
+	<img src="https://lh6.googleusercontent.com/MoxlW3UrHLuOW08EDLc2xgCUD4JPNhs5VATDXJlAQlNz4wxQDPd1f9Jo6YFRGde_9wu7qE0TVUG5yXHWErUgIfLBrJCgDrHKLFvZ2MuOHIhhazfVQhwZuov32sbeYjzhkJKS9HcFsJ2poPltF8muQSTv85hAl43IrSU5ofgL0PYpy-tZjYNUVEqROw"/>
+	<h5>We need to return the length of the longest bitonic subsequence as our answer. </h5>
+
+<h5>Solution : </h5>
+	<p>We have to find max of increasing,descreasing and increase-decrease</p>
+	<p>First we will find longest increasing subsequnce from 0 to n and which stores longest answer at each index</p>
+	<p>Then, we will find longest increasing subsequnce from n to 0 , which gives longest decreaing sequence at each index</p>
+	<p>We will compare both answers at each index, the absolute difference will be the longest biotonic sequence at that index</p>
+	<p>We will find max out of all indexes</p>
+	<img src="https://lh5.googleusercontent.com/Bg09piSsBJxtzcDoK3BJ0MOPLpoz2WFNBRPlynMHCHYUx3cFyaoQ4rNDGbuZfUAhfhMIn7-3SjLIsxTk9feedJ8TxWhdTKuBaDXyskaV21VNV8V6u8_PuDxptLmky_PNr-RmQHL1cuyqQclrXO6j_zIsDmvRu4TJQrsumI7Dm_-bng69C_gm4e1_dA"/>
+
+```python
+def solve(arr,n):
+	dp_increasing=[1]*n
+	dp_decreasing=[1]*n
+
+	for index in range(1,n):
+		for last_index in range(index):
+			if(arr[index] > arr[last_index]):
+				temp=1+dp_increasing[last_index]
+				dp_increasing[index]=max(dp_increasing[index],temp)
+
+	for index in range(n-1,-1,-1):
+		for last_index in range(index+1,n):
+			if(arr[index] > arr[last_index]):
+				temp=1+dp_decreasing[last_index]
+				dp_decreasing[index]=max(dp_decreasing[index],temp)
+
+	final=0
+	for i in range(n):
+		temp=dp_increasing[i]+dp_decreasing[i]-1
+		final=max(final,temp)
+	return final
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(solve(arr,n))
+```
+
+<p>TC : O(n*n*2)</p>
+<p>SC : o(n*2)</p>
+
+
+<h4>48.Number Of Longest Increasing Subsequnces</h4>
+	<h5>Given an array, ‘Arr’ of length ‘n’, count the number of longest increasing subsequences (LIS).</h5>
+	<img src="https://lh4.googleusercontent.com/mFTUVWeqxrdXqWtehJuGq7H0L8wSByFm1Wb4V8Yk-eX7_YuonoYAd36Vx7ZMDyLFjiA6mnQNwd1l-d2SCQ0X83qvy1q83ZmImWn53EV8Tem5TQ4eFFl73toSGKzSa_BtECMvHpvgHe0SfHR_MNqriZawaaNVfVfeiNM-00gJpJlyc18yXm-k1MKaeg"/>
+
+<h5>Solution : </h5>
+	<p>Since we need count, we will track count while finding longest sequence</p>
+	<p>If we found at any index , which length will be same for two different last indexex, then add two counts</p>
+	<p>finally, we can get count of longest increasing sequnces at each index</p>
+
+```python
+def solve(arr,n):
+    dp=[1]*n
+    count=[1]*n
+    for index in range(n):
+        for last_index in range(index):
+            if(arr[index]>arr[last_index]):
+                if(1+dp[last_index] > dp[index]):
+                    dp[index]=max(dp[index],1+dp[last_index])
+                    count[index]=count[last_index]
+                elif(1+dp[last_index]==dp[index]):
+                    count[index]+=count[last_index]
+    maxi=-1
+    for i in dp:
+        maxi=max(maxi,i)
+    
+    final=0
+    for i in range(n):
+        if(dp[i]==maxi):
+            final+=count[i]
+    return final
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(solve(arr,n))
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : o(n*2)</p>
+
