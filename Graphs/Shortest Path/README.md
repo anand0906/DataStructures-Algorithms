@@ -141,3 +141,53 @@ while queue:
 print(distance)
 #print(*distance.values())
 ```
+
+<h2>Print Shortest Path From Source To Destination : Dijikstra Algorithm</h2>
+<p>Given an undirected weighted graph and source and destination nodes</p>
+<p>We have to print the shortest path from source to destination</p>
+<img src="https://takeuforward.org/wp-content/uploads/2022/12/Screenshot-2022-12-19-004616.png">
+<p><strong>Input : </strong></p>
+<p>n = 5, m= 6</p>
+<p>edges = [[1,2,2], [2,5,5], [2,3,4], [1,4,1],[4,3,3],[3,5,1]]</p>
+<p><strong>Output:</strong></p>
+<p>1 4 3 5</p>
+<p>The source vertex is 1. Hence, the shortest distance path of node 5 from the source will be 1->4->3->5 as this is the path with a minimum sum of edge weights from source to destination.</p>
+
+<p><strong>Steps To Solve :</strong></p>
+<p>We know that, to find shortest distance from source to destination we can use dijikstra algorithm</p>
+<p>While we are calculating shortest distance, simply we can track each node's parent</p>
+<p>So, that we can print any node's path</p>
+
+```python
+import heapq
+nodes,edge=int(input()),int(input())
+edges=[input().split() for i in range(edge)]
+edges_converted=[(int(i),int(j),int(w)) for i,j,w in edges]
+source,destination=int(input("Source : ")),int(input("Destination : "))
+graph={i:{} for i in range(1,nodes+1)}
+for i,j,w in edges_converted:
+    graph[i][j]=w
+    graph[j][i]=w
+queue=[]
+heapq.heappush(queue,(0,source))
+distance={i:float('inf') for i in range(1,nodes+1)}
+parent={i:i for i in range(1,nodes+1)}
+parent[source]=-1
+distance[source]=0
+while queue:
+    dist,current=heapq.heappop(queue)
+    for adj,weight in graph[current].items():
+        if(distance[current]+weight < distance[adj]):
+            distance[adj]=distance[current]+weight
+            heapq.heappush(queue,(distance[current]+weight,adj))
+            parent[adj]=current
+temp=destination
+final=[]
+while temp!=source:
+    final.append(temp)
+    temp=parent[temp]
+else:
+    final.append(source)
+print(final[::-1])
+```
+
