@@ -266,3 +266,228 @@ while queue:
             heapq.heappush(queue,(1+distance[current_row][current_col],(row,col)))
 print(distance[dest_row][dest_col])
 ```
+
+<h2>Path With Minimum Effort : Minimum Absolute Difference From Source To Destination</h2>
+<p>You are a hiker preparing for an upcoming hike. You are given heights, a 2D array of size rows x columns, where heights[row][col] represents the height of the cell (row, col). You are situated in the top-left cell, (0, 0), and you hope to travel to the bottom-right cell, (rows-1, columns-1) (i.e.,0-indexed). You can move up, down, left, or right, and you wish to find a route that requires the minimum effort.</p>
+<p>A route's effort is the maximum absolute difference in heights between two consecutive cells of the route.</p>
+
+<p><strong>Example 1:</strong></p>
+<p><strong>Input:</strong></p>
+<p>heights = [[1,2,2],[3,8,2],[5,3,5]]</p>
+<p><strong>Output:</strong></p>
+<p>2</p>
+<p>The route of [1,3,5,3,5] has a maximum absolute difference of 2 in consecutive cells.This is better than the route of [1,2,2,2,5], where the maximum absolute difference is 3.</p>
+
+<p><strong>Example 2:</strong></p>
+<p><strong>Input:</strong></p>
+<p>heights = [[1,2,1,1,1],[1,2,1,2,1],[1,2,1,2,1],[1,1,1,2,1]]</p>
+<p><strong>Output:</strong></p>
+<p>0</p>
+<p>The route of [1,1,1,1,1,1,1,1,1,1,1,1,1,1] has a maximum absolute difference of 0 in consecutive cells.This is better than the route of [1,1,1,1,1,1,2,1], where the maximum absolute difference is 1.</p>
+
+<p><strong>Steps To Solve : </strong></p>
+<p>Here we have given an matrix of integers</p>
+<p>we have given source and destination positions</p>
+<p>we can move in all four direction from current positions</p>
+<p>For each step , we can have absolute difference between current position element and target moving position</p>
+<p>To Move from source to destination , there might have different ways</p>
+<p>We have to find most optimal way which have minimum of maximum absolute difference in steps involved in that path</p>
+<ul>
+    <li>Declare matrix, source and destination</li>
+    <li>let's take an difference matrix with same size as given matrix and fill it with infinity</li>
+    <li>Above difference matrix can be used to store maximum absolute difference at each position while coming from source</li>
+    <li>Since source is starting point, put maximum absolute difference as 0 in difference matrix </li>
+    <li>Since we need to find all possible ways , we can apply dijiktra algorithm Here</li>
+    <ul>
+        <li>Create a priority queue and add source position as (currentDifference,(row,col))</li>
+        <li>Since we need maximum difference add element to queue like specified format</li>
+        <li>Untill queue is empty , repeat the following steps</li>
+        <ul>
+            <li>pop element from queue -> (currentDifference,(row,col))</li>
+            <li>loop through its four directions</li>
+            <li>Check their new absolute Difference and take maximum of currentDifference and new Difference </li>
+            <li>Store minimum value into new position and add that it into queue if maximum difference is less than current position difference</li>
+        </ul>
+        <li>Final Distance array will give all possible minimum of maximum difference from source to all other positions</li>
+        <li>We can return our required destination position</li>
+    </ul>
+</ul>
+
+```python
+import heapq
+n,m=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(n)]
+sourceRow,sourceCol=list(map(int,input().split()))
+destRow,destCol=list(map(int,input().split()))
+difference=[[float('inf')]*m for i in range(n)]
+difference[sourceRow][sourceCol]=0
+queue=[]
+heapq.heappush(queue,(0,(sourceRow,sourceCol)))
+while queue:
+    currentDiff,(row,col)=heapq.heappop(queue)
+    for i,j in zip([0,0,-1,1],[1,-1,0,0]):
+        r=row+i
+        c=col+j
+        if(r>=0 and c>=0 and r<n and c<m):
+            newDiff=max(abs(matrix[r][c]-matrix[row][col]),currentDiff)
+            if(newDiff < difference[r][c]):
+                heapq.heappush(queue,(newDiff,(r,c)))
+                difference[r][c]=newDiff
+print(difference[destRow][destCol])
+```
+
+<p>Time Complexity: O( 4*N*M * log( N*M) ) { N*M are the total cells, for each of which we also check 4 adjacent nodes for the minimum effort and additional log(N*M) for insertion-deletion operations in a priority queue } </p>
+<p>Where, N = No. of rows of the binary maze and M = No. of columns of the binary maze.</p>
+<p>Space Complexity: O( N*M ) { Distance matrix containing N*M cells + priority queue in the worst case containing all the nodes ( N*M) }.</p>
+<p>Where, N = No. of rows of the binary maze and M = No. of columns of the binary maze</p>
+
+<h2>Cheapest Flights Within K Stops</h2>
+<p>There are n cities and m edges connected by some number of flights. You are given an array of flights where flights[i] = [ fromi, toi, pricei] indicates that there is a flight from city fromi to city toi with cost price. You have also given three integers src, dst, and k, and return the cheapest price from src to dst with at most k stops. If there is no such route, return -1.</p>
+
+<p><strong>Example 1:</strong></p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/01/Screenshot-2023-01-08-143709.png">
+<p><strong>Input:</strong></p>
+<p>flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]]</p>
+<p>src = 0</p>
+<p>dst = 3</p>
+<p>k = 1</p>
+<p><strong>Output:</strong></p>
+<p>700</p>
+<p>The optimal path with at most 1 stops from city 0 to 3 is marked in red and has cost 100 + 600 = 700.
+Note that the path through cities [0,1,2,3] is cheaper but is invalid because it uses 2 stops.</p>
+
+<p><strong>Example 2:</strong></p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/01/Screenshot-2023-01-08-143831.png">
+<p><strong>Input:</strong></p>
+<p>flights = [[0,1,100],[1,2,100],[0,2,500]]</p>
+<p>src = 0</p>
+<p>dst = 2</p>
+<p>k = 1</p>
+<p><strong>Output:</strong></p>
+<p>200</p>
+<p>The graph is shown above.
+The optimal path with at most 1 stops from city 0 to 2 is marked in red and has cost 100 + 100 = 200.</p>
+
+<p><strong>Steps To Solve : </strong></p>
+<p>We have given an graph and source, destionation</p>
+<p>We have to find path from source to destionation</p>
+<p>But it should have maximum of k stops, means at max k nodes should be involved in path excluing source and dest</p>
+<p>We have to find minimum path with at most k stops</p>
+<p>It is completely similar to dijikstra</p>
+<p>Since we need to take at most k stops, managing queue in terms of stops and distance will give answer</p>
+
+<ul>
+    <li>Create graph</li>
+    <li>Create distance array and fill with infinity</li>
+    <li>create queue and add source destionation as {steps,(src,dist)}</li>
+    <li>fill source node distance as 0, since it is starting node</li>
+    <li>repeat following steps untill queue is empty</li>
+    <ul>
+        <li>pop element from queue</li>
+        <li>loop throw its adjacent nodes</li>
+        <li>if current steps less than k and new distance is less than adjacent distance</li>
+        <li>add adjacent node to queue and update adjacent distance</li>
+    </ul>
+    <p>final distance array gives all poosible minium distance for each node</p>
+    <p>if destination node distance is infinity it is unreachble and return -1, otherwise return minium distance</p>
+
+</ul>
+
+```python
+import heapq
+nodes,edge=list(map(int,input().split()))
+edges=[input().split() for i in range(edge)]
+edges_converted=[(int(i),int(j),int(w)) for i,j,w in edges]
+source=int(input())
+destination=int(input())
+k=int(input())
+graph={i:dict() for i in range(nodes)}
+for i,j,w in edges_converted:
+    graph[i][j]=w
+distance={i:float('inf') for i in range(nodes)}
+distance[source]=0
+queue=[]
+heapq.heappush(queue,(0,source,0))
+while queue:
+    steps,node,currentDistance=heapq.heappop(queue)
+    for adj,weight in graph[node].items():
+        if(steps+1<=k+1 and currentDistance+weight<distance[adj]):
+            distance[adj]=currentDistance+weight
+            heapq.heappush(queue,(steps+1,adj,distance[adj]))
+print(-1 if(distance[destination]==float('inf')) else distance[destination])
+```
+
+<p>Time Complexity: O( N ) { Additional log(N) of time eliminated here because we’re using a simple queue rather than a priority queue which is usually used in Dijkstra’s Algorithm }.</p>
+<p>Where N = Number of flights / Number of edges.</p>
+<p>Space Complexity:  O( |E| + |V| ) { for the adjacency list, priority queue, and the dist array }.</p>
+<p>Where E = Number of edges (flights.size()) and V = Number of Airports.</p>
+
+
+<h2>Number of Ways to Arrive at Destination</h2>
+<p>You are in a city that consists of n intersections numbered from 0 to n - 1 with bi-directional roads between some intersections. The inputs are generated such that you can reach any intersection from any other intersection and that there is at most one road between any two intersections.</p>
+<p>You are given an integer n and a 2D integer array ‘roads’ where roads[i] = [ui, vi, timei] means that there is a road between intersections ui and vi that takes timei minutes to travel. You want to know in how many ways you can travel from intersection 0 to intersection n - 1 in the shortest amount of time.</p>
+<p>Return the number of ways you can arrive at your destination in the shortest amount of time. Since the answer may be large, return it modulo 109 + 7.</p>
+
+<img src="https://static.takeuforward.org/wp/uploads/2023/01/Screenshot-2023-01-08-151107.png">
+<p><strong>Input : </strong></p>
+<p>n=7, m=10</p>
+<p>edges= [[0,6,7],[0,1,2],[1,2,3],[1,3,3],[6,3,3],[3,5,1],[6,5,1],[2,5,1],[0,4,5],[4,6,2]]</p>
+<p><strong>Output:</strong></p>
+<p>4</p>
+<p>The four ways to get there in 7 minutes (which is the shortest calculated time) are:</p>
+<p>- 0  6</p>
+<p>- 0  4  6</p>
+<p>- 0  1  2  5  6</p>
+<p>- 0  1  3  5  6</p>
+
+<img src="https://static.takeuforward.org/wp/uploads/2023/01/Screenshot-2023-01-08-151223.png">
+<p><strong>Input : </strong></p>
+<p>n=6, m=8</p>
+<p>edges= [[0,5,8],[0,2,2],[0,1,1],[1,3,3],[1,2,3],[2,5,6],[3,4,2],[4,5,2]]</p>
+<p><strong>Output:</strong></p>
+<p>3</p>
+<p>The three ways to get there in 8 minutes (which is the shortest calculated time) are:</p>
+<p>- 0  5</p>
+<p>- 0  2  5</p>
+<p>- 0  1  3  4  5</p>
+
+<p><strong>Steps To Solve : </strong></p>
+<p>We have given an undirectional graph and source, destination</p>
+<p>We need to find number to find path from source to destination with minimum distance</p>
+<p>we know how to find minimum distance path using dijikstra algorithm</p>
+<p>While finding path, track the number ways to reach each node from source</p>
+
+<p>While storing minimum distance in distance array, if same distance again come while looping we will increase ways for that particular node</p>
+
+```python
+import heapq
+nodes,edge=list(map(int,input().split()))
+edges=[input().split() for i in range(edge)]
+edges_converted=[(int(i),int(j),int(w)) for i,j,w in edges]
+source=int(input())
+destination=int(input())
+graph={i:dict() for i in range(nodes)}
+ways={i:0 for i in range(nodes)}
+for i,j,w in edges_converted:
+    graph[i][j]=w
+    graph[j][i]=w
+distance={i:float('inf') for i in range(nodes)}
+distance[source]=0
+ways[source]=1
+queue=[]
+heapq.heappush(queue,(source,0))
+while queue:
+    node,currentDistance=heapq.heappop(queue)
+    for adj,weight in graph[node].items():
+        if(currentDistance+weight<distance[adj]):
+            distance[adj]=currentDistance+weight
+            heapq.heappush(queue,(adj,distance[adj]))
+            ways[adj]=ways[node]
+        elif(currentDistance+weight==distance[adj]):
+            ways[adj]=(ways[node]+ways[adj])%(int(1e9+9))
+print(-1 if(distance[destination]==float('inf')) else ways[destination])
+```
+<p>Time Complexity: O( E* log(V)) { As we are using simple Dijkstra's algorithm here, the time complexity will be or the order E*log(V)}</p>
+<p>Where E = Number of edges and V = No. of vertices.</p>
+<p>Space Complexity :  O(N) { for dist array + ways array + approximate complexity for priority queue }</p>
+<p>Where, N = Number of nodes.</p>
