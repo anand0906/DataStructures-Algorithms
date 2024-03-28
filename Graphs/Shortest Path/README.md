@@ -191,3 +191,78 @@ else:
 print(final[::-1])
 ```
 
+<h2>Shortest Distance in a Binary Maze</h2>
+<p>Given an n * m matrix grid where each element can either be 0 or 1. You need to find the shortest distance between a given source cell to a destination cell. The path can only be created out of a cell if its value is 1. </p>
+<p>If the path is not possible between the source cell and the destination cell, then return -1.</p>
+<p><strong>Input : </strong></p>
+<pre>
+grid[][] = {{1, 1, 1, 1},
+        {1, 1, 0, 1},
+        {1, 1, 1, 1},
+        {1, 1, 0, 0},
+        {1, 0, 0, 1}}
+source = {0, 1}
+destination = {2, 2}
+</pre>
+<p><strong>Output : </strong></p>
+<p>3</p>
+<p><strong>Explanation : </strong></p>
+<pre>
+1 1 1 1
+1 1 0 1
+1 1 1 1
+1 1 0 0
+1 0 0 1
+</pre>
+<p>The highlighted part in the above matrix denotes the shortest path from source to destination cell.</p>
+
+<p><strong>Input : </strong></p>
+<pre>
+grid[][] = {{1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 0},
+            {1, 0, 1, 0, 1}}
+source = {0, 0}
+destination = {3, 4}
+</pre>
+<p><strong>Output : </strong></p>
+<p>-1</p>
+<p><strong>Explanation : </strong></p>
+<p>Since, there is no path possible between the source cell and the destination cell, hence we return -1.</p>
+
+<p><strong>Steps To Solve : </strong></p>
+<p>Here we have to find minimum distance from source to destination in matrix</p>
+<p>It can also be solved by using dijikstra algorithm</p>
+<p>But, here we don't have adjacent nodes and we can move either top,bottom,left,right</p>
+<ul>
+	<li>Create distance array with size of given matrix and fill infinity</li>
+	<li>fill zero for source position</li>
+	<li>add source to priotity queue with 0 distance</li>
+	<li>repeat following steps untill queue is empty</li>
+	<ul>	
+		<li>pop the element from queue</li>
+		<li>loop throw its adjancent positions</li>
+		<li>update it distances and add to queue</li>
+	</ul>
+</ul>
+
+```python
+import heapq
+n,m=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(n)]
+source_row,source_col=list(map(int,input().split()))
+dest_row,dest_col=list(map(int,input().split()))
+distance=[[float('inf')]*m for i in range(n)]
+distance[source_row][source_col]=0
+queue=[]
+heapq.heappush(queue,(0,(source_row,source_col)))
+while queue:
+    current_row,current_col=heapq.heappop(queue)[1]
+    for i,j in zip([0,0,-1,1],[1,-1,0,0]):
+        row=current_row+i
+        col=current_col+j
+        if(row>=0 and col>=0 and row<n and col<m and matrix[row][col]==1 and 1+distance[current_row][current_col]<distance[row][col]):
+            distance[row][col]=1+distance[current_row][current_col]
+            heapq.heappush(queue,(1+distance[current_row][current_col],(row,col)))
+print(distance[dest_row][dest_col])
+```
