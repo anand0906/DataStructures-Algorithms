@@ -401,3 +401,326 @@ class Node:
 		self.prev=prev
 		self.next=next
 ```
+
+<h2>Convert Array Into Doubly Linked List</h2>
+<p>You are given an array ‘Arr’ of size ‘N’ consisting of positive integers.</p>
+<p>Your task is to make a doubly linked list from the array and return the head of the linked list.</p>
+<p>Here, the head of the doubly linked list is the first element of the array, and the tail of the doubly linked list is the last element.</p>
+<p><strong>Example</strong></p>
+<p>Input: ‘N’ = 4, ‘Arr’ = [4, 2, 5, 1]</p>
+<p>Output: 4 2 5 1</p>
+<p><strong>Solution : </strong></p>
+<ul>
+    <li>Create head node from first element of array</li>
+    <li>Store head node in previous variable, so that it can be assined to its next node's prev</li>
+    <li>Loop from second element till last, and do following operations</li>
+    <ul>
+        <li>Create New Node For Current element</li>
+        <li>Set prev of new node with previous node</li>
+        <li>Set previous next to new node</li>
+        <li>update previous to current new node</li>
+    </ul>
+</ul>
+
+```python
+class Node:
+    def __init__(self,data,prev=None,next=None):
+        self.data=data
+        self.prev=prev
+        self.next=next
+
+def convert(array):
+    n=len(array)
+    head=Node(array[0])
+    previous=head
+    for i in range(1,n):
+        temp=Node(array[i])
+        temp.prev=previous
+        previous.next=temp
+        previous=temp
+    return head
+
+def printLinkedList(head):
+    temp=head
+    while temp:
+        print(temp.data,end="<->")
+        temp=temp.next
+
+
+array=list(map(int,input().split()))
+head=convert(array)
+printLinkedList(head)
+```
+
+<h2>Deleting Node in Doubly Linked List</h2>
+<p><strong>Deleting Head Node</strong></p>
+<p>You are given a doubly-linked list of length ’n’ .</p>
+<p>Your task is to delete the head of a doubly-linked list.</p>
+<p><strong>Example</strong></p>
+<p>Input: 5 <-> 8 <-> 3 <-> 7 <-> 9</p>
+<p>Output: 8 <-> 3 <-> 7 <-> 9</p>
+<p>Explanation: The head of the given list is at 5. After deletion of head, new list is 8 <-> 3 <-> 7 <-> 9.</p>
+<p><strong>Solution</strong></p>
+<ul>
+    <li>check, head or head.next is None, if it is return null as answer, since if there is only one node and deleting will result none only</li>
+    <li>otherwise, set head node to head.next, hence head position will be changed</li>
+    <li>set head.prev to null, since head node should't have any prev node</li>
+    <li>set previous head.next to None, since it should be deleted and not to refer any other node</li>
+</ul>
+
+```python
+def deleteHead(head):
+    if(head==None or head.next==None):
+        return None
+    temp=head
+    head=head.next
+    head.prev=None
+    temp.next=None
+
+    return head
+```
+
+<p><strong>Deleting Tail Node</strong>
+<p>You are given a doubly-linked list of length ’n’ .</p>
+<p>Your task is to delete the Tail of a doubly-linked list.</p>
+<p><strong>Example</strong></p>
+<p>Input: 5 <-> 8 <-> 3 <-> 7 <-> 9</p>
+<p>Output:5 <-> 8 <-> 3 <-> 7</p>
+<p>Explanation: The Tail of the given list is at 9. After deletion of Tail, new list is 5 <-> 8 <-> 3 <-> 7.</p>
+<p><strong>Solution</strong></p>
+<ul>
+    <li>check, head or head.next is None, if it is return null as answer, since if there is only one node and deleting will result none only</li>
+    <li>Otherwise, loop through linked list and get tail node.</li>
+    <li>get Tail prev node and assign to previous variable</li>
+    <li>set tail.prev to None</li>
+    <li>set previous.next to None</li>
+    <li>Then, tail will be removed from linked list</li>
+</ul>
+
+```python
+def deleteTail(head):
+    if(head==None or head.next==None):
+        return None
+    tail=head
+    while tail.next!=None:
+        tail=tail.next
+    previous=tail.prev
+    previous.next=None
+    tail.prev=None
+    return head
+```
+
+<p><strong>Delete Node By Position</strong></p>
+<p>You are given a Doubly linked list, where every node in the linked list contains two pointers, ‘next’ and ‘prev’, which point to the next node and previous node in the list respectively. All nodes have some positive integer value associated with them.</p>
+<p>Your task is to delete the node at the ‘k’-th position.</p>
+<p>The 'k' given will always be less than or equal to the length of the 'list'.</p>
+<p><strong>Example</strong></p>
+<p> Input: ‘k’ = 3, 'list' = [1, 2, 5, 4]</p>
+<p> Output: [1, 2, 4]</p>
+<p> Explanation:The 3rd node, which is '5', is deleted.</p>
+<p><strong>Solution : </strong></p>
+<ul>
+    <li>First find the node by given kth value, by using count method</li>
+    <li>Check all base cases like, if node is head or tail or middle</li>
+    <li>If node.prev is none and node.next is none, then there is only one element, return None</li>
+    <li>if node.prev is none, then it is head node,delete head node as per discussed above</li>
+    <li>if node.next is none, then it is tail node, delete tail node as per discussed above</li>
+    <p>otherwise, node is in middle. take previous node and next node</p>
+    <p>set previous node.next to next node</p>
+    <p>set next node.previous to prvious node</p>
+    <p>set node.prev and node.next to None</p>
+</ul>
+
+```python
+def deleteByPosition(head,k):
+    if(head==None):
+        return head
+    cnt=0
+    temp=head
+    while temp:
+        cnt+=1
+        if(cnt==k):
+            break
+        temp=temp.next
+    prevNode=temp.prev
+    nextNode=temp.next
+    if(prevNode==None and nextNode==None):
+        return None
+    if(prevNode==None):
+        head=deleteHead(head)
+        return head
+    if(nextNode==None):
+        head=deleteTail(head)
+        return head
+    prevNode.next=temp.next
+    nextNode.prev=prevNode
+    temp.next=None
+    temp.prev=None
+    return head
+```
+<p><strong>Delete node by value</strong></p>
+<p>We have to delete node whose data matches with given value</p>
+
+<p><strong>Solution : </strong></p>
+<ul>
+    <li>First find the node by given value</li>
+    <li>Check all base cases like, if node is head or tail or middle</li>
+    <li>If node.prev is none and node.next is none, then there is only one element, return None</li>
+    <li>if node.prev is none, then it is head node,delete head node as per discussed above</li>
+    <li>if node.next is none, then it is tail node, delete tail node as per discussed above</li>
+    <p>otherwise, node is in middle. take previous node and next node</p>
+    <p>set previous node.next to next node</p>
+    <p>set next node.previous to prvious node</p>
+    <p>set node.prev and node.next to None</p>
+</ul>
+
+```python
+def deleteByValue(head,data):
+    if(head==None):
+        return head
+    temp=head
+    while temp:
+        if(temp.data==data):
+            break
+        temp=temp.next
+    prevNode=temp.prev
+    nextNode=temp.next
+    if(prevNode==None and nextNode==None):
+        return None
+    if(prevNode==None):
+        head=deleteHead(head)
+        return head
+    if(nextNode==None):
+        head=deleteTail(head)
+        return head
+    prevNode.next=temp.next
+    nextNode.prev=prevNode
+    temp.next=None
+    temp.prev=None
+    return head
+```
+
+<p><strong>Delete Node</strong></p>
+<p>There exists a doubly linked list with nodes containing integer values. You are given a specified node of the list which you have to delete.</p>
+<p>The node to be deleted is guaranteed not to be the head of the list.</p>
+<p><strong>Example</strong></p>
+<p>List = 1 <-> 2 <-> 3 <-> 4</p>
+<p>Node = '3', its position k = 3</p>
+<p>Output: 1 <-> 2 <-> 4</p>
+
+<p><strong>Solution : </strong></p>
+<ul>
+    <li>Check all base cases like, if node is head or tail or middle</li>
+    <li>If node.prev is none and node.next is none, then there is only one element, return None</li>
+    <li>if node.prev is none, then it is head node,delete head node as per discussed above</li>
+    <li>if node.next is none, then it is tail node, delete tail node as per discussed above</li>
+    <p>otherwise, node is in middle. take previous node and next node</p>
+    <p>set previous node.next to next node</p>
+    <p>set next node.previous to prvious node</p>
+    <p>set node.prev and node.next to None</p>
+</ul>
+
+```python
+
+def deleteByValue(head,node):
+    if(head==None):
+        return head
+    prevNode=node.prev
+    nextNode=node.next
+    if(prevNode==None and nextNode==None):
+        return None
+    if(prevNode==None):
+        head=deleteHead(head)
+        return head
+    if(nextNode==None):
+        head=deleteTail(head)
+        return head
+    prevNode.next=node.next
+    nextNode.prev=prevNode
+    node.next=None
+    node.prev=None
+    return head
+```
+
+<h2>Inserting Node In Doubly Linked List</h2>
+<p><strong>Insert Before Head</strong></p>
+<ul>
+    <li>Check if head is None, then return new Node with given data</li>
+    <li>otherwise, create new node with given data</li>
+    <li>set new node next to head</li>
+    <li>set head.prev to new node</li>
+    <li>return new node as head</li>
+</ul>
+
+```python
+def insertBeforeHead(head,data):
+    if(head==None):
+        return Node(data)
+    new=Node(data)
+    new.next=head
+    head.prev=new
+    return new
+```
+
+<p><strong>Insert before tail</strong></p>
+<ul>
+    <li>Check if head is None, then return None</li>
+    <li>Check if head.next is none, that means there is only node, so we can call insertBeforeHead(head,data)</li>
+    <li>Otherwise, go to tail using while loop</li>
+    <li>Get previous node of tail node</li>
+    <li>Create new node</li>
+    <li>set new node.next to tail and new node.prev to previous</li>
+    <li>set previous.next new node and tail.prev to new node</li>
+</ul>
+
+```python  
+def insertBeforeTail(head,data):
+    if(head==None):
+        return Node(data)
+    if(head.next==None):
+        head=insertBeforeHead(head,data)
+        return head
+    temp=head
+    while temp.next:
+        temp=temp.next
+    tail=temp
+    previous=tail.prev
+    new=Node(data)
+    new.next=tail
+    new.prev=previous
+    tail.prev=new
+    previous.next=new
+    return head
+```
+
+<p><strong>Insert before kth node</strong></p>
+<ul>
+    <li>Check if head is None, then return None</li>
+    <li>Get node at kth position using count method</li>
+    <li>Take previous node of kth node</li>
+    <li>create new node</li>
+    <li>set new node.next to kth node and new node.prev to previous</li>
+    <li>previous.next to new node and kth node.prev to new node</li>
+</ul>
+
+```python
+def insertBeforeKthElement(head,data,k):
+    if(head==None):
+        return None
+    cnt=0
+    temp=head
+    while temp:
+        cnt+=1
+        if(cnt==k):
+            break
+        temp=temp.next
+    else:
+        return None
+    previous=temp.prev
+    new=Node(data)
+    new.next=temp
+    new.prev=previous
+    previous.next=new
+    temp.prev=new
+    return head
+```
