@@ -724,3 +724,327 @@ def insertBeforeKthElement(head,data,k):
     temp.prev=new
     return head
 ```
+
+<h2>Reverse Doubly Linked List</h2>
+<p>You are given a doubly-linked list of size 'N', consisting of positive integers. Now your task is to reverse it and return the head of the modified list.</p>
+<p>Note : A doubly linked list is a kind of linked list that is bidirectional, meaning it can be traversed in both forward and backward directions.</p>
+<p><strong>Example : </strong></p>
+<p>input : </p>
+<p>4</p>
+<p>4 3 2 1</p>
+<p>This means you have been given doubly linked list of size 4 = 4 <-> 3 <-> 2 <-> 1.</p>
+<p>Output:</p>
+<p>1 2 3 4</p>
+<p>This means after reversing the doubly linked list it becomes 1 <-> 2 <-> 3 <-> 4.</p>
+<p><strong>Solution : </strong></p>
+<p><strong>BruteForce : </strong></p>
+<ul>
+    <li>Simple loop over given linked list and push each element into stack</li>
+    <li>Again loop from head, for each node take the top element from stack and assign that data to current data</li>
+    <li>In this way, we can reverse the data present in linked list</li>
+</ul>
+<img src="https://static.takeuforward.org/wp/uploads/2023/11/dll-reverse-a1-step2-1024x813.jpgs">
+<img src="https://static.takeuforward.org/wp/uploads/2023/11/dll-reverse-a3-step3-1024x958.jpg">
+
+```python
+def reverseBruteForce(head):
+    stack=[]
+    temp=head
+    while temp:
+        stack.append(temp.data)
+        temp=temp.next
+    temp=head
+    while temp:
+        temp.data=stack.pop()
+        temp=temp.next
+    return head
+```
+
+<p><strong>Optimized</strong></p>
+<p>More optimzed solution will be, just reverse the links present for each node i.e next and prev</p>
+<p>And move head node to tail</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/11/dll-reverse-a1-cum-739x1024.jpg">
+
+```python
+def reverseOptimized(head):
+    temp=head
+    current=head
+    while temp:
+        current=temp
+        temp.next,temp.prev=temp.prev,temp.next
+        temp=temp.prev
+    head=current
+    return head
+```
+<p>Time Complexity : O(N) We only have to traverse the doubly linked list once, hence our time complexity is O(N).</p>
+<p>Space Complexity : O(1), as the reversal is done in place.</p>
+
+<h2>Adding Two Singly Linked Lists</h2>
+<p>You are given two non-negative numbers 'num1' and 'num2' represented in the form of linked lists</p>
+<p>The digits in the linked lists are stored in reverse order, i.e. starting from least significant digit (LSD) to the most significant digit (MSD), and each of their nodes contains a single digit.</p>
+<p>Calculate the sum of the two numbers and return the head of the sum list.</p>
+<p><strong>Example-1 : </strong></p>
+<p>Input Format:</p>
+<p>(Pointer/Access to the head of the two linked lists)</p>
+<p>num1  = 243, num2 = 564</p>
+<p>l1 = [2,4,3]</p>
+<p>l2 = [5,6,4]</p>
+<p>Result: sum = 807; L = [7,0,8]</p>
+<p>Explanation: Since the digits are stored in reverse order, reverse the numbers first to get the or original number and then add them as → 342 + 465 = 807. Refer to the image below.</p>
+<img src="https://lh3.googleusercontent.com/-6tuYtP69ITIp3DBjDKYupMDWHd2y3SruICs-HEMZtYnVTlwARbbsMRyfVkaOK5mnJC2N7DqcrcqfoQqXrTmFDEIGz1BlrjzUVfl3nd0QK6Q6ja0k-sF7X1BZJ2FtXNCruTAN1U=s1600">
+<p><strong>Example-2 : </strong></p>
+<p>Input Format:</p>
+<p>(Pointer/Access to the head of the two linked lists)</p>
+<p>num1  = 243, num2 = 564</p>
+<p>l1 = [9,9,9,9,9,9,9]</p>
+<p>l2 = [9,9,9,9]</p>
+<p>Result: [8,9,9,9,0,0,0,1]</p>
+<p>Explanation: Since the digits are stored in reverse order, reverse the numbers first to get the original number and then add them as → 9999999 + 9999 = 8999001. Refer to the image below..</p>
+<img src="https://lh4.googleusercontent.com/HbBzYULG5Q3ClLa3a6SPEgw_dio2iCyT8sQ4edmYBvQ0SqTGCqIapIaRONy5dNQ-SnzznidbKH0v3t8ivHMazZvP68k14esr3ULwPmnem4QV3j3Z-0tJw5VL5UyB1feMFKhQ3yM=s1600">
+
+<p><strong>Solution : </strong></p>
+<p>Given Two Numbers , we have to find the sum of those two numbers</p>
+<p>These two numbers are represented in form two linked list (in reverse order of digits)</p>
+<p>We can simply create new linked list by adding digits of both linked list</p>
+<ul>
+    <li>Create new linked list, by creating one dummy node and mark it as head</li>
+    <li>Initialise carry with 0, since there is no carry at beggining</li>
+    <li>Untill both heads of linked lists are null , loop through it</li>
+    <ul>
+        <li>initialise sum with 0</li>
+        <li>add carry to sum</li>
+        <li>add data of linked list 1 to sum, if node is not null</li>
+        <li>add data of linked list 2 to sum, if node is not null</li>
+        <li>update carry with new sum, carry=sum%10</li>
+        <li>create new node with data as sum, Node(sum%10)</li>
+        <li>link new node to new linked list</li>
+    </ul>
+    <li>if, carry is there, add new node with carry as data and link to new linked list</li>
+    <li>return head of new linked list</li>
+</ul>
+
+```python
+def sum(head1,head2):
+    sumHead=Node(-1)
+    temp=sumHead
+    temp1=head1
+    temp2=head2
+    carry=0
+    while temp1 or temp2:
+        s=carry
+        if(temp1):
+            s+=temp1.data
+            temp1=temp1.next
+        if(temp2):
+            s+=temp2.data
+            temp2=temp2.next
+        carry=s//10
+        new=Node(s%10)
+        temp.next=new
+        temp=new
+    if(carry!=0):
+        new=Node(carry)
+        temp.next=new
+    return sumHead.next
+```
+<p>Time Complexity: O(max(m,n)). Assume that m and n represent the length of l1 and l2 respectively, the algorithm above iterates at most max(m,n) times.</p>
+<p>Space Complexity: O(max(m,n)). The length of the new list is at most max(m,n)+1.</p>
+
+
+<h2>Segregate Even and Odd Index Values in Singly Linked List</h2>
+<p>You are given the head node of a singly linked list 'head'. Your task is to modify the linked list in such a way that all the odd indexed nodes appear before the all even indexed node</p>
+<p><strong>Example : </strong></p>
+<p>Sample Input 1</p>
+<p>2 1 3 5 6 4 7</p>
+<p>Sample Output 1</p>
+<p>2 3 6 7 1 5 4</p>
+<p>Explanation of Sample Input 1</p>
+<p>Given singly linked list 2 -> 1 -> 3 -> 5 -> 6 -> 4 -> 7.</p>
+<p>Arrange all the odd indexed in the starting and even indexed at the end of the linked list.</p>
+<p>So ‘2,3,6,7’ must appear in the starting and ‘1,5,4’ must appear at the end of linked list </p>
+
+<p><strong>Solution : </strong></p>
+<p>We have given a linked list, we have to arrange the node such that odd indexed node should come first and even indexed node should come last</p>
+<p>We can solve in two different ways</p>
+<p><strong>BruteForce Approach</strong></p>
+<p>Create a list and add odd indexed values first and even indexed values next By looping through linked list</p>
+<p>Then again loop over the given linked list and replace values as in newly create list</p>
+<p>By rearranging values like this, we can solve this problem</p>
+
+```python
+def bruteForce(head):
+    if(head==None or head.next==None):
+        return head
+    newOrder=[]
+
+    #adding odd indexed values
+    temp=head
+    while temp and temp.next:
+        newOrder.append(temp.data)
+        temp=temp.next.next
+    if(temp):
+        newOrder.append(temp.data)
+
+    #adding even indexed values
+    temp=head.next
+    while temp and temp.next:
+        newOrder.append(temp.data)
+        temp=temp.next.next
+    if(temp):
+        newOrder.append(temp.data)
+
+    #replacing new values
+    temp=head
+    i=0
+    while temp and temp.next:
+        temp.data=newOrder[i]
+        i+=1
+        temp=temp.next
+    if(temp):
+        temp.data=newOrder[i]
+
+    return head
+```
+
+<p>TC : O(2n)</p>
+<p>SC : O(n)</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p>In this approach, first we will link the odd indexed node's together</p>
+<p>Then, we will link even indexed node's together</p>
+<p>finally, odd list is linked to even's start node</p>
+<p>Final list will be our answer</p>
+<ul>
+    <li>set starting node of odd list is head</li>
+    <li>set starting node of even list is head.next</li>
+    <li>Loop Untill even is not null</li>
+    <ul>
+        <li>set currentOdd.next to currentOdd.next.next</li>
+        <li>set currentEven.next to currentEven.next.next</li>
+        <li>update currentOdd to currentOdd.next</li>
+        <li>update currentEven to currentEven.next</li>
+    </ul>
+    <li>Finally, link currentOdd.next to evenStarting</li>
+</ul>
+
+```python
+def optimized(head):
+    if(head==None or head.next==None):
+        return head
+    oddHead=head
+    evenHead=head.next
+
+    odd=head
+    even=head.next
+    while even and even.next:
+        odd.next=odd.next.next
+        even.next=even.next.next
+
+        odd=odd.next
+        even=even.next
+
+    odd.next=evenHead
+
+    return head
+```
+
+<p>TC : O(n/2)</p>
+<p>SC : O(1)</p>
+
+<h2>Sort Linkes List Have 0's 1's and 2's</h2>
+<p>Given a linked list of 'N' nodes, where each node has an integer value that can be 0, 1, or 2. You need to sort the linked list in non-decreasing order and the return the head of the sorted list.</p>
+<p>Given linked list is 1 -> 0 -> 2 -> 1 -> 2. </p>
+<p>The sorted list for the given linked list will be 0 -> 1 -> 1 -> 2 -> 2.</p>
+
+<p><strong>Solution</strong></p>
+<p>We have given a linked list having 0's, 1's and 2's, we have to sort the linked list based on values</p>
+<p>We can solve this problem in several approaches</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>We can rearrange the values by tracking the values and modifing the values</p>
+<ul>
+    <li>Track the count of 0's,1's,2's by looping through given linked list</li>
+    <li>Now, again loop through linked list and modfify each node's value based on counts of values</li>
+</ul>
+
+```python
+def bruteForce(head):
+    if(head==None or head.next==None):
+        return head5
+    cnt0,cnt1,cnt2=0,0,0
+    temp=head
+    while temp:
+        if(temp.data==0):
+            cnt0+=1
+        elif(temp.data==1):
+            cnt1+=1
+        else:
+            cnt2+=1
+        temp=temp.next
+
+    temp=head
+    while temp:
+        if(cnt0!=0):
+            temp.data=0
+            cnt0-=1
+        elif(cnt1!=0):
+            temp.data=1
+            cnt1-=1
+        else:
+            temp.data=2
+            cnt2-=1
+        temp=temp.next
+    return head
+```
+
+<p>TC : O(2N)</p>
+<p>SC : O(1)</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In This approach, we will link 0's nodes together , 1's nodes together, 2's nodes together</p>
+<p>finally, link 0's list to 1's list to 2's list</p>
+<p>then we will get the final list</p>
+<ul>
+    <li>Create dummy node for all three new lists and mark it as head node for those</li>
+    <li>create temporary variables for each three list, assign it to respective head nodes</li>
+    <li>Loop through given linked list</li>
+    <ul>
+        <li>if current node's data matches with 0, then link that node to 0's list</li>
+        <li>if current node's data matches with 1, then link that node to 1's list</li>
+        <li>if current node's data matches with 2, then link that node to 2's list</li>
+    </ul>
+    <li>finally, link those three lists together based on availabilty of values</li>
+</ul>
+
+```python
+def optimized(head):
+    zeroHead,oneHead,secHead=Node(-1),Node(-1),Node(-1)
+    zero,one,sec=zeroHead,oneHead,secHead
+    temp=head
+    while temp:
+        if(temp.data==0):
+            zero.next=temp
+            zero=temp
+        elif(temp.data==1):
+            one.next=temp
+            one=temp
+        elif(temp.data==2):
+            sec.next=temp
+            sec=temp
+        temp=temp.next
+
+    temp=[]
+    current=zero
+    if(one.data!=-1):
+        current.next=oneHead.next
+        current=one
+    if(sec.data!=-1):
+        current.next=secHead.next
+        sec.next=None
+    else:
+        one.next=None
+
+    return zeroHead.next;
+```
+
+<p>TC : O(N)</p>
+<p>SC : O(1)</p>
