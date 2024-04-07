@@ -1574,3 +1574,177 @@ def optimized(head):
 <p>Time Complexity: O(N), where N is the number of nodes in the linked list. This is because in the worst-case scenario, the fast pointer, which moves quicker, will either reach the end of the list (in case of no loop) or meet the slow pointer (in case of a loop) in a linear time relative to the length of the list.</p>
 <p>The key insight into why this is O(N) and not something slower is that each step of the algorithm reduces the distance between the fast and slow pointers (when they are in the loop) by one. Therefore, the maximum number of steps needed for them to meet is proportional to the number of nodes in the list.</p>
 <p>Space Complexity : O(1) The code uses only a constantamount of additionalspace, regardless of the linked list's length. This is achieved by using two pointers (slow and fast) to detect the loop without any significant extra memory usage, resulting in constantspace complexity, O(1).</p>
+
+
+<h2>Find Starting Node Of Loop</h2>
+<p>You are given a singly linked list that may or may not contain a cycle. You are supposed to return the node where the cycle begins, if a cycle exists, else return 'NULL'.</p>
+<p>A cycle occurs when a node's next pointer returns to a previous node in the list.</p>
+<p><strong>Example : </strong></p>
+<p>In the given linked list, there is a cycle starting at position 0, hence we return 0.</p>
+<img src="https://files.codingninjas.in/sa1-27740.png">
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several ways</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In this approach, we will create visited map, once node visited in traversal we will store it in map</p>
+<p>While traversal, we can check whether it is already visited or not</p>
+<p>if it visited, we can return that node , i.e cycle started at that node</p>
+<p>If traversal complted, no cycle existed, return None</p>
+
+```python
+def bruteForce(head):
+    visited={}
+    temp=head
+    while temp:
+        if temp in visited:
+            return temp
+        visited[temp]=1
+        temp=temp.next
+    return None
+```
+<p>Time Complexity: O(N)</p>
+<p>Space Complexity: O(N)</p>
+
+<p><strong>Optimized : </strong></p>
+<p>In This approach, hare and tortoise algorithm can be use to detect the cycle as discussed above</p>
+<p>Once, cycle detected at particular node, take two pointer temp1 points to head and temp2 points to node where cycle detected</p>
+<p>Move both pointers simultaneously, till they collide</p>
+<p>The node where they collide will be the starting node</p>
+<p>Refer article For More Info <a href="https://takeuforward.org/data-structure/starting-point-of-loop-in-a-linked-list/">Click Here</a></p>
+
+```python
+def optimized(head):
+    slow,fast=head,head
+    while fast and fast.next:
+        fast=fast.next.next
+        slow=slow.next
+        if(fast==slow):
+            temp1,temp2=head,slow
+            while temp1!=temp2:
+                temp1=temp1.next
+                temp2=temp2.next
+            return temp1
+    return None
+```
+
+<p>Time Complexity: O(N)</p>
+<p>Space Complexity: O(1)</p>
+
+<h2>Length Of Loop In Singly Linked List</h2>
+<p>You’re given a linked list. The last node might point to null, or it might point to a node in the list, thus forming a cycle.</p>
+<p>Find out whether the linked list has a cycle or not, and the length of the cycle if it does.</p>
+<p>If there is no cycle, return 0, otherwise return the length of the cycle.</p>
+<p><strong>Example : </strong></p>
+<p>Input: Linked List: 4 -> 10 -> 3 -> 5 -> 10(at position 2)</p>
+<p>Output: Length of cycle = 3</p>
+
+<p><strong>BruteForce Approach : </strong></p>
+<p>We can solve this problem in several ways</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In this approach, we will create visited map, once node visited in traversal we will store it in map and its count</p>
+<p>While traversal, we can check whether it is already visited or not</p>
+<p>if it visited, we can return current count- visited count , i.e that will give the length of loop</p>
+<p>If traversal complted, no cycle existed, return 0</p>
+
+```python
+def bruteForce(head):
+    visited={}
+    temp=head
+    cnt=0
+    while temp:
+        cnt+=1
+        if temp in visited:
+            return cnt-visited[temp]
+        visited[temp]=cnt
+        temp=temp.next
+    return 0
+```
+<p>TC : O(n)</p>
+<p>SC : O(n)</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In This approach, hare and tortoise algorithm can be use to detect the cycle as discussed above</p>
+<p>Once, cycle detected at particular node, take two pointer temp1 points to fast.next and temp2 points to node where cycle detected</p>
+<p>initialise cnt with 0,</p>
+<p>Move temp1 pointer, till it reaches to temp2 and increase cnt by 1 </p>
+<p>when temp1 meets temp2, return cnt will be length of loop</p>
+<p>if cycle not found return 0</p>
+
+```python
+def optimized(head):
+    slow,fast=head,head
+    while fast and fast.next:
+        fast=fast.next.next
+        slow=slow.next
+        if(fast==slow):
+            temp1,temp2=fast.next,slow
+            cnt=1
+            while temp1!=temp2:
+                cnt+=1
+                temp1=temp1.next
+            return cnt
+    return 0
+```
+<p>TC : O(n)</p>
+<p>SC : O(1)</p>
+
+<h2>Delete Middle Node Of Singly Linked List</h2>
+<p>Given a singly linked list of 'N' nodes. Your task is to delete the middle node of this list and return the head of the modified list.</p>
+<p>However, if the list has an even number of nodes, we delete the second middle node</p>
+<p><strong>Example:</strong></p>
+<p>If given linked list is 1->2->3->4 then it should be modified to 1->2->4.</p>
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several ways</p>
+
+<p><strong>Bruteforce Approach : </strong></p>
+<p>In This approach, first we will find the length of given linked list</p>
+<p>Then we will find the node before middle node of linked list, by using count method</p>
+<p>when count equals to length//2, we can get that node</p>
+<p>Set that node.next to node.next.next</p>
+<p>so that, we can delete middle node</p>
+
+```python
+def bruteForce(head):
+    if(head==None or head.next==None):
+        return None
+    length=0
+    temp=head
+    while temp:
+        length+=1
+        temp=temp.next
+    mid=(length//2)
+    cnt=0
+    temp=head
+    while temp:
+        cnt+=1
+        if(cnt==mid):
+            break
+        temp=temp.next
+    temp.next=temp.next.next
+    return head
+```
+<p>TC : O(N + N/2)</p>
+<p>SC : O(1)</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In this approach, we can find middle node using hare and tortaise algorithm</p>
+<p>We can track node before middle node using a temporary variable previous</p>
+<p>then, delete middle node by setting previous.next to previous.next.next</p>
+
+```python
+def optimized(head):
+    if(head==None or head.next==None):
+        return None
+    slow,fast=head,head
+    prev=None
+    while fast and fast.next:
+        prev=slow
+        slow=slow.next
+        fast=fast.next.next
+    prev.next=prev.next.next
+    return head
+```
+
+<p>TC : O(n)</p>
+<p>SC : O(1)</p>
