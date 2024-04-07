@@ -1748,3 +1748,173 @@ def optimized(head):
 
 <p>TC : O(n)</p>
 <p>SC : O(1)</p>
+
+<h2>Delete All Occurance Of Given Key in Doubly Linked List</h2>
+<p>A doubly-linked list is a data structure that consists of sequentially linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence of nodes.</p>
+<p>You’re given a doubly-linked list and a key 'k'.</p>
+<p>Delete all the nodes having data equal to ‘k’.</p>
+<p><strong>Example:</strong></p>
+<p>Input: Linked List: 10 <-> 4 <-> 10 <-> 3 <-> 5 <-> 20 <-> 10 and ‘k’ = 10</p>
+<p>Output: Modified Linked List: 4 <-> 3 <-> 5 <-> 20</p>
+<p>Explanation: All the nodes having ‘data’ = 10 are removed from the linked list.</p>
+
+<p><strong>Solution</strong></p>
+<p>Loop Through Given linked list and compare each node given key value</p>
+<p>if matches, delete that particular using its prev and next, if it is head node, set head to its next node and move temp to its next node</p>
+<p>otherwise move temp to its next</p>
+<ul>
+    <li>Assign head to a temporary variable temp</li>
+    <li>Iterate untill temp reaches end and perform following operations</li>
+    <ul>
+        <li>If temp data matches with given data</li>
+        <ul>
+            <li>If temp equals to head, move head to its next position</li>
+            <li>Otherwise, get its previous and next nodes</li>
+            <li>assign previous.next to next</li>
+            <li>assign next.prev to prev</li>
+            <li>update temp to next</li>
+        </ul>
+        <li>Other wise, update temp to its next position</li>
+    </ul>
+</ul>
+
+```python
+def solve(head,key):
+    temp=head
+    while temp:
+        if(temp.data==key):
+            if(temp==head):
+                head=temp.next
+            next=temp.next
+            prev=temp.prev
+            if(next):
+                next.prev=prev
+            if(prev):
+                prev.next=next
+            temp=next
+        else:
+            temp=temp.next
+    return head
+```
+
+<p>TC : O(N)</p>
+<p>SC : O(1)</p>
+
+<h2>Find pairs with given sum in doubly linked list</h2>
+<p>A doubly-linked list is a data structure that consists of sequentially linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence of nodes</p>
+<p>You are given a sorted doubly linked list of size 'n', consisting of distinct positive integers, and a number 'k'.</p>
+<p>Find out all the pairs in the doubly linked list with sum equal to 'k'.</p>
+<p><strong>Example</strong></p>
+<p>Input: Linked List: 1 <-> 2 <-> 3 <-> 4 <-> 9 and 'k' = 5</p>
+<p>Output: (1, 4) and (2, 3)</p>
+<p>Explanation: There are 2 pairs in the linked list having sum 'k' = 5.</p>
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several ways</p>
+<p><strong>BruteForce Solution : </strong></p>
+<p>In this approach, we will just run nested loop and check every combination</p>
+<p>take one node, and loop through its all next nodes, then check data equality and add to final list</p>
+<p>move node to next position untill end</p>
+<p>return the final list</p>
+<ul>
+    <li>create a list called final, final answer will store here</li>
+    <li>Create a temproray variable temp and assign head to it</li>
+    <li>Loop untill temp reaches end and perform following operations</li>
+    <ul>
+        <li>Create another temporary varibale temp1 and assigne temp.next</li>
+        <li>Loop through a nodes untill temp1 reaches end and perform following operations</li>
+        <ul>
+            <li>if temp.data+temp1.data equals to given sum , add pair to final list</li>
+            <li>move temp1 to next position</li>
+        </ul>
+    </ul>
+    <li>return final list</li>
+</ul>
+
+
+```python
+def bruteForce(head,k):
+    final=[]
+    temp=head
+    while temp:
+        temp1=temp.next
+        while temp1:
+            if(temp1.data+temp.data==k):
+                final.append([temp.data,temp1.data])
+            temp1=temp1.next
+        temp=temp.next
+    return final
+```
+
+<p>TC : O(N*N)</p>
+<p>SC : O(1)</p>
+
+<p><strong>Optimized Solution : </strong></p>
+<p>In this approach, assign start and last varibles to first and last nodes of linked list</p>
+<p>check sum of start and last nodes, if it equals to given sum,  then add pair to final list and move start to next and last to prev</p>
+<p>if sum > given sum, then move last to prev node</p>
+<p>if sum < given sum, then move start to next node</p>
+<p>repeat above process untill start.data > end.data</p>
+
+```python
+def optimized(head,k):
+    final=[]
+    start=head
+    last=head
+    while last.next:
+        last=last.next
+    while start and last and start.data <= last.data:
+        s=start.data+last.data
+        if(s==k):
+            final.append([start.data,last.data])
+            start=start.next
+            last=last.prev
+        if(s>k):
+            last=last.prev
+        if(s<k):
+            start=start.next
+    return final
+```
+
+<p>TC : O(N)</p>
+<p>SC : O(1)</p>
+
+<h2>Remove duplicates from a sorted Doubly Linked List : </h2>
+<p>A doubly-linked list is a data structure that consists of sequentially linked nodes, and the nodes have reference to both the previous and the next nodes in the sequence of node</p>
+<p>You are given a sorted doubly linked list of size 'n'.</p>
+<p>Remove all the duplicate nodes present in the linked list.</p>
+<p><strong>Example : </strong></p>
+<p>Input: Linked List: 1 <-> 2 <-> 2 <-> 2 <-> 3</p>
+<p>Output: Modified Linked List: 1 <-> 2 <-> 3</p>
+<p>Explanation: We will delete the duplicate values ‘2’ present in the linked list.</p>
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this by, Since given list is sorted and we can easily find the group of duplicates</p>
+<p>So, we can easily eliminate that group</p>
+<ul>
+    <li>Create temporary variable temp, assign it to head</li>
+    <li>Loop over list untill temp reaches end</li>
+    <ul>
+        <li>For each temp node, loop through its next nodes untill temp.data matches</li>
+        <li>once temp.data not matches, get that node</li>
+        <li>link temp node with that node as next, so that all duplicate nodes with temp data will be deleted</li>
+        <li>then move temp to its next</li>
+    </ul>
+</ul>
+
+```python
+def solve(head):
+    temp=head
+    while temp and temp.next:
+        current=temp.next
+        while current and current.data==temp.data:
+            current=current.next
+        temp.next=current
+        if(current):
+            current.prev=temp
+        temp=temp.next
+    return head
+```
+
+<p>TC : O(N)</p>
+<p>SC : O(1)</p>
