@@ -1048,3 +1048,529 @@ def optimized(head):
 
 <p>TC : O(N)</p>
 <p>SC : O(1)</p>
+
+<h2>Delete Nth Node From Last Of Linked List</h2>
+<p>You have been given a singly Linked List of 'N' nodes with integer data and an integer 'K'.</p>
+<p>Your task is to remove the 'K'th node from the end of the given Linked List and return the head of the modified linked list.</p>
+<p><strong>Example</strong></p>
+<p>Input : 1 -> 2 -> 3 -> 4 -> 'NULL'  and  'K' = 2</p>
+<p>Output: 1 -> 2 -> 4 -> 'NULL'</p>
+<p>After removing the second node from the end, the linked list become 1 -> 2 -> 4 -> 'NULL'.</p>
+<img src="https://files.codingninjas.in/untitled-7-27708.jpg">
+<p><strong>Solution : </strong></p>
+<p>We can solve this in two approaches</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>Since we need to delete the nth node from end of list, from beginning we have to delete (length-n+1)th node from first</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/12/tuxpi.com_.1702843904.jpg">
+<ul>
+    <li>first find the lenth of given linked list</li>
+    <li>then, delete (length-n+1) node</li>
+    <li>To delete node (length-n+1), we need to reach (length-n) node and put its next to node.next.next</li>
+</ul>
+
+```python
+def delete(head,n):
+    if(head==None):
+        return head
+    length=0
+    temp=head
+    while temp:
+        length+=1
+        temp=temp.next
+
+    if(length==n):
+        head=head.next
+        return head
+
+    target=length-n
+    cnt=0
+    temp=head
+    while temp:
+        cnt+=1
+        if(cnt==target):
+            break
+        temp=temp.next
+    temp.next=temp.next.next
+    return head
+```
+
+<p>Time Complexity: O(L)+O(L-N), We are calculating the length of the linked list and then iterating up to the (L-N)th node of the linked list, where L is the total length of the list.</p>
+<p>Space Complexity: O(1), as we have not used any extra space.</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>To enhance efficiency, we will involve two pointers, a fast pointer and a slow pointer. The fast-moving pointer will initially be exactly N nodes ahead of the slow-moving pointer. After which, both of them will move one step at a time. When the fast pointer reaches the last node, i.e., the L-th node, the slow is guaranteed to be at the (L-N)-th node, where L is the total length of the linked list.</p>
+<ul>
+    <li>Initialize two pointers, `slow` and `fast`, to the head of the linked list. Initially, only fast will move till it crosses N nodes, after which both of the pointers will move simultaneously.</li>
+    <img src="https://static.takeuforward.org/wp/uploads/2023/12/tuxpi.com_.1702844019.jpg">
+    <li>Traverse the linked list till the fast pointer reaches the last node, that is, the Lth Node, at this stage, the slow pointer is guaranteed to be at the (L-N)th node.</li>
+    <img src="https://static.takeuforward.org/wp/uploads/2023/12/tuxpi.com_.1702844072.jpg">
+    <li>Point this slow pointer to the (L-N+2)th node, effectively skipping the Nth node from the end or the (L-N+1)th node from the start.</li>
+    <img src="https://static.takeuforward.org/wp/uploads/2023/12/tuxpi.com_.1702844098.jpg">
+    <li>Finally, free up the space occupied by this to delete it.</li>
+</ul>
+
+```python
+def optimized(head,n):
+    slow,fast=head,head
+    for i in range(n):
+        fast=fast.next
+    if(fast==None):
+        head=head.next
+        return head
+    while fast.next:
+        fast=fast.next
+        slow=slow.next
+    slow.next=slow.next.next
+    return head
+```
+
+<p>Time Complexity: O(N) since the fast pointer will traverse the entire linked list, where N is the length of the linked list.</p>
+<p>Space Complexity: O(1), as we have not used any extra space.</p>
+
+<h2>Reverse Singly linked list</h2>
+<p>Given the head of a singly linked list, write a program to reverse the linked list, and return the head pointer to the reversed list.</p>
+<p><strong>Example : </strong></p>
+<p>Input Format:</p>
+<p>LL: 1   3   2   4 </p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/12/reversell-1024x222.jpg">
+<p>Output</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/12/reversell-1024x222.jpg">
+<p>Explanation: After reversing the linked list, the new head will point to the tail of the old linked list.</p>
+
+<p><strong>Solution : </strong></p>
+<p>Given a linked list, we have to reverse it</p>
+<p>We can solve this problem in several approaches</p>
+<p><strong>BruteForce Approach</strong></p>
+<p>Rearrage the data, create a stack and add all linked list data</p>
+<p>The pop the data and update linked list again</p>
+<p>Then we can get reversed linked list</p>
+<ul>
+    <li>Create a stack</li>
+    <li>Iterate through linked list and add each node data to stack</li>
+    <li>now stack contains all linked list data</li>
+    <li>Now iterate through linked list again update the data of each node by poping elements from stack</li>
+    <li>finally return head</li>
+</ul>
+
+```python
+def bruteforce(head):
+    stack=[]
+    temp=head
+    while temp:
+        stack.append(temp.data)
+        temp=temp.next
+    temp=head
+    while temp:
+        temp.data=stack.pop()
+        temp=temp.next
+    return head
+```
+<p>Time Complexity: O(2N) This is because we traverse the linked list twice: once to push the values onto the stack, and once to pop the values and update the linked list. Both traversals take O(N) time, hence time complexity  O(2N) ~ O(N).</p>
+<p>Space Complexity: O(N) We use a stack to store the values of the linked list, and in the worst case, the stack will have all N values,  ie. storing the complete linked list.</p>
+
+<p><strong>Optimized approach</strong></p>
+<p>In this approach, we will reverse the direction of linked list</p>
+<p>The main idea is to flip the order of connections in the linked list, which changes the direction of the arrows. When this happens, the last element becomes the new first element of the list. This in-place reversal allows us to efficiently transform the original list without using extra space.</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/12/reversell-inplace-1024x375.png">
+<ul>
+    <li>Initialize temp with head, so that we can itetare throgh linked list from starting</li>
+    <li>Initialize previous with None, since previous to head is none</li>
+    <li>Now iterate through linked list untill it reaches end</li>
+    <ul>
+        <li>swap temp and previous nodes</li>
+        <li>update temp to current.next (prev after swap) node</li>
+        <li>update current to temp node, useful to return at the end</li>
+        <li>update previous with current node</li>
+    </ul>
+    <li>return last node (tracked with current), after swapping head node will be last node</li>
+</ul>
+
+```python
+def optimized(head):
+    temp=head
+    prev=None
+    current=head
+    while temp:
+        current=temp
+        temp.next,prev=prev,temp.next
+        temp=prev
+        prev=current
+    return current
+```
+
+<p>Time Complexity: O(N) The code traverses the entire linked list once, where 'n' is the number of nodes in the list. This traversal has a linear time complexity, O(n).</p>
+<p>Space Complexity: O(1) The code uses only a constant amount of additional space, regardless of the linked list's length. This is achieved by using three pointers (prev, temp and front) to reverse the list without any significant extra memory usage, resulting in constant space complexity, O(1).</p>
+
+<h2>Check if the given Singly Linked List is Palindrome</h2>
+<p>You are given a Singly Linked List of integers. You have to return true if the linked list is palindrome, else return false.</p>
+<p>A Linked List is a palindrome if it reads the same from left to right and from right to left.</p>
+<p><strong>Example : </strong></p>
+<p>The lists (1 -> 2 -> 1), (3 -> 4 -> 4-> 3), and (1) are palindromes, while the lists (1 -> 2 -> 3) and (3 -> 4) are not.</p>
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several ways</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>We will first add all data to a stack and compare again by poping it (reverse order), if any comparison fails, we will return False</p>
+<ul>
+    <li>Create a stack</li>
+    <li>iterate through given linked list and push each node data to stack</li>
+    <li>Iterate again through linked list and for each node pop element from stack and check if its is equal or not</li>
+    <li>If any matching fails , return False</li>
+    <li>Otherwise return True</li>
+</ul>
+
+```python
+def bruteForce(head):
+    stack=[]
+    temp=head
+    while temp:
+        stack.append(temp.data)
+        temp=temp.next
+    temp=head
+    while temp:
+        if(temp.data!=stack.pop()):
+            return False
+        temp=temp.next
+    return True
+```
+
+<p>Time Complexity: O(2 * N) This is because we traverse the linked list twice: once to push the values onto the stack, and once to pop the values and compare with the linked list. Both traversals take O(2*N) ~ O(N) time.</p>
+
+<p>Space Complexity: O(N) We use a stack to store the values of the linked list, and in the worst case, the stack will have all N values,  ie. storing the complete linked list.</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p></p>
+
+<h2>Adding 1 To Given Singly Linked List</h2>
+<p>You're given a positive integer represented in the form of a singly linked-list of digits. The length of the number is 'n'.</p>
+<p>Add 1 to the number, i.e., increment the given number by one.</p>
+<p>The digits are stored such that the most significant digit is at the head of the linked list and the least significant digit is at the tail of the linked list.</p>
+<p><strong>Example : </strong></p>
+<p>Input: Initial Linked List: 1 -> 5 -> 2</p>
+<p>Output: Modified Linked List: 1 -> 5 -> 3</p>
+<p>Explanation: Initially the number is 152. After incrementing it by 1, the number becomes 153.</p>
+<p><strong>Example : </strong></p>
+<p>Input: Initial Linked List: 9 -> 9 -> 9</p>
+<p>Output: Modified Linked List: 1 -> 0 -> 0 -> 0</p>
+<p>Explanation: Initially the number is 999. After incrementing it by 1, the number becomes 1000.</p>
+
+<p><strong>Solution</strong></p>
+<p>Given single linked list, where each node contains a digit, combines forms an integer</p>
+<p>We need to add 1 to it,after adding 1, we will get new linked list with its digit</p>
+<p>This problem can be solved in different ways</p>
+
+<p><strong>Iterative Approach Approach</strong></p>
+<p>As per maths, we can add 1 to a number, to its last digit and move towards to front if there is any carry</p>
+<p>So, we have to reverse the given linked list and add 1 to its first node and have to add carry to its next nodes if there is any carry</p>
+<p>After completion of adding , we have to reverse again to form number</p>
+<ul>
+    <li>Reverse given linked list</li>
+    <li>loop through reversed linked list</li>
+    <li>add 1 to node's data, and update carry if there is , other wise break and reverse again and return new linked list</li>
+    <li>if there is any carry in previous, move to next node and add carry to node's data</li>
+    <li>repeat above steps untill last node</li>
+    <li>after all steps, reverse the newly linked list</li>
+    <li>Still if there is any carry, insert new node with carry as data at head, update new node as head</li>
+    <li>return new head</li>
+</ul>
+
+```python
+def iterative(head):
+    temp=head
+    carry=1
+    head1=reverse(temp)
+    temp1=head1
+    while temp1:
+        s=temp1.data+carry
+        if(s<10):
+            temp1.data=s
+            temp1=temp1.next
+            carry=0
+            break
+        else:
+            temp1.data=s%10
+            temp1=temp1.next
+            carry=s//10
+    head2=reverse(head1)
+    if(carry!=0):
+        new=Node(carry)
+        new.next=head2
+        return new
+    return head2
+```
+
+<p>TC : O(3*N)</p>
+<p>SC : O(1)</p>
+
+<p><strong>Recursive Solution</strong></p>
+<p>Same above iterative solution can be done in recursive backtracking as follows</p>
+<p>Helper will move towards last of linked list, when it reaches last node it return 1</p>
+<p>During back tracking, it add's 1 and return's new carry</p>
+<p>New carry will be returne to its upcoming node's</p>
+<p>if final recursibe call return carry, new node will be created and inserts at head</p>
+
+```python
+def helper(node):
+    if(node==None):
+        return 1
+    carry=helper(node.next)
+    s=node.data+carry
+    if(s>=10):
+        node.data=s%10
+        return s//10
+    else:
+        node.data=s
+        return 0
+
+def recursive(head):
+    carry=helper(head)
+    if(carry!=0):
+        new=Node(carry)
+        new.next=head
+        return new
+    return head
+```
+
+<p>TC : O(N)</p>
+<p>SC : O(N)</p>
+
+
+<h2>Find Intersection Of Node In Two Linked List</h2>
+<p>Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.</p>
+<p><strong>Example 1:</strong></p>
+<p>Input:</p>
+<p>List 1 = [1,3,1,2,4], List 2 = [3,2,4]</p>
+<p>Output: 2</p>
+<p>Explanation: Here, both lists intersecting nodes start from node 2.</p>
+<img src="https://lh5.googleusercontent.com/4WJ3tjiiLLRYeZOXd_o4BtSYdlsSnOwWKxTGIRW8qQfW9gFymPC710FCgiIrB6vTwwa-hR5WrtWjKOk-beBhD9WtH4nFi16W4f42FQAS0PTXiD_1LmPQYzwmn_eE2OChjKVGRVTy">
+
+<p><strong>Example 2:</strong></p>
+<p>Input:</p>
+<p> List1 = [1,2,7], List 2 = [2,8,1]</p>
+<p>Output: None</p>
+<p>Explanation: Here, both lists do not intersect and thus no intersection node is present..</p>
+<img src="https://lh6.googleusercontent.com/BYrRaBAIP_iu_ygjCZ14mXh0_yjNCD0tqzptMI4A1L_iH2wJUlBkOBmSTL_npJcRV9zqhNcvgDCZ6i8kOFqFTuQw0AZsZJrggdjOeA0PwRbE_JkQLCfEAWQwEdDKaoYo2lZYYQhJ">
+
+<p><strong>Solution : </strong></p>
+<p>We have given two linked lists and there are common nodes between two nodes</p>
+<p>We have to find first common node between two lists</p>
+<p>We can solve this problem in several ways</p>
+<p><strong>BruteForce Approach</strong></p>
+<p>Since we need to find common node in two list</p>
+<p>In this approach, first we will iterate through linked list and store each node in a hashset </p>
+<p>Then, we will iterate through second list, if node exist in hashset, then return that node</p>
+
+```python
+def checkIntersection(head1,head2):
+    check={}
+    temp1=head1
+    while temp1:
+        check[temp1]=1
+        temp1=temp1.next
+    temp2=head2
+    while temp2:
+        if(check.get(temp2)):
+            return temp2
+        temp2=temp2.next
+    return None
+```
+
+<p>Time Complexity: O(n+m)</p>
+<p>Space Complexity: O(n)</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In this approach, we will compare nodes of each linked list one by one , if both nodes are equal then return that node</p>
+<p>If both linked list length is equal, then it will work fine</p>
+<p>If length is unequal, we have to modify head of larger linked list such that both linked list points to same length from head to tail </p>
+<ul>
+    <li>Find length of two linked lists, length1 and length2</li>
+    <li>If lenght1 > length2, the move head to (length1-length2) nodes a head</li>
+    <li>If lenght2 > length1, the move head to (length2-length1) nodes a head</li>
+    <li>Then, compare nodes of each linkedlist nodes simultaneously</li>
+    <li>If any node matches, return that node</li>
+    <li>Otherwise, return None</li>
+</ul>
+
+```python
+def checkIntersectionByLength(head1,head2):
+    temp1,temp2=head1,head2
+    length1,length2=0,0
+    while temp1:
+        length1+=1
+        temp1=temp1.next
+    while temp2:
+        length2+=1
+        temp2=temp2.next
+    temp1,temp2=head1,head2
+    if(length1>length2):
+        diff=length1-length2
+        temp1=head1
+        for i in range(diff):
+            temp1=temp1.next
+    else:
+        diff=length2-length1
+        for i in range(diff):
+            temp2=temp2.next
+    while temp1 and temp2:
+        if(temp1==temp2):
+            return temp1
+        temp1=temp1.next
+        temp2=temp2.next
+    return None
+```
+
+<p>Time Complexity:O(2max(length of list1,length of list2))+O(abs(length of list1-length of list2))+O(min(length of list1,length of list2))</p>
+<p>Space Complexity: O(1)</p>
+
+<p><strong>More Optimized Approach</strong></p>
+<p>The difference of length method requires various steps to work on it. Using the same concept of difference of length, a different approach can be implemented. The process is as follows</p>
+<p>Take two dummy nodes for each list. Point each to the head of the lists.</p>
+<p>Iterate over them. If anyone becomes null, point them to the head of the opposite lists and continue iterating until they collide</p>
+
+```python
+def Optimized(head1,head2):
+    temp1,temp2=head1,head2
+    while temp1 or temp2:
+        if(temp1==temp2):
+            return temp1
+        if(not temp1):
+            temp1=head2
+            temp2=temp2.next
+        elif(not temp2):
+            temp2=head1
+            temp1=temp1.next
+        else:
+            temp1=temp1.next
+            temp2=temp2.next
+    return None
+```
+
+<p>Time Complexity: O(2*max(length of list1,length of list2))</p>
+<p>Space Complexity: O(1)</p>
+
+<h2>Find middle element in a Linked List</h2>
+<p>Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.</p>
+<p><strong>Examples:</strong></p>
+<p>Input Format:</p>
+<p>head = [1,2,3,4,5]</p>
+<p>Result: [3,4,5]</p>
+<p>( As we will return the middle of Linked list the further linked list will be still available )</p>
+<img src="https://lh3.googleusercontent.com/Nh8QGhV2tdZq2-b9V86tQR2b0bYxOCB2NMVlFd1YigmGwSqDxE9P0Q-r6zyXP2-YwPTGUrgV0kZkVYlxNT3wpbELp_tEP_oRCegnMgQkmp1s_Qb2BOKs6u8gwlgXi22d5mPPoBI=s1600">
+
+<p><strong>Examples:</strong></p>
+<p>Input Format:</p>
+<p>head = [1,2,3,4,5,6]</p>
+<p>Result: [4,5,6]</p>
+<p>Since the list has two middle nodes with values 3 and 4, we return the second one.</p>
+<img src="https://lh5.googleusercontent.com/9QyPDwavzA0TolikO5HqpOoDGt6A6DoUSh2XxipWi75jq2LBcG_lfCKONN0R2Zg9_50gfIZb0L6nI-dPV18AQ5JnbbcWWg2SLg_uikAbiSpAz3YkkQ888ClptZ731OLwGyApkDo=s1600">
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several ways</p>
+
+<p><strong>BruteForce : </strong></p>
+<p>Find the length of linked list</p>
+<p>now loop through linked list for length//2</p>
+<p>then we can reach to middle node</p>
+
+```python
+def bruteForce(head):
+    cnt=0
+    temp=head
+    while temp:
+        cnt+=1
+        temp=temp.next
+    temp1=head
+    for i in range(cnt//2):
+        temp1=temp1.next
+    return temp1
+```
+
+<p>TC : O(N+(N/2)</p>
+<p>SC : O(1)</p>
+
+<p><strong>Optimized Solution : </strong></p>
+<p>Here we can use Tortoise and Hare Algorithm</p>
+<p>In this Approach, We will define two pointer slow and fast , initialize with head of linked list</p>
+<p>loop untill fast pointer moves to end</p>
+<p>In every iteration, move slow to next node and fast two nodes ahead</p>
+<p>Since, fast pointer moved double with slow pointer</p>
+<p>When fast pointer reached end, slow pointer points to middle of node</p>
+
+```python
+def optimized(head):
+    slow,fast=head,head
+    while fast and fast.next:
+        slow=slow.next
+        fast=fast.next.next
+    return slow
+```
+
+<p>TC : O(N/2)</p>
+<p>SC : O(1)</p>
+
+<h2>Detect a cycle in singly linked list</h2>
+<p>You are given a Singly Linked List of integers. Return true if it has a cycle, else return false.</p>
+<p>A cycle occurs when a node's next points back to a previous node in the list.</p>
+
+<p>Input Format:</p>
+<p>LL: 1 2 3 4 5</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/12/Screenshot-2023-12-17-at-7.45.34-PM_red_border-1024x450.png">
+<p>Result: True</p>
+<p>Explanation: The last node with the value of 5 has its 'next' pointer pointing back to a previous node with the value of 3. This has resulted in a loop, hence we return true.</p>
+
+<p>Input Format:</p>
+<p>LL: 1 2 3 4 9 9</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/12/tuxpi.com_.1698730362-1-1024x268.jpg">
+<p>Result: False</p>
+<p>Explanation: In this example, the linked list does not have a loop hence returns false.</p>
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several ways</p>
+<p><strong>BruteForce : </strong></p>
+<p>In this approach, we will create visited map, once node visited in traversal we will store it in map</p>
+<p>While traversal, we can check whether it is already visited or not</p>
+<p>if it visited, we can return true , i.e cycle existed</p>
+<p>If traversal complted, no cycle existed</p>
+
+```python
+def bruteForce(head):
+    visited={}
+    temp=head
+    while temp:
+        if(visited.get(temp)):
+            return True
+        visited[temp]=1
+        temp=temp.next
+    return False
+```
+
+<p><strong>Optimized Approach : </strong></p>
+<p>The previous method uses O(N) additional memory, which can become quite large as the linked list length grows. To enhance efficiency, the Tortoise and Hare Algorithm is introduced as an optimization.</p>
+<p>When the tortoise and hare enter the loop, they may be at different positions within the loop due to the difference in their speeds. The hare is moving faster, so it will traverse a greater distance in the same amount of time.</p>
+<p>If there is no loop in the linked list, the hare will eventually reach the end, and the algorithm will terminate without a meeting occurring.</p>
+<ul>
+    <li>create fast,slow pointes and point it to head of linked list</li>
+    <li>Start iterating through loop untill fast reaches end</li>
+    <ul>
+        <li>move fast to two nodes ahead</li>
+        <li>move slow a node ahead</li>
+        <li>check if slow and fast nodes are same, means cycle exista</li>
+    </ul>
+    <li>if fast reaches end, means no cycle exists</li>
+</ul>
+
+```python
+def optimized(head):
+    slow,fast=head,head
+    while fast and fast.next:
+        slow=slow.next
+        fast=fast.next.next
+        if(slow==fast):
+            return True
+    return False
+```
+
+<p>Time Complexity: O(N), where N is the number of nodes in the linked list. This is because in the worst-case scenario, the fast pointer, which moves quicker, will either reach the end of the list (in case of no loop) or meet the slow pointer (in case of a loop) in a linear time relative to the length of the list.</p>
+<p>The key insight into why this is O(N) and not something slower is that each step of the algorithm reduces the distance between the fast and slow pointers (when they are in the loop) by one. Therefore, the maximum number of steps needed for them to meet is proportional to the number of nodes in the list.</p>
+<p>Space Complexity : O(1) The code uses only a constantamount of additionalspace, regardless of the linked list's length. This is achieved by using two pointers (slow and fast) to detect the loop without any significant extra memory usage, resulting in constantspace complexity, O(1).</p>
