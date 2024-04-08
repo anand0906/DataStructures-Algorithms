@@ -1918,3 +1918,367 @@ def solve(head):
 
 <p>TC : O(N)</p>
 <p>SC : O(1)</p>
+
+
+<h2>Reverse K Group Of Nodes Together In Singly Linked List</h2>
+<p>You are given a linked list of 'n' nodes and an integer 'k', where 'k' is less than or equal to 'n'.</p>
+<p>Your task is to reverse the order of each group of 'k' consecutive nodes, if 'n' is not divisible by 'k', then the last group of nodes should remain unchanged.</p>
+<p>For example, if the linked list is 1->2->3->4->5, and 'k' is 3, we have to reverse the first three elements, and leave the last two elements unchanged. Thus, the final linked list being 3->2->1->4->5.
+</p>
+<p>Implement a function that performs this reversal, and returns the head of the modified linked list.</p>
+<p><strong>Example : </strong></p>
+<p>Input: 'list' = [1, 2, 3, 4], 'k' = 2</p>
+<p>Output: 2 1 4 3</p>
+<p>We have to reverse the given list 'k' at a time, which is 2 in this case. So we reverse the first 2 elements then the next 2 elements, giving us 2->1->4->3.</p>
+<p><strong>Example 2 :</strong></p>
+<p>Input : list -> 5 4 3 7 9 2, k=4</p>
+<p>Output : 7 3 4 5 9 2</p>
+<p>For the given test case, we reverse the nodes in groups of four. But for the last 2 elements, we cannot form a group of four, so leave them as they are. The linked list becomes 7->3->4->5->9->2. Hence the output is 7 3 4 5 9 2</p>
+
+<p><strong>Solution : </strong></p>
+<p>Given a linked list, and k value</p>
+<p>We have to group nodes into k groups, then reverse each group seperately</p>
+<p>if any group contains less than k elements, put it as it is</p>
+<p>To solve this problem, loop through linked list and unlink every k nodes and reverse it and then link again</p>
+<p><strong>Steps To Solve : </strong></p>
+<ul>
+    <li>Create a temporary variable temp and assign it to head, use to iterate through linked list</li>
+    <li>Loop through each node and perform following operation</li>
+    <ul>
+        <li>find kth node from current temp node and store it it kthNode variable</li>
+        <li>if kth node is none, that means there is no k group from current temp node, we stop iteration here and set prevNode.next to current temp</li>
+        <li>Otherwise, store kthNode.next node in next variable</li>
+        <li>set kthnode.next to null, so that we are unlinking the group as a seprate linked list</li>
+        <li>Reverse that linked list</li>
+        <li>if currrent temp is equal to head, then set kthnode as head, because after reversing, kthnode will be first node</li>
+        <li>otherwise, set current temp.next to kthnode.next that is next</li>
+        <li>track prevNode to currentTemp</li>
+        <li>update temp to kthnode.next , that is next</li>
+    </ul>
+    <li>return head</li>
+</ul>
+
+```python
+def solve(head,k):
+    temp=head
+    nextNode=None
+    prevLast=None
+    while temp:
+        kthNode=getKthNode(temp,k)
+        if(kthNode==None):
+            if(prevLast):
+                prevLast.next=temp
+            break
+        nextNode=kthNode.next
+        kthNode.next=None
+        reverse(temp)
+        if(temp==head):
+            head=kthNode
+        else:
+            prevLast.next=kthNode
+        prevLast=temp
+        temp=nextNode
+    return head
+```
+
+<p>Time Complexity: O(2N) The time complexity consists of actions of reversing segments of K and finding the Kth node which operates in linear time. Thus, O(N) + O(N) = O(2N), which simplifies to O(N).</p>
+<p>Space Complexity: O(1) The space complexity is O(1) as the algorithm operates in place without any additional space requirements.</p>
+
+<h2>Rotate Linked List By K Times</h2>
+<p>You are given a linked list having ‘n’ nodes and an integer ‘k’.</p>
+<p>You have to rotate the linked list to the right by ‘k’ positions .</p>
+<p><strong>Example : </strong></p>
+<p>Input: linked list = [1 2 3 4] , k = 2</p>
+<p>Output: 3 4 1 2</p>
+<p>We have to rotate the given linked list to the right 2 times. After rotating it to the right once it becomes 4->1->2->3. After rotating it to the right again, it becomes 3->4->1->2.</p>
+
+<p><strong>Solution : </strong></p>
+<p>In this problem, We need to rotate linked list by k times</p>
+<p>To solve this problem, we have to take last k nodes and attach it to starting</p>
+<p>if n value is greater, we can divide it by length of list,will give same result </p>
+<p><strong>Steps To Solve</strong></p>
+<ul>
+    <li>Find length of given linked list and track tail of linked list</li>
+    <li>To reach last kth node, we need to reach (length-k)th node from starting</li>
+    <li>Then, set (length-k)th node head and connect tail to existing head of node</li>
+    <li>set (length-k)th node.next to None</li>
+</ul>
+
+```python
+def findKthNode(head,k):
+    temp=head
+    cnt=0
+    while temp:
+        cnt+=1
+        if(cnt==k):
+            return temp
+        temp=temp.next
+    return temp
+
+def solve(head: Node, k: int) -> Node:
+    if(head==None or head.next==None or k==0):
+        return head
+    length=0
+    temp=head
+    tail=head
+    while temp:
+        length+=1
+        tail=temp
+        temp=temp.next
+    k=k%length
+    if(k==0):
+        return head
+    kthNode=findKthNode(head,(length-k))
+    tail.next=head
+    head=kthNode.next
+    kthNode.next=None
+    return head
+```
+
+<p>Time Complexity: O(length of list) + O(length of list - (length of list%k))</p>
+<p>Reason: O(length of the list) for calculating the length of the list. O(length of the list - (length of list%k)) for breaking link.</p>
+<p>Space Complexity: O(1)</p>
+
+<h2>Merge Two Sorted Linked List</h2>
+<p>You are given two sorted linked lists. You have to merge them to produce a combined sorted linked list. You need to return the head of the final linked list.</p>
+<p>The given linked lists may or may not be null.</p>
+<p><strong>Example : </strong></p>
+<p>If the first list is: 1 -> 4 -> 5 -> NULL and the second list is: 2 -> 3 -> 5 -> NULL</p>
+<p>The final list would be: 1 -> 2 -> 3 -> 4 -> 5 -> 5 -> NULL</p>
+
+<p><strong>Solution : </strong></p>
+<p>In This Problem, we have to merge two linked lists</p>
+<p>Loop through linked lists, compare nodes of both lists and pick less data node and add that node to new linked list</p>
+<p><strong>Steps To Solve : </strong></p>
+<ul>
+    <li>Create temporary node t1,t2 for both heads of linked list</li>
+    <li>Create a dummy node for new linked list</li>
+    <li>Loop untill both t1 and t2 not null and perform following opeartions</li>
+    <ul>    
+        <li>Compare t1.data and t2.data</li>
+        <li>If, t1.data < t2.data, then add t1 node new linked list and t1 to t1.next</li>
+        <li>Othewise, then add t2 node new linked list and t2 to t2.next</li>
+    </ul> 
+</ul>
+
+```python
+def solve(first, second):
+    t1,t2=first,second
+    dummy=Node(-1)
+    temp=dummy
+    while t1 and t2:
+        if(t1.data < t2.data):
+            temp.next=t1
+            temp=temp.next
+            t1=t1.next
+        else:
+            temp.next=t2
+            temp=temp.next
+            t2=t2.next
+    if(t1):
+        temp.next=t1
+    if(t2):
+        temp.next=t2
+    return dummy.next
+```
+
+<p>TC : O(N1 + N2)</p>
+<p>SC : O(1)</p>
+
+<h2>Flatten The Singly Linked List Having Child Values</h2>
+<p>You are given a linked list containing 'n' 'head' nodes, where every node in the linked list contains two pointers:</p>
+<p>(1) ‘next’ which points to the next node in the list</p>
+<p>(2) ‘child’ pointer to a linked list where the current node is the head.</p>
+<p>Each of these child linked lists is in sorted order and connected by 'child' pointer.</p>
+<p>Your task is to flatten this linked such that all nodes appear in a single layer or level in a 'sorted order'.</p>
+<p><strong>Example : </strong></p>
+<p>Input: Given linked list is:</p>
+<img src="https://files.codingninjas.in/image1-7731.png">
+<p>Output:</p>
+<p>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 12 → 20 → null.</p>
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this proble in several ways</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>Loop Through all nodes in given linked list and store all data in an array</p>
+<p>now sort the array and create new linked list</p>
+
+```python
+def bruteForce(head):
+    temp=head
+    arr=[]
+    while temp:
+        arr.append(temp.data)
+        child=temp.bottom
+        while child:
+            arr.append(child.data)
+            child=child.bottom
+        temp=temp.next
+    arr.sort()
+    new=Node(arr[0])
+    n=len(arr)
+    temp=new
+    for i in range(1,n):
+        n=Node(arr[i])
+        temp.next=n
+        temp=n
+    return new
+```
+
+<p>O(2N+NLongN)</p>
+<p>o(N)</p>
+
+<p><strong>Optimized Solution : </strong></p>
+<p>In this approach, we will represent the linked list in terms of collection of vertical linked lists</p>
+<p>Then, we will merge all linked lists together to find the flatten linked list</p>
+
+```python
+def merge(first,second):
+    t1,t2=first,second
+    dummy=Node(-1)
+    temp=dummy
+    while t1 and t2:
+        if(t1.data < t2.data):
+            temp.child=t1
+            temp=t1
+            t1=t1.child
+        else:
+            temp.child=t2
+            temp=t2
+            t2=t2.child
+        temp.next=None
+            
+    if(t1):
+        temp.child=t1
+    else:
+        temp.child=t2
+    if(dummy.child):
+        dummy.child.next=None
+    return dummy.child
+
+def flattenLinkedList(head: Node) -> Node:
+    if(head==None or head.next==None):
+        return head
+    head.next=flattenLinkedList(head.next)
+    head=merge(head,head.next)
+    return head
+```
+
+<p>Time Complexity: O(N), where N is the total number of nodes present</p>
+<p>Space Complexity: O(1)</p>
+
+<h2>Merge K Sorted Singly Linkes Lists</h2>
+<p>Given 'k' sorted linked lists, each list is sorted in increasing order. You need to merge all these lists into one single sorted list. You need to return the head of the final linked list.</p>
+<p>Example : </p>
+<p>Input : </p>
+<p>4 6 8</p>
+<p>2 5 7</p>
+<p>1 9</p>
+<p>Output : </p>
+<p>1 2 4 5 6 7 8 9 </p>
+<p>Explanation : </p>
+<p>First list is: 4 -> 6 -> 8 -> NULL</p>
+<p>Second list is: 2 -> 5 -> 7 -> NULL</p>
+<p>Third list is: 1 -> 9 -> NULL</p>
+<p>The final list would be: 1 -> 2 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> NULL</p>
+
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several ways</p>
+<p><strong>BruteForce Solution : </strong></p>
+<p>Create an array</p>
+<p>Loop through all linked lists and add all nodes data to this list</p>
+<p>sort the array and create new linked lists with array</p>
+
+```python
+def bruteForce(lists):
+    arr=[]
+    for head in lists:
+        temp=head
+        while temp:
+            arr.append(temp.data)
+            temp=temp.next
+    arr.sort()
+    dummy=Node(-1)
+    temp=dummy
+    for i in arr:
+        new=Node(i)
+        temp.next=new
+        temp=new
+    return dummy.next
+```
+
+<p>TC : O(N*K + MlongM + M), M->N*K</p>
+<p>SC : O(N*K)</p>
+
+<p><strong>Optimized Solution : </strong></p>
+<p>In this approach, we will merge the two linked lists at a time and resultant will be merged with remaining one by one</p>
+<ul>
+    <li>point head to first linked list of given list</li>
+    <li>Loop from second linked list of given list</li>
+    <ul>
+        <li>merge head and current linked list</li>
+        <li>update head with new merged linked list</li>
+    </ul>
+    <li>return head</li>
+</ul>
+
+```python
+def merge(first, second):
+    t1,t2=first,second
+    dummy=Node(-1)
+    temp=dummy
+    while t1 and t2:
+        if(t1.data <= t2.data):
+            temp.next=t1
+            temp=temp.next
+            t1=t1.next
+        else:
+            temp.next=t2
+            temp=temp.next
+            t2=t2.next
+    if(t1):
+        temp.next=t1
+    if(t2):
+        temp.next=t2
+    return dummy.next
+
+def optimized(lists):
+    n=len(lists)
+    head=lists[0]
+    for i in range(1,n):
+        mergeHead=merge(head,lists[i])
+        head=mergeHead
+    return head
+```
+
+<p>TC : O(N*(k(k+1)/2))</p>
+<p>SC : O(1)</p>
+
+<p><strong>More Optimized Approach : </strong></p>
+<p>In this approach, we will use min-heap data structure</p>
+<p>we will add all heads of given lists to min heap</p>
+<p>Then we will pop data from min-heap untill its empty and makes new list from popped node</p>
+<p>after popping min data node from min-heap, move node to its next position and add it to min-heap</p>
+<p>In this way we can get merged new linked list</p>
+
+```python
+import heapq
+def moreOptimized(lists):
+    pq=[]
+    n=len(lists)
+    for i in range(n):
+        heapq.heappush(pq,(lists[i].data,id(lists[i]),lists[i]))
+    dummy=Node(-1)
+    temp=dummy
+    while pq:
+        data,_,node=heapq.heappop(pq)
+        temp.next=node
+        node=node.next
+        if(node):
+            heapq.heappush(pq,(node.data,id(node),node))
+        temp=temp.next
+    return dummy.next
+```
+
+<p>TC : O(K*logK + N*K*logK)</p>
+<p>SC : O(K)</p>
