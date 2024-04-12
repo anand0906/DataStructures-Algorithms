@@ -2282,3 +2282,183 @@ def moreOptimized(lists):
 
 <p>TC : O(K*logK + N*K*logK)</p>
 <p>SC : O(K)</p>
+
+
+<h2>Sort Given Singly Linked List</h2>
+<p>You are given a Singly Linked List of integers which is sorted based on absolute value.</p>
+<p>You have to sort the Linked List based on actual values.
+The absolute value of a real number x, denoted |x|, is the non-negative value of x without regard to its sign.s</p>
+<p><strong>Example : </strong></p>
+<p>If the given list is {1 -> -2 -> 3} (which is sorted on absolute value), the returned list should be {-2 -> 1 -> 3}.</p>
+
+<p><strong>Solution : </strong></p>
+<p>Thie problem can be solved in several approches</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In This approach, we will create an array</p>
+<p>We will traverse through given linked list and add all node's data to arr</p>
+<p>Then we will sort the array</p>
+<p>Then, we can create new linked list based on array data</p>
+
+```python
+def bruteForce(head):
+    arr=[]
+    temp=head
+    length=0
+    while temp:
+        length+=1
+        arr.append(temp.data)
+        temp=temp.next
+    arr.sort()
+    newHead=Node(arr[0])
+    temp=newHead
+    for i in range(1,length):
+        new=Node(arr[i])
+        temp.next=new
+        temp=temp.next
+    return newHead
+```
+<p>TC : O(N+NLogN)</p>
+<p>SC : O(N)</p>
+
+<p><strong>Optimized Merge Sort</strong></p>
+<p>In This Approach, first we will divide the list into two parts and two parts will recursively divides each part into two parts untill each part will one node</p>
+<p>When it reached one node, we will merge back the node in sorted order</p>
+<p>Final list will be in sorted order</p>
+<p>Simply apply merge sort to given linked list</p>
+
+```python
+def findMiddle(head):
+    slow,fast=head,head.next # Slight Change To Original Alogorithm si ce we need prev to middle node
+    while fast and fast.next:
+        slow=slow.next
+        fast=fast.next.next
+    return slow
+
+def merge(first,second):
+    t1,t2=first,second
+    dummy=Node(-1)
+    temp=dummy
+    while t1 and t2:
+        if(t1.data<t2.data):
+            temp.next=t1
+            temp=t1
+            t1=t1.next
+        else:
+            temp.next=t2
+            temp=t2
+            t2=t2.next
+    if(t1):
+        temp.next=t1
+    if(t2):
+        temp.next=t2
+    return dummy.next
+          
+
+    
+def mergeSort(head):
+    if(head==None or head.next==None):
+        return head
+    middle=findMiddle(head)
+    leftHead=head
+    rightHead=middle.next
+    middle.next=None
+    leftHead=mergeSort(leftHead)
+    rightHead=mergeSort(rightHead)
+    return merge(leftHead,rightHead)
+```
+
+<p>TC : O(LogN * (n+n/2))</p>
+<p>SC : O(1)</p>
+
+<h2>Copy Linked List Having Random Pointers</h2>
+<p>You are given a linked list containing 'n' nodes, where every node in the linked list contains two pointers:</p>
+<p>(1) ‘next’ which points to the next node in the list</p>
+<p>(2) ‘random’ which points to a random node in the list or 'null'.</p>
+<p>Your task is to create a 'deep copy' of the given linked list and return its head.</p>
+<p>A 'deep copy' of a linked list means we do not copy the references of the nodes of the original linked list, rather for each node in the original linked list, a new node is created.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This Problem Can be Solved in Several Approaches</p>
+<p><strong>BruteForce Solution : </strong></p>
+<p>In This approach, we will create a dictionary/hashMap</p>
+<p>We will iterate through given linked list and create copy nodes for each node and store it in dictionary with key as original node and value as copy node</p>
+<p>Now again we will iterate through linked list and set each random and next points for copy node using key original nodes</p>
+<p>finally we can return head of copy node</p>
+<p><strong>Steps To Solve :</strong></p>
+<ul>
+    <li>Create a hash map</li>
+    <li>iterate through linked list and perform following operations</li>
+    <ul>
+        <li>create new node with current node's data</li>
+        <li>store new node in dictionary, with current node as key</li>
+    </ul>
+    <li>iterate again through linked list and perform following operations</li>
+    <ul>
+        <li>get copy node using current node from dictionary</li>
+        <li>set next and random pointers for new node using current key node</li>
+    </ul>
+    <li>return copy node of head node</li>
+</ul>
+
+```python
+def bruteForce(head):
+    temp=head
+    copy={}
+    while temp:
+        copy[temp]=Node(temp.data)
+        temp=temp.next
+    temp=head
+    while temp:
+        copy[temp].next=copy.get(temp.next)
+        copy[temp].random=copy.get(temp.random)
+        temp=temp.next
+    return copy[head]
+```
+<p>TC : Time Complexity: O(N)+O(N)</p>
+<p>Space Complexity: O(N)</p>
+
+<p><strong>Optimized Solution : </strong></p>
+<p>In this approach, instead of storing each node separate hashmap, we can link after original node in given linked list</p>
+<p>First, iterate through given linked list and for each node create a copy node and attach it after current node</p>
+<p>then, iterate through linked list and update random pointers of copy nodes</p>
+<p>finally, create a sperate linked list and add copy nodes to it and disconnect the copy nodes form original linked list</p>
+
+```python
+def insertCopyNodes(head):
+    temp=head
+    while temp:
+        new=Node(temp.data)
+        new.next=temp.next
+        temp.next=new
+        temp=temp.next.next
+    return head
+
+def updateRandom(head):
+    temp=head
+    while temp:
+        copyNode=temp.next
+        if(temp.random):
+            copyNode.random=temp.random.next
+        else:
+            copyNode.random=None
+        temp=temp.next.next
+    return head
+        
+
+def optimized(head):
+    head=insertCopyNodes(head)
+    head=updateRandom(head)
+    dummy=Node(-1)
+    new=dummy
+    temp=head
+    while temp:
+        new.next=temp.next
+        new=new.next
+        temp.next=temp.next.next
+        temp=temp.next
+    return head
+```
+
+<p>Time Complexity: O(N)+O(N)+O(N)</p>
+<p>Space Complexity: O(1)</p>
+
