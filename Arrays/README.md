@@ -692,3 +692,696 @@ def optimized(arr1,arr2):
 <p>Time Complexity: O(m+n), Because at max i runs for n times and j runs for m times. When there are no common elements in arr1 and arr2 and all elements in arr1, arr2 are distinct. </p>
 <p>Space Complexity : O(m+n) {If Space of Union ArrayList is considered} </p>
 <p>O(1) {If Space of union ArrayList is not considered}</p>
+
+
+<h2>Two Sum : Check if a pair with given sum exists in Array</h2>
+<p>Given an array of integers arr[] and an integer target.</p>
+<p>Return YES if there exist two numbers such that their sum is equal to the target. Otherwise, return NO.</p>
+<p>ou are not allowed to use the same element twice. Example: If the target is equal to 6 and num[1] = 3, then nums[1] + nums[1] = target is not a solution.</p>
+
+<p><strong>Example :</strong></p>
+<p>Input Format: N = 5, arr[] = {2,6,5,8,11}, target = 14</p>
+<p>Result: YES</p>
+<p>Explanation: arr[1] + arr[3] = 14. So, the answer is “YES” for the first variant and [1, 3] for 2nd variant.</p>
+
+<p>Input Format: N = 5, arr[] = {2,6,5,8,11}, target = 15</p>
+<p>Result: NO</p>
+<p>Explanation: There exist no such two numbers whose sum is equal to the target.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>Bruteforce Approach : </strong></p>
+<p>In this approach, first we will loop through given array</p>
+<p>for each element, we will loop through remaining elements</p>
+<p>We will check sum of two elements of main loop element and nested loop element</p>
+<p>if sum equals to target, then return "YES"</p>
+<p>if non sum equals to given sum, then return "NO"</p>
+
+```python
+def bruteForce(arr,n,target):
+    for i in range(n):
+        for j in range(i+1,n):
+            if(arr[i]+arr[j]==target):
+                return "YES"
+    return "NO"
+```
+
+<p>Time Complexity: O(N2), where N = size of the array.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Better Approach : </strong></p>
+<p>Basically, in the previous approach we selected one element and then searched for the other one using a loop. Here instead of using a loop, we will use the HashMap to check if the other element i.e. target-(selected element) exists.</p>
+<p>create a hashmap</p>
+<p>Loop through given array, and store each element in given array</p>
+<p>Check remaining_sum=target-current_element in map</p>
+<p>if remaining sum exists map, then return "YES</p>
+<p>if not found and loop ends, then return "NO </p>
+
+```python
+def better(arr,n,target):
+    hashMap={}
+    for i in range(n):
+        current=arr[i]
+        required=target-arr[i]
+        if(hashMap.get(required)!=None):
+            return "YES"
+        hashMap[current]=i
+    return "NO"
+```
+
+<p>Time Complexity: O(N), where N = size of the array.</p>
+<p>Space Complexity: O(N) as we use the map data structure.</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p> In this approach, we will first sort the array and will try to choose the numbers in a greedy way.</p>
+<p>We will keep a left pointer at the first index and a right pointer at the last index.</p>
+<p>Now until left < right, we will check the sum of arr[left] and arr[right]. </p>
+<p>Now if the sum < target, we need bigger numbers and so we will increment the left pointer. </p>
+<p> But if sum > target, we need to consider lesser numbers and so we will decrement the right pointer.</p>
+<p>If sum == target we will return either “YES”.
+But if the left crosses the right pointer, we will return “NO”.</p>
+
+```python
+def optimized(arr,n,target):
+    arr.sort()
+    left,right=0,n-1
+    while left<right:
+        temp=arr[left]+arr[right]
+        if(temp==target):
+            return "YES"
+        if(temp<target):
+            left+=1
+        else:
+            right-=1
+    return "NO"
+```
+
+<p>Time Complexity: O(N) + O(N*logN), where N = size of the array.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<h2>Search in a sorted 2D matrix</h2>
+<p>You have been given a 2-D array 'mat' of size 'N x M' where 'N' and 'M' denote the number of rows and columns, respectively. </p>
+<p>The elements of each row are sorted in non-decreasing order. Moreover, the first element of a row is greater than the last element of the previous row (if it exists). </p>
+<p>You are given an integer ‘target’, and your task is to find if it exists in the given 'mat' or not.</p>
+
+<p><strong>Example : </strong></p>
+<p> N = 3, M = 4, target = 8</p>
+<p>mat[] =</p>
+<p>1 2 3 4</p>
+<p>5 6 7 8</p> 
+<p>9 10 11 12</p>
+
+<p>Result : True</p>
+
+<p>Explanation:The ‘target’  = 8 exists in the 'mat' at index (1, 3).</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches.</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In this approach, we will loop through each element and given matrix</p>
+<p>We can compare each element and if any element matches , then return True</p>
+<p>If none matches, then return False</p>
+
+```python
+def bruteForce(arr,n,target):
+    for i in range(n):
+        for j in range(i+1,n):
+            if(arr[i]+arr[j]==target):
+                return "YES"
+    return "NO"
+```
+
+<p>Time Complexity: O(N X M), where N = given row number, M = given column number.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Better Approach : </strong></p>
+<p>In this approach, we will loop through each row in given matrix</p>
+<p>We can apply binary search to find target in the row</p>
+<p>In this way, we can check target in the matrix</p>
+
+```python
+def better(arr,n,target):
+    hashMap={}
+    for i in range(n):
+        current=arr[i]
+        required=target-arr[i]
+        if(hashMap.get(required)!=None):
+            return "YES"
+        hashMap[current]=i
+    return "NO"
+```
+
+<p>Time Complexity: O(N + logM), where N = given row number, M = given column number.</p>
+<p>Reason: We are traversing all rows and it takes O(N) time complexity. But for all rows, we are not applying binary search rather we are only applying it once for a particular row. That is why the time complexity is O(N + logM) instead of O(N*logM).</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In this approach, we will represent the 2D mtarix ad 1D Array hypothetically</p>
+<p>Then we will apply binary search algorithm to find the target</p>
+
+```python
+def optimized(mat,n,m,target):
+    low=0
+    high=(n*m)-1
+    while low<=high:
+        mid=(low+high)//2
+        row,col=mid//m , mid%m
+        if(mat[row][col]==target):
+            return True
+        elif(mat[row][col]<target):
+            low=mid+1
+        else:
+            high=mid-1
+    return False
+```
+
+<p>Time Complexity: O(log(NxM)), where N = given row number, M = given column number.</p>
+<p>Reason: We are applying binary search on the imaginary 1D array of size NxM.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<h2>Leaders in an Array : Greater than all of the elements on its right side in the array.</h2>
+<p>There is an integer array ‘a’ of size ‘n’.</p>
+<p>An element is called a Leader Element if it is greater than all the elements present to its right.</p>
+<p>You must return an array all Leader Elements in the array ‘a’.</p>
+<p>The last element of the array is always a Leader Element. </p>
+<p><strong>Example : </strong></p>
+<p>Input: a = [1, 2, 3, 2], n = 4</p>
+<p>Output: 2 3</p>
+<p>Explanation : </p>
+<p>a[ 2 ] = 3 is greater than a[ 3 ]. Hence it is a Superior Element. </p>
+<p>a[ 3 ] = 2 is the last element. Hence it is a Superior Element.</p>
+<p>The final answer is in sorted order.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in different approaches</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In this approach, we will loop through given array</p>
+<p>For Each element, we will check all its right elements, if all elements are less than current element</p>
+<p>Then it is leader, we will add that element to final answer</p>
+
+```python
+def bruteForce(arr,n):
+    final=[]
+    for i in range(n):
+        flag=True
+        for j in range(i+1,n):
+            if(arr[j]>=arr[i]):
+                flag=False
+                break
+        if(flag):
+            final.append(arr[i])
+    final.sort()
+    return final
+```
+
+<p>TC : O(N^2)</p>
+<p>SC : O(1)</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In this approach, we will iterate in reverse of array</p>
+<p>We will track max element from last</p>
+<p>if current element is greater than maxi, the update maxi and add current element to final list</p>
+<p>if current element is greater than maxi means, it is greater than all to its right elements,since maxi is maximum all its right</p>
+
+```python
+def optimized(arr,n):
+    maxi=arr[n-1]
+    final=[maxi]
+    for i in range(n-1,-1,-1):
+        if(arr[i]>maxi):
+            maxi=arr[i]
+            final.append(arr[i])
+    final.sort()
+    return final
+```
+
+<p>TC : O(N)</p>
+<p>SC : O(1)</p>
+
+<h2>Spiral Traversal of Matrix</h2>
+<p>You are given a 2D matrix ‘MATRIX’ of ‘N’*’M’ dimension. You have to return the spiral traversal of the matrix</p>
+<p><strong>Example:</strong></p>
+<p>Input:</p>
+<p>MATRIX = [ [1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60] ]</p>
+<p>Output:</p>
+<p>1 3 5 7 20 60 34 30 23 10 11 16</p>
+
+<img src="https://lh5.googleusercontent.com/hZPzGMsKGm29AE34ZtOii2D76g2_M0mXxbnceTnuxSyodzJTUSYWJz3umCeyEWMas0OtAQVWE17WEDSQ_nbg6B_7m1mFyNfmzsN34GDhQjHDa4eV20u1wG4mBjPefJyRU53fAAe5hFQ2ZYChxw">
+
+<p><strong>Solution : </strong></p>
+<p>In this approach, we will be using four loops to print all four sides of the matrix.</p>
+<ul>
+    <li>1st loop: This will print the elements from left to right.</li>
+    <li>2nd loop: This will print the elements from top to bottom.</li>
+    <li>3rd loop: This will print the elements from right to left.</li>
+    <li>4th loop: This will print the elements from bottom to top.</li>
+</ul>
+
+<img src="https://lh4.googleusercontent.com/Xq3R-xwSRxUx3EEjKQIMaHTM9qGqj81nPFe2nGoSnxnd36bStjU989Sf-CsWAnFZf4jHS68xr4l49QqKXeo7o7lLF1V38SJYaxC1CWWNzvk-eBNevdWhduS6mBSX9QGXGATwQw0OkFXkP18JWw">
+
+<ul>
+    <li>Create and initialize variables top as starting row index, bottom as ending row index left as starting column index, and right as ending column index. As shown in the image given below.</li>
+    <li>In each outer loop traversal print the elements of a square in a clockwise manner.</li>
+    <li>Print the top row, i.e. Print the elements of the top row from column index left to right and increase the count of the top so that it will move to the next row.</li>
+    <li>Print the right column, i.e. Print the rightmost column from row index top to bottom and decrease the count of right.</li>
+    <li>Print the bottom row, i.e. if top <= bottom, then print the elements of a bottom row from column right to left and decrease the count of bottom</li>
+    <li>Print the left column, i.e. if left <= right, then print the elements of the left column from the bottom row to the top row and increase the count of left.</li>
+    <li>Run a loop until all the squares of loops are printed.</li>
+</ul>
+<p>Note: As we can see in the code snippet below, two edge conditions are being added in the last two ‘for’ loops: when we are moving from right to left and from bottom to top. </p>
+<p>These conditions are added to check if the matrix is a single column or a single row. So, whenever the elements in a single row are traversed they cannot be traversed again backward so the condition is checked in the right-to-left loop. When a single column is present, the condition is checked in the bottom-to-top loop as elements from bottom to top cannot be traversed again.</p>
+
+```python
+def solve(matrix,n,m):
+    left,right=0,m-1
+    top,bottom=0,n-1
+    final=[]
+    while(left<=right and top<=bottom):
+        for i in range(left,right+1):
+            final.append(matrix[top][i])
+        top+=1
+        for i in range(top,bottom+1):
+            final.append(matrix[i][right])
+        right-=1
+        if(top<=bottom):
+            for i in range(right,left-1,-1):
+                final.append(matrix[bottom][i])
+            bottom-=1
+        if(left<=right):
+            for i in range(bottom,top-1,-1):
+                final.append(matrix[i][left])
+            left+=1
+    return final
+```
+
+<p>Time Complexity: O(m x n)</p>
+<p>Space Complexity: O(n) </p>
+
+
+<h2>Rotate Matrix By 90 degrees ClockWise</h2>
+<p>You are given a square matrix ‘Mat’ of size ‘N’. You need to rotate ‘Mat’ by 90 degrees in the clockwise direction</p>
+<p>You must rotate the matrix in place, i.e., you must modify the given matrix itself. You must not allocate another square matrix for rotation.s</p>
+<p><strong>Example : </strong></p>
+<p>‘N’ = 2 and ‘Mat’ = {{1, 2}, {3, 4}}, we must modify ‘Mat’ to {{3, 1}, {4, 2}}.</p>
+<p>Input : </p>
+<pre>
+1 2 3
+4 5 6
+7 8 9
+</pre>
+<p>Output : </p>
+<pre>
+7 4 1
+8 5 2
+9 6 3
+</pre>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches : </p>
+<p><strong>BruteForce Approach :</strong></p>
+<p>Take another dummy matrix of n*n, and then take the first row of the matrix and put it in the last column of the dummy matrix, take the second row of the matrix, and put it in the second last column of the matrix and so.</p>
+<p>In This approach, just we will place matrix elements in required places</p>
+
+```python
+def bruteForce(matrix,n,m):
+    final=[[0]*m for i in range(n)]
+    for i in range(n):
+        for j in range(n):
+            final[j][n-i-1]=matrix[i][j]
+    return final
+```
+
+<p>TC : O(N*M)</p>
+<p>SC : O(N*M)</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>By observation, we see that the first column of the original matrix is the reverse of the first row of the rotated matrix</p>
+<p>so that’s why we transpose the matrix and then reverse each row, and since we are making changes in the matrix itself space complexity gets reduced to O(1).</p>
+<p>Transpose the matrix.(transposing means changing columns to rows and rows to columns)</p>
+<p>Reverse each row of the matrix.</p>
+
+<p>Transpose of a matrix is obtained by changing rows to columns and columns to rows. In other words, transpose of A[][] is obtained by changing A[i][j] to A[j][i]. </p>
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/matrix-transpose.jpg">
+
+
+```python
+def optimized(matrix,n,m):
+    for i in range(n):
+        for j in range(i):
+            matrix[i][j],matrix[j][i]=matrix[j][i],matrix[i][j]
+    for i in range(n):
+        matrix[i]=matrix[i][::-1]
+    return matrix
+```
+
+<p>TC : O(N*M)</p>
+<p>SC : O(1)</p>
+
+
+<h2>Stock Buy And Sell</h2>
+<p>You are given an array of prices where prices[i] is the price of a given stock on an ith day.</p>
+<p>You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock</p>
+<p>Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.</p>
+<p>You can buy and sell the stock only once.You can’t sell without buying first.</p>
+<p><strong>Example : </strong></p>
+<p>For the given array [ 2, 100, 150, 120],</p>
+<p>The maximum profit can be achieved by buying the stock at minute 0 when its price is Rs. 2 and selling it at minute 2 when its price is Rs. 150.</p>
+<p>So, the output will be 148.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>Bruteforce Approach : </strong></p>
+<p>In this approach, We will loop through given array and consider each elment as buy stock</p>
+<p>And, again loop thorough remaining elements, try to sell at each price</p>
+<p>Get max out of possible scenarios</p>
+<ul>
+    <li>Use a for loop of ‘i’ from 0 to n.</li>
+    <li>Use another for loop of j from ‘i+1’ to n.</li>
+    <li>let's say, buy=arr[i] and sell=arr[j]</li>
+    <li>If sell > buy , take the difference and compare  and store it in the profit variable.</li>
+    <li>Return profit.</li>
+</ul>
+
+<img src="https://lh3.googleusercontent.com/5Iu4UFZnIzSqBK3wcGL_1jgfWCPc5xA9Et5B1pZ7FMft0K6jGmvSQVcRomUALDccPiqLb9NMoKwlpkqil1Z5aYmaxE8N2spKCNpGqrFywqah6EKa5DLEYmPYXeBsXEjRMqYcyiAf">
+
+
+```python
+def bruteForce(arr,n):
+    profit=0
+    for i in range(n):
+        for j in range(i+1,n):
+            buy=arr[i]
+            sell=arr[j]
+            if(sell > buy):
+                profit=max(profit,(sell-buy))
+    return profit
+```
+
+<p>TC : O(N^2)</p>
+<p>SC : O(1)</p>
+
+<p><strong>Optimized Appraoch : </strong></p>
+<p>In this approach , We will loop through given array and track minimum value in mini till current value</p>
+<p>Then, we will consider current item as sell stock and mini value as buy stock</p>
+<p>If sell > buy, then we will update profit</p>
+<p>then, we will update mini, if current item less than mini</p>
+
+<img src="https://lh3.googleusercontent.com/Zwj-rUiRi1lK2BKJWV1CGMnaL9V1enNIJ4sarYszDc_J966Fi0KJwi1cQ1bxrQ74nf5eWkdau4AlEwreBEUqiNSRAe-ElC3R1ZicJpK-BVDW8aZJCIRb__oB15g6TQg9r-PLI5UZ">
+
+```python
+def optimized(arr,n):
+    mini=arr[0]
+    profit=0
+    for i in range(1,n):
+        if(arr[i] > mini):
+            profit=max(profit,arr[i]-mini)
+        mini=min(mini,arr[i])
+    return profit
+```
+
+<p>TC : O(N)</p>
+<p>SC : O(1)</p>
+
+<h2>Rearrange the array in alternating positive and negative items</h2>
+<p>There is an array ‘A’ of size ‘N’ with an equal number of positive and negative elements.</p>
+<p>Without altering the relative order of positive and negative numbers, you must return an array of alternative positive and negative values.</p>
+<p>Start the array with a positive number. </p>
+<p><strong>Example : </strong></p>
+<p>Input : A = [1, 2, -4, -5], N = 4</p>
+<p>Output : 1 -4  2 -5</p>
+<p>Explanation: </p>
+<p>Positive elements = 1, 2 and Negative elements = -4, -5</p>
+<p>To maintain relative ordering, 1 must occur before 2, and -4 must occur before -5.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In this approach, we will store both positive numbers and negative numbers in separate arrays</p>
+<p>Then, we can update the array such that, odd even positions with positives and odd positions with negtives</p>
+<p>Since the array must begin with a positive number and the start index is 0, so all the positive numbers would be placed at even indices (2*i) and negatives at the odd indices (2*i+1), where i is the index of the pos or neg array while traversing them simultaneously.</p>
+
+```python
+def bruteForce(arr,n):
+    pos,neg=[],[]
+    for i in range(n):
+        if(arr[i]<0):
+            neg.append(arr[i])
+        else:
+            pos.append(arr[i])
+    for i in range(len(pos)):
+        arr[i*2]=pos[i]
+    for i in range(len(neg)):
+        arr[i*2+1]=neg[i]
+    return arr
+```
+
+<p>Time Complexity: O(N+N/2) { O(N) for traversing the array once for segregating positives and negatives and another O(N/2) for adding those elements alternatively to the array, where N = size of the array A}.</p>
+<p>Space Complexity:  O(N/2 + N/2) = O(N) { N/2 space required for each of the positive and negative element arrays, where N = size of the array A}.</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In this optimal approach, we will try to solve the problem in a single pass and try to arrange the array elements in the correct order in that pass only.</p>
+<p>We know that the resultant array must start from a positive element so we initialize the positive index as 0 and negative index as 1 and start traversing the array such that whenever we see the first positive element, it occupies the space at 0 and then posIndex increases by 2 (alternate places).</p>
+<p>Similarly, when we encounter the first negative element, it occupies the position at index 1, and then each time we find a negative number, we put it on the negIndex and it increments by 2.</p>
+<p>When both the negIndex and posIndex exceed the size of the array, we see that the whole array is now rearranged alternatively according to the sign</p>
+
+```python
+def optimized(arr,n):
+    posIndex,negIndex=0,1
+    final=[0]*n
+    for i in range(n):
+        if(arr[i]<0):
+            final[negIndex]=arr[i]
+            negIndex+=2
+        else:
+            final[posIndex]=arr[i]
+            posIndex+=2
+    return final
+```
+
+<p>Time Complexity: O(N) { O(N) for traversing the array once and substituting positives and negatives simultaneously using pointers, where N = size of the array A}.</p>
+<p>Space Complexity:  O(N) { Extra Space used to store the rearranged elements separately in an array, where N = size of array A}.</p>
+
+
+<h2>Find the duplicate in an array of N+1 integers</h2>
+<p>Given an array of N + 1 size, where each element is between 1 and N. Assuming there is only one duplicate number, your task is to find the duplicate number.</p>
+<p><strong>Example : </strong></p>
+<p>Input: arr=[1,3,4,2,2]</p>
+<p>Output: 2</p>
+<p>Explanation: Since 2 is the duplicate number the answer will be 2.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In this approach, We will sort the given array</p>
+<p>then, we will loop through given array</p
+>
+<p>If any consecutive numbers are equal, that will be our answer</p>
+
+```python
+def bruteForce(arr,n):
+    arr.sort()
+    for i in range(n-1):
+        if(arr[i]==arr[i+1]):
+            return arr[i]
+    return -1
+```
+
+<p>Time Complexity:O(Nlogn + N)</p>
+<p>Reason: NlogN for sorting the array and O(N) for traversing through the array and checking if adjacent elements are equal or not. But this will distort the array.</p>
+<p>Space Complexity:O(1)</p>
+
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In this approach, we will store count of each element</p>
+<p>Then will check the count of each element, if any element count greater than 1, then it is the answer</p>
+
+```python
+def optimized(arr,n):
+    count={i:0 for i in range(1,n+1)}
+    for i in range(n):
+        count[arr[i]]+=1
+    for i in range(n):
+        if(count[arr[i]]>1):
+            return arr[i]
+    return -1
+```
+
+<p>Time Complexity: O(N), as we are traversing through the array only once.</p>
+<p>Space Complexity: O(N), as we are using extra space for frequency array.</p>
+
+<h2><strong>More optimized approach :</strong></h2>
+<p>In this approach, we will use finding staring point of loop in linkd list method</p>
+<img src="Space Complexity: O(N), as we are using extra space for frequency array.">
+<p>Initially, we have 2, then we got to the second index, we have 9, then we go to the 9th index, we have 1, then we go to the 1st index, we again have 5, then we go to the 5th index, we have 3, then we go to the 3rd index, we get 6, then we go to the 6th index, we get 8, then we go to the 8th index, we get 7, then we go to the 7th index and we get 9 and here cycle is formed.</p>
+<img src="https://lh3.googleusercontent.com/mYvFYPFwnRv0jscFZYhlQGNhD5eF48gEQmo-obJEdm_Bl7t3BhS_BGWV2Mn9K8qTasZywFUCWLVmknEiLqlvtShTtyEGl-yDfGobZiFPe2McrRV9eI5hvg83gK1bqmG3GZn2WpG8">
+<p>Now initially, the slow and fast pointer is at the start, the slow pointer moves by one step, and the fast pointer moves by 2 steps.</p>
+<img src="https://lh4.googleusercontent.com/uvbCcCkBRoj_9X79yN9CCiy-Jir2Hd9wH1TNbN1vnfBlfIpye9w498sj1o8mTVHyYEbs3Ie1tH363dL6WfOQuZl54YT7SaKEHuZ-VWPHgnjOK_EKpWsAHPOGkwyKiU-Kk3PNepof">
+<img src="https://lh4.googleusercontent.com/ODoVmsWg-ASUd1iY6q2Pieia9esc9-2a9F2p9jcaH9G-QOaF0jxBX7u5iKOumgjqUvWIqD8u6JvOfb2EAUCnrV_ALjzIQcA49LkjXlaPPhabBhrHdiCmpbQUk2I2M_hwRP4O2CEk">
+<img src="https://lh3.googleusercontent.com/SRwQtAwmDP5C8DwyPlibAGisxGGkt_jMYdpEPzX_Zf1P0jdfdibct1I9erKWFRg7jdR0l65VPjYUGANniSWSgKBsSVXACMdyGXjJfI-D-RjLY6u6iEQP7bziCpwxNeHvDAmUhzSv">
+<img src="https://lh6.googleusercontent.com/PSGLq_y4eqy5yecZzeyt_FjLNrz35aOnL78DxgIn7SfSNblXZQS1kGxL4uxtMqBVmKlPDrZFp8lDSiLTta52u6E_2Yziy5TvNmAm-mZsEJ1xsIUyFj7A5LfBmRbqLbb0OuNaFRCx">
+<img src="https://lh4.googleusercontent.com/Hxx9V-V3mL3BuKknpm6IIoAPEUFc7Mi9xyRTxXMgx6l7fizm9_FtIHCU9-AFpS12hknei5FE1882Riil9G4rys99GxAlj-e_B-7G-KreCC_SQFCc8VlbaivsSZriyj5WEcG7IP0u">
+<img src="https://lh5.googleusercontent.com/z3p0nsOIBGXlp1q92pF2IP-TY-R1P1RFhu8Q-Y2d1IdhQhQH3kKqBB0OtGFbQFi-y-yf-xiNoYIdZgUO4NGIT7RiHYrAu5J7TF2EDWa92OILtU2esP6MW8Bwsv82cpxDHM4c_ces">
+<img src="https://lh5.googleusercontent.com/z3p0nsOIBGXlp1q92pF2IP-TY-R1P1RFhu8Q-Y2d1IdhQhQH3kKqBB0OtGFbQFi-y-yf-xiNoYIdZgUO4NGIT7RiHYrAu5J7TF2EDWa92OILtU2esP6MW8Bwsv82cpxDHM4c_ces">
+
+<p>The slow and fast pointers meet at 7. Now take the fast pointer and place it at the first element i.e 2 and move the fast and slow pointer both by 1 step. The point where they collide will be the duplicate number.</p>
+
+<img src="https://lh5.googleusercontent.com/oTtT1I74FY-MFk-4ch5r1lJ9DkqQAjS0k_rtYpKIHGhaWzznQDRltcGOfUVL-faajQB_5uA5GKiAl0j_7ynLmAxiIa6dkudH0A2rCXjmA4W_C70xp9GqjQ4G0IS4I466VZ3zR65r">
+<img src="https://lh5.googleusercontent.com/kBQ_1w1QUaS4cBFx0neodYqh23JWO_d0noTdlbdNKw1wqw8tqulyfTRraj_qOegKAV6V3mY0LgIagiJKv4E_eApBVWP-b6qzZzg_RO4N1RxqSgV85SqULkjMD8blq7vDhf-6riC8">
+
+<p>So 9 is the duplicate number.</p>
+<p>Intuition: Since there is a duplicate number, we can always say that cycle will be formed.</p>
+<p>The slow pointer moves by one step and the fast pointer moves by 2 steps and there exists a cycle so the first collision is bound to happen.</p>
+<img src="https://lh3.googleusercontent.com/vVj4BsjxjTuSpU65MR8szuYCEBWAk2xRWwyN3NP8BOHUyIMStWwBYlp6hYFGXAlwzVYWTq1DW-d65oeYaBwCcIWFmVOhSYjtXY-KNlK--f6OF9Stym9_7jZP3HHTI6m-vysRdW4x">
+<p>Let’s assume the distance between the first element and the first collision is a. So slow pointer has traveled a distance while fast(since moving 2 steps at a time) has traveled 2a distance. For slow and a fast pointer to collide 2a-a=a should be multiple of the length of cycle, Now we place a fast pointer to start. Assume the distance between the start and duplicate to be x. So now the distance between slow and duplicate shows also be x, as seen from the diagram, and so now fast and slow pointer both should move by one step.</p>
+
+```python
+def efficient(arr,n):
+    slow=arr[0]
+    fast=arr[0]
+    while True:
+        slow=arr[slow]
+        fast=arr[arr[fast]]
+        if(slow==fast):
+            break
+    fast=arr[0]
+    while slow!=fast:
+        slow=arr[slow]
+        fast=arr[fast]
+    return slow
+```
+
+<p>Time complexity: O(N). Since we traversed through the array only once.</p>
+<p>Space complexity: O(1).</p>
+
+
+<h2>Kadane's Algorithm : Maximum Subarray Sum in an Array</h2>
+<p>Given an integer array arr, find the contiguous subarray (containing at least one number) which
+has the largest sum and returns its sum and prints the subarray.</p>
+<p><strong>Example : </strong></p>
+<p>Input: arr = [-2,1,-3,4,-1,2,1,-5,4]</p>
+<p>Output: 6 </p>
+<p>Explanation:[4,-1,2,1] has the largest sum = 6. </p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches.</p>
+<p>BruteForce Approach : </p>
+<p>In this approach, we will find out all contigous subarray's and will find sum of each subarray.</p>
+<p>We will track the max sum out of all possible cases</p>
+<ul>
+    <li>First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = size of the array).</li>
+    <li>Inside the loop, we will run another loop(say j) that will signify the ending index of the subarray. For every subarray starting from the index i, the possible ending index can vary from index i to n-1(n = size of the array).</li>
+    <li>After that for each subarray starting from index i and ending at index j (i.e. arr[i….j]), we will calculate the sum of all the elements(of that particular subarray).</li>
+</ul>
+
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-04-004717.png">
+
+```python
+def bruteForce(arr,n):
+    maxi=0
+    for i in range(n):
+        for j in range(i,n+1):
+            currentSum=sum(arr[i:j])
+            maxi=max(maxi,currentSum)
+    return maxi
+```
+
+<p>Time Complexity: O(N3), where N = size of the array.
+Reason: We are using three nested loops, each running approximately N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Better Approach : </strong></p>
+<p>In this approach, instead of find whole subarray, we will just find the sum of each subarray and can track max of all possible sums</p>
+<p>To The previous proble, Inside second loop j, we will add the current element to the sum of the previous subarray i.e. sum = sum + arr[j]. Among all the sums the maximum one will be the answer.</p>
+
+```python
+def better(arr,n):
+    maxi=0
+    for i in range(n):
+        currentSum=0
+        for j in range(i,n):
+            currentSum+=arr[j]
+            maxi=max(maxi,currentSum)
+    return maxi
+```
+
+<p>Time Complexity: O(N2), where N = size of the array.
+Reason: We are using two nested loops, each running approximately N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Optimized Approach (Kaden's Algorithm) : </strong></p>
+<p>In this approach, instead of finding all possible cases, . A subarray with a sum less than 0 will always reduce our answer and so this type of subarray cannot be a part of the subarray with maximum sum.</p>
+<p>Here, we will iterate the given array with a single loop and while iterating we will add the elements in a sum variable.</p>
+<p>Now, if at any point the sum becomes less than 0, we will set the sum as 0 as we are not going to consider any subarray with a negative sum.</p>
+<p>Among all the sums calculated, we will consider the maximum one.</p>
+<ul>
+    <li>We will run a loop(say i) to iterate the given array.</li>
+    <li>Now, while iterating we will add the elements to the sum variable and consider the maximum one.</li>
+    <li>If at any point the sum becomes negative we will set the sum to 0 as we are not going to consider it as a part of our answer.</li>
+</ul>
+
+```python
+def optimized(arr,n):
+    maxi=0
+    currentSum=0
+    for i in range(n):
+        currentSum+=arr[i]
+        if(currentSum>maxi):
+            maxi=currentSum
+        if(currentSum<0):
+            currentSum=0
+    return maxi
+```
+
+<p>Time Complexity: O(N), where N = size of the array.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<h2>Print Maximum Subarray Sum in an Array</h2>
+<p>This is similar to previous problem, we just need to print subarray with maximum sum</p>
+<p>We can just track the starting and ending index of each possible case and we can track max subarray and print the subarray with those starting and ending</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>In This approach, we will track starting and ending index of max subarray</p>
+
+```python
+def bruteForce(arr,n):
+    maxi=0
+    start,end=0,0
+    for i in range(n):
+        for j in range(i,n+1):
+            currentSum=sum(arr[i:j])
+            if(currentSum>maxi):
+                maxi=currentSum
+                start,end=i,j
+    return arr[start:end]
+```
+
+<p>Time Complexity: O(N3), where N = size of the array.
+Reason: We are using three nested loops, each running approximately N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Optimized Solution : </strong></p>
+<p>Our approach is to store the starting index and the ending index of the subarray. Thus we can easily get the subarray afterward without actually storing the subarray elements.</p>
+<p>If we carefully observe our algorithm, we can notice that the subarray always starts at the particular index where the sum variable is equal to 0, and at the ending index, the sum always crosses the previous maximum sum(i.e. maxi).</p>
+<ul>
+    <li>So, we will keep a track of the starting index inside the loop using a start variable.</li>
+    <li>We will take two variables ansStart and ansEnd initialized with -1. And when the sum crosses the maximum sum, we will set ansStart to the start variable and ansEnd to the current index i.e. i.</li>
+</ul>
+
+```python
+def optimized(arr,n):
+    maxi=0
+    currentSum=0
+    start,end=0,0
+    for i in range(n):
+        if(currentSum==0):
+            start=i
+        currentSum+=arr[i]
+        if(currentSum>maxi):
+            maxi=currentSum
+            end=i
+        if(currentSum<0):
+            currentSum=0
+    return arr[start:end+1]
+```
+
+<p>Time Complexity: O(N), where N = size of the array.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
