@@ -1385,3 +1385,50 @@ def optimized(arr,n):
 
 <p>Time Complexity: O(N), where N = size of the array.</p>
 <p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+
+
+<h2>Grid Unique Paths</h2>
+<p>Given a matrix m X n, count paths from left-top to the right bottom of a matrix with the constraints that from each cell you can either only move to the rightward direction or the downward direction.</p>
+<p><strong>Input Format: m = 2, n= 2</strong></p>
+<p><strong>Output: 2</strong></p>
+<p><strong>Solution : </strong></p>
+<p>We can solve this problem in several approaches</p>
+<p>We can solve in dp approach, this can be referred in dp section</p>
+<p>Combinatorics Solution : (using combinations)</p>
+<p>If we observe examples there is a similarity in paths from start to end. Each time we are taking an exactly m+n-2 number of steps to reach the end.</p>
+<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fmath.stackexchange.com%2Fquestions%2F636128%2Fcalculating-the-number-of-possible-paths-through-some-squares&psig=AOvVaw32OTGv6au9ebkO-rpjo25Q&ust=1717084103512000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLjJ7vGas4YDFQAAAAAdAAAAABAE">
+<p>From start to reach the end we need a certain number of rightward directions and a certain number of downward directions. So we can figure out we need n-1 no. of rightward direction and m-1 no. of downward direction to reach the endpoint.</p>
+<p>Since we need an m+n-2 number of steps to reach the end among those steps if we choose n-1 rightward direction or m-1 downward direction and calculate the combinations ( ie: m+n-2Cn-1 or m+n-2Cm-1) we’ll get the total number of paths.</p>
+<p>The approach of this solution is very simple just use a for loop to calculate the m+n-2Cn-1  or m+n-2Cm-1 </p>
+
+```
+nCr = n! / (r! * (n-r)!)
+```
+<p>We can separately calculate n!, r!, (n-r)! and using their values we can calculate nCr. This is an extremely naive way to calculate. The time complexity will be O(n)+O(r)+O(n-r).</p>
+<p>We can optimize this calculation by the following observation. 
+Assume, given r = 7, c = 4. </p>
+<p>Now, n = r-1 = 7-1 = 6 and r = c-1 = 4-1 = 3</p>
+<p>Let’s calculate 6C3 = 6! / (3! *(6-3)!) = (6*5*4*3*2*1) / ((3*2*1)*(3*2*1))</p>
+<p>This will boil down to (6*5*4) / (3*2*1)</p>
+<p>So, nCr = (n*(n-1)*(n-2)*.....*(n-r+1)) / (r*(r-1)*(r-2)*....1)</p>
+<p>Now, we will use this optimized formula to calculate the value of nCr. But while implementing this into code we will take the denominator in the forward direction like: </p>
+<p>(n / 1)*((n-1) / 2)*.....*((n-r+1) / r).</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-30-210349.png">
+
+```python
+def solve(n,m):
+    N=n+m-2
+    R=m-1
+    final=1
+    for i in range(R):
+        final=final*(N-i)
+        final=final//(i+1)
+    return final
+
+n,m=list(map(int,input().split()))
+print(solve(n,m))
+```
+
+<p>Time Complexity: The time complexity of this solution will be O(n-1) or  O(m-1) depending on the formula we are using.</p>
+<p>Space Complexity: As we are not using any extra space the space complexity of the solution will be  O(1).</p>
