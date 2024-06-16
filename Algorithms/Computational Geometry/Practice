@@ -1,0 +1,86 @@
+from collections import defaultdict, deque
+
+class Graph:
+    def __init__(self, vertices):
+        self.graph = defaultdict(list)  # adjacency list
+        self.V = vertices  # number of vertices
+
+    def add_edge(self, u, v):
+        self.graph[u].append(v)
+        self.graph[v].append(u)
+
+    def bfs(self, s, t, parent):
+        visited = {i: False for i in self.graph}
+        queue = deque([s])
+        visited[s] = True
+
+        while queue:
+            u = queue.popleft()
+            for ind in self.graph[u]:
+                if not visited[ind]:
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
+                    if ind == t:
+                        return True
+        return False
+
+    def ford_fulkerson(self, source, sink):
+        parent = {i: -1 for i in self.graph}
+        max_flow = 0
+
+        while self.bfs(source, sink, parent):
+            path_flow = float('Inf')
+            s = sink
+
+            while s != source:
+                path_flow = min(path_flow, 1)  # Capacity is 1 for undirected graph
+                s = parent[s]
+
+            max_flow += path_flow
+
+            v = sink
+            while v != source:
+                u = parent[v]
+                self.graph[u].remove(v)
+                self.graph[v].append(u)
+                v = parent[v]
+
+        return max_flow
+
+    def minimum_vertex_cut(self, source, sink):
+        original_graph = self.graph.copy()
+        max_flow = self.ford_fulkerson(source, sink)
+        
+        visited = {i: False for i in self.graph}
+        queue = deque([source])
+        visited[source] = True
+
+        while queue:
+            u = queue.popleft()
+            for v in original_graph[u]:
+                if not visited[v] and v in self.graph[u]:
+                    queue.append(v)
+                    visited[v] = True
+
+        min_cut = set()
+        for u in original_graph:
+            for v in original_graph[u]:
+                if visited[u] and not visited[v]:
+                    min_cut.add(v)
+
+        return min_cut
+
+if __name__ == "__main__":
+    g = Graph(4)
+    g.add_edge('A', 'B')
+    g.add_edge('B', 'C')
+    g.add_edge('C', 'D')
+    g.add_edge('A', 'C')
+    g.add_edge('B', 'D')
+
+    source = 'A'
+    target = 'D'
+    
+    min_vertex_cut = g.minimum_vertex_cut(source, target)
+    print(f"The minimum vertex cut to disconnect {source} and {target} is: {min_vertex_cut}")
