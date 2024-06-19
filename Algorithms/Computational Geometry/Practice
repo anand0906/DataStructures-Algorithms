@@ -171,4 +171,50 @@ if __name__ == "__main__":
     target = 'D'
     
     min_vertex_cut = g.minimum_vertex_cut(source, target)
-    print(f"The minimum vertex cut to disconnect {source} and {target} is: {min_vertex_cut}")
+    print(f"The minimum vertex cut to disconnect {source} and {target} is: {min_vertex_cut
+
+
+
+
+Ext.onReady(function() {
+    var initialTime = 3599; // 59 minutes and 59 seconds in seconds
+
+    // Function to format the time as MM:SS
+    function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = seconds % 60;
+        return Ext.String.leftPad(minutes, 2, '0') + ':' + Ext.String.leftPad(remainingSeconds, 2, '0');
+    }
+
+    // Retrieve the existing panel by itemId
+    var myPanel = Ext.ComponentQuery.query('#myPanel')[0];
+
+    // Add a label to the existing panel to display the timer
+    myPanel.add({
+        xtype: 'label',
+        itemId: 'timerLabel',
+        text: formatTime(initialTime),
+        style: {
+            fontSize: '24px',
+            textAlign: 'center',
+            display: 'block',
+            margin: '10px 0'
+        }
+    });
+
+    // Update the timer every second
+    var timerTask = {
+        run: function() {
+            if (initialTime > 0) {
+                initialTime--;
+                var timerLabel = myPanel.getComponent('timerLabel');
+                timerLabel.setText(formatTime(initialTime));
+            } else {
+                Ext.TaskManager.stop(timerTask);
+            }
+        },
+        interval: 1000
+    };
+
+    Ext.TaskManager.start(timerTask);
+});
