@@ -218,3 +218,47 @@ Ext.onReady(function() {
 
     Ext.TaskManager.start(timerTask);
 });
+
+
+
+// Define a new Ext JS panel
+Ext.create('Ext.panel.Panel', {
+    title: 'Timer Panel',
+    width: 300,
+    height: 100,
+    renderTo: Ext.getBody(),
+    tpl: '<div id="timer">{time}</div>',
+    data: {
+        time: '59:59'
+    },
+    listeners: {
+        afterrender: function(panel) {
+            // Start the timer
+            startTimer(panel);
+        }
+    }
+});
+
+function startTimer(panel) {
+    // Set initial time in seconds (59 minutes and 59 seconds)
+    let totalSeconds = 59 * 60 + 59;
+
+    // Function to format the time
+    function formatTime(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        let remainingSeconds = seconds % 60;
+        return Ext.String.leftPad(minutes, 2, '0') + ':' + Ext.String.leftPad(remainingSeconds, 2, '0');
+    }
+
+    // Update the panel every second
+    let timer = setInterval(function() {
+        if (totalSeconds > 0) {
+            totalSeconds--;
+            panel.update({
+                time: formatTime(totalSeconds)
+            });
+        } else {
+            clearInterval(timer);
+        }
+    }, 1000);
+}
