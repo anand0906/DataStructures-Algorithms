@@ -1461,3 +1461,199 @@ print(solve(n,m))
 
 <p>Time Complexity: The time complexity of this solution will be O(n-1) or  O(m-1) depending on the formula we are using.</p>
 <p>Space Complexity: As we are not using any extra space the space complexity of the solution will be  O(1).</p>
+
+<h2>Sort an array of 0s,1s and 2s</h2>
+<p>Given an array consisting of only 0s, 1s, and 2s. Write a program to in-place sort the array without using inbuilt sort functions. ( Expected: Single pass-O(N) and constant space)</p>
+<p>Examples</p>
+<p><strong>Input:</strong></p>
+<p>nums = [2,0,2,1,1,0]</p>
+<p><strong>Output:</strong></p>
+<p>[0,0,1,1,2,2]</p>
+<p><strong>Input:</strong></p>
+<p>nums = [2,0,1]</p>
+<p><strong>Output:</strong></p>
+<p>[0,1,2]</p>
+<p><strong>Input:</strong></p>
+<p>nums = [0]</p>
+<p><strong>Output:</strong></p>
+<p>[0]</p>
+
+<p><strong>solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>BruteForce Approach : </strong></p>
+<p>We can apply any sorting algorithm or inbuilt sort function on given array</p>
+
+```python
+def bruteForce(n,arr):
+    return sorted(arr)
+```
+
+<p><strong>Time Complexity: O(N*logN)</strong></p>
+<p><strong>Space Complexity: O(1)</strong></p>
+
+<p><strong>Better approach : </strong></p>
+<p>In this approach, since given array only contains 0,1 and 2s</p>
+<p>Loop through given array and count each value occurance and store in variables</p>
+<p>Then, run loop based on calculated count and update existing array</p>
+
+```python
+def better(n,arr):
+    zeros,ones,twos=0,0,0
+    for i in range(n):
+        if(arr[i]==0):
+            zeros+=1
+        if(arr[i]==1):
+            ones+=1
+        if(arr[i]==2):
+            twos+=1
+    for i in range(zeros):
+        arr[i]=0
+    for j in range(zeros,zeros+ones):
+        arr[j]=1
+    for k in range(zeros+ones,n):
+        arr[k]=2
+    return arr
+arr=list(map(int,input().split()))
+n=len(arr)
+print(better(n,arr))
+```
+
+<p><strong>Time Complexity: O(N) + O(N), where N = size of the array. First O(N) for counting the number of 0’s, 1’s, 2’s, and second O(N) for placing them correctly in the original array.</strong></p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>This approach is based on a variation of the popular Dutch National flag algorithm.</p>
+<p>In this alogirthm, we will be having three pointers low,mid, and high</p>
+<p>let us assume</p>
+<ul>
+    <li>0 to low-1 will contain zeros (0's)</li>
+    <li>low to mid-1 will contain ones (1's)</li>
+    <li>mid to high will contain twos (2's)</li>
+</ul>
+<p>since we have unsorted array as input, let us assume low,mid is pointed to 0 and high is pointed to n-1</p>
+<p>now we have to sort mid to high elements of given array, such that it should be arranged as above rules</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/03/Screenshot-2023-03-18-171206.png">
+<img src="https://static.takeuforward.org/wp/uploads/2023/03/Screenshot-2023-03-18-171326.png">
+<p>Now, run a loop untill mid<=high and perform following operations</p>
+<ul>
+    <li>There can be three different values of mid pointer i.e. arr[mid]</li>
+    <li>If arr[mid] == 0, we will swap arr[low] and arr[mid] and will increment both low and mid. Now the subarray from index 0 to (low-1) only contains 0.</li>
+    <li>If arr[mid] == 1, we will just increment the mid pointer and then the index (mid-1) will point to 1 as it should according to the rules.</li>
+    <li>If arr[mid] == 2, we will swap arr[mid] and arr[high] and will decrement high. Now the subarray from index high+1 to (n-1) only contains 2.In this step, we will do nothing to the mid-pointer as even after swapping, the subarray from mid to high(after decrementing high) might be unsorted. So, we will check the value of mid again in the next iteration.</li>
+</ul>
+<p>Finally, our array should be sorted.</p>
+
+```python
+def optimized(n,arr):
+    low,mid,high=0,0,n-1
+    while mid<=high:
+        if(arr[mid]==0):
+            arr[low],arr[mid]=arr[mid],arr[low]
+            low+=1
+            mid+=1
+        if(arr[mid]==1):
+            mid+=1
+        if(arr[mid]==2):
+            arr[mid],arr[high]=arr[high],arr[mid]
+            high-=1
+            mid+=1
+    return arr
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p>Time Complexity: O(N), where N = size of the given array.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<h2>Pascal's Traingle</h2>
+<p>Pascal’s triangle is a triangular array of binomial coefficients. Write a function that takes an integer value N as input and prints the first N lines of Pascal’s triangle.</p>
+<p><strong>Example : </strong></p>
+<p>The below image shows the Pascal’s Triangle for N=6</p>
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20231019163940/Pascal's-Triangle-for-first-6-Rows.jpg">
+
+<p><strong>Solution : </strong></p>
+<p>As problem states, we will be having n rows</p>
+<p>Each ith row containe  i number of elements</p>
+<p>The values of ith element in nth row is calculated as (n-1)C(i-1), as shown in figure</p>
+<img src="https://i.stack.imgur.com/nqaiV.png">
+<p>We know how to find combinations, nCr</p>
+<p>nCr = n! / (r! * (n-r)!)</p>
+<p>We can separately calculate n!, r!, (n-r)! and using their values we can calculate nCr. This is an extremely naive way to calculate. The time complexity will be O(n)+O(r)+O(n-r).</p>
+<p>In optimal way, Assume, given r = 7, c = 4. </p>
+<p>Now, n = r-1 = 7-1 = 6 and r = c-1 = 4-1 = 3</p>
+<p>Let’s calculate 6C3 = 6! / (3! *(6-3)!) = (6*5*4*3*2*1) / ((3*2*1)*(3*2*1))</p>
+<p>This will boil down to (6*5*4) / (3*2*1)</p>
+<p>So, nCr = (n*(n-1)*(n-2)*.....*(n-r+1)) / (r*(r-1)*(r-2)*....1)</p>
+<p>Now, we will use this optimized formula to calculate the value of nCr. But while implementing this into code we will take the denominator in the forward direction like: </p>
+<p>nCr=(n / 1)*((n-1) / 2)*.....*((n-r+1) / r).</p>
+
+```python
+def nCr(N,R):
+    final=1
+    for i in range(R):
+        final=final*(N-i)
+        final=final//(i+1)
+    return final
+```
+
+<p>So, in Bruteforce approach, we can loop through each row and we can find ncr and print</p>
+<ul>
+    <li>Loop through 0 to n-1 as n times, for rows</li>
+    <ul>
+        <li>For, each row, loop through 0 to n-1 as r times, for columns</li>
+        <li>print nCr for each column</li>
+    </ul>
+</ul>
+
+```python
+def nCr(N,R):
+    final=1
+    for i in range(R):
+        final=final*(N-i)
+        final=final//(i+1)
+    return final
+
+def printPascal(n):
+    for row in range(1,n+1):
+        for col in range(1,row+1):
+            print(nCr(row-1,col-1),end=" ")
+        print()
+n=int(input())
+printPascal(n)
+```
+
+<p><strong>Time Complexity : O(n*n*n)</strong></p>
+<p><strong>Space Complexity : O(1)</strong></p>
+
+<p><strong>Optimal Approach</strong></p>
+<p>We will try to build intuition for this approach using the following observations.</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-30-214245.png">
+<p>Here, we can observe a pattern , while calculating this nCr for current element, we can use previous value instead repetedly finding that calculation</p>
+<p>Current element = prevElement * (rowNumber - colIndex) / colIndex</p>
+<ul>
+    <li>First, we will print the 1st element i.e. 1 manually.</li>
+    <li>After that, we will use a loop(say i) that runs from 1 to n-1. It will print the rest of the elements.</li>
+    <li>Inside the loop, we will use the above-said formula to print the element. We will multiply the previous answer by (n-i) and then divide it by i itself.</li>
+    <li>Thus, the entire row will be printed.</li>
+</ul>
+
+```python
+def optimized(n):
+    for row in range(1,n+1):
+        temp=[1]
+        final=1
+        for col in range(1,row):
+            final*=(row-col)
+            final//=col
+            temp.append(final)
+        print(*temp,sep=" ")
+        
+n=int(input())
+optimized(n)
+```
+
+<p>TC : O(n*n)</p>
+<p>SC : O(1)</p>
+
