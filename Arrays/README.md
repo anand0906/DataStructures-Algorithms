@@ -803,12 +803,20 @@ def optimized(arr,n,target):
 <p>If none matches, then return False</p>
 
 ```python
-def bruteForce(arr,n,target):
+def searchMatrix(matrix, target):
+    n = len(matrix)
+    m = len(matrix[0])
+
+    # traverse the matrix:
     for i in range(n):
-        for j in range(i+1,n):
-            if(arr[i]+arr[j]==target):
-                return "YES"
-    return "NO"
+        for j in range(m):
+            if matrix[i][j] == target:
+                return True
+    return False
+```
+matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+result = searchMatrix(matrix, 8)
+print("true" if result else "false")
 ```
 
 <p>Time Complexity: O(N X M), where N = given row number, M = given column number.</p>
@@ -819,17 +827,38 @@ def bruteForce(arr,n,target):
 <p>We can apply binary search to find target in the row</p>
 <p>In this way, we can check target in the matrix</p>
 
+
 ```python
-def better(arr,n,target):
-    hashMap={}
+def binarySearch(nums, target):
+    n = len(nums) # size of the array
+    low, high = 0, n - 1
+
+    # Perform the steps:
+    while low <= high:
+        mid = (low + high) // 2
+        if nums[mid] == target:
+            return True
+        elif target > nums[mid]:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return False
+
+def searchMatrix(matrix, target):
+    n = len(matrix)
+    m = len(matrix[0])
+
     for i in range(n):
-        current=arr[i]
-        required=target-arr[i]
-        if(hashMap.get(required)!=None):
-            return "YES"
-        hashMap[current]=i
-    return "NO"
+        if matrix[i][0] <= target <= matrix[i][m - 1]:
+            return binarySearch(matrix[i], target)
+    return False
+
+matrix = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+result = searchMatrix(matrix, 8)
+print("true" if result else "false")
+
 ```
+
 
 <p>Time Complexity: O(N + logM), where N = given row number, M = given column number.</p>
 <p>Reason: We are traversing all rows and it takes O(N) time complexity. But for all rows, we are not applying binary search rather we are only applying it once for a particular row. That is why the time complexity is O(N + logM) instead of O(N*logM).</p>

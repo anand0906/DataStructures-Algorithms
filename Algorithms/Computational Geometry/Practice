@@ -1,0 +1,264 @@
+from collections import defaultdict, deque
+
+class Graph:
+    def __init__(self, vertices):
+        self.graph = defaultdict(list)  # adjacency list
+        self.V = vertices  # number of vertices
+
+    def add_edge(self, u, v):
+        self.graph[u].append(v)
+        self.graph[v].append(u)
+
+    def bfs(self, s, t, parent):
+        visited = {i: False for i in self.graph}
+        queue = deque([s])
+        visited[s] = True
+
+        while queue:
+            u = queue.popleft()
+            for ind in self.graph[u]:
+                if not visited[ind]:
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
+                    if ind == t:
+                        return True
+        return False
+
+    def ford_fulkerson(self, source, sink):
+        parent = {i: -1 for i in self.graph}
+        max_flow = 0
+
+        while self.bfs(source, sink, parent):
+            path_flow = float('Inf')
+            s = sink
+
+            while s != source:
+                path_flow = min(path_flow, 1)  # Capacity is 1 for undirected graph
+                s = parent[s]
+
+            max_flow += path_flow
+
+            v = sink
+            while v != source:
+                u = parent[v]
+                self.graph[u].remove(v)
+                self.graph[v].append(u)
+                v = parent[v]
+
+        return max_flow
+
+    def minimum_vertex_cut(self, source, sink):
+        original_graph = self.graph.copy()
+        max_flow = self.ford_fulkerson(source, sink)
+        
+        visited = {i: False for i in self.graph}
+        queue = deque([source])
+        visited[source] = True
+
+        while queue:
+            u = queue.popleft()
+            for v in original_graph[u]:
+                if not visited[v] and v in self.graph[u]:
+                    queue.append(v)
+                    visited[v] = True
+
+        min_cut = set()
+        for u in original_graph:
+            for v in original_graph[u]:
+                if visited[u] and not visited[v]:
+                    min_cut.add(v)
+
+        return min_cut
+
+if __name__ == "__main__":
+    g = Graph(4)
+    g.add_edge('A', 'B')
+    g.add_edge('B', 'C')
+    g.add_edge('C', 'D')
+    g.add_edge('A', 'C')
+    g.add_edge('B', 'D')
+
+    source = 'A'
+    target = 'D'
+
+
+
+    
+    min_vertex_cut = g.minimum_vertex_cut(source, target)
+    print(f"The minimum vertex cut to disconnect {source} and {target} is: {min_vertex_cut}")
+from collections import defaultdict, deque
+
+class Graph:
+    def __init__(self, vertices):
+        self.graph = defaultdict(lambda: defaultdict(int))  # adjacency list with capacities
+        self.V = vertices  # number of vertices
+
+    def add_edge(self, u, v, capacity):
+        self.graph[u][v] = capacity
+
+    def bfs(self, s, t, parent):
+        visited = {i: False for i in self.graph}
+        queue = deque([s])
+        visited[s] = True
+
+        while queue:
+            u = queue.popleft()
+            for ind in self.graph[u]:
+                if not visited[ind] and self.graph[u][ind] > 0:
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
+                    if ind == t:
+                        return True
+        return False
+
+    def ford_fulkerson(self, source, sink):
+        parent = {i: -1 for i in self.graph}
+        max_flow = 0
+
+        while self.bfs(source, sink, parent):
+            path_flow = float('Inf')
+            s = sink
+
+            while s != source:
+                path_flow = min(path_flow, self.graph[parent[s]][s])
+                s = parent[s]
+
+            max_flow += path_flow
+
+            v = sink
+            while v != source:
+                u = parent[v]
+                self.graph[u][v] -= path_flow
+                self.graph[v][u] += path_flow
+                v = parent[v]
+
+        return max_flow
+
+    def minimum_vertex_cut(self, source, sink):
+        original_graph = defaultdict(lambda: defaultdict(int), {u: dict(v) for u, v in self.graph.items()})
+        self.ford_fulkerson(source, sink)
+
+        visited = {i: False for i in self.graph}
+        queue = deque([source])
+        visited[source] = True
+
+        while queue:
+            u = queue.popleft()
+            for v in self.graph[u]:
+                if not visited[v] and self.graph[u][v] > 0:
+                    queue.append(v)
+                    visited[v] = True
+
+        min_cut = set()
+        for u in original_graph:
+            for v in original_graph[u]:
+                if visited[u] and not visited[v]:
+                    min_cut.add(v)
+
+        return min_cut
+
+if __name__ == "__main__":
+    g = Graph(4)
+    g.add_edge('A', 'B', 1)
+    g.add_edge('B', 'C', 1)
+    g.add_edge('C', 'D', 1)
+    g.add_edge('A', 'C', 1)
+    g.add_edge('B', 'D', 1)
+
+    source = 'A'
+    target = 'D'
+    
+    min_vertex_cut = g.minimum_vertex_cut(source, target)
+    print(f"The minimum vertex cut to disconnect {source} and {target} is: {min_vertex_cut
+
+
+
+
+Ext.onReady(function() {
+    var initialTime = 3599; // 59 minutes and 59 seconds in seconds
+
+    // Function to format the time as MM:SS
+    function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = seconds % 60;
+        return Ext.String.leftPad(minutes, 2, '0') + ':' + Ext.String.leftPad(remainingSeconds, 2, '0');
+    }
+
+    // Retrieve the existing panel by itemId
+    var myPanel = Ext.ComponentQuery.query('#myPanel')[0];
+
+    // Add a label to the existing panel to display the timer
+    myPanel.add({
+        xtype: 'label',
+        itemId: 'timerLabel',
+        text: formatTime(initialTime),
+        style: {
+            fontSize: '24px',
+            textAlign: 'center',
+            display: 'block',
+            margin: '10px 0'
+        }
+    });
+
+    // Update the timer every second
+    var timerTask = {
+        run: function() {
+            if (initialTime > 0) {
+                initialTime--;
+                var timerLabel = myPanel.getComponent('timerLabel');
+                timerLabel.setText(formatTime(initialTime));
+            } else {
+                Ext.TaskManager.stop(timerTask);
+            }
+        },
+        interval: 1000
+    };
+
+    Ext.TaskManager.start(timerTask);
+});
+
+
+
+// Define a new Ext JS panel
+Ext.create('Ext.panel.Panel', {
+    title: 'Timer Panel',
+    width: 300,
+    height: 100,
+    renderTo: Ext.getBody(),
+    tpl: '<div id="timer">{time}</div>',
+    data: {
+        time: '59:59'
+    },
+    listeners: {
+        afterrender: function(panel) {
+            // Start the timer
+            startTimer(panel);
+        }
+    }
+});
+
+function startTimer(panel) {
+    // Set initial time in seconds (59 minutes and 59 seconds)
+    let totalSeconds = 59 * 60 + 59;
+
+    // Function to format the time
+    function formatTime(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        let remainingSeconds = seconds % 60;
+        return Ext.String.leftPad(minutes, 2, '0') + ':' + Ext.String.leftPad(remainingSeconds, 2, '0');
+    }
+
+    // Update the panel every second
+    let timer = setInterval(function() {
+        if (totalSeconds > 0) {
+            totalSeconds--;
+            panel.update({
+                time: formatTime(totalSeconds)
+            });
+        } else {
+            clearInterval(timer);
+        }
+    }, 1000);
+}
