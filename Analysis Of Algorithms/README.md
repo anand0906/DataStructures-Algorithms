@@ -98,16 +98,16 @@ print(fun3(1000))
 <p>When n reaches greater than 2, itertive will take more time than formula based approch</p>
 <p>This can be proved for any kind of machines or programming languages, because asymptotic growth expresssions will be common for all implementations</p>
 
-<h1>Asymptotic Analysis Comparison</h1>
+<h3>Asymptotic Analysis Comparison</h3>
 
 <div class="section">
-    <h2>Comparing Two Approaches Theoretically Using Order of Growth Expressions</h2>
+    <h4>Comparing Two Approaches Theoretically Using Order of Growth Expressions</h4>
     <p>To compare the efficiency of two algorithms theoretically, we use their order of growth expressions. Given two functions \( f(n) \) and \( g(n) \) representing the time complexities of two algorithms, we can determine which one is more efficient by analyzing the limit:</p>
     <div class="formula">lim<sub>n → ∞</sub> g(n)/f(n)</div>
 </div>
 
 <div class="section">
-    <h2>Rules for Determining Efficiency</h2>
+    <h4>Rules for Determining Efficiency</h4>
     <ul>
         <li><b>If</b> lim<sub>n → ∞</sub> g(n)/f(n) = 0:
             <ul>
@@ -131,8 +131,8 @@ print(fun3(1000))
 </div>
 
 <div class="section">
-    <h2>Examples with Order of Growth Expressions</h2>
-    <h3>Example 1: Iterative vs. Mathematical Formula Approaches</h3>
+    <h4>Examples with Order of Growth Expressions</h4>
+    <h5>Example 1: Iterative vs. Mathematical Formula Approaches</h5>
     <p>1. <b>Iterative Approach</b>:</p>
     <div class="formula">T<sub>iterative</sub>(n) = 2n + 2</div>
     <p>2. <b>Mathematical Formula</b>:</p>
@@ -143,7 +143,7 @@ print(fun3(1000))
 </div>
 
 <div class="section">
-    <h3>Example 2: Linear vs. Quadratic Approach</h3>
+    <h4>Example 2: Linear vs. Quadratic Approach</h4>
     <p>1. <b>Linear Approach</b>:</p>
     <div class="formula">T<sub>linear</sub>(n) = 3n + 4</div>
     <p>2. <b>Quadratic Approach</b>:</p>
@@ -154,7 +154,6 @@ print(fun3(1000))
 </div>
 
 <div class="section">
-    <h2>Conclusion</h2>
     <p>By using the limit:</p>
     <div class="formula">lim<sub>n → ∞</sub> g(n)/f(n)</div>
     <p>we can determine which algorithm is more efficient for large input sizes:</p>
@@ -164,4 +163,70 @@ print(fun3(1000))
         <li>If the limit is a positive constant, both have similar efficiency.</li>
     </ul>
     <p>This method allows us to compare algorithms theoretically, focusing on their asymptotic behavior and ensuring efficient and scalable solutions for large input sizes.</p>
+</div>
+
+<h3>Simplified Asymptotic Analysis</h3>
+
+<div class="section">
+    <h4>Simplified Approach Using Order of Growth</h4>
+    <p>Instead of performing detailed calculations every time, we can directly determine the efficiency of algorithms by focusing on their highest-order terms and ignoring constant factors and lower-order terms. This approach simplifies the comparison using the concept of <b>asymptotic dominance</b>.</p>
+</div>
+
+<div class="section">
+    <h4>Steps to Simplify Analysis</h4>
+    <ul>
+        <li><b>Eliminate Constants</b>: Remove constant coefficients from the expressions.</li>
+        <li><b>Ignore Lower-Order Terms</b>: Focus only on the highest-order term, as it dominates the growth rate for large <i>n</i>.</li>
+        <li><b>Use Universal Order of Growth</b>: Compare the simplified expressions based on their highest-order terms.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h4>Universal Order of Growth</h4>
+    <p>Here is the commonly used hierarchy of growth rates, from smallest to largest:</p>
+    <ul>
+        <li><b>Constant Time</b>: \( O(1) \)</li>
+        <li><b>Logarithmic Time</b>: \( O(\log n) \)</li>
+        <li><b>Logarithmic Time</b>: \( O(\log (log n)) \)</li>
+        <li><b>Linear Time</b>: \( O(n) \)</li>
+        <li><b>Linearithmic Time</b>: \( O(n \log n) \)</li>
+        <li><b>Quadratic Time</b>: \( O(n^2) \)</li>
+        <li><b>Cubic Time</b>: \( O(n^3) \)</li>
+        <li><b>Exponential Time</b>: \( O(2^n) \)</li>
+        <li><b>Exponential Time</b>: \( O(n^n) \)</li>
+        <li><b>Factorial Time</b>: \( O(n!) \)</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h3>Examples with Simplified Analysis</h3>
+    <h4>Example 1: Iterative vs. Mathematical Formula Approaches</h4>
+    <p>1. <b>Iterative Approach</b>:</p>
+    <div class="formula">T<sub>iterative</sub>(n) = 2n + 2</div>
+    <p>Simplified: <b>O(n)</b></p>
+    <p>2. <b>Mathematical Formula</b>:</p>
+    <div class="formula">T<sub>formula</sub>(n) = 5</div>
+    <p>Simplified: <b>O(1)</b></p>
+    <p><b>Comparison</b>: O(1) (constant time) is more efficient than O(n) (linear time). Therefore, the mathematical formula approach is more efficient.</p>
+</div>
+
+<div class="section">
+    <h4>Example 2: Linear vs. Quadratic Approach</h4>
+    <p>1. <b>Linear Approach</b>:</p>
+    <div class="formula">T<sub>linear</sub>(n) = 3n + 4</div>
+    <p>Simplified: <b>O(n)</b></p>
+    <p>2. <b>Quadratic Approach</b>:</p>
+    <div class="formula">T<sub>quadratic</sub>(n) = 5n<sup>2</sup> + 3n + 2</div>
+    <p>Simplified: <b>O(n<sup>2</sup>)</b></p>
+    <p><b>Comparison</b>: O(n) (linear time) is more efficient than O(n<sup>2</sup>) (quadratic time). Therefore, the linear approach is more efficient.</p>
+</div>
+
+<div class="section">
+    <p>By simplifying the analysis:</p>
+    <ul>
+        <li>Eliminate constant factors and ignore lower-order terms.</li>
+        <li>Focus on the highest-order term to determine the growth rate.</li>
+        <li>Use the <b>universal order of growth</b> to compare algorithms.</li>
+    </ul>
+    <p>This method provides a quick and effective way to evaluate the efficiency of algorithms, ensuring that we can make informed decisions without performing complex calculations every time.</p>
 </div>
