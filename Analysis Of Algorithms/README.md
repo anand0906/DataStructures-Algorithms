@@ -78,4 +78,4 @@ print(fun3(1000))
 <p>In the above example, if we compare mathematical formula expression vs itertive expression in graph</p>
 <p>Mathematical approach , <strong>fun1(n)=c1</strong></p>
 <p>Itertive aproach , <strong>fun2(n)=c2n+c3+c4</strong></p>
-<img src="./images/grpah1.jpg">
+<img src="./images/graph1.JPG">
