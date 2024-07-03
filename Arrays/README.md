@@ -1657,3 +1657,188 @@ optimized(n)
 <p>TC : O(n*n)</p>
 <p>SC : O(1)</p>
 
+
+<h2>Find the Majority Element that occurs more than N/2 times</h2>
+<p>Given an array of N integers, write a program to return an element that occurs more than N/2 times in the given array. You may consider that such an element always exists in the array.</p>
+<p><strong>Example : </strong></p>
+<p><strong>Input : </strong></p>
+<p>N = 3, nums[] = {3,2,3}</p>
+<p><strong>Output : </strong></p>
+<p>3</p>
+<p><strong>Explanation : </strong></p>
+<p>When we just count the occurrences of each number and compare with half of the size of the array, you will get 3 for the above solution.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>Bruteforce approach : </strong></p>
+<p>In this approach, we will find count each element in given array and we will check if any element count is greater than length of array(n)/2. Then it will be our answer</p>
+
+```python
+def bruteForce(n,arr):
+    count={}
+    for i in range(n):
+        if(arr[i] in count):
+            count[arr[i]]+=1
+        else:
+            count[arr[i]]=1
+
+    for i,v in count.items():
+        if(v>(n//2)):
+            return i
+    return -1
+```
+
+<p>Time Complexity: O(N*logN) + O(N), where N = size of the given array.</p>
+<p>Reason: We are using a map data structure. Insertion in the map takes logN time. And we are doing it for N elements. So, it results in the first term O(N*logN). The second O(N) is for checking which element occurs more than floor(N/2) times. If we use unordered_map instead, the first term will be O(N) for the best and average case and for the worst case, it will be O(N2).</p>
+<p>Space Complexity: O(N) as we are using a map data structure.</p>
+
+<p><strong>Optimized approach : </strong></p>
+<p>This approach is based on Boyer-Moore Majority Voting Algorithm, let's discuss the algorithm</p>
+<p>This algorithm works on the fact that if an element occurs more than N/2 times, it means that the remaining elements other than this would definitely be less than N/2. So let us check the proceeding of the algorithm.</p>
+<p>First, choose a candidate from the given set of elements if it is the same as the candidate element, increase the votes. Otherwise, decrease the votes if votes become 0, select another new element as the new candidate.</p>
+<p>When the elements are the same as the candidate element, votes are incremented whereas when some other element is found (not equal to the candidate element), we decreased the count. This actually means that we are decreasing the priority of winning ability of the selected candidate, since we know that if the candidate is in majority it occurs more than N/2 times and the remaining elements are less than N/2.</p>
+<p>We keep decreasing the votes since we found some different element(s) than the candidate element. When votes become 0, this actually means that there are the equal  number of votes for different elements, which should not be the case for the element to be the majority element.</p>
+<p>So the candidate element cannot be the majority and hence we choose the present element as the candidate and continue the same till all the elements get finished.</p>
+<p>The final candidate would be our majority element. We check using the 2nd traversal to see whether its count is greater than N/2. If it is true, we consider it as the majority element.</p>
+<p><strong>Steps to solve problem</strong></p>
+<ul>
+    <li>We will replace votes with count in above problem, and candidate as current element</li>
+    <li>Initialize 2 variables: Count –  for tracking the count of element, current – for which element we are counting</li>
+    <li>Traverse through the given array.</li>
+    <ul>
+        <li>If Count is 0 then store the current element of the array as current.</li>
+        <li>If the current element and Element are the same increase the Count by 1.</li>
+        <li>If they are different decrease the Count by 1.</li>
+    </ul>
+    <li>The integer present in Element should be the result we are expecting </li>
+    <li>In, final we can check if current element count greater than n//2 if required</li>
+</ul>
+
+```python
+def optimized(n,arr):
+    count=0
+    current=0
+    for i in range(n):
+        if(count==0):
+            current=arr[i]
+            count=1
+        elif(current==arr[i]):
+            count+=1
+        else:
+            count-=1
+    final=0
+    for i in range(n):
+        if(arr[i]==current):
+            final+=1
+    if(final>(n//2)):
+        return current
+    return -1
+```
+
+<p>Time Complexity: O(N) + O(N), where N = size of the given array.</p>
+<p>Reason: The first O(N) is to calculate the count and find the expected majority element. The second one is to check if the expected element is the majority one or not.</p>
+<p>Note: If the question states that the array must contain a majority element, in that case, we do not need the second check. Then the time complexity will boil down to O(N).</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<h2>next_permutation : find next lexicographically greater permutation</h2>
+<p>Given an array Arr[] of integers, rearrange the numbers of the given array into the lexicographically next greater permutation of numbers.</p>
+<p>If such an arrangement is not possible, it must rearrange to the lowest possible order (i.e., sorted in ascending order).</p>
+<p><strong>Example : </strong></p>
+<p><strong>Input : </strong></p>
+<p>Arr[] = {1,3,2}</p>
+<p><strong>Output : </strong></p>
+<p>Arr[] = {2,1,3}</p>
+<p>All permutations of {1,2,3} are {{1,2,3} , {1,3,2}, {2,13} , {2,3,1} , {3,1,2} , {3,2,1}}. So, the next permutation just after {1,3,2} is {2,1,3}.</p>
+<p><strong>Input : </strong></p>
+<p>Arr[] = {3,2,1}</p>
+<p><strong>Output : </strong></p>
+<p>Arr[] = {1,2,3}</p>
+<p>As we see all permutations of {1,2,3}, we find {3,2,1} at the last position. So, we have to return the topmost permutation.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>Bruteforce Approach : </strong></p>
+<p>In This approach, sort given array and find all possible permutations</p>
+<p>Then find the given array in list, then we will print next element to its index</p>
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/NewPermutation.gif">
+
+<ul>
+    <li>Define a recursive function that takes three parameters: the list, the starting index, and the ending index.</li>
+    <li>If the starting index equals the ending index, print or store the permutation.</li>
+    <li>Otherwise, for each index from the starting index to the ending index:</li>
+    <ul>
+        <li>Swap the current index with the starting index.</li>
+        <li>Recursively call the function with the next starting index.</li>
+        <li>Swap back to backtrack and restore the original list for the next iteration.</li>
+    </ul>
+</ul>
+
+```python
+def permute(arr,left,right):
+    global temp
+    if(left==right):
+        temp.append(tuple(arr.copy()))
+        return
+    for i in range(left,right):
+        arr[left],arr[i]=arr[i],arr[left]
+        permute(arr,left+1,right)
+        arr[left],arr[i]=arr[i],arr[left]
+arr=list(map(int,input().split()))
+n=len(arr)
+temp=[]
+permute(sorted(arr),0,n)
+ind=temp.index(tuple(arr))
+print(temp[(ind+1)%n])
+```
+
+<p>For finding, all possible permutations, it is taking N!xN. N represents the number of elements present in the input array. Also for searching input arrays from all possible permutations will take N!. Therefore, it has a Time complexity of O(N!xN).</p>
+<p>Space Complexity : Since we are not using any extra spaces except stack spaces for recursion calls. So, it has a space complexity of O(1).</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In this approach, since we need to find next increasing subsequence, first we need find small suffix which can make next increasing sequence.</p>
+<p>To Find That Suffix</p>
+<ul>    
+    <li>Start from the end of the list and move left to find the first place where a number is smaller than the number right after it. This spot is called the "dip".</li>
+    <li>Example: In the list [1, 2, 3], the dip is at 2 because 2 is smaller than 3.</li>
+</ul>
+<ul>
+    <li>Again, start from the end and find the smallest number that is bigger than the dip.</li>
+    <li>Example: The smallest number bigger than 2 in [1, 2, 3] is 3.</li>
+</ul>
+<ul>
+    <li>Swap the dip with the number you found.</li>
+    <li>Example: Swap 2 and 3 to get [1, 3, 2].</li>
+</ul>
+<ul>
+    <li>Finally, reverse the part of the list that comes after the original dip position. This puts it in the smallest possible order.</li>
+    <li>Example: The part after 1 and 3 in [1, 3, 2] is just 2, so no change is needed.</li>
+</ul>
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20220908060940/Nextpermutation.png">
+
+```python
+def optimized(arr,n):
+    ind=-1
+    for i in range(n-2,-1,-1):
+        if(arr[i]<arr[i+1]):
+            ind=i
+            break
+    if(ind==-1):
+        return arr[::-1]
+    temp=arr[ind]
+    for i in range(n-1,ind,-1):
+        if(arr[i]>arr[ind]):
+            arr[i],arr[ind]=arr[ind],arr[i]
+            break
+    arr[ind+1:]=reversed(arr[ind+1:])
+    return arr
+    
+            
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(arr,n))
+```
+
+<p>Time Complexity: O(3N), where N = size of the given array</p>
+<p>Finding the break-point, finding the next greater element, and reversal at the end takes O(N) for each, where N is the number of elements in the input array. This sums up to 3*O(N) which is approximately O(3N).</p>
+<p>Space Complexity: Since no extra storage is required. Thus, its space complexity is O(1).</p>
