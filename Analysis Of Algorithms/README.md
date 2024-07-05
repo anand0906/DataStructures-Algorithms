@@ -230,3 +230,254 @@ print(fun3(1000))
     </ul>
     <p>This method provides a quick and effective way to evaluate the efficiency of algorithms, ensuring that we can make informed decisions without performing complex calculations every time.</p>
 </div>
+
+<p>We know that, how to measure efficiency of an algorithm using order of growth expression,but they don't specify whether they're referring to the best, worst, or average case.</p>
+<p>To solve this problem,asymptotic notations are created to represent the efficieny of an algorithm</p>
+<h3>Asymptotic Notations</h3>
+<p>Asymptotic notations are mathematical tools to represent the time complexity of algorithms for asymptotic analysis.</p>
+<p>There are mainly three asymptotic notations:</p>
+<ol>
+    <li>Big-O Notation (O-notation)</li>
+    <li>Omega Notation (Ω-notation)</li>
+    <li>Theta Notation (Θ-notation)</li>
+</ol>
+<p>We know that the efficiency of algorithm can be representd in terms of order pf growth expression, that can be any of these</p>
+<img src="/images/bounds.JPG">
+<p>As shown in image, the efficiency expression can have upper bound , lower bound and tightly bound expressions</p>
+<p>Upper bound can be represented using Big O Notation</p>
+<p>Lower bound can be represented using Big Omega Notation</p>
+<p>Tightly bound can be represented using Big Theta Notation</p>
+
+<p>Mathematically also we can prove these equations as follows.</p>
+
+<h4>1. Big O Notation (O)</h4>
+<p>Big O notation describes an upper bound on the time complexity of an algorithm. It provides the worst-case scenario of how an algorithm performs as the input size <em>n</em> grows. It gives us an asymptotic upper limit.</p>
+<p><strong>Mathematical Definition:</strong><br>
+<code>f(n) = O(g(n))</code><br>
+if and only if there exist positive constants <em>c</em> and <em>n<sub>0</sub></em> such that for all <em>n</em> ≥ <em>n<sub>0</sub></em>:<br>
+<code>0 ≤ f(n) ≤ c ⋅ g(n)</code></p>
+<p>This notation says that, at some point <em>n<sub>0</sub></em> , if we multiply c with g(n), it will always greater than given function f(n), that will be the upper bound and worst case for our problem.There, the worst case complexity of f(n) will be O(g(n))</p>
+<p><strong>Example:</strong><br>
+Consider <code>f(n) = 3n<sup>2</sup> + 2n + 1</code>. To find the Big O notation:<br>
+<code>f(n) = 3n<sup>2</sup> + 2n + 1</code><br>
+<code>g(n) = n<sup>2</sup></code><br>
+Let's choose <code>c = 6</code> and <code>n<sub>0</sub> = 1</code>:<br>
+For <em>n</em> ≥ 1:<br>
+<code>3n<sup>2</sup> + 2n + 1 ≤ 3n<sup>2</sup> + 2n<sup>2</sup> + n<sup>2</sup> = 6n<sup>2</sup></code><br>
+Thus, <code>f(n) = O(n<sup>2</sup>)</code>.</p>
+
+<h4>2. Big Omega Notation (Ω)</h4>
+<p>Big Omega notation provides a lower bound on the time complexity of an algorithm. It describes the best-case scenario for the growth rate of an algorithm's running time.</p>
+<p><strong>Mathematical Definition:</strong><br>
+<code>f(n) = Ω(g(n))</code><br>
+if and only if there exist positive constants <em>c</em> and <em>n<sub>0</sub></em> such that for all <em>n</em> ≥ <em>n<sub>0</sub></em>:<br>
+<code>0 ≤ c ⋅ g(n) ≤ f(n)</code></p>
+<p>This notation says that, at some point <em>n<sub>0</sub></em> , if we multiply c with g(n), it will always less than or equal to than given function f(n), that will be the lower bound and best case for our problem.There, the best case complexity of f(n) will be Ω(g(n))</p>
+
+<p><strong>Example:</strong><br>
+For <code>f(n) = 3n<sup>2</sup> + 2n + 1</code>, to find the Big Omega notation:<br>
+<code>f(n) = 3n<sup>2</sup> + 2n + 1</code><br>
+<code>g(n) = n<sup>2</sup></code><br>
+Let's choose <code>c = 1</code> and <code>n<sub>0</sub> = 1</code>:<br>
+For <em>n</em> ≥ 1:<br>
+<code>3n<sup>2</sup> + 2n + 1 ≥ n<sup>2</sup></code><br>
+Thus, <code>f(n) = Ω(n<sup>2</sup>)</code>.</p>
+
+<h4>3. Big Theta Notation (Θ)</h4>
+<p>Big Theta notation provides a tight bound on the time complexity of an algorithm. It describes the exact asymptotic behavior of the algorithm, meaning it is both an upper and lower bound.</p>
+<p><strong>Mathematical Definition:</strong><br>
+<code>f(n) = Θ(g(n))</code><br>
+if and only if there exist positive constants <em>c<sub>1</sub></em>, <em>c<sub>2</sub></em>, and <em>n<sub>0</sub></em> such that for all <em>n</em> ≥ <em>n<sub>0</sub></em>:<br>
+<code>0 ≤ c<sub>1</sub> ⋅ g(n) ≤ f(n) ≤ c<sub>2</sub> ⋅ g(n)</code></p>
+<p>This notation says that, at some point <em>n<sub>0</sub></em> , if we multiply c1 and c2 with g(n), f(n) will be always between c1g(n) and c2g(n), that will be the lower bound and best case for our problem.There, the average case complexity of f(n) will be Θ(g(n))</p>
+<p><strong>Example:</strong><br>
+For <code>f(n) = 3n<sup>2</sup> + 2n + 1</code>, to find the Big Theta notation:<br>
+<code>f(n) = 3n<sup>2</sup> + 2n + 1</code><br>
+<code>g(n) = n<sup>2</sup></code><br>
+Let's choose <code>c<sub>1</sub> = 1</code>, <code>c<sub>2</sub> = 6</code>, and <code>n<sub>0</sub> = 1</code>:<br>
+For <em>n</em> ≥ 1:<br>
+<code>n<sup>2</sup> ≤ 3n<sup>2</sup> + 2n + 1 ≤ 6n<sup>2</sup></code><br>
+Thus, <code>f(n) = Θ(n<sup>2</sup>)</code>.</p>
+
+<h4>Summary</h4>
+<ul>
+    <li><strong>Big O (O):</strong> Provides an upper bound. <code>f(n) = O(g(n))</code> means <code>f(n)</code> grows no faster than <code>g(n)</code>.</li>
+    <li><strong>Big Omega (Ω):</strong> Provides a lower bound. <code>f(n) = Ω(g(n))</code> means <code>f(n)</code> grows at least as fast as <code>g(n)</code>.</li>
+    <li><strong>Big Theta (Θ):</strong> Provides a tight bound. <code>f(n) = Θ(g(n))</code> means <code>f(n)</code> grows exactly as fast as <code>g(n)</code>.</li>
+</ul>
+<p>These notations help in understanding and comparing the efficiency of different algorithms, especially for large input sizes.</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ14rgfDct8iJa9IAfkPNHU5WENAr7AEvWizQ&s">
+
+<p>Eventhough , we have best case , worst case and average case, we used to mesure performance of an algorithm using worst case only.</p>
+
+<h3>Analysis of Common Programs</h3>
+<h4>1. Linear Search</h4>
+    <p>A linear search algorithm that finds an element in a list by checking each element one by one has a time complexity of O(n).</p>
+    <code>
+        def linear_search(arr, target):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;for i in range(len(arr)):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if arr[i] == target:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return i<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return -1<br><br>
+        # Example usage<br>
+        arr = [2, 4, 6, 8, 10]<br>
+        target = 8<br>
+        print(linear_search(arr, target))  # Output: 3
+    </code>
+
+<h4>Time Complexity Calculation</h4>
+<p>The <code>for</code> loop iterates through each element of the list <code>arr</code>. In the worst case, it will go through all <code>n</code> elements where <code>n</code> is the length of <code>arr</code> if the target is not found. Hence, the time complexity is O(n).</p>
+
+<h4>2. Finding the Maximum Element in a List</h4>
+<p>Finding the maximum element in a list by iterating through each element has a time complexity of O(n).</p>
+<code>
+    def find_max(arr):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;max_value = arr[0]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;for num in arr:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if num > max_value:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max_value = num<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return max_value<br><br>
+    # Example usage<br>
+    arr = [3, 5, 7, 2, 8, 10]<br>
+    print(find_max(arr))  # Output: 10
+</code>
+
+<h4>Time Complexity Calculation</h4>
+<p>The <code>for</code> loop iterates through each element of the list <code>arr</code>. It compares each element to the current <code>max_value</code>. Since it processes each element once, the time complexity is O(n).</p>
+
+ <h4>1. Finding Duplicate Elements</h4>
+    <p>This example finds duplicate elements in a list by comparing each element with every other element. The time complexity is O(n^2).</p>
+    <code>
+        def find_duplicates(arr):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;duplicates = []<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;n = len(arr)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;for i in range(n):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for j in range(i + 1, n):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if arr[i] == arr[j]:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;duplicates.append(arr[i])<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return duplicates<br><br>
+        # Example usage<br>
+        arr = [1, 2, 3, 1, 4, 2]<br>
+        print(find_duplicates(arr))  # Output: [1, 2]
+    </code>
+
+<h4>Time Complexity Calculation</h4>
+<p>The outer <code>for</code> loop runs <code>n</code> times. The inner <code>for</code> loop runs <code>n-i-1</code> times for each iteration of the outer loop. In the worst case, the total number of comparisons is proportional to the sum of the first <code>n</code> natural numbers, which is \( \frac{n(n-1)}{2} \). Therefore, the time complexity is O(n^2).</p>
+
+<h4>2. Generating Pairs of Elements</h4>
+<p>This example generates pairs of elements from a list. The time complexity is O(n^2).</p>
+<code>
+    def generate_pairs(arr):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;pairs = []<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;n = len(arr)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;for i in range(n):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for j in range(n):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pairs.append((arr[i], arr[j]))<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return pairs<br><br>
+    # Example usage<br>
+    arr = [1, 2, 3]<br>
+    print(generate_pairs(arr))  # Output: [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
+</code>
+
+<h4>Time Complexity Calculation</h4>
+<p>The outer <code>for</code> loop runs <code>n</code> times. The inner <code>for</code> loop also runs <code>n</code> times for each iteration of the outer loop. In the worst case, the total number of operations is \( n \times n = n^2 \). Therefore, the time complexity is O(n^2).</p>
+
+<h4>1. Counting the Number of Divisions by 2</h4>
+    <p>This example repeatedly divides a number by 2 until it becomes 1, and counts the number of divisions. The time complexity is O(log n).</p>
+    <code>
+        def count_divisions_by_2(n):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;count = 0<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;while n > 1:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n //= 2<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count += 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;return count<br><br>
+        # Example usage<br>
+        n = 16<br>
+        print(count_divisions_by_2(n))  # Output: 4
+    </code>
+
+<h4>Time Complexity Calculation</h4>
+<p>Each iteration of the <code>while</code> loop divides <code>n</code> by 2, reducing the size of <code>n</code> by a factor of 2. Therefore, the time complexity is O(log n).</p>
+
+<h4>2. Binary Search for a Specific Value</h4>
+<p>Binary search is an efficient algorithm for finding an item from a sorted list of items by repeatedly dividing the search interval in half. The time complexity is O(log n).</p>
+<code>
+    def binary_search(arr, target):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;left, right = 0, len(arr) - 1<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;while left <= right:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid = (left + right) // 2<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if arr[mid] == target:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mid<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif arr[mid] < target:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left = mid + 1<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right = mid - 1<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return -1<br><br>
+    # Example usage<br>
+    arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]<br>
+    target = 7<br>
+    print(binary_search(arr, target))  # Output: 6
+</code>
+
+<h4>Time Complexity Calculation</h4>
+<p>Each iteration of the <code>while</code> loop reduces the search interval by half. Therefore, the time complexity is O(log n).</p>
+
+<h4>Exponential Growth Function</h4>
+    <p>This example repeatedly raises a number to a given power until it exceeds a certain value and prints the intermediate results. The time complexity is O(log log n).</p>
+    <code>
+        def exponentfun(n, c):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;result = 2<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;while result &lt; n:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(result)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = result ** c<br><br>
+        # Example usage<br>
+        base = 2<br>
+        exponent = 32<br>
+        exponentfun(exponent, base)  # Output: 2, 4, 16
+    </code>
+
+<h4>Time Complexity Calculation</h4>
+<p>Each iteration of the <code>while</code> loop raises <code>result</code> to the power of <code>c</code>, exponentially increasing the value of <code>result</code>. Therefore, the number of iterations is proportional to log(log(n)). Thus, the time complexity is O(log log n).</p>
+
+
+<h2>Space Complexity in Python</h2>
+
+<p>Space complexity refers to the amount of memory space required by an algorithm during its execution. It includes both auxiliary space used by the algorithm itself and space used by the input.</p>
+
+<h3>How Space Complexity is Calculated</h3>
+
+<p>Space complexity is typically categorized into:</p>
+<ul>
+    <li><strong>Auxiliary Space Complexity:</strong> Extra space used by the algorithm, apart from input space.</li>
+    <li><strong>Input Space Complexity:</strong> Space required to store input data that the algorithm processes.</li>
+</ul>
+
+<h3>Examples of Space Complexity in Python</h3>
+
+<h4>Example 1: Constant Space Complexity (O(1))</h4>
+<code>
+    def constant_space(n):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;a = 1<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;b = 2<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;c = 3<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return a + b + c<br><br>
+    # Example usage<br>
+    result = constant_space(5)<br>
+    print(result)  # Output: 6
+</code>
+
+<p><strong>Explanation:</strong> The <code>constant_space</code> function allocates a fixed amount of memory for three integer variables (<code>a</code>, <code>b</code>, <code>c</code>), regardless of the input <code>n</code>. Thus, its space complexity is O(1) or constant space.</p>
+
+<h4>Example 2: Linear Space Complexity (O(n))</h4>
+<code>
+    def linear_space(n):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;arr = [0] * n<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;for i in range(n):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = i<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return arr<br><br>
+    # Example usage<br>
+    result = linear_space(5)<br>
+    print(result)  # Output: [0, 1, 2, 3, 4]
+</code>
+
+<p><strong>Explanation:</strong> The <code>linear_space</code> function creates a list <code>arr</code> of size <code>n</code>. As <code>n</code> increases, the space required by the list linearly increases. Therefore, its space complexity is O(n).</p>
