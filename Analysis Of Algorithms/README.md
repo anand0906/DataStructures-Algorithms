@@ -481,3 +481,273 @@ Thus, <code>f(n) = Θ(n<sup>2</sup>)</code>.</p>
 </code>
 
 <p><strong>Explanation:</strong> The <code>linear_space</code> function creates a list <code>arr</code> of size <code>n</code>. As <code>n</code> increases, the space required by the list linearly increases. Therefore, its space complexity is O(n).</p>
+
+<h2>More Examples On Finding Time Complexity</h2>
+
+```python
+n=int(input())
+for i in range(1,n+1):
+    print(i)
+```
+
+<p>In the Above example, loop will run for maximum of n times, i,e 1 to n</p>
+<p>Time Complexity : O(n)</p>
+
+```python
+n=int(input())
+for i in range(n,0,-1):
+    print(i)
+```
+
+<p>In the Above example, loop will run for maximum of n times, i,e n to 1</p>
+<p>Time Complexity : O(n)</p>
+
+```python
+n=int(input())
+for i in range(1,n+1,2):
+    print(i)
+```
+
+<p>Here, i is incremented by 2, if n=6, then i=1,3,5 so it will loop for 3 times, that is n/2</p>
+<p>In the Above example, loop will run for maximum of n/2 times since step value is 2, i,e 1,3,5,..n</p>
+<p>Time Complexity : O(n/2) -> O(n)</p>
+
+```python
+n=int(input())
+for i in range(1,n+1,5):
+    print(i)
+```
+
+<p>Here, i is incremented by 5, if n=20, then i=1,6,11,16 so it will loop for 4 times, that is n/5</p>
+<p>In the Above example, loop will run for maximum of n/2 times since step value is 2, i,e 0,2,4,6,..n</p>
+<p>Time Complexity : O(n/5) -> O(n)</p>
+
+<p>So, for any value of step, Time Complexity Will Be : o(n)</p>
+
+```python
+for i in range(1,n+1):
+    for j in range(1,n+1):
+        print(i,j)
+```
+
+<p>In this case, loop-1 will loops for n times</p>
+<p>Then, For each iteration of loop 1 , loop 2 will run for n times</p>
+<p>So, total iterations for loop-2 will be, n*n</p>
+<p>So, Time Complexity Will Be O(n+n*n) -> O(n*n)</p>
+
+```python
+for i in range(1,n+1):
+    for j in range(1,i+1):
+        print(i,j)
+```
+<p>loop1 : loop2</p>
+<p> 1    : 1</p>
+<p> 2    : 1,2</p>
+<p> 3    : 1,2,3</p>
+<p> 4    : 1,2,3,4</p>
+<p> 5    : 1,2,3,4,5</p>
+<p>------------------</p>
+<p> 5    : 15</p>
+<p> n    : n(n+1)//2</p>
+<p>In this case, loop-1 will loops for n times</p>
+<p>Then, For each iteration of loop 1 , loop 2 will run for i times</p>
+<p>So, total iterations for loop-2 will be, n(n+1)/2</p>
+<p>So, Time Complexity Will Be O(n/2+n*n/2) -> O(n*n/2) -> o(n*n)</p>
+
+
+```python
+n=int(input())
+p=0
+i=1
+while p<=n:
+    p=p+i
+    i++
+print(p)
+```
+<p>i : p</p>
+<p>1 : 0+1=1</p>
+<p>2 : 1+2=3</p>
+<p>3 : 1+2+3</p>
+<p>4 : 1+2+3+4</p>
+<p>5 : 1+2+3+4+5</p>
+<p>k : 1+2+3+4+5+..+k</p>
+
+<p>Loop will end when p>n</p>
+
+```python
+p>n
+k(k+1)/2 > n
+k*2/2+k/2 > n
+k*2 > n
+k >  √n
+```
+<p> So, loop will end when i value greater than  √n</p>
+<p>Time Complexity = O(√n)</p>
+
+```python
+n=int(input())
+i=1
+while i<n:
+    i=i*2
+```
+
+```python
+i
+--
+1
+1*2=2
+2*2=2**2
+(2**2)*2 = 2**3
+(2**3)*2 = 2**4
+..
+..
+2**k
+```
+<p>This loop will end when only when i>=n</p>
+
+```python
+i>=n
+2**k >= n
+2**k=n
+k=log2n
+```
+
+<p>So, loop will end when, i reaches log<sub>2</sub>n</p>
+<p>Time Complexity : O(log<sub>2</sub>n)</p>
+
+```python
+n=int(input())
+i=1
+while i<n:
+    i=i*3
+```
+
+```python
+i
+--
+1
+1*3=3
+3*3=3**3
+(3**3)*3 = 3**3
+(3**3)*3 = 3**4
+..
+..
+3**k
+```
+<p>This loop will end when only when i>=n</p>
+
+```python
+i>=n
+3**k >= n
+3**k=n
+k=log3n
+```
+
+<p>So, loop will end when, i reaches log<sub>3</sub>n</p>
+<p>Time Complexity : O(log<sub>3</sub>n)</p>
+
+
+```python
+n=int(input())
+i=n
+while i>=1:
+    i=i//2
+```
+
+```python
+i
+--
+n
+n/2=n/2
+n/2/2=n/2**2
+n/2**2/2 = n/2**3
+(n/2**3)/2 = n/2**4
+..
+..
+n/2**k
+```
+<p>This loop will end when only when i>=n</p>
+
+```python
+i>=1
+n/2**k >= 1
+n/2**k=1
+n=2**k
+k=log2n
+```
+
+<p>So, loop will end when, i reaches log<sub>2</sub>n</p>
+<p>Time Complexity : O(log<sub>2</sub>n)</p>
+
+```python
+n=int(input())
+i=0
+while (i*i)<n:
+    i+=1
+```
+
+```python
+i
+--
+0
+1*1
+2*2
+3*3
+...
+...
+k*k
+```
+<p>This loop will end when only when (i*i)>=n</p>
+
+```python
+k*k>=n
+K*2=n
+k= √n
+```
+
+<p>So, loop will end when, i reaches √n</p>
+<p>Time Complexity : O(√n)</p>
+
+
+```python
+n=int(input())
+p=0
+i=1
+while i<n:
+    i=i*2
+    p+=1
+
+j=1
+while j<p:
+    j=j*2
+```
+
+<p>We know that first loop will take log<sub>2</sub>n times</p>
+<p>So, p will be incremented by log<sub>2</sub>n, p=log<sub>2</sub>n</p>
+<p>second loop will run for, log<sub>2</sub>p</p>
+<p>so, second loop will run for log<sub>2</sub>(log<sub>2</sub>n)</p>
+
+<p>Final Complexity Will be : o(log(logn))</p>
+
+```python
+n=int(input())
+for i in range(1,n+1):
+    j=0
+    while j<n:
+        j=j*2
+```
+
+<p>We know that inner loop for run for every iteration of outer loop that is n times</p>
+<p>Inner loop will take time log<sub>2</sub>n</p>
+<p>So , Total Complexity Will Be : o(n*log<sub>2</sub>n)</p>
+
+
+```python
+for(i=0;i<n;i++) -> O(n)
+for(i=0;i<n;i=i+2) -> O(n/2) -> O(n)
+for(i=0;i<n;i=i+3) -> O(n/3) -> O(n)
+for(i=n;i>0;i--) ->O(n)
+for(i=0;i<n;i=i*2) -> O(logn)
+for(i=0;i<n;i=i*3) -> O(logn)
+for(i=n;i>1;i=i/2) -> O(logn)
+```
