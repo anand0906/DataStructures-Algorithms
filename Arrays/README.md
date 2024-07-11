@@ -1842,3 +1842,257 @@ print(optimized(arr,n))
 <p>Time Complexity: O(3N), where N = size of the given array</p>
 <p>Finding the break-point, finding the next greater element, and reversal at the end takes O(N) for each, where N is the number of elements in the input array. This sums up to 3*O(N) which is approximately O(3N).</p>
 <p>Space Complexity: Since no extra storage is required. Thus, its space complexity is O(1).</p>
+
+
+<h2>Set Matrix Zero</h2>
+<p>Given a matrix if an element in the matrix is 0 then you will have to set its entire column and row to 0 and then return the matrix.</p>
+<p><strong>Examples : </strong></p>
+<p>Input :  matrix=[[1,1,1],[1,0,1],[1,1,1]]</p>
+<p>Output :  [[1,0,1],[0,0,0],[1,0,1]]</p>
+<p>Since matrix[2][2]=0.Therfore the 2nd column and 2nd row wil be set to 0.</p>
+
+<p>Input :  matrix=[[1,1,1],[1,0,1],[1,1,1]]</p>
+<p>Output :  [[1,0,1],[0,0,0],[1,0,1]]</p>
+<p>Since matrix[2][2]=0.Therfore the 2nd column and 2nd row wil be set to 0.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>Bruteforce Approach</strong></p> 
+<p>In this approach, we will loop through each element of give matrix</p>
+<p>if any element equals to zero, we will mark that entire row and column with -1 whose values not equal to 0</p>
+<p>After that, we will loop though again with given matrix and update -1 elements value with zero</p>
+<p>Final matrix will be our answer</p>
+
+```python
+def bruteForce(n,m,matrix):
+    def markRow(row):
+        nonlocal matrix
+        for i in range(m):
+            if(matrix[row][i]!=0):
+                matrix[row][i]=-1
+    def markCol(col):
+        nonlocal matrix
+        for i in range(n):
+            if(matrix[i][col]!=0):
+                matrix[i][col]=-1
+    for i in range(n):
+        for j in range(m):
+            if(matrix[i][j]==0):
+                markRow(i)
+                markCol(j)
+    for i in range(n):
+        for j in range(m):
+            if(matrix[i][j]==-1):
+                matrix[i][j]=0
+    return matrix
+
+n,m=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(n)]
+print(bruteForce(n,m,copy.deepcopy(matrix)))
+```
+
+<p><strong>Time Complexity</strong>: O((N*M)*(N + M)) + O(N*M), where N = no. of rows in the matrix and M = no. of columns in the matrix.</p>
+<p>Reason: Firstly, we are traversing the matrix to find the cells with the value 0. It takes O(N*M). Now, whenever we find any such cell we mark that row and column with -1. This process takes O(N+M). So, combining this the whole process, finding and marking, takes O((N*M)*(N + M)).</p>
+<p>Another O(N*M) is taken to mark all the cells with -1 as 0 finally.</p>
+<p><strong>Space Complexity</strong>: O(1) as we are not using any extra space.</p>
+
+<p><strong>Better Approach</strong></p>
+<p>In this approach, instead of marking entire row and entire column everytime when element equals to zero</p>
+<p>We can create two arrays of size row and column</p>
+<p>row array is used track if any of that row contains zero</p>
+<p>column array is used track if any of that column contains zero</p>
+<ul>
+    <li>First, we will declare two arrays: a row array of size N and a col array of size M and both are initialized with 0.</li>
+    <li>Then, we will use two loops(nested loops) to traverse all the cells of the matrix.</li>
+    <li>If any cell (i,j) contains the value 0, we will mark ith index of row array i.e. row[i] and jth index of col array col[j] as 1. It signifies that all the elements in the ith row and jth column will be 0 in the final matrix.</li>
+    <li>We will perform step 3 for every cell containing 0.</li>
+    <li>Finally, we will again traverse the entire matrix and we will put 0 into all the cells (i, j) for which either row[i] or col[j] is marked as 1.</li>
+    <li>Thus we will get our final matrix.</li>
+</ul>
+
+```python
+def better(n,m,matrix):
+    row=[0]*n
+    col=[0]*m
+    for i in range(n):
+        for j in range(m):
+            if(matrix[i][j]==0):
+                row[i]=1
+                col[j]=1
+    for i in range(n):
+        for j in range(m):
+            if(row[i] or col[j]):
+                matrix[i][j]=0
+    return matrix
+
+n,m=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(n)]
+print(better(n,m,copy.deepcopy(matrix)))
+```
+
+<p><strong>Time Complexity</strong>: O(2*(N*M)), where N = no. of rows in the matrix and M = no. of columns in the matrix.</p>
+<p>Reason: We are traversing the entire matrix 2 times and each traversal is taking O(N*M) time complexity.</p>
+<p><strong>Space Complexity</strong>: O(N) + O(M), where N = no. of rows in the matrix and M = no. of columns in the matrix.</p>
+<p>Reason: O(N) is for using the row array and O(M) is for using the col array.</p>
+
+<p><strong>Optimized Approach : </strong></p>
+<p>In the previous approach, the time complexity is minimal as the traversal of a matrix takes at least O(N*M)(where N = row and M = column). In this approach, we can just improve the space complexity.</p>
+<p>So, instead of using two extra matrices row and col, we will use the 1st row and 1st column of the given matrix to keep a track of the cells that need to be marked with 0.</p>
+<p>But here comes a problem. If we try to use the 1st row and 1st column to serve the purpose, the cell matrix[0][0] is taken twice. To solve this problem we will take an extra variable col0 initialized with 1</p>
+<p> Now the entire 1st row of the matrix will serve the purpose of the row array. And the 1st column from (0,1) to (0,m-1) with the col0 variable will serve the purpose of the col array.</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-04-001419.png">
+<p>If any cell in the 0th row contains 0, we will mark matrix[0][0] as 0 and if any cell in the 0th column contains 0, we will mark the col0 variable as 0.</p>
+<ul>
+    <li>First, we will traverse the matrix and mark the proper cells of 1st row and 1st column with 0 accordingly. The marking will be like this: if cell(i, j) contains 0, we will mark the i-th row i.e. matrix[i][0] with 0 and we will mark j-th column i.e. matrix[0][j] with 0.</li>
+    <li>If i is 0, we will mark matrix[0][0] with 0 but if j is 0, we will mark the col0 variable with 0 instead of marking matrix[0][0] again.</li>
+    <li>After step 1 is completed, we will modify the cells from (1,1) to (n-1, m-1) using the values from the 1st row, 1st column, and col0 variable.</li>
+    <li>We will not modify the 1st row and 1st column of the matrix here as the modification of the rest of the matrix(i.e. From (1,1) to (n-1, m-1)) is dependent on that row and column.</li>
+    <li>Finally, we will change the 1st row and column using the values from matrix[0][0] and col0 variable. Here also we will change the row first and then the column.</li>
+    <li>If matrix[0][0] = 0, we will change all the elements from the cell (0,1) to (0, m-1), to 0.</li>
+    <li> If col0 = 0, we will change all the elements from the cell (0,0) to (n-1, 0), to 0.</li>
+</ul>
+
+```python
+def optimized(n,m,matrix):
+    c0=1
+    for i in range(n):
+        for j in range(m):
+            if(matrix[i][j]==0):
+                matrix[i][0]=0
+
+                if(j!=0):
+                    matrix[0][j]=0
+                else:
+                    c0=0
+    for i in range(1,n):
+        for j in range(1,m):
+            if(matrix[i][0]==0 or matrix[0][j]==0):
+                matrix[i][j]=0
+
+    if(matrix[0][0]==0):
+        for j in range(m):
+            matrix[0][j]=0
+    if(c0==0):
+        for i in range(n):
+            matrix[i][0]=0
+
+    return matrix
+
+n,m=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(n)]
+print(optimized(n,m,copy.deepcopy(matrix)))
+```
+
+<p><strong>Time Complexity</strong>: O(2*(N*M)), where N = no. of rows in the matrix and M = no. of columns in the matrix.</p>
+<p>Reason: In this approach, we are also traversing the entire matrix 2 times and each traversal is taking O(N*M) time complexity.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<h2>Find the elements that appears more than N/3 times in the array</h2>
+<p>Given an array of N integers. Find the elements that appear more than N/3 times in the array. If no such element exists, return an empty vector.</p>
+<p><strong>Example : </strong></p>
+<p>Input : N = 5, array[] = {1,2,2,3,2}</p>
+<p>Output : 2</p>
+<p>Here we can see that the Count(1) = 1, Count(2) = 3 and Count(3) = 1.Therefore, the count of 2 is greater than N/3 times. Hence, 2 is the answer.</p>
+<p>Input : N = 6, array[] = {11,33,33,11,33,11}</p>
+<p>11 33</p>
+<p>Here we can see that the Count(11) = 3 and Count(33) = 3. Therefore, the count of both 11 and 33 is greater than N/3 times. Hence, 11 and 33 is the answer.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches.</p>
+<p><strong>Bruteforce Approach : </strong></p>
+<p>In this approach, we will find count of each element in given array and check if its count greater than n/3, then add it into final answer</p>
+<p>then return final answer</p>
+
+```python
+def bruteForce(n,arr):
+    count={}
+    final=[]
+    for i in range(n):
+        if arr[i] in count:
+            count[arr[i]]+=1
+        else:
+            count[arr[i]]=1
+
+        if(count[arr[i]] > n//3 and arr[i] not in final):
+            final.append(arr[i])
+
+    return sorted(final)
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p><strong>Time Complexity</strong> : O(N*logN), where N = size of the given array</p>
+<p>Reason: We are using a map data structure. Insertion in the map takes logN time. And we are doing it for N elements. So, it results in the first term O(N*logN).
+If we use unordered_map instead, the first term will be O(N) for the best and average case and for the worst case, it will be O(N2).</p>
+<p><strong>Space Complexity</strong>: O(N) as we are using a map data structure. We are also using a list that stores a maximum of 2 elements. That space used is so small that it can be considered constant.</p>
+
+
+<p>Optimized Approach : </p>
+<p>We know, that elements whose count greater than n/3 will always be atmost 2.</p>
+<p>By using Boyer Moore’s Voting Algorithm. we can solve this problem</p>
+<ul>
+    <li>Initialize 4 variables:</li>
+    <ul>
+        <li>cnt1 & cnt2 –  for tracking the counts of elements</li>
+        <li>el1 & el2 – for storing the majority of elements.</li>
+    </ul>
+    <li>el1 & el2 – for storing the majority of elements.</li>
+    <ul>
+        <li>If cnt1 is 0 and the current element is not el2 then store the current element of the array as el1 along with increasing the cnt1 value by 1.</li>
+        <li>If cnt2 is 0 and the current element is not el1 then store the current element of the array as el2 along with increasing the cnt2 value by 1.</li>
+        <li>If the current element and el1 are the same increase the cnt1 by 1.</li>
+        <li>If the current element and el2 are the same increase the cnt2 by 1.</li>
+        <li>Other than all the above cases: decrease cnt1 and cnt2 by 1.</li>
+        <li>The integers present in el1 & el2 should be the result we are expecting. So, using another loop, we will manually check their counts if they are greater than the floor(N/3).</li>
+    </ul>
+</ul>
+<p>: If the array contains the majority of elements, their occurrence must be greater than the floor(N/3). Now, we can say that the count of minority elements and majority elements is equal up to a certain point in the array. So when we traverse through the array we try to keep track of the counts of elements and the elements themselves for which we are tracking the counts. </p>
+<p>After traversing the whole array, we will check the elements stored in the variables. Then we need to check if the stored elements are the majority elements or not by manually checking their counts.</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-20-224857.png">
+<p>Edge Case: Why we are adding extra checks like el2 != v[i] and el1 != v[i] in the first if statements? Let’s understand it using an example:
+Assume the given array is: {2, 1, 1, 3, 1, 4, 5, 6}. Now apply the algorithm without the checks:</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-20-225002.png">
+<p>We can clearly notice that in iteration 5, el1 and el2 both are set to 1 as cnt1 becomes 0 in iteration 4. But this is incorrect. So, to avoid this edge case, we are checking if the current element is already included in our elements, and if it is, we will not again include it in another variable.</p>
+
+```python
+def optimized(n,arr):
+    cnt1,cnt2=0,0
+    ele1,ele2=None,None
+    for i in range(n):
+        current=arr[i]
+        if(cnt1==0 and current!=ele2):
+            cnt1+=1
+            ele1=current
+        elif(cnt2==0 and current!=ele1):
+            cnt2+=1
+            ele2=current
+        elif(ele1==current):
+            cnt1+=1
+        elif(ele2==current):
+            cnt2+=1
+        else:
+            cnt1-=1
+            cnt2-=1
+    c1,c2=0,0
+    for i in range(n):
+        if(ele1==arr[i]):
+            c1+=1
+        if(ele2==arr[i]):
+            c2+=1
+    final=[]
+    if(c1>(n//3)):
+        final.append(ele1)
+    if(c2>(n//3)):
+        final.append(ele2)
+    return sorted(final)
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p><strong>Time Complexity</strong>: O(N) + O(N), where N = size of the given array.</p>
+<p>Reason: The first O(N) is to calculate the counts and find the expected majority elements. The second one is to check if the calculated elements are the majority ones or not.</p>
+<p><strong>Space Complexity</strong>: O(1) as we are only using a list that stores a maximum of 2 elements. The space used is so small that it can be considered constant.</p>
