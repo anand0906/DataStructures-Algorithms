@@ -2096,3 +2096,365 @@ print(optimized(n,arr))
 <p><strong>Time Complexity</strong>: O(N) + O(N), where N = size of the given array.</p>
 <p>Reason: The first O(N) is to calculate the counts and find the expected majority elements. The second one is to check if the calculated elements are the majority ones or not.</p>
 <p><strong>Space Complexity</strong>: O(1) as we are only using a list that stores a maximum of 2 elements. The space used is so small that it can be considered constant.</p>
+
+<h2>Merge overlapping sub-intervals</h2>
+<p>Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.</p>
+<p><strong>Example</strong></p>
+<p>Input: intervals = [[1,3],[2,6],[8,10],[15,18]]</p>
+<p>Output: [[1,6],[8,10],[15,18]]</p>
+<p>Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].</p>
+<p>Input: intervals = [[1,4],[4,5]]</p>
+<p>Output: [[1,5]]</p>
+<p>Explanation: Intervals [1,4] and [4,5] are considered overlapping.</p>
+
+<p><strong>Explanation : </strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>BruteForce Approach</strong></p>
+<p>First, we have to sort the given intervals, so that we can easily merge intervals, all possible overlapped intervals will be consecutive each other</p>
+<p>In this approach, we will pick an interval in given array and loop through rest of intervals and we will merge all possible intervals with current interval and we can add that resulted merged interval in ans array</p>
+<p>We will repeat above process for every interaval and finally we can get our ans</p>
+<p>How can we merger two intervals ? . We will compare the current interval’s start with the end of the selected interval. If the start is smaller or equal to the end, we can conclude the current interval can be a part of the selected interval. So, we will update the selected interval’s end with the maximum(current interval’s end, selected interval’s end) in the answer list(not in the original array).</p>
+<p>How can we confirm two intervals can not be merged? We will compare the current interval’s start with the end of the selected interval. If the start is greater than the end, we can conclude the current interval cannot be a part of the selected interval.</p>
+<p>The intuition of this approach is pretty straightforward. We are just grouping close intervals by sorting the given array. After that, we merge an interval with the other by checking if one can be a part of the other interval. For this checking, we are first selecting a particular interval using a loop and then we are comparing the rest of the intervals using another loop.</p>
+
+```python
+def bruteforce(n,arr):
+    ans=[]
+    arr.sort()
+    for i in range(n):
+        start,end=arr[i]
+        if(ans and start <= ans[-1][1]):
+            continue
+        for j in range(i+1,n):
+            if(arr[j][0]<=end):
+                end=max(end,arr[j][1])
+            else:
+                break
+        ans.append([start,end])
+    return ans
+
+n=int(input())
+arr=[list(map(int,input().split())) for i in range(n)]
+print(bruteforce(n,arr))
+```
+
+<p>Time Complexity: O(N*logN) + O(2*N), where N = the size of the given array.</p>
+<p>Reason: Sorting the given array takes  O(N*logN) time complexity. Now, after that, we are using 2 loops i and j. But while using loop i, we skip all the intervals that are merged with loop j. So, we can conclude that every interval is roughly visited twice(roughly, once for checking or skipping and once for merging). So, the time complexity will be 2*N instead of N2.</p>
+<p>Space Complexity: O(N), as we are using an answer list to store the merged intervals. Except for the answer array, we are not using any extra space.</p>
+
+<p><strong>Optimized approach </strong></p>
+<p>In this approach, instead of checking current interval with all other inrtervals at all the time, we will check with ans array and merge current element with last interval in ans array</p>
+<ul>
+    <li>First, we will group the closer intervals by sorting the given array of intervals(if it is not already sorted).</li>
+    <li>After that, we will start traversing the array using a loop(say i) and insert the first element into our answer list(as the answer list is empty).</li> 
+    <li>Now, while traversing we will face two different cases:</li>
+    <ul>
+        <li><strong>Case 1: If the current interval can be merged with the last inserted interval of the answer list:</strong></li>
+        <li>In this case, we will update the end of the last inserted interval with the maximum(current interval’s end, last inserted interval’s end) and continue moving afterward. </li>
+        <li><strong>Case 2: If the current interval cannot be merged with the last inserted interval of the answer list:</strong></li>
+        <li>In this case, we will insert the current interval in the answer array as it is. And after this insertion, the last inserted interval of the answer list will obviously be updated to the current interval.</li>
+    </ul>
+    <li>Thus the answer list will be updated with the merged intervals and finally, we will return the answer list.</li>
+</ul>
+<img src="Thus the answer list will be updated with the merged intervals and finally, we will return the answer list.">
+
+```python
+def optimized(n,arr):
+    ans=[]
+    arr.sort()
+    for i in range(n):
+        start,end=arr[i]
+        if(not ans or start>ans[-1][1]):
+            ans.append([start,end])
+        else:
+            ans[-1][1]=max(ans[-1][1],end)
+    return ans
+
+n=int(input())
+arr=[list(map(int,input().split())) for i in range(n)]
+print(optimized(n,arr))
+```
+
+<p>Time Complexity: O(N*logN) + O(N), where N = the size of the given array.</p>
+<p>Reason: Sorting the given array takes  O(N*logN) time complexity. Now, after that, we are just using a single loop that runs for N times. So, the time complexity will be O(N).</p>
+<p>Space Complexity: O(N), as we are using an answer list to store the merged intervals. Except for the answer array, we are not using any extra space.</p>
+
+<h2>Merge two Sorted Arrays Without Extra Space</h2>
+<p>Given two sorted arrays arr1[] and arr2[] of sizes n and m in non-decreasing order. Merge them in sorted order. Modify arr1 so that it contains the first N elements and modify arr2 so that it contains the last M elements.</p>
+<p><strong>Example</strong></p>
+<p>Input : n = 4, arr1[] = [1 4 8 10] m = 5, arr2[] = [2 3 9]</p>
+<p>Output : arr1[] = [1 2 3 4] arr2[] = [8 9 10]</p>
+<p>After merging the two non-decreasing arrays, we get, 1,2,3,4,8,9,10.</p>
+<p>Input : n = 4, arr1[] = [1 3 5 7] m = 5, arr2[] = [0 2 6 8 9]</p>
+<p>Output : arr1[] = [0 1 2 3] arr2[] = [5 6 7 8 9]</p>
+<p>After merging the two non-decreasing arrays, we get, 0 1 2 3 5 6 7 8 9.</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>BruteForce Approach </strong></p>
+<p>In this approach, we can use merge sort algorithm, so that we get sorted array</p>
+
+```python
+def bruteForce(n,m,arr1,arr2):
+    arr=[0]*(n+m)
+    index=0
+    i,j=0,0
+    while (i<n and j<m) :
+        if(arr1[i]<=arr2[j]):
+            arr[index]=arr1[i]
+            i+=1
+            index+=1
+        else:
+            arr[index]=arr2[j]
+            j+=1
+            index+=1
+
+    while i<n:
+        arr[index]=arr1[i]
+        i+=1
+        index+=1
+
+    while j<m:
+        arr[index]=arr2[j]
+        j+=1
+        index+=1
+    return arr
+
+arr1=list(map(int,input().split()))
+arr2=list(map(int,input().split()))
+n,m=len(arr1),len(arr2)
+print(bruteForce(n,m,arr1,arr2))
+```
+
+<p>Time Complexity: O(n+m) + O(n+m), where n and m are the sizes of the given arrays.</p>
+<p>Reason: O(n+m) is for copying the elements from arr1[] and arr2[] to arr3[]. And another O(n+m) is for filling back the two given arrays from arr3[].</p>
+<p>Space Complexity: O(n+m) as we use an extra array of size n+m.</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p>In this approach, since we have two sorted array, after merging two arrays, first array should contain smaller elements and second array will contain larger elements</p>
+<p>So, we will try to compare elements,. Using the 2 pointers, we will swap the bigger elements of arr1[] with the smaller elements of arr2[] until the minimum of arr2[] becomes greater or equal to the maximum of arr1[].</p>
+<ul>
+    <li>We will declare two pointers i.e. left and right. The left pointer will point to the last index of the arr1[](i.e. Basically the maximum element of the array). The right pointer will point to the first index of the arr2[](i.e. Basically the minimum element of the array).</li>
+    <li>Now, the left pointer will move toward index 0 and the right pointer will move towards the index m-1. While moving the two pointers we will face 2 different cases like the following:</li>
+    <ul>
+        <li>If arr1[left] > arr2[right]: In this case, we will swap the elements and move the pointers to the next positions.</li>
+        <li>If arr1[left] <= arr2[right]: In this case, we will stop moving the pointers as arr1[] and arr2[] are containing correct elements.</li>
+    </ul>
+    <li>Thus, after step 2, arr1[] will contain all smaller elements and arr2[] will contain all bigger elements. Finally, we will sort the two arrays.</li>
+</ul>
+<img src="https://static.takeuforward.org/wp/uploads/2023/05/Screenshot-2023-05-07-203827.png">
+
+```python
+def optimized(n,m,arr1,arr2):
+    i,j=n-1,0
+    while i>=0 and j<m:
+        if(arr1[i]>arr2[j]):
+            arr1[i],arr2[j]=arr2[j],arr1[i]
+            i-=1
+            j+=1
+        else:
+            break
+    arr1.sort()
+    arr2.sort()
+    return arr1+arr2
+
+arr1=list(map(int,input().split()))
+arr2=list(map(int,input().split()))
+n,m=len(arr1),len(arr2)
+print(optimized(n,m,arr1,arr2))
+```
+
+<p>Time Complexity: O(min(n, m)) + O(n*logn) + O(m*logm), where n and m are the sizes of the given arrays.</p>
+<p>Reason: O(min(n, m)) is for swapping the array elements. And O(n*logn) and O(m*logm) are for sorting the two arrays.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Second Optimized Approach</strong></p>
+<p>In this approach, we can use shell sort(gap approach)</p>
+<p>Assume the two arrays as a single continuous array</p>
+<ul>
+    <li>Initialize the Gap: Start with the gap equal to the combined length of both arrays divided by 2.</li>
+    <li>Compare and Swap: For each gap, compare elements that are gap distance apart and swap them if they are out of order.</li>
+    <li>Reduce the Gap: Halve the gap and repeat until the gap becomes 0.</li>
+</ul>
+
+<ul>
+    <li>First, assume the two arrays as a single array and calculate the gap value i.e. ceil((size of arr1[] + size of arr2[]) / 2).</li>
+    <li>We will perform the following operations for each gap until the value of the gap becomes 0</li>
+    <ul>
+        <li>Place two pointers in their correct position like the left pointer at index 0 and the right pointer at index (left+gap).</li>
+        <li>Again we will run a loop until the right pointer reaches the end i.e. (n+m). Inside the loop, there will be 3 different cases:</li>
+        <ul>
+            <li>If the left pointer is inside arr1[] and the right pointer is in arr2[]: We will compare arr1[left] and arr2[right-n] and swap them if arr1[left] > arr2[right-n].</li>
+            <li>If both the pointers are in arr2[]: We will compare arr1[left-n] and arr2[right-n] and swap them if arr1[left-n] > arr2[right-n].</li>
+            <li>If both the pointers are in arr1[]: We will compare arr1[left] and arr2[right] and swap them if arr1[left] > arr2[right].</li>
+        </ul>
+        <li>After the right pointer reaches the end, we will decrease the value of the gap and it will become ceil(current gap / 2). </li>
+    </ul>
+    <li>Finally, after performing all the operations, we will get the merged sorted array.</li>
+</ul>
+
+```python
+def optimized2(n,m,arr1,arr2):
+    length=n+m
+    gap=math.ceil(length/2)
+    while(gap>0):
+        left=0
+        right=left+gap
+        while right<length:
+            if(left<n and right>=n):
+                swap(arr1,arr2,left,right-n)
+            elif(left>=n and right>=n):
+                swap(arr2,arr2,left-n,right-n)
+            else:
+                swap(arr1,arr1,left,right)
+            left+=1
+            right+=1
+        if(gap==1):
+            break
+        gap=math.ceil(gap/2)
+    return arr1+arr2
+
+
+arr1=list(map(int,input().split()))
+arr2=list(map(int,input().split()))
+n,m=len(arr1),len(arr2)
+print(optimized2(n,m,arr1,arr2))
+```
+
+<p>Time Complexity: O((n+m)*log(n+m)), where n and m are the sizes of the given arrays.</p>
+<p>Reason: The gap is ranging from n+m to 1 and every time the gap gets divided by 2. So, the time complexity of the outer loop will be O(log(n+m)). Now, for each value of the gap, the inner loop can at most run for (n+m) times. So, the time complexity of the inner loop will be O(n+m). So, the overall time complexity will be O((n+m)*log(n+m)).</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+
+<h2>Longest Consecutive Sequence in an Array</h2>
+<p>You are given an array of ‘N’ integers. You need to find the length of the longest sequence which contains the consecutive elements.</p>
+<p><strong>Example</strong></p>
+<p>Input :  [100, 200, 1, 3, 2, 4]</p>
+<p>Output : 4</p>
+<p>The longest consecutive subsequence is 1, 2, 3, and 4.</p>
+<p>Input :  [3, 8, 5, 7, 6]</p>
+<p>Output : 4</p>
+<p>The longest consecutive subsequence is 5, 6, 7, and 8.</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+<p><strong>Bruteforce Approach</strong></p>
+<p>In this approach, we will loop through given array, for each element we will try to find its consecutive elements x,x+1,x+2..and so on. we wil track the count of possible sequence for each element</p>
+<p>finally we will get the the largest count among all possiblities, that will be our answer</p>
+<ul>
+    <li>To begin, we will utilize a loop to iterate through each element one by one.</li>
+    <li>Next, for every element x, we will try to find the consecutive elements like x+1, x+2, x+3, and so on</li>
+    <ul>
+        <li>Within a loop, our objective is to locate the next consecutive element x+1.</li>
+        <ul>
+            <li>If this element is found, we increment x by 1 and continue the search for x+2. </li>
+            <li>Furthermore, we increment the length of the current sequence (cnt) by 1. </li>
+        </ul>
+    </ul>
+    <li>If a specific consecutive element, for example, x+i, is not found, we will halt the search for subsequent consecutive elements such as x+i+1, x+i+2, and so on. Instead, we will take into account the length of the current sequence (cnt).</li>
+</ul>
+<p>Among all the lengths we get for all the given array elements, the maximum one will be the answer.</p>
+
+```python
+def bruteForce(n,arr):
+    longest=1
+
+    for i in range(n):
+        current=arr[i]
+        cnt=1
+        while True:
+            if((current+1) in arr):
+                cnt+=1
+                current=current+1
+            else:
+                break
+        longest=max(longest,cnt)
+    return longest
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+<p>Time Complexity: O(N2), N = size of the given array.</p>
+<p>Reason: We are using nested loops each running for approximately N times.</p>
+<p>Space Complexity: O(1), as we are not using any extra space to solve this problem.</p>
+
+<p><strong>Better Approach</strong></p>
+<p>In this approach, we will sort the given array, so that all possbile consecutive elements are adjcent with each other</p>
+<p>So, after sorting, we will start iterating into list.we will track last element and current element in loop</p>
+<p>if last element + 1 is our current element, then we will increase the current count of sequence and will update the last element with current</p>
+<p>if not matches, then we will reset the count, will update the last element with current</p>
+
+<p>But there is a case, if there are duplicate elements, we can't consider in sequnce, so, we will continue loop when last element equals to current, count remains same</p>
+
+<p>Out of all possible count, we can track largest to get our final answer</p>
+
+```python
+def better(n,arr):
+    arr.sort()
+    last=float('-inf')
+    longest=1
+    cnt=0
+    for i in range(n):
+        if(arr[i]==last):
+            continue
+        if(arr[i]-1 ==last):
+            cnt+=1
+            last=arr[i]
+            longest=max(longest,cnt)
+        else:
+            cnt=1
+            last=arr[i]
+    return longest
+arr=list(map(int,input().split()))
+n=len(arr)
+print(better(n,arr))
+```
+
+<p>Time Complexity: O(NlogN) + O(N), N = size of the given array.</p>
+<p>Reason: O(NlogN) for sorting the array. To find the longest sequence, we are using a loop that results in O(N).</p>
+<p>Space Complexity: O(1), as we are not using any extra space to solve this problem.</p>
+
+<p><strong>Optimal Approach</strong></p>
+<p>In this approach, We will adopt a similar approach to the brute-force method but with optimizations in the search process. Instead of searching sequences for every array element as in the brute-force approach, we will focus solely on finding sequences only for those numbers that can be the starting numbers of the sequences. This targeted approach narrows down our search and improves efficiency.</p>
+<p>We will do this with the help of the Set data structure.</p>
+<p><strong>How to identify if a number can be the starting number for a sequence:</strong></p>
+<ul>
+    <li>First, we will put all the array elements into the set data structure.</li>
+    <li>If a number, num, is a starting number, ideally, num-1 should not exist. So, for every element, x, in the set, we will check if x-1 exists inside the set.</li>
+    <ul>
+        <li>If x-1 exists: This means x cannot be a starting number and we will move on to the next element in the set.</li>
+        <li>If x-1 does not exist: This means x is a starting number of a sequence. So, for number, x, we will start finding the consecutive elements.</li>
+    </ul>
+    <li>Instead of using linear search, we will use the set data structure itself to search for the elements x+1, x+2, x+3, and so on.</li>
+</ul>
+
+<p>Here, we will find all possible starting points and then find the consecutive sequence for it, that will reduce complexity, so that we will not find consecutive sequnce that already used</p>
+
+
+```python
+def optimized(n,arr):
+    temp=set(arr)
+    longest=1
+    for i in range(n):
+        current=arr[i]
+        if(current-1 not in temp):
+            cnt=1
+            while current+1 in temp:
+                current+=1
+                cnt+=1
+            longest=max(longest,cnt)
+    return longest
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p>Time Complexity: O(N) + O(2*N) ~ O(3*N), where N = size of the array.</p>
+<p>Reason: O(N) for putting all the elements into the set data structure. After that for every starting element, we are finding the consecutive elements. Though we are using nested loops, the set will be traversed at most twice in the worst case. So, the time complexity is O(2*N) instead of O(N2).</p>
+<p>Space Complexity: O(N), as we are using the set data structure to solve this problem.</p>
+<p>Note: The time complexity is computed under the assumption that we are using unordered_set and it is taking O(1) for the set operations. </p>
+<ul>
+    <li>If we consider the worst case the set operations will take O(N) in that case and the total time complexity will be approximately O(N2).</li>
+    <li>And if we use the set instead of unordered_set, the time complexity for the set operations will be O(logN) and the total time complexity will be O(NlogN).</li>
+</ul>
