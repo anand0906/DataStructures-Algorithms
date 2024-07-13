@@ -3226,3 +3226,633 @@ print(optimized(n,arr,target))
 <p>Space Complexity: O(no. of quadruplets), This space is only used to store the answer. We are not using any extra space to solve this problem. So, from that perspective, space complexity can be written as O(1).</p>
 
 
+<h2>Find the repeating and missing numbers</h2>
+<p>You are given a read-only array of N integers with values also in the range [1, N] both inclusive. Each integer appears exactly once except A which appears twice and B which is missing. The task is to find the repeating and missing numbers A and B where A repeats twice and B is missing.</p>
+<p><strong>Examples : </strong></p>
+<p>input : array[] = {3,1,2,5,3}</p>
+<p>output : {3,4}</p>
+<p>A = 3 , B = 4 Since 3 is appearing twice and 4 is missing</p>
+<p>input : array[] = {3,1,2,5,4,6,7,5}</p>
+<p>output : {5,8}</p>
+<p>A = 5 , B = 8 Since 5 is appearing twice and 8 is missing</p>
+
+<p><strong>Solution</strong></p>
+<p>this problem can be solved in several approaches</p>
+<p><strong>bruteForce(n, arr):</strong></p>
+<ul>
+  <li><p><strong>Set Up:</strong> Start with no missing or repeating numbers (<code>missing</code> and <code>repeating</code> are <code>None</code>).</p></li>
+  <li><p><strong>Check Each Number:</strong> For each number from 1 to <code>n</code>:
+    <ul>
+      <li><p>Count how many times this number is in the list.</p></li>
+      <li><p>If it's not there, it's the missing number.</p></li>
+      <li><p>If it's there twice, it's the repeating number.</p></li>
+      <li><p>Stop if you've found both numbers.</p></li>
+    </ul>
+  </p></li>
+  <li><p><strong>Return Result:</strong> Return the repeating and missing numbers.</p></li>
+</ul>
+<p><strong>Simple Idea:</strong> Look for each number in the list. The one that's missing is the missing number, and the one that appears twice is the repeating number.</p>
+
+```python
+def bruteForce(n,arr):
+    missing,repeating=None,None
+    for i in range(1,n+1):
+        cnt=0
+        for j in range(n):
+            if(arr[j]==i):
+                cnt+=1
+        if(cnt==0):
+            missing=i
+        if(cnt==2):
+            repeating=i
+        if(missing and repeating):
+            break
+    return [repeating,missing
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p>Time Complexity: O(N2), where N = size of the given array.</p>
+<p>Reason: Here, we are using nested loops to count occurrences of every element between 1 to N.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>better(n, arr):</strong></p>
+<ul>
+  <li><p><strong>Set Up:</strong> Use a dictionary to count appearances of each number. Start with no missing or repeating numbers.</p></li>
+  <li><p><strong>Count Appearances:</strong> Go through each number in the list:
+    <ul>
+      <li><p>If the number is already in the dictionary, it appears twice (so it's the repeating number).</p></li>
+      <li><p>If not, add it to the dictionary.</p></li>
+    </ul>
+  </p></li>
+  <li><p><strong>Find Missing:</strong> Check each number from 1 to <code>n</code>:
+    <ul>
+      <li><p>If a number isn't in the dictionary, it's the missing number.</p></li>
+    </ul>
+  </p></li>
+  <li><p><strong>Return Result:</strong> Return the repeating and missing numbers.</p></li>
+</ul>
+<p><strong>Simple Idea:</strong> Use a dictionary to count how many times each number appears. The one that appears twice is the repeating number. Then, find the number that isn't in the dictionary (the missing number).</p>
+
+
+
+```python
+def better(n,arr):
+    count={}
+    missing,repeating=None,None
+    for i in range(n):
+        if arr[i] in count:
+            count[arr[i]]+=1
+        else:
+            count[arr[i]]=1
+        if(count[arr[i]]==2):
+            repeating=arr[i]
+    for i in range(1,n+1):
+        if i not in count:
+            missing=i
+            break
+    return [repeating,missing]
+```
+
+<p>Time Complexity: O(2N), where N = the size of the given array.</p>
+<p>Reason: We are using two loops each running for N times. So, the time complexity will be O(2N).</p>
+<p>Space Complexity: O(N) as we are using a hash array to solve this problem.</p>
+
+<p><strong>optimized(n, arr):</strong></p>
+<ul>
+  <li><p><strong>Calculate Expected Sums:</strong> Calculate what the sum of numbers from 1 to <code>n</code> should be.</p></li>
+  <li><p><strong>Calculate Actual Sums:</strong> Calculate the actual sum of the numbers in the list.</p></li>
+  <li><p><strong>Find Differences:</strong> Find the difference between the actual and expected sums. This helps identify the missing and repeating numbers.</p></li>
+  <li><p><strong>Solve for Missing and Repeating:</strong> Use simple math to find the missing and repeating numbers from these differences.</p></li>
+  <li><p><strong>Return Result:</strong> Return the repeating and missing numbers.</p></li>
+</ul>
+<p><strong>Simple Idea:</strong> Use math to compare what the sum of numbers should be and what it actually is. This helps figure out the missing and repeating numbers.</p>
+
+<p>1. Calculate Expected Sum of First <code>n</code> Natural Numbers (<code>s1n</code>):</p>
+<ul>
+  <li><p><code>s1n = \frac{n \times (n + 1)}{2}</code></p></li>
+</ul>
+
+<p>2. Calculate Expected Sum of Squares of First <code>n</code> Natural Numbers (<code>s2n</code>):</p>
+<ul>
+  <li><p><code>s2n = \frac{n \times (n + 1) \times (2n + 1)}{6}</code></p></li>
+</ul>
+
+<p>3. Calculate Actual Sum of Array Elements (<code>s1</code>):</p>
+<ul>
+  <li><p><code>s1 = \sum_{i=0}^{n-1} arr[i]</code></p></li>
+</ul>
+
+<p>4. Calculate Actual Sum of Squares of Array Elements (<code>s2</code>):</p>
+<ul>
+  <li><p><code>s2 = \sum_{i=0}^{n-1} arr[i]^2</code></p></li>
+</ul>
+
+<p>5. Calculate <code>val1</code> (Difference in Sums):</p>
+<ul>
+  <li><p><code>val1 = s1 - s1n</code></p></li>
+</ul>
+
+<p>6. Calculate <code>val2</code> (Difference in Sum of Squares):</p>
+<ul>
+  <li><p><code>val2 = s2 - s2n</code></p></li>
+</ul>
+
+<p>7. Solve for <code>x</code> (Repeating Number) and <code>y</code> (Missing Number):</p>
+<ul>
+  <li><p><code>val2 = (x^2 - y^2) = (x - y) \times (x + y)</code></p></li>
+  <li><p><code>x + y = \frac{val2}{val1}</code></p></li>
+  <li><p><code>x = \frac{val1 + \frac{val2}{val1}}{2}</code></p></li>
+  <li><p><code>y = x - val1</code></p></li>
+</ul>
+
+
+```python
+def optimized(n,arr):
+    s1n=(n*(n+1))//2
+    s2n=((n*(n+1))*(2*n+1))//6
+    s1,s2=0,0
+    for i in range(n):
+        s1+=arr[i]
+        s2+=(arr[i]*arr[i])
+    val1=s1-s1n # (x-y)
+    val2=s2-s2n # (x^2-y^2) 
+    val2=val2//val1 # (x+y)
+    x=(val1+val2)//2
+    y=x-val1
+    return [x,y]
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p>Time Complexity: O(N), where N = the size of the given array.</p>
+<p>Reason: We are using only one loop running for N times. So, the time complexity will be O(N).</p>
+<p>Space Complexity: O(1) as we are not using any extra space to solve this problem.</p>
+
+
+<h2>Maximum Product Subarray in an Array</h2>
+<p>Given an array that contains both negative and positive integers, find the maximum product subarray.</p>
+<p><strong>Examples</strong></p>
+<p>Input : Nums = [1,2,3,4,5,0]</p>
+<p>Output : 120</p>
+<p>Explanation : In the given array, we can see 1×2×3×4×5 gives maximum product value.</p>
+<p>Input : Nums = [1,2,-3,0,-4,-5]</p>
+<p>Output : 20</p>
+<p>Explanation :  In the given array, we can see (-4)×(-5) gives maximum product value.</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approches</p>
+
+<p><strong>Bruteforce</strong></p>
+<p>In this approach, we will find all possible subarrays and calculate product for each subarray</p>
+<p>among all products, we will track maximum , that will be our answer</p>
+
+```python
+def bruteForce(n,arr):
+    maxi=float('-inf')
+    for i in range(n):
+        for j in range(i,n):
+            temp=1
+            for k in range(i,j+1):
+                temp*=arr[k]
+            maxi=max(maxi,temp)
+    return maxi
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p>Time Complexity: O(N3)</p>
+<p>Reason: We are using 3 nested loops for finding all possible subarrays and their product.</p>
+<p>Space Complexity: O(1)</p>
+<p>Reason: No extra data structure was used</p>
+
+<p><strong>Better Approach</strong></p>
+<p>In this approach, we will just modify existing approach</p>
+<p>For finding product of subarrays, we are looping through each subarray evrytime, instead of that, get previous subarray product and multiply with current element will give current prduct of subarray</p>
+
+
+```python
+def better(n,arr):
+    maxi=float('-inf')
+    for i in range(n):
+        temp=1
+        for j in range(i,n):
+            temp*=arr[j]
+            maxi=max(maxi,temp)
+    return maxi
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(better(n,arr))
+```
+
+<p>Time Complexity: O(N2)</p>
+<p>Reason: We are using two nested loops</p>
+<p>Space Complexity: O(1)</p>
+<p>Reason: No extra data structures are used for computation</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p>We will optimize the solution through some observations.</p>
+<ul>
+    <li><strong>If the given array only contains positive numbers</strong>: If this is the case, we can confidently say that the maximum product subarray will be the entire array itself.</li>
+    <li><strong>If the given also array contains an even number of negative numbers</strong>: As we know, an even number of negative numbers always results in a positive number. So, also, in this case, the answer will be the entire array itself.</li>
+    <li><strong>If the given array also contains an odd number of negative numbers</strong>: Now, an odd number of negative numbers when multiplied result in a negative number. Removal of 1 negative number out of the odd number of negative numbers will leave us with an even number of negatives. Hence the idea is to remove 1 negative number from the result. Now we need to decide which 1 negative number to remove such that the remaining subarray yields the maximum product.</li>
+</ul>
+<p>For example, the given array is: {3, 2, -1, 4, -6, 3, -2, 6}</p>
+<p>We will try to remove each possible negative number and check in which case the subarray yields the maximum product.</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/08/Screenshot-2023-08-05-174139.png">
+<ul>
+    <li>Upon observation, we notice that each chosen negative number divides the array into two parts.</li>
+    <li>The answer will either be the prefix or the suffix of that negative number.</li>
+    <li>To find the answer, we will check all possible prefix subarrays (starting from index 0) and all possible suffix subarrays (starting from index n-1).</li>
+    <li>The maximum product obtained from these prefix and suffix subarrays will be our final answer.</li>
+    <li>If the array contains 0’s as well: We should never consider 0’s in our answer(as considering 0 will always result in 0) and we want to obtain the maximum possible product. So, we will divide the given array based on the location of the 0’s and apply the logic of case 3 for each subarray.</li>
+    <li>For example, the given array is: {-2, 3, 4, -1, 0, -2, 3, 1, 4, 0, 4, 6, -1, 4}.</li>
+    <ul>
+        <li>In this case, we will divide the array into 3 different subarrays based on the 0’s locations. So, the subarrays will be {-2, 3, 4, -1}, {-2, 3, 1, 4}, and {4, 6, -1, 4}.</li>
+        <li>In these 3 subarrays, we will apply the logic discussed in case 3. We will get 3 different answers for 3 different subarrays.</li>
+        <li>The maximum one among those 3 answers will be the final answer.</li>
+    </ul>
+</ul>
+<p>Summary: In real-life problems, we will not separate out the cases as we did in the observations. Instead, we can directly apply the logic discussed in the 4th observation to any given subarray, and it will automatically handle all the other cases.</p>
+
+<ul>
+    <li>We will first declare 2 variables i.e. ‘pre’(stores the product of the prefix subarray) and ‘suff’(stores the product of the suffix subarray). They both will be initialized with 1(as we want to store the product).</li>
+    <li>Now, we will use a loop(say i) that will run from 0 to n-1.</li>
+    <li>We have to check 2 cases to handle the presence of 0:</li>
+    <ul>
+        <li>If pre = 0: This means the previous element was 0. So, we will consider the current element as a part of the new subarray. So, we will set ‘pre’ to 1.</li>
+        <li>If suff = 0: This means the previous element was 0 in the suffix. So, we will consider the current element as a part of the new suffix subarray. So, we will set ‘suff’ to 1.</li>
+    </ul>
+    <li>Next, we will multiply the elements from the starting index with ‘pre’ and the elements from the end with ‘suff’. To incorporate both cases inside a single loop, we will do the following:</li>
+    <ul>
+        <li>We will multiply arr[i] with ‘pre’ i.e. pre *= arr[i].</li>
+        <li>We will multiply arr[n-i-1] with ‘suff’ i.e. suff *= arr[n-i-1].</li>
+    </ul>
+    <li>After each iteration, we will consider the maximum among the previous answer, ‘pre’ and ‘suff’ i.e. max(previous_answer, pre, suff).</li>
+    <li>Finally, we will return the maximum product.</li>
+</ul>
+
+```python
+def optimized(n,arr):
+    prefix,suffix,maxi=1,1,float('-inf')
+    for i in range(n):
+        if(prefix==0):
+            prefix=1
+        if(suffix==0):
+            suffix=1
+        prefix=prefix*(arr[i])
+        suffix=suffix*(arr[n-i-1])
+        maxi=max(maxi,max(prefix,suffix))
+    return maxi
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p>Time Complexity: O(N), N = size of the given array.</p>
+<p>Reason: We are using a single loop that runs for N times.</p>
+<p>Space Complexity: O(1) as No extra data structures are used for computation.</p>
+
+<p><strong>Optimized Approach 2</strong></p>
+<p>In this approach, we will find the maximum product subarray by keeping track of the maximum and minimum products ending at each position in the array</p>
+<p>The reason for keeping both the maximum and minimum is that multiplying two negative numbers can produce a positive number, which can be a new maximum.</p>
+<p>The key insight is that the product of a subarray can be greatly affected by negative numbers. A single negative number can turn a large positive product into a large negative one, and vice versa.</p>
+<p>Therefore, at each step, we need to keep track of both the maximum and minimum products that can end at the current position because a negative number can flip the roles of maximum and minimum when multiplied.</p>
+<p>If the current element is zero, any product involving it will be zero. We reset our running products to 1 because any subarray starting from the next element needs to start fresh.</p>
+
+<ul>
+    <li>currMin and currMax are initialized to 1. These will store the minimum and maximum products ending at the current position.</li>
+    <li>ans is initialized to the maximum value in the array, which handles the case where all elements might be negative or zero.</li>
+    <li>For each element arr[i], if the element is zero, reset currMin and currMax to 1 because a product involving zero will reset the product sequence.</li>
+    <li>Use a temporary variable temp to store the current value of currMin before updating it. This is necessary because currMin will be updated and its old value is needed to compute currMax.</li>
+    <li>currMin is updated to the minimum value among currMax * arr[i], currMin * arr[i], and arr[i]. This considers the case where multiplying by a negative number could change the sign and thus change the minimum to maximum.</li>
+    <li>currMax is updated to the maximum value among currMax * arr[i], temp * arr[i], and arr[i].</li>
+    <li>ans is updated to the maximum value between ans and currMax. This ensures ans always holds the highest product found so far.</li>
+    <li>Finally, the function returns ans, which is the maximum product subarray.</li>
+</ul>
+
+```python
+def optimized2(n, arr):
+    currMin, currMax = 1, 1  # Initialize current min and max products
+    ans = max(arr)  # Initialize the answer with the maximum element in the array
+
+    for i in range(n):
+        if arr[i] == 0:  # If the current element is zero
+            currMin, currMax = 1, 1  # Reset current min and max products
+            continue
+        
+        temp = currMin  # Store the current min value temporarily
+        # Update currMin to the minimum product ending at the current position
+        currMin = min(currMax * arr[i], currMin * arr[i], arr[i])
+        # Update currMax to the maximum product ending at the current position
+        currMax = max(currMax * arr[i], temp * arr[i], arr[i])
+        # Update the answer to be the maximum value found so far
+        ans = max(ans, currMax)
+    
+    return ans  # Return the maximum product subarray
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized2(n,arr))
+```
+
+<p>Time Complexity: O(N)</p>
+<p>Reason: A single iteration is used.</p>
+<p>Space Complexity: O(1)</p>
+<p>Reason: No extra data structure is used for computation</p>
+
+<h2>Count inversions in an array</h2>
+<p>Given an array of N integers, count the inversion of the array.</p>
+<p>What is an inversion of an array? Definition: for all i & j < size of array, if i < j then you have to find pair (A[i],A[j]) such that A[j] < A[i].</p>
+
+<p><strong>Examples</strong></p>
+<p>Input : N = 5, array[] = {1,2,3,4,5}</p>
+<p>Output : 0</p>
+<p>Explanation : we have a sorted array and the sorted array has 0 inversions as for i < j you will never find a pair such that A[j] < A[i]. More clear example: 2 has index 1 and 5 has index 4 now 1 < 5 but 2 < 5 so this is not an inversion.</p>
+
+<p>Input : N = 5, array[] = {5,4,3,2,1}</p>
+<p>Output : 10</p>
+<p>Explanation : we have a reverse sorted array and we will get the maximum inversions as for i < j we will always find a pair such that A[j] < A[i]. Example: 5 has index 0 and 3 has index 2 now (5,3) pair is inversion as 0 < 2 and 5 > 3 which will satisfy out conditions and for reverse sorted array we will get maximum inversions and that is (n)*(n-1) / 2.For above given array there is 4 + 3 + 2 + 1 = 10 inversions.</p>
+
+<p>Input : N = 5, array[] = {5,3,2,1,4}</p>
+<p>Output : 7</p>
+<p>Explanation : There are 7 pairs (5,1), (5,3), (5,2), (5,4),(3,2), (3,1), (2,1) and we have left 2 pairs (2,4) and (1,4) as both are not satisfy our condition. </p>
+
+<p><strong>Example</strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In this problem, we have to find count of pairs, (a[i],a[j]) such that a[i]>a[j] where i < j </p>
+<p>For example, for the given array: [5,3,2,1,4], (5, 3) will be a valid pair as 5 > 3 and index 0 < index 1. But (1, 4) cannot be valid pair.</p>
+<p>In this approach, we run a loop through given array and for each element we can loop through remianing elements next to it, check if any element is there greater then current element, then increase count</p>
+<p>Then final count will be our answer</p>
+
+<ol>
+    <li><strong>Initialization:</strong></li>
+    <ul>
+        <li>cnt is initialized to 0 to keep track of the number of inversions.</li>
+    </ul>
+    <li><strong>Two Nested Loops:</strong></li>
+    <ul>
+        <li>The outer loop (with index i) iterates through each element of the array.</li>
+        <li>The inner loop (with index j) iterates through each element that comes after the element at index i.</li>
+        <li>For each pair (i, j), the function checks if arr[i] > arr[j]. If this condition is true, it means there's an inversion, and cnt is incremented by 1.</li>
+    </ul>
+    <li><strong>Return the Count:</strong></li>
+    <ul>
+        <li>The function returns the total count of inversions found in the array.</li>
+    </ul>
+</ol>
+
+```python
+def bruteForce(n, arr):
+    cnt = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            if arr[i] > arr[j]:
+                cnt += 1
+    return cnt
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p>Time Complexity: O(N2), where N = size of the given array.</p>
+<p>Reason: We are using nested loops here and those two loops roughly run for N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space to solve this problem.</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p>In this approach, we will try divide the array into two parts and compare both to calculate possible pairs by sorting each part</p>
+<p>Assume two sorted arrays are given i.e. a1[] = {2, 3, 5, 6} and a2[] = {2, 2, 4, 4, 8}. Now, we have to count the pairs i.e. a1[i] and a2[j] such that a1[i] > a2[j].</p>
+<p>In order to solve this, we will keep two pointers i and j, where i will point to the first index of a1[] and j will point to the first index of a2[]. Now in each iteration, we will do the following:</p>
+<ul>
+    <li>If a1[i] <= a2[j]: These two elements cannot be a pair and so we will move the pointer i to the next position. This case is illustrated below:</li>
+    <img src="https://static.takeuforward.org/wp/uploads/2023/06/Screenshot-2023-06-08-002847.png">
+    <li>Why we moved the i pointer: We know, that the given arrays are sorted. So, all the elements after the pointer j, should be greater than a2[j]. Now, as a1[i] is smaller or equal to a2[j], it is obvious that a1[i] will be smaller or equal to all the elements after a2[j]. We need a bigger value of a1[i] to make a pair and so we move the i pointer to the next position i.e. next bigger value.</li>
+    <li>If a1[i] > a2[j]: These two elements can be a pair and so we will update the count of pairs. Now, here, we should observe that as a1[i] is greater than a2[j], all the elements after a1[i] will also be greater than a2[j] and so, those elements will also make pair with a2[j]. So, the number of pairs added will be n1-i (where n1 = size of a1[ ]). Now, we will move the j pointer to the next position. This case is also illustrated below:</li>
+    <img src="https://static.takeuforward.org/wp/uploads/2023/06/Screenshot-2023-06-08-004326.png">
+</ul>
+<p>The above process will continue until at least one of the pointers reaches the end.</p>
+<p>Until now, we have figured out how to count the number of pairs in one go if two sorted arrays are given. But in our actual question, only a single unsorted array is given. So, how to break it into two sorted halves so that we can apply the above observation? </p>
+<p>We can think of the merge sort algorithm that works in a similar way we want. In the merge sort algorithm, at every step, we divide the given array into two halves and then sort them, and while doing that we can actually count the number of pairs.</p>
+<p>Basically, we will use the merge sort algorithm to use the observation in the correct way.</p>
+<p>The steps are basically the same as they are in the case of the merge sort algorithm. The change will be just a one-line addition inside the merge() function. Inside the merge(), we need to add the number of pairs to the count when a[left] > a[right].</p>
+
+<p>The steps of the merge() function were the following:</p>
+<ul>
+    <li>In the merge function, we will use a temp array to store the elements of the two sorted arrays after merging. Here, the range of the left array is low to mid and the range for the right half is mid+1 to high.</li>
+    <li>Now we will take two pointers left and right, where left starts from low and right starts from mid+1</li>
+    <li>Using a while loop( while(left <= mid && right <= high)), we will select two elements, one from each half, and will consider the smallest one among the two. Then, we will insert the smallest element in the temp array. </li>
+    <li>After that, the left-out elements in both halves will be copied as it is into the temp array.</li>
+    <li>Now, we will just transfer the elements of the temp array to the range low to high in the original array.</li>
+</ul>
+
+<p><strong>Modifications in merge() and mergeSort(): </strong></p>
+<ul>
+    <li>n order to count the number of pairs, we will keep a count variable, cnt, initialized to 0 beforehand inside the merge().</li>
+    <li>While comparing a[left] and a[right] in the 3rd step of merge(), if a[left] > a[right], we will simply add this line:
+    cnt += mid-left+1 (mid+1 = size of the left half)</li>
+    <li>Now, we will return this cnt from merge() to mergeSort(). </li>
+    <li>Inside mergeSort(), we will keep another counter variable that will store the final answer. With this cnt, we will add the answer returned from mergeSort() of the left half, mergeSort() of the right half, and merge().</li>
+    <li>Finally, we will return this cnt, as our answer from mergeSort().</li>
+</ul>
+
+
+```python
+import math
+def merge(arr,low,mid,high):
+    left=low
+    right=mid+1
+    temp=[]
+    cnt=0
+    while(left<=mid and right<=high):
+        if(arr[left] <= arr[right]):
+            temp.append(arr[left])
+            left+=1
+        else:
+            temp.append(arr[right])
+            cnt+=(mid-left+1)
+            right+=1
+
+    while(left<=mid):
+        temp.append(arr[left])
+        left+=1
+
+    while(right<=high):
+        temp.append(arr[right])
+        right+=1
+
+    for i in range(low,high+1):
+        arr[i]=temp[i-low]
+    return cnt
+
+def mergeSort(arr,low,high):
+    cnt=0
+    if(low>=high):
+        return cnt
+    mid=math.floor((low+high)/2)
+    cnt+=mergeSort(arr,low,mid)
+    cnt+=mergeSort(arr,mid+1,high)
+    cnt+=merge(arr,low,mid,high)
+    return cnt
+
+def optimized(n,arr):
+    low,high=0,n-1
+    return mergeSort(arr,low,high)
+
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+print(optimized(n,arr))
+```
+
+<p>Time Complexity: O(N*logN), where N = size of the given array</p>
+<p>Reason: We are not changing the merge sort algorithm except by adding a variable to it. So, the time complexity is as same as the merge sort.</p>
+<p>Space Complexity: O(N), as in the merge sort We use a temporary array to store elements in sorted order.</p>
+
+<h2>Count Reverse Pairs</h2>
+<p>Given an array of numbers, you need to return the count of reverse pairs. Reverse Pairs are those pairs where i< j and arr[i]>2*arr[j].</p>
+<p><strong>Examples</strong></p>
+<p>Input :  N = 5, array[] = {1,3,2,3,1)</p>
+<p>Output : 2</p>
+<p>Explanation :  The pairs are (3, 1) and (3, 1) as from both the pairs the condition arr[i] > 2*arr[j] is satisfied.</p>
+
+<p>Input :  N = 4, array[] = {3,2,1,4}</p>
+<p>Output : 1</p>
+<p>Explanation : There is only 1 pair  ( 3 , 1 ) that satisfy the condition arr[i] > 2*arr[j]</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In this problem, we have to find count of pairs, (a[i],a[j]) such that a[i]>2*a[j] where i < j </p>
+<p>For example, for the given array: [5,3,2,1,4], (5, 2) will be a valid pair as 5 > 4 and index 0 < index 1. But (1, 4) cannot be valid pair.</p>
+<p>In this approach, we run a loop through given array and for each element we can loop through remianing elements next to it, check if any element satisfies  element<2*current_element, then increase count</p>
+<p>Then final count will be our answer</p>
+
+<ol>
+    <li><strong>Initialization:</strong></li>
+    <ul>
+        <li>cnt is initialized to 0 to keep track of the number of inversions.</li>
+    </ul>
+    <li><strong>Two Nested Loops:</strong></li>
+    <ul>
+        <li>The outer loop (with index i) iterates through each element of the array.</li>
+        <li>The inner loop (with index j) iterates through each element that comes after the element at index i.</li>
+        <li>For each pair (i, j), the function checks if arr[i] > 2*arr[j]. If this condition is true, it means there's an inversion, and cnt is incremented by 1.</li>
+    </ul>
+    <li><strong>Return the Count:</strong></li>
+    <ul>
+        <li>The function returns the total count of inversions found in the array.</li>
+    </ul>
+</ol>
+
+```python
+def bruteForce(n, arr):
+    cnt = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            if arr[i] > 2*arr[j]:
+                cnt += 1
+    return cnt
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p>Time Complexity: O(N2), where N = size of the given array.</p>
+<p>Reason: We are using nested loops here and those two loops roughly run for N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space to solve this problem.</p>
+
+<p><strong>Optimized approach</strong></p>
+<p>In order to solve this problem we will use the merge sort algorithm like we used in the problem count inversion with a slight modification of the merge() function. But in this case, the same logic will not work. In order to understand this, we need to deep dive into the merge() function.</p>
+<p>The merge function works by comparing two elements from two halves i.e. arr[left] and arr[right]. Now, the condition in the question was arr[i] > arr[j]. That is why we merged the logic. While comparing the elements, we counted the number of pairs.</p>
+<p>But in this case, the condition is arr[i] > 2*arr[j]. And, we cannot change the condition of comparing the elements in the merge() function. If we change the condition, the merge() function will fail to merge the elements. So, we need to check this condition and count the number of pairs separately.</p>
+<p>Here, our approach will be to check, for every element in the sorted left half(sorted), how many elements in the right half(also sorted) can make a pair. Let’s try to understand, using the following example:</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/06/Screenshot-2023-06-10-221649.png">
+<p>For the first element of the left half i.e. 6, we will start checking from index 0 of the right half i.e. arr2[]. Now, we can clearly see that the first two elements of arr2[] can make a pair with arr1[0] i.e. 6.</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/06/Screenshot-2023-06-10-221824.png">
+<p>For the next element i.e. arr1[1], we will start checking from index 2(0-based indexing) i.e. where we stopped for the previous element. </p>
+<p>Note: This process will work because arr1[1] will always be greater than arr1[0] which concludes if arr2[0] and arr2[1] are making a pair with arr1[0], they will obviously make pairs with a number greater than arr1[0] i.e. arr1[1].</p>
+<p>Thus before the merge step in the merge sort algorithm, we will calculate the total number of pairs each time.</p>
+<p><strong>Approach</strong></p>
+<p>The steps are basically the same as they are in the case of the merge sort algorithm. The change will be just in the mergeSort() function:</p>
+<ul>
+    <li>In order to count the number of pairs, we will keep a count variable, cnt, initialized to 0 beforehand inside the mergeSort().</li>
+    <li>We will add the numbers returned by the previous mergeSort() calls.</li>
+    <li>Before the merge step, we will count the number of pairs using a function, named countPairs().</li>
+    <li>We need to remember that the left half starts from low and ends at mid, and the right half starts from mid+1 and ends at high.</li>
+</ul>
+<p>The steps of the countPairs() function will be as follows:</p>
+<ul>
+    <li>We will declare a variable, cnt, initialized with 0.</li>
+    <li>We will run a loop from low to mid, to select an element at a time from the left half.</li>
+    <li>Inside that loop, we will use another loop to check how many elements from the right half can make a pair.</li>
+    <li>Lastly, we will add the total number of elements i.e. (right-(mid+1)) (where right = current index), to the cnt and return it.</li>
+</ul>
+
+```python
+import math
+def merge(arr,low,mid,high):
+    left=low
+    right=mid+1
+    temp=[]
+    while(left<=mid and right<=high):
+        if(arr[left] <= arr[right]):
+            temp.append(arr[left])
+            left+=1
+        else:
+            temp.append(arr[right])
+            right+=1
+
+    while(left<=mid):
+        temp.append(arr[left])
+        left+=1
+
+    while(right<=high):
+        temp.append(arr[right])
+        right+=1
+
+    for i in range(low,high+1):
+        arr[i]=temp[i-low]
+def countPairs(arr,low,mid,high):
+    cnt=0
+    right=mid+1
+    for i in range(low,mid+1):
+        while (right<=high and (arr[i] > (2*arr[right]))):
+            right+=1
+        cnt+=(right-(mid+1))
+    return cnt
+
+def mergeSort(arr,low,high):
+    cnt=0
+    if(low>=high):
+        return cnt
+    mid=math.floor((low+high)/2)
+    cnt+=mergeSort(arr,low,mid)
+    cnt+=mergeSort(arr,mid+1,high)
+    cnt+=countPairs(arr,low,mid,high)
+    merge(arr,low,mid,high)
+    return cnt
+
+def optimized(n,arr):
+    low,high=0,n-1
+    return mergeSort(arr,low,high)
+
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+
+```
+
+<p>Time Complexity: O(2N*logN), where N = size of the given array.</p>
+<p>Reason: Inside the mergeSort() we call merge() and countPairs() except mergeSort() itself. Now, inside the function countPairs(), though we are running a nested loop, we are actually iterating the left half once and the right half once in total. That is why, the time complexity is O(N). And the merge() function also takes O(N). The mergeSort() takes O(logN) time complexity. Therefore, the overall time complexity will be O(logN * (N+N)) = O(2N*logN).</p>
+<p>Space Complexity: O(N), as in the merge sort We use a temporary array to store elements in sorted order.</p>
