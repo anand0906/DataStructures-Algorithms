@@ -2458,3 +2458,451 @@ print(optimized(n,arr))
     <li>If we consider the worst case the set operations will take O(N) in that case and the total time complexity will be approximately O(N2).</li>
     <li>And if we use the set instead of unordered_set, the time complexity for the set operations will be O(logN) and the total time complexity will be O(NlogN).</li>
 </ul>
+
+<h2>Longest Subarray with given Sum K(Positives)/(Negatives)</h2>
+<p>Given an array and a sum k, we need to print the length of the longest subarray that sums to k.</p>
+<p><strong>Examples</strong></p>
+<p>Input :  N = 3, k = 5, array[] = {2,3,5}</p>
+<p>Output : 2</p>
+<p>Explanation: The longest subarray with sum 5 is {2, 3}. And its length is 2.</p>
+<p>Input : N = 5, k = 10, array[] = {2,3,5,1,9}</p>
+<p>Output: 3</p>
+<p>Explanation: The longest subarray with sum 10 is {2, 3, 5}. And its length is 3.</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solve several approaches</p>
+<p><strong>BruteForce Approach</strong></p>
+<p>In this approach, we can find out all possible subarrays and find its sum, if any sum equals to given k, then we can take that subarray length. we can take out maximum of all possible lengths will be our answer</p>
+<ul>
+    <li>First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = size of the array).</li>
+    <li>Inside the loop, we will run another loop(say j) that will signify the ending index of the subarray. For every subarray starting from the index i, the possible ending index can vary from index i to n-1(n = size of the array).</li>
+    <li>After that for each subarray starting from index i and ending at index j (i.e. arr[i….j]), we will run another loop to calculate the sum of all the elements(of that particular subarray).</li>
+    <li>If the sum is equal to k, we will consider its length i.e. (j-i+1). Among all such subarrays, we will consider the maximum length by comparing all the lengths.</li>
+</ul>
+
+```python
+def bruteForce(n,arr,k):
+    largest=0
+    for i in range(n):
+        for j in range(i,n):
+            sum=0
+            for l in range(i,j+1):
+                sum+=arr[l]
+            if(sum==k):
+                length=j-i+1
+                largest=max(largest,length)
+    return largest
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(bruteForce(n,arr,k))
+```
+
+<p>Time Complexity: O(N3) approx., where N = size of the array.</p>
+<p>Reason: We are using three nested loops, each running approximately N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Better Approach</strong></p>
+<p>In this approach, we will just modify the previous approach, where we are trying to find out sum for each possible subarray everytime</p>
+<p>If we carefully observe, we can notice that to get the sum of the current subarray we just need to add the current element(i.e. arr[j]) to the sum of the previous subarray i.e. arr[i….j-1].</p>
+<p>Assume previous subarray = arr[i……j-1]</p>
+<p>current subarray = arr[i…..j]</p>
+<p>Sum of arr[i….j] = (sum of arr[i….j-1]) + arr[j]</p>
+<p>This is how we can remove the third loop and while moving the j pointer, we can calculate the sum. this can reduce our complexity</p>
+
+<ul>
+    <li>First, we will run a loop(say i) that will select every possible starting index of the subarray. The possible starting indices can vary from index 0 to index n-1(n = array size).</li>
+    <li>Inside the loop, we will run another loop(say j) that will signify the ending index as well as the current element of the subarray. For every subarray starting from the index i, the possible ending index can vary from index i to n-1(n = size of the array).</li>
+    <li>Inside loop j, we will add the current element to the sum of the previous subarray i.e. sum = sum + arr[j]. </li>
+    <li>If the sum is equal to k, we will consider its length i.e. (j-i+1). Among all such subarrays with sum k, we will consider the one with the maximum length by comparing all the lengths.</li>
+</ul>
+
+```python
+def better(n,arr,k):
+    largest=0
+    for i in range(n):
+        sum=0
+        for j in range(i,n):
+            sum+=arr[j]
+            if(sum==k):
+                length=j-i+1
+                largest=max(largest,length)
+    return largest
+
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(better(n,arr,k))
+```
+
+<p>Time Complexity: O(N2) approx., where N = size of the array.</p>
+<p>Reason: We are using two nested loops, each running approximately N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Optimized approach</strong></p>
+<p>In this approach, instead of generating all subsequences everytime. we can use prefix sum to find of k sum existed for current element included and as last element</p>
+<p>Here, the prefix sum of a subarray ending at index i, simply means the sum of all the elements of that subarray.</p>
+<p>Assume, the prefix sum of a subarray ending at index i is x. In that subarray, we will search for another subarray ending at index i, whose sum equals k</p>
+<p>Here, we need to observe that if there exists another subarray ending at index i with sum k, then the prefix sum of the rest of the subarray will be x-k. The below image will clarify the concept:</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-13-004939.png">
+<p>Now, for a subarray ending at index i with the prefix sum x, if we remove the part with the prefix sum x-k, we will be left with the part whose sum is equal to k. And that is what we want.</p>
+<p>That is why, instead of searching the subarrays with sum k, we will keep track of the prefix sum of the subarrays generated at every index using a map data structure.</p>
+<p>In the map, we will store every prefix sum calculated, with its index in a <key, value> pair. Now, at index i, we just need to check the map data structure to get the index i.e. preSumMap[x-k] where the subarrays with the prefix sum x-k occur. Then we will simply subtract the index i.e. preSumMap[x-k] from the current index i to get the length of the subarray i.e. len = i -preSumMap[x-k].</p>
+
+<ul>
+    <li>First, we will declare a map to store the prefix sums and the indices</li>
+    <li>Then we will run a loop(say i) from index 0 to n-1(n = size of the array).</li>
+    <li>For each index i, we will do the following</li>
+    <ul>
+        <li>We will add the current element i.e. a[i] to the prefix sum.</li>
+        <li>If the sum is equal to k, we should consider the length of the current subarray i.e. i+1. We will compare this length with the existing length and consider the maximum one.</li>
+        <li>We will calculate the prefix sum i.e. x-k, of the remaining subarray.</li>
+        <li>If that sum of the remaining part i.e. x-k exists in the map, we will calculate the length i.e. i-preSumMap[x-k], and consider the maximum one comparing it with the existing length we have achieved until now.</li>
+        <li>If the sum, we got after step 3.1, does not exist in the map we will add that with the current index into the map. We are checking the map before insertion because we want the index to be as minimum as possible and so we will consider the earliest index where the sum x-k has occurred. [Detailed discussion in the edge case section]</li>
+    </ul>
+</ul>
+
+<p><strong>Edge Case</strong></p>
+<p>If there are zeros and negative values present in given array, then prefix sum will have same sum at different places.</p>
+<p>So,since we are trying to find out maximum length, we have ti consider the first prefix as considerable</p>
+<p>so, we will add prefix sum only once, since we are coming from starting position, we will add its first occurance</p>
+<p>Inorder to overcome its second occurance, we will check if it is already existed or not, if its there, we won't add it again</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-13-005443.png">
+<p>In steps 2 and 3 the element at index i is 0. So, in those steps, the prefix sum remains the same but the index is getting updated in the map. Now, when index i reaches the end, it calculates the length i.e. i-preSumMap[rem] = 3-2 = 1. Here it is considering only the subarray [3] which is incorrect as the longest subarray we can get is [0, 0, 3] and hence the length should be 3.</p>
+<p>Now, to avoid this edge case i.e. to maximize the calculated length, we need to observe the formula we are using to calculate the length i.e. len = i - preSumMap[rem].</p>
+<p>Now, if we minimize the term preSumMap[rem] (i.e. the index where the subarray with sum x-k ends), we will get the maximum length. That is why we will consider only the first or the leftmost index where the subarray with sum x-k ends. After that, we will not update that particular index even if we get a similar subarray ending at a later index.</p>
+<p>So, we will check the map before inserting the prefix sum. If it already exists in the map, we will not update it but if it is not present, we will insert it for the first time.</p>
+
+```python
+def optimized1(n,arr,k):
+    prefix={}
+    largest=0
+    sum=0
+    for i in range(n):
+        sum+=arr[i]
+        if(sum==k):
+            largest=max(largest,i+1)
+        rem=sum-k
+        if(rem in prefix):
+            length=i-prefix[rem]
+            largest=max(largest,length)
+        if sum not in prefix:
+            prefix[sum]=i
+    return largest
+
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(optimized1(n,arr,k))
+```
+
+<p>Time Complexity: O(N) or O(N*logN) depending on which map data structure we are using, where N = size of the array.</p>
+<p>Reason: For example, if we are using an unordered_map data structure in C++ the time complexity will be O(N)(though in the worst case, unordered_map takes O(N) to find an element and the time complexity becomes O(N2)) but if we are using a map data structure, the time complexity will be O(N*logN). The least complexity will be O(N) as we are using a loop to traverse the array.</p>
+
+<p>Space Complexity: O(N) as we are using a map data structure.</p>
+
+
+<p><strong>Optimal Approach 2 (only for positive values)</strong></p>
+<p>In this, we can use two pointer approach</p>
+<p>We can use two pointers left and right, intially we will place them at 0 position, we will try to move right pointer forward direction and we will add elements to sum as we are moving forward</p>
+<p>When sum equals to k, then subarray from left to right might be our answer, so we can find length and track its length</p>
+<p>When sum crosses k, that means we have to reduce elements, so we will move left pointer forward and reduce the sum by left elements</p>
+<p>As, above process continues, we can have multiple subarrays whose sum equals to k, among all possible lengths, we will take the largest as our answer</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-13-012512.png">
+<ul>
+    <li>First, we will take two pointers: left and right, initially pointing to the index 0.</li>
+    <li>The sum is set to a[0] i.e. the first element initially.</li>
+    <li>Now we will run a while loop until the right pointer crosses the last index i.e. n-1.</li>
+    <li>Inside the loop, we will do the following:</li>
+    <ul>
+        <li>We will use another while loop and it will run until the sum is lesser or equal to k.</li>
+        <ul>
+            <li>Inside this second loop, from the sum, we will subtract the element that is pointed by the left pointer and increase the left pointer by 1.</li>
+        </ul>
+        <li>After this loop gets completed, we will check if the sum is equal to k. If it is, we will compare the length of the current subarray i.e. (right-left+1) with the existing one and consider the maximum one.</li>
+        <li>Then we will move forward the right pointer by 1. If the right pointer is pointing to a valid index(< n) after the increment, we will add the element i.e. a[right] to the sum.</li>
+    </ul>
+    <li>Finally, we will return the maximum length.</li>
+</ul>
+
+```python
+def optimized2(n,arr,k):
+    largest=0
+    left,right=0,0
+    sum=arr[0]
+    while right<n:
+
+        while (left<=right and sum>k):
+            sum-=arr[left]
+            left-=1
+
+        if(sum==k):
+            length=right-left+1
+            largest=max(largest,length)
+
+        right+=1
+        if(right<n):
+            sum+=arr[right]
+    return largest
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(optimized2(n,arr,k))  
+```
+
+<p>Time Complexity: O(2*N), where N = size of the given array.</p>
+<p>Reason: The outer while loop i.e. the right pointer can move up to index n-1(the last index). Now, the inner while loop i.e. the left pointer can move up to the right pointer at most. So, every time the inner loop does not run for n times rather it can run for n times in total. So, the time complexity will be O(2*N) instead of O(N2).</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+
+<h2>Count Subarray sum Equals K</h2>
+<p>Given an array of integers and an integer k, return the total number of subarrays whose sum equals k.</p>
+<p>A subarray is a contiguous non-empty sequence of elements within an array.</p>
+<p><strong>Examples</strong></p>
+<p>Input :  N = 4, array[] = {3, 1, 2, 4}, k = 6</p>
+<p>Output : 2</p>
+<p>Explanation :  The subarrays that sum up to 6 are [3, 1, 2] and [2, 4].</p>
+<p>Input :  N = 3, array[] = {1,2,3}, k = 3</p>
+<p>Output : 2</p>
+<p>Explanation : The subarrays that sum up to 3 are [1, 2], and [3].</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can solved in several approaches</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In this approach, we can all possible subarrays and find sum for each subarray, then if sum equals to k, then imcrease count</p>
+<p>In this way, we can get the final answer</p>
+
+```python
+def bruteForce(n,arr,k):
+    cnt=0
+    for i in range(n):
+        for j in range(i,n):
+            s=0
+            for l in range(i,j+1):
+                s+=arr[l]
+            if(s==k):
+                cnt+=1
+    return cnt
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(bruteForce(n,arr,k))
+```
+
+<p>Time Complexity: O(N3), where N = size of the array.</p>
+<p>Reason: We are using three nested loops here. Though all are not running for exactly N times, the time complexity will be approximately O(N3).</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Better Approach</strong></p>
+<p>In this approach, we will modify the existing approach eliminate the 3rd inner loop to find sum for each subarray</p>
+<p>If we carefully observe, we can notice that to get the sum of the current subarray we just need to add the current element(i.e. arr[j]) to the sum of the previous subarray i.e. arr[i….j-1].</p>
+<p>Assume previous subarray = arr[i……j-1]</p>
+<p>current subarray = arr[i…..j]</p>
+<p>Sum of arr[i….j] = (sum of arr[i….j-1]) + arr[j]</p>
+<p>This is how we can remove the third loop and while moving the j pointer, we can calculate the sum. this can reduce our complexity</p>
+
+```python
+def better(n,arr,k):
+    cnt=0
+    for i in range(n):
+        s=0
+        for j in range(i,n):
+            s+=arr[j]
+            if(s==k):
+                cnt+=1
+    return cnt
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(better(n,arr,k))
+```
+
+<p>Time Complexity: O(N2), where N = size of the array.</p>
+<p>Reason: We are using two nested loops here. As each of them is running for exactly N times, the time complexity will be approximately O(N2).</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Optimized approach</strong></p>
+<p>In this approach, we will use the concept of prefix sum</p>
+<p>Here, the prefix sum of a subarray ending at index i, simply means the sum of all the elements of that subarray.</p>
+<p>Assume, the prefix sum of a subarray ending at index i is x. In that subarray, we will search for another subarray ending at index i, whose sum equals k</p>
+<p>Here, we need to observe that if there exists another subarray ending at index i with sum k, then the prefix sum of the rest of the subarray will be x-k. The below image will clarify the concept:</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/04/Screenshot-2023-04-13-004939.png">
+<p>Now, for a subarray ending at index i with the prefix sum x, if we remove the part with the prefix sum x-k, we will be left with the part whose sum is equal to k. And that is what we want.</p>
+
+<p>Now, there may exist multiple subarrays with the prefix sum x-k. So, the number of subarrays with sum k that we can generate from the entire subarray ending at index i, is exactly equal to the number of subarrays with the prefix sum x-k, that we can remove from the entire subarray.</p>
+<p>n the map, we will store every prefix sum calculated, with its occurrence in a <key, value> pair. Now, at index i, we just need to check the map data structure to get the number of times that the subarrays with the prefix sum x-k occur. Then we will simply add that number to our answer.</p>
+<p>We will apply the above process for all possible indices of the given array. The possible values of the index i can be from 0 to n-1(where n = size of the array).</p>
+
+<ul>
+    <li>First, we will declare a map to store the prefix sums and their counts.</li>
+    <li>Then, we will set the value of 0 as 1 on the map.</li>
+    <li>Then we will run a loop(say i) from index 0 to n-1(n = size of the array).</li>
+    <li>For each index i, we will do the following:</li>
+    <ul>
+        <li>We will add the current element i.e. arr[i] to the prefix sum.</li>
+        <li>We will calculate the prefix sum i.e. x-k, for which we need the occurrence.</li>
+        <li>We will add the occurrence of the prefix sum x-k i.e. mpp[x-k] to our answer.</li>
+        <li>Then we will store the current prefix sum in the map increasing its occurrence by 1.</li>
+    </ul>
+</ul>
+
+<p><strong>Why do we need to set the value of 0?</strong></p>
+<p>Let’s understand this using an example. Assume the given array is [3, -3, 1, 1, 1] and k is 3</p>
+<p>Now, for index 0, we get the total prefix sum as 3, and k is also 3. So, the prefix sum of the remove-part should be x-k = 3-3 = 0. Now, if the value is not previously set for the key 0 in the map, we will not count that subarray and it will not add to final answer.</p>
+<p>This will mean that we have not found any subarray with sum 3 till now. But this should not be the case as index 0 itself is a subarray with sum k i.e. 3.</p>
+<p>This will mean that we have not found any subarray with sum 3 till now. But this should not be the case as index 0 itself is a subarray with sum k i.e. 3.</p>
+
+```python
+def optimized(n,arr,k):
+    prefixCnt={0:1}
+    s=0
+    cnt=0
+    for i in range(n):
+        s+=arr[i]
+        rem=s-k
+        if rem in prefixCnt:
+            cnt+=prefixCnt[rem]
+        if s in prefixCnt:
+            prefixCnt[s]+=1
+        else:
+            prefixCnt[s]=1
+
+    return cnt
+
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(optimized(n,arr,k))
+```
+
+<p>Time Complexity: O(N) or O(N*logN) depending on which map data structure we are using, where N = size of the array.</p>
+<p>Reason: For example, if we are using an unordered_map data structure in C++ the time complexity will be O(N) but if we are using a map data structure, the time complexity will be O(N*logN). The least complexity will be O(N) as we are using a loop to traverse the array.</p>
+<p>Space Complexity: O(N) as we are using a map data structure.</p>
+
+
+<h2>Count the number of subarrays with given xor K</h2>
+<p>Given an array of integers A and an integer B. Find the total number of subarrays having bitwise XOR of all elements equal to k.</p>
+<p><strong>Examples</strong></p>
+<p>Input :  A = [4, 2, 2, 6, 4] , k = 6</p>
+<p>Output : 4</p>
+<p>Explanation :  The subarrays having XOR of their elements as 6 are  [4, 2], [4, 2, 2, 6, 4], [2, 2, 6], [6]</p>
+
+<p>Input :  A = [5, 6, 7, 8, 9], k = 5</p>
+<p>Output : 2</p>
+<p>Explanation :  The subarrays having XOR of their elements as 5 are [5] and [5, 6, 7, 8, 9]</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem completely similar to previous problem "Count Subarray sum Equals K"</p>
+<p>In this problem, we have to find xor value instead of sum</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In this approach, we will find all possible sub arrays with given array and find its xor value</p>
+<p>if any xor value equals to given k value, we will track count of it</p>
+
+```python
+def bruteForce(n,arr,k):
+    cnt=0
+    for i in range(n):
+        for j in range(i,n):
+            xr=0
+            for l in range(i,j+1):
+                xr^=arr[l]
+            if(xr==k):
+                cnt+=1
+    return cnt
+
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(bruteForce(n,arr,k))
+```
+
+<p>Time Complexity: O(N3) approx., where N = size of the array.</p>
+<p>Reason: We are using three nested loops, each running approximately N times.</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Better Approach</strong></p>
+<p>This approach, slight modification to previous appoach, to remove the nested 3rd loop</p>
+<p>If we carefully observe, we can notice that to get the XOR of the current subarray we just need to XOR the current element(i.e. arr[j]) to the XOR of the previous subarray i.e. arr[i….j-1].</p>
+<p>Assume previous subarray = arr[i……j-1]</p>
+<p>current subarray = arr[i…..j]</p>
+<p>XOR of arr[i….j] = (XOR of arr[i….j-1]) ^ arr[j]</p>
+<p>This is how we can remove the third loop and while moving j pointer, we can calculate the XOR.</p>
+
+```python
+def better(n,arr,k):
+    cnt=0
+    for i in range(n):
+        xr=0
+        for j in range(i,n):
+            xr^=arr[j]
+            if(xr==k):
+                cnt+=1
+    return cnt
+
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(better(n,arr,k))
+```
+
+<p>Time Complexity: O(N2), where N = size of the array.</p>
+<p>Reason: We are using two nested loops here. As each of them is running for N times, the time complexity will be approximately O(N2).</p>
+<p>Space Complexity: O(1) as we are not using any extra space.</p>
+
+<p><strong>Optimized approach</strong></p>
+<p>In this approach, we are going to use the concept of the prefix XOR to solve this problem.</p>
+<p>Here, the prefix XOR of a subarray ending at index i, simply means the XOR of all the elements of that subarray.</p>
+<p>Assume, the prefix XOR of a subarray ending at index i is xr. In that subarray, we will search for another subarray ending at index i, whose XOR is equal to k. Here, we need to observe that if there exists another subarray ending at index i, with XOR k, then the prefix XOR of the rest of the subarray will be xr^k. The below image will clarify the concept</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/05/Screenshot-2023-05-02-011455.png">
+<p>Now, for a subarray ending at index i with the prefix XOR xr, if we remove the part with the prefix XOR xr^k, we will be left with the part whose XOR is equal to k. And that is what we want.</p>
+<p>Now, for a subarray ending at index i with the prefix XOR xr, if we remove the part with the prefix XOR xr^k, we will be left with the part whose XOR is equal to k. And that is what we want.</p>
+<p>So, for a subarray ending at index i, instead of counting the subarrays with XOR k, we can count the subarrays with the prefix XOR xr^k present in it.</p>
+<p>That is why, instead of searching the subarrays with XOR k, we will keep the occurrence of the prefix XOR of the subarrays using a map data structure. </p>
+<p>In the map, we will store every prefix XOR calculated, with its occurrence in a <key, value> pair. Now, at index i, we just need to check the map data structure to get the number of times that the subarrays with the prefix XOR xr^k occur. Then we will simply add that number to our count.</p>
+<p>We will apply the above process for all possible indices of the given array. The possible values of the index i can be from 0 to n-1(where n = size of the array).</p>
+
+<ul>
+    <li>First, we will declare a map to store the prefix XORs and their counts.</li>
+    <li>Then, we will set the value of 0 as 1 on the map.</li>
+    <li>Then we will run a loop(say i) from index 0 to n-1(n = size of the array).</li>
+    <li>For each index i, we will do the following:</li>
+    <ul>
+        <li>We will XOR the current element i.e. arr[i] to the existing prefix XOR.</li>
+        <li>Then we will calculate the prefix XOR i.e. xr^k, for which we need the occurrence.</li>
+        <li>We will add the occurrence of the prefix XOR xr^k i.e. mpp[xr^k] to our answer.</li>
+        <li>Then we will store the current prefix XOR, xr in the map increasing its occurrence by 1.</li>
+    </ul>
+</ul>
+<p><strong>Why do we need to set the value of 0 beforehand?</strong></p>
+<p>Question: Why do we need to set the value of 0 beforehand?
+Let’s understand this using an example. Assume the given array is [3, 3, 1, 1, 1] and k is 3. Now, for index 0, we get the total prefix XOR as 3, and k is also 3. So, the prefix XOR xr^k will be = 3^3 = 0. Now, if the value is not previously set for the key 0 in the map, we will get the default value 0 and we will add 0 to our answer. This will mean that we have not found any subarray with XOR 3 till now. But this should not be the case as index 0 itself is a subarray with XOR k i.e. 3.</p>
+<p>So, in order to avoid this situation we need to set the value of 0 as 1 on the map beforehand.</p>
+
+```python
+def optimized(n,arr,k):
+    prefixCnt={0:1}
+    xr=0
+    cnt=0
+    for i in range(n):
+        xr^=arr[i]
+        x=xr^k
+        if x in prefixCnt:
+            cnt+=prefixCnt[x]
+        if xr in prefixCnt:
+            prefixCnt[xr]+=1
+        else:
+            prefixCnt[xr]=1
+    return cnt
+
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(optimized(n,arr,k))
+```
+
+<p>Time Complexity: O(N) or O(N*logN) depending on which map data structure we are using, where N = size of the arra</p>
+<p>Reason: For example, if we are using an unordered_map data structure in C++ the time complexity will be O(N) but if we are using a map data structure, the time complexity will be O(N*logN). The least complexity will be O(N) as we are using a loop to traverse the array. Point to remember for unordered_map in the worst case, the searching time increases to O(N), and hence the overall time complexity increases to O(N2). </p>
+<p>Space Complexity: O(N) as we are using a map data structure.</p>
+
