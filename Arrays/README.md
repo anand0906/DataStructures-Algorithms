@@ -2906,3 +2906,323 @@ print(optimized(n,arr,k))
 <p>Reason: For example, if we are using an unordered_map data structure in C++ the time complexity will be O(N) but if we are using a map data structure, the time complexity will be O(N*logN). The least complexity will be O(N) as we are using a loop to traverse the array. Point to remember for unordered_map in the worst case, the searching time increases to O(N), and hence the overall time complexity increases to O(N2). </p>
 <p>Space Complexity: O(N) as we are using a map data structure.</p>
 
+
+<h2>3 Sum : Find triplets that add up to a zero</h2>
+<p> Given an array of N integers, your task is to find unique triplets that add up to give a sum of zero. In short, you need to return an array of all the unique triplets [arr[a], arr[b], arr[c]] such that i!=j, j!=k, k!=i, and their sum is equal to zero.</p>
+<p><strong>Examples</strong></p>
+<p>input :  nums = [-1,0,1,2,-1,-4]</p>
+<p>output :  [[-1,-1,2],[-1,0,1]]</p>
+<p>explanation : Out of all possible unique triplets possible, [-1,-1,2] and [-1,0,1] satisfy the condition of summing up to zero with i!=j!=k</p>
+<p>input :  nums=[-1,0,1,0]</p>
+<p>output : Output: [[-1,0,1],[-1,1,0]]</p>
+<p>explanation : Out of all possible unique triplets possible, [-1,0,1] and [-1,1,0] satisfy the condition of summing up to zero with i!=j!=k</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In the question, it is clearly stated that for each case the picked indices i.e. i, j, and k must be distinct. This means [arr[1], arr[1], arr[2]] is not a valid triplet and also remember [arr[1], arr[0], arr[2]] and [arr[0], arr[1], arr[2]] will be considered the same.</p>
+<p>In this approach, we will find out all possible triplets whose sum equals to zero and we will sort each triplet and store it in a set, so duplicate unique triplets will not occur anymore</p>
+<ul>
+    <li>Initialize an empty set ans: This will store unique triplets that sum to zero.</li>
+    <li>Triple nested loops: These loops iterate over all possible triplets (i, j, k) in the array.</li>
+    <li>Check if the sum of the triplet is zero: If the sum of arr[i], arr[j], and arr[k] is zero, proceed.</li>
+    <li>Sort and add the triplet to the set: Convert the triplet to a sorted tuple and add it to the set ans to ensure uniqueness.</li>
+    <li>Return the result as a list: Convert the set ans to a list and return it.</li>
+</ul>
+
+```python
+def bruteForce(n, arr):
+    ans = set()
+    # Iterate over all possible triplets
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                # Check if the triplet sums to zero
+                if (arr[i] + arr[j] + arr[k]) == 0:
+                    # Sort the triplet and add it to the set
+                    temp = sorted([arr[i], arr[j], arr[k]])
+                    ans.add(tuple(temp))
+    # Convert the set to a list and return it
+    return list(ans)
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p>Time Complexity: O(N3 * log(no. of unique triplets)), where N = size of the array.</p>
+<p>Reason: Here, we are mainly using 3 nested loops. And inserting triplets into the set takes O(log(no. of unique triplets)) time complexity. But we are not considering the time complexity of sorting as we are just sorting 3 elements every time.</p>
+<p>Space Complexity: O(2 * no. of the unique triplets) as we are using a set data structure and a list to store the triplets.</p>
+<p><strong>Better Approach</strong></p>
+<p>In the previous approach, we utilized 3 loops, but now our goal is to reduce it to 2 loops. To achieve this, we need to find a way to calculate arr[k] since we intend to eliminate the third loop (k loop). To calculate arr[k], we can derive a formula as follows</p>
+<p>Since loop one will give arr[i] and loop two will give arr[j], then 3rd values of triplet will be target-(arr[i]+arr[j]), here target is 0, hence third value will be -(arr[i]+arr[j])</p>
+<p>We will just apply two sum problem optimized approach here to find out third value</p>
+<p>So, we will first calculate arr[i] and arr[j] using 2 loops and for the third one i.e. arr[k] we will not use another loop and instead we will look up the value 0-(arr[i]+arr[j]+arr[k]) in the set data structure. Thus we can remove the third loop from the algorithm.</p>
+
+<ul>
+    <li>Initialize an empty set ans: This set will store unique triplets that sum to zero.</li>
+    <li>Outer loop: Iterate over each element in the array. For each element, initialize an empty hash set s.</li>
+    <li>Inner loop: Iterate over the elements following the current element in the outer loop.</li>
+    <ul>
+        <li>Calculate the required third element that, together with the current two elements, sums to zero.</li>
+        <li>If this third element is already in the set s, it means a valid triplet has been found.</li>
+        <li>Sort the triplet and add it to the set ans as a tuple to ensure uniqueness.</li>
+        <li>Add the current element to the set s for future checks.</li>
+    </ul>
+</ul>
+
+```python
+def better(n, arr):
+    ans = set()
+    # Iterate over the array
+    for i in range(n):
+        s = set()
+        # Iterate over the rest of the array starting from the next element
+        for j in range(i + 1, n):
+            third = -(arr[i] + arr[j])
+            # Check if the third element is in the set
+            if third in s:
+                temp = sorted([arr[i], arr[j], third])
+                ans.add(tuple(temp))  # Add the sorted triplet as a tuple to the set
+            s.add(arr[j])  # Add the current element to the set
+    return list(ans)  # Convert the set to a list and return it
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(better(n,arr))
+```
+
+<p>Time Complexity: O(N2*log(M)), where N = size of the array, M = no. of elements in the set.</p>
+<p>Reason: Here, we are mainly using 2 nested loops, and inside the loops there are some operations on the set data structure which take log(M) time complexity.</p>
+<p>Space Complexity: O(2 * no. of the unique triplets) + O(N) as we are using a set data structure and a list to store the triplets and extra O(N) for storing the array elements in another set.</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p>In this approach, we will use two pointer approach to solve the problem</p>
+<p>In this approach, we intend to get rid of two things i.e. the HashSet we were using for the look-up operation and the set data structure used to store the unique triplets.</p>
+<p>So, We will first sort the array. Then, we will fix a pointer i, and the rest 2 pointers j and k will be moving. </p>
+<p>Now, we need to first understand what the HashSet and the set were doing to make our algorithm work without them. So, the set data structure was basically storing the unique triplets in sorted order and the HashSet was used to search for the third element.</p>
+<p>That is why, we will first sort the entire array, and then to get the unique triplets, we will simply skip the duplicate numbers while moving the pointers.</p>
+<p><strong>How to Skip Duplicate Elements</strong></p>
+<p>As the entire array is sorted, the duplicate numbers will be in consecutive places. So, while moving a pointer, we will check the current element and the adjacent element. Until they become different, we will move the pointer by 1 place. We will follow this process for all 3 pointers. Thus, we can easily skip the duplicate elements while moving the pointers.</p>
+<p>Now, we can also remove the HashSet as we have two moving pointers i.e. j and k that will find the appropriate value of arr[j] and arr[k]. So, we do not need that HashSet anymore for the look-up operations.</p>
+<img src="https://static.takeuforward.org/wp/uploads/2023/07/Screenshot-2023-07-27-001839.png">
+
+<ol>
+    <li>Sorting the Array: The array is sorted first. This helps in easily avoiding duplicates and using the two-pointer technique.</li>
+    <li>Outer Loop: The outer loop iterates through the array with index i. For each element arr[i], it considers it as the first element of the triplet.</li>
+    <li>Skip Duplicates: To avoid duplicate triplets, if the current element is the same as the previous one, the loop continues to the next iteration.</li>
+    <li>Two-pointer Technique: Two pointers, j and k, are initialized. j starts just after i and k starts at the end of the array. The goal is to find two numbers such that their sum with arr[i] is zero.</li>
+    <ul>
+        <li>Move Pointers: Depending on the sum of arr[i], arr[j], and arr[k], move the pointers to find a triplet that sums to zero:</li>
+        <ul>
+            <li>If the sum is less than zero, increment j.</li>
+            <li>If the sum is greater than zero, decrement k.</li>
+            <li>If the sum is zero, add the triplet to the set ans and move both pointers inward while skipping duplicates.</li>
+        </ul>
+    </ul>
+    <li>Skip Duplicate Elements: After finding a triplet, both pointers are moved inward while skipping duplicate elements to avoid counting the same triplet multiple times.</li>
+    <li>Return Unique Triplets: Finally, the set ans containing unique triplets is returned.</li>
+</ol>
+
+<p>We can remove set and don't need to sort it, since array is sorted already</p>
+
+```python
+def optimized(n,arr):
+    ans=[]
+    arr.sort()
+    for i in range(n):
+        if(i!=0 and arr[i]==arr[i-1]):
+            continue
+        j,k=i+1,n-1
+        while(j<k):
+            sum=arr[i]+arr[j]+arr[k]
+            if(sum<0):
+                j+=1
+            elif(sum>0):
+                k-=1
+            else:
+                temp=[arr[i],arr[j],arr[k]]
+                ans.append(temp)
+                j+=1
+                k-=1
+                while(j<k and arr[j]==arr[j-1]):
+                    j+=1
+                while(k>j and arr[k]==arr[k+1]):
+                    k-=1
+    return ans
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+<p>Time Complexity: O(NlogN)+O(N2), where N = size of the array.</p>
+<p>Reason: The pointer i, is running for approximately N times. And both the pointers j and k combined can run for approximately N times including the operation of skipping duplicates. So the total time complexity will be O(N2). </p>
+<p>Space Complexity: O(no. of quadruplets), This space is only used to store the answer. We are not using any extra space to solve this problem. So, from that perspective, space complexity can be written as O(1).</p>
+
+
+
+<h2>4 Sum - Find Quads that add up to a target value</h2>
+<p>Given an array of N integers, your task is to find unique quads that add up to give a target value. In short, you need to return an array of all the unique quadruplets [arr[a], arr[b], arr[c], arr[d]] such that their sum is equal to a given target.</p>
+<p><strong>Examples</strong></p>
+<p>input :  arr[] = [1,0,-1,0,-2,2], target = 0</p>
+<p>output :  [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]</p>
+<p>explanation :  We have to find unique quadruplets from the array such that the sum of those elements is equal to the target sum given that is 0. The result obtained is such that the sum of the quadruplets yields 0.</p>
+<p>input : arr[] = [4,3,3,4,4,2,1,2,1,1], target = 9</p>
+<p>output : [[1,1,3,4],[1,2,2,4],[1,2,3,3]]</p>
+<p>explanation :  The sum of all the quadruplets is equal to the target i.e. 9.</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem, is completely similar to the previous problem</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In the question, it is clearly stated that for each case the picked indices i.e. i, j, k and l must be distinct. This means [arr[1], arr[1], arr[2], arr[3]] is not a valid triplet and also remember [arr[1], arr[0], arr[2], arr[3]] and [arr[0], arr[1], arr[2], arr[4]] will be considered the same.</p>
+<p>In this approach, we will find out all possible quadruplets whose sum equals to target and we will sort each quadruplets and store it in a set, so duplicate unique quadruplets will not occur anymore</p>
+<ul>
+    <li>Initialize an empty set ans: This will store unique quadruplets that sum to target.</li>
+    <li>four nested loops: These loops iterate over all possible triplets (i, j, k, l) in the array.</li>
+    <li>Check if the sum of the triplet is zero: If the sum of arr[i], arr[j], and arr[k] is zero, proceed.</li>
+    <li>Sort and add the quadruplets to the set: Convert the quadruplets to a sorted tuple and add it to the set ans to ensure uniqueness.</li>
+    <li>Return the result as a list: Convert the set ans to a list and return it.</li>
+</ul>
+
+```python
+def bruteForce(n, arr, target):
+    ans = set()
+    # Iterate over all possible quadruplets
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                for l in range(k + 1, n):
+                    sum = arr[i] + arr[j] + arr[k] + arr[l]
+                    # Check if the quadruplet sums to the target
+                    if sum == target:
+                        temp = [arr[i], arr[j], arr[k], arr[l]]
+                        temp.sort()  # Sort the quadruplet
+                        ans.add(tuple(temp))  # Add the sorted tuple to the set
+    return ans  # Return the set of unique quadruplets
+arr=list(map(int,input().split()))
+n=len(arr)
+target=int(input())
+print(bruteForce(n,arr,target))
+```
+
+<p>Time Complexity: O(N4), where N = size of the array.</p>
+<p>Reason: Here, we are mainly using 4 nested loops. But we not considering the time complexity of sorting as we are just sorting 4 elements every time.</p>
+<p>Space Complexity: O(2 * no. of the quadruplets) as we are using a set data structure and a list to store the quads.</p>
+
+<p><strong>Better Approach</strong></p>
+<p>In the previous approach, we utilized 4 loops, but now our goal is to reduce it to 3 loops. To achieve this, we need to find a way to calculate arr[l] since we intend to eliminate the fourth loop (l loop). To calculate arr[l], we can derive a formula as follows</p>
+<p>Since loop one will give arr[i] and loop two will give arr[j] and loop three will give arr[k], then 4th values of quadruplets will be target-(arr[i]+arr[j]+arr[k]), hence third value will be target-(arr[i]+arr[j])</p>
+<p>We will just apply two sum problem optimized approach here to find out fourth value</p>
+<p>So, we will first calculate arr[i],arr[j] and arr[k] using 3 loops and for the fourth one i.e. arr[l] we will not use another loop and instead we will look up the value target-(arr[i]+arr[j]+arr[k]) in the set data structure. Thus we can remove the fourth loop from the algorithm.</p>
+
+<ul>
+    <li>Initialize an Empty Set ans: This set will store unique quadruplets that sum to the target value.</li>
+    <li>Outer Loop: Iterate over each element in the array with index i.</li>
+    <li>Second Loop: For each element arr[i], iterate over the elements after it with index j.</li>
+    <li>HashSet s: A HashSet s is used to store elements that have been seen so far between indices j and k. This helps in quickly checking if the required fourth element exists.</li>
+    <li>Check for Fourth Element: For each pair (i, j), and each element k after j, the function calculates the required fourth element (fourth = target - (arr[i] + arr[j] + arr[k])). If fourth is found in the HashSet s, it means a valid quadruplet is found.</li>
+    <li>Store Unique Quadruplets: The quadruplet [arr[i], arr[j], arr[k], fourth] is sorted and added to the set ans to ensure uniqueness.</li>
+    <li>Add Current Element to HashSet: The current element arr[k] is added to the HashSet s for future checks.</li>
+    <li>Return the Result as a Set: Finally, the set ans containing unique quadruplets is returned directly.</li>
+</ul>
+
+```python
+def better(n, arr, target):
+    ans = set()
+    # Iterate over all pairs (i, j)
+    for i in range(n):
+        for j in range(i + 1, n):
+            s = set()
+            # Iterate over all elements after j
+            for k in range(j + 1, n):
+                fourth = target - (arr[i] + arr[j] + arr[k])
+                # Check if the fourth element is in the set
+                if fourth in s:
+                    temp = sorted([arr[i], arr[j], arr[k], fourth])
+                    ans.add(tuple(temp))  # Add the sorted quadruplet as a tuple to the set
+                s.add(arr[k])  # Add the current element to the set
+    return ans  # Return the set of unique quadruplets
+
+
+arr=list(map(int,input().split()))
+n=len(arr)
+target=int(input())
+print(better(n,arr,target))
+```
+
+<p>Time Complexity: O(N3*log(M)), where N = size of the array, M = no. of elements in the set.</p>
+<p>RReason: Here, we are mainly using 3 nested loops, and inside the loops there are some operations on the set data structure which take log(M) time complexity.</p>
+<p>Space Complexity: O(2 * no. of the quadruplets)+O(N)</p>
+<p>Reason: we are using a set data structure and a list to store the quads. This results in the first term. And the second space is taken by the set data structure we are using to store the array elements. At most, the set can contain approximately all the array elements and so the space complexity is O(N).</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p>In this approach, we are using two pointer approach similar to previous problem</p>
+
+<ol>
+    <li>Sorting the Array: The array is sorted first. This helps in easily avoiding duplicates and using the two-pointer technique.</li>
+    <li>Outer Loop: The outer loop iterates through the array with index i. For each element arr[i], it considers it as the first element of the quadruplet.</li>
+    <ul>
+        <li>Skip Duplicates: To avoid duplicate quadruplets, if the current element is the same as the previous one, the loop continues to the next iteration.</li>
+    </ul>
+    <li>Second Loop: For each element arr[i], the inner loop iterates over the elements after it with index j.</li>
+    <ul>
+        <li>Skip Duplicates: Similarly, to avoid duplicate quadruplets, if the current element is the same as the previous one, the loop continues to the next iteration.</li>
+    </ul>
+    <li>Two-pointer Technique: Two pointers, k and l, are initialized. k starts just after j and l starts at the end of the array. The goal is to find two numbers such that their sum with arr[i] and arr[j] equals the target value.</li>
+    <ul>
+        <li>Move Pointers: Depending on the sum of arr[i], arr[j], arr[k], and arr[l], move the pointers to find a quadruplet that sums to the target:</li>
+        <ul>
+            <li>If the sum is less than the target, increment k.</li>
+            <li>If the sum is greater than the target, decrement l.</li>
+            <li>If the sum is equal to the target, add the quadruplet to the list ans and move both pointers inward while skipping duplicates.</li>
+        </ul>
+    </ul>
+    <li>Skip Duplicate Elements: After finding a quadruplet, both pointers are moved inward while skipping duplicate elements to avoid counting the same quadruplet multiple times.</li>
+    <li>Return Unique Quadruplets: Finally, the list ans containing unique quadruplets is returned.</li>
+</ol>
+
+```python
+def optimized(n, arr, target):
+    ans = []
+    arr.sort()  # Sort the array to use the two-pointer technique
+    for i in range(n):
+        # Skip duplicate elements to avoid duplicate quadruplets
+        if i != 0 and arr[i] == arr[i - 1]:
+            continue
+        for j in range(i + 1, n):
+            # Skip duplicate elements to avoid duplicate quadruplets
+            if j != i + 1 and arr[j] == arr[j - 1]:
+                continue
+            k, l = j + 1, n - 1  # Initialize two pointers
+            while k < l:
+                sum = arr[i] + arr[j] + arr[k] + arr[l]
+                if sum < target:
+                    k += 1  # Move the left pointer to the right
+                elif sum > target:
+                    l -= 1  # Move the right pointer to the left
+                else:
+                    temp = [arr[i], arr[j], arr[k], arr[l]]  # Quadruplet found
+                    ans.append(tuple(temp))
+                    k += 1
+                    l -= 1
+                    # Skip duplicate elements to avoid duplicate quadruplets
+                    while k < l and arr[k] == arr[k - 1]:
+                        k += 1
+                    while l > k and arr[l] == arr[l + 1]:
+                        l -= 1
+    return ans  # Return the list of unique quadruplets
+arr=list(map(int,input().split()))
+n=len(arr)
+target=int(input())
+print(optimized(n,arr,target))
+
+```
+
+
+<p>Time Complexity: O(N3)+O(nlogn), where N = size of the array.</p>
+<p>Reason: Each of the pointers i and j, is running for approximately N times. And both the pointers k and l combined can run for approximately N times including the operation of skipping duplicates. So the total time complexity will be O(N3) and arr is sorted once , for that o(nLogn). </p>
+<p>Space Complexity: O(no. of quadruplets), This space is only used to store the answer. We are not using any extra space to solve this problem. So, from that perspective, space complexity can be written as O(1).</p>
+
+
