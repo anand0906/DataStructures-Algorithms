@@ -96,3 +96,8 @@
 		<li><strong>Example</strong> : Removing duplicates from a sorted array or detecting cycles in a linked list.</li>
 	</ul>
 </ol>
+<h3>Problems</h3>
+
+| Problem | Article | Practice |
+| :---         |     :---:      |     :---:     |
+| My Name Is Anand | <a href="/">Click Here</a> | <a href="/">LeetCode</a> |
