@@ -100,4 +100,4 @@
 
 | Problem | Article | Practice |
 | :---         |     :---:      |     :---:     |
-| My Name Is Anand | <a href="/">Click Here</a> | <a href="/">LeetCode</a> |
+| Two Sum | <a href="../Arrays#two-sum--check-if-a-pair-with-given-sum-exists-in-array/">Click Here</a> | <a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">LeetCode</a> |
