@@ -1743,10 +1743,26 @@ print(bruteForce(n,arr,k))
 <p>In essence, you start by taking all <strong>k</strong> elements from the start, then move one element from the start to the end one by one while keeping track of the maximum sum encountered.</p>
 
 ```python
+def optimized(n,arr,k):
+    leftSum,rightSum=0,0
+    left,right=-1,n-1
+    maxi=0
+    total=0
+    for i in range(k):
+        left+=1
+        leftSum+=arr[left]
+    maxi=max(maxi,leftSum)
+    for i in range(k):
+        leftSum-=arr[left]
+        rightSum+=arr[right]
+        right-=1
+        left-=1
+        total=leftSum+rightSum
+        maxi=max(maxi,total)
+    return maxi
 arr=list(map(int,input().split()))
 n=len(arr)
 k=int(input())
-print(bruteForce(n,arr,k))
 print(optimized(n,arr,k))
 ```
 
