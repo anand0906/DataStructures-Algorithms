@@ -501,7 +501,7 @@ print(optimized(n,s)
 <br>
 <br>
 
-<h2>Maximum Consecutive 1's wih atmost k flips binary array</h2>
+<h1>Maximum Consecutive 1's wih atmost k flips binary array</h1>
 <p>Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's</p>
 <p><strong>Example</strong></p>
 <p><strong>Input</strong> : nums = [1,1,0,0,1,1,1,0,1,1], k = 2</p>
@@ -626,7 +626,7 @@ print(optimized(n,arr,k))
 <br>
 <br>
 
-<h2>Fruits Into Basket : Longest Subarray Contains atmost 2 different element</h2>
+<h1>Fruits Into Basket : Longest Subarray Contains atmost 2 different element</h1>
 <p>You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits of size N, where fruits[i]  is the type of fruit the ith tree produces.</p>
 <p>You want to collect as much fruit as possible. However, the owner has some strict rules that you must follow :</p>
 <ul>
@@ -748,7 +748,7 @@ print(better(n,arr))
 <p><strong>Space Complexity</strong> : O(1)</p>
 <p>Only a fixed amount of extra space is used.</p>
 
-<h2>Longest Repeating Character Replacement With Atmost K Operations</h2>
+<h1>Longest Repeating Character Replacement With Atmost K Operations</h1>
 <p>You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.</p>
 <p>Return the length of the longest substring containing the same letter you can get after performing the above operations.</p>
 <p><strong>Examples</strong></p>
@@ -882,7 +882,7 @@ print(better(n,arr))
 <br>
 <br>
 
-<h2>Longest SubString With Atmost K Different Characters</h2>
+<h1>Longest SubString With Atmost K Different Characters</h1>
 <p>Given a string <code>s</code> and an integer <code>k</code>, return the length of the longest substring that contains at most <code>k</code> different characters.</p>
 <p><strong>Example Test Cases:</strong></p>
 <ul>
@@ -1015,7 +1015,7 @@ print(optimized(n,s,k))
 <p><strong>Space Complexity</strong> : O(1)</p>
 <p>It may store atmost 256 charcters in count map</p>
 
-<h2>Minimum Window Substring</h2>
+<h1>Minimum Window Substring</h1>
 <p>Given two strings s and t of lengths m and n respectively, return the minimum window 
 substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".</p>
 <p><strong>Examples</strong></p>
@@ -1180,7 +1180,7 @@ print(optimized(n,s,t))
 <br>
 <br>
 
-<h2>Count Of Subarrays Whose Sum Equals To Given Value : Binary Array</h2>
+<h1>Count Of Subarrays Whose Sum Equals To Given Value : Binary Array</h1>
 <p>Given a binary array nums and an integer goal, return the number of non-empty subarrays with a sum goal.</p>
 <p>A subarray is a contiguous part of the array.</p>
 <p><strong>Examples</strong></p>
@@ -1300,7 +1300,7 @@ def optimized(n,arr,target):
 <br>
 <br>
 
-<h2>Count Number of Nice Subarrays : Number Of Subarray Which Contains K number of odd elements</h2>
+<h1>Count Number of Nice Subarrays : Number Of Subarray Which Contains K number of odd elements</h1>
 <p>Given an array of integers nums and an integer k. A continuous subarray is called nice if there are k odd numbers on it.</p>
 <p>Return the number of nice sub-arrays.</p>
 <p><strong>Examples</strong></p>
@@ -1374,7 +1374,7 @@ print(better(n,arr,target))
 print(optimized(n,arr,target))
 ```
 
-<h2>Number of substrings containing all three characters</h2>
+<h1>Number of substrings containing all three characters</h1>
 <p>Given a string s consisting only of characters a, b and c.Return the number of substrings containing at least one occurrence of all these characters a, b and c.</p>
 <p><strong>Examples</strong></p>
 <p><strong>Input</strong> : s = "abcabc"</p>
@@ -1498,7 +1498,7 @@ print(optimized(n,s))
 <br>    
 <br>    
 
-<h2>Subarrays with K Different Integers</h2>
+<h1>Subarrays with K Different Integers</h1>
 <p>Given an integer array nums and an integer k, return the number of good subarrays of nums.</p>
 <p>A good array is an array where the number of different integers in that array is exactly k.</p>
 <p>For example, [1,2,3,1,2] has 3 different integers: 1, 2, and 3.</p>
@@ -1639,7 +1639,7 @@ print(optimized(n,arr,target))
 <p><strong>Space Complexity</strong> : O(1)</p>
 <p>We can store atmost 256 characters in visited</p>
 
-<h2>Maximum Points You Can Obtain from Cards</h2>
+<h1>Maximum Points You Can Obtain from Cards</h1>
 <p>There are several cards arranged in a row, and each card has an associated number of points. The points are given in the integer array cardPoints.</p>
 <p>In one step, you can take one card from the beginning or from the end of the row. You have to take exactly k cards</p>
 <p>Your score is the sum of the points of the cards you have taken.</p>
