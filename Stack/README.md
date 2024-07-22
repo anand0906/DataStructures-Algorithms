@@ -109,12 +109,12 @@ class Stack:
 
     def pop(self):
         if self.is_empty():
-            raise IndexError("pop from an empty stack")
+            raise IndexError("StackUnderFlow : Stack is Empty")
         return self.stack.pop()
 
     def peek(self):
         if self.is_empty():
-            raise IndexError("peek from an empty stack")
+            raise IndexError("StackUnderFlow : Stack is Empty")
         return self.stack[-1]
 
     def size(self):
