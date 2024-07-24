@@ -533,3 +533,655 @@ print(min_stack.size())    # Returns 2
 <p>This approach ensures the stack can keep track of the minimum element efficiently while using a single stack.</p>
 
 
+<h2>Check For Balenced Parentheses</h2>
+<p>Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.</p>
+<p>An input string is valid if:</p>
+<ol>    
+    <li>Open brackets must be closed by the same type of brackets.</li>
+    <li>Open brackets must be closed in the correct order.</li>
+    <li>Every close bracket has a corresponding open bracket of the same type.</li>
+</ol>
+
+<p><strong>Example Cases</strong></p>
+<ul>
+    <li><strong>Balanced String</strong>:
+        <ul>
+            <li>Input: <strong>n = 6</strong>, <strong>s = "({[]})"</strong></li>
+            <li>Output: <strong>True</strong></li>
+            <li>Explanation: Every opening parenthesis has a corresponding closing parenthesis in the correct order.</li>
+        </ul>
+    </li>
+    <li><strong>Unbalanced String</strong>:
+        <ul>
+            <li>Input: <strong>n = 6</strong>, <strong>s = "({[})"</strong></li>
+            <li>Output: <strong>False</strong></li>
+            <li>Explanation: The closing parenthesis <strong>}</strong> does not match the last opened <strong>{</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Unbalanced String (Unmatched Closing)</strong>:
+        <ul>
+            <li>Input: <strong>n = 2</strong>, <strong>s = ")("</strong></li>
+            <li>Output: <strong>False</strong></li>
+            <li>Explanation: There is a closing parenthesis <strong>)</strong> without a matching opening parenthesis.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Solution</strong></p>
+<ul>
+    <li><strong>Initialize Stack</strong>: A stack is used to keep track of the opening parentheses.</li>
+    <li><strong>Dictionary for Matching</strong>: A dictionary <strong>temp</strong> is used to map each opening parenthesis to its corresponding closing parenthesis.</li>
+    <li><strong>Iterate through the String</strong>: The function iterates through each character in the string <strong>s</strong>.</li>
+    <li><strong>Push Opening Parentheses</strong>: If the character is an opening parenthesis (<strong>(</strong>, <strong>{</strong>, <strong>[</strong>), it is pushed onto the stack.</li>
+    <li><strong>Check Closing Parentheses</strong>: If the character is a closing parenthesis (<strong>)</strong>, <strong>}</strong>, <strong>]</strong>):
+        <ul>
+            <li>If the stack is empty, it means there is no corresponding opening parenthesis, and the string is not balanced.</li>
+            <li>Otherwise, check if the top of the stack matches the current closing parenthesis using the dictionary <strong>temp</strong>. If it matches, pop the stack. If not, the string is not balanced.</li>
+        </ul>
+    </li>
+    <li><strong>Final Check</strong>: After processing all characters, if the stack is not empty, it means there are unmatched opening parentheses left.</li>
+    <li><strong>Return Result</strong>: The function returns <strong>True</strong> if all parentheses are balanced, otherwise <strong>False</strong>.</li>
+</ul>
+
+```python
+def solve(n, s):
+    stack = []
+    temp = {"(": ")", "[": "]", "{": "}"}
+    for i in range(n):
+        if s[i] in "({[":
+            stack.append(s[i])
+        else:
+            if len(stack) == 0:
+                return False
+            if temp[stack[-1]] == s[i]:
+                stack.pop()
+            else:
+                return False
+    if len(stack) > 0:
+        return False
+    return True
+s=input()
+n=len(s)
+print(solve(n,s))
+```
+
+<h2>Expression Conversions</h2>
+<p><strong>Infix, Prefix, and Postfix Notations</strong></p>
+    
+<p><strong>Infix Notation</strong></p>
+<p><strong>Definition</strong>: In infix notation, operators are written between the operands they act on. This is the most common notation used in arithmetic and in many programming languages.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+    <li>A + B</li>
+    <li>(A + B) * C</li>
+    <li>A + (B * C)</li>
+</ul>
+<p><strong>Uses</strong>:</p>
+<ul>
+    <li>Easily understandable and readable by humans.</li>
+    <li>Directly used in many programming languages and calculators.</li>
+    <li>Requires precedence rules and parentheses to determine the order of operations.</li>
+</ul>
+<p><strong>Evaluation</strong>:</p>
+<p>The expression A + B * C is evaluated as A + (B * C) because multiplication has higher precedence than addition.</p>
+
+<p><strong>Prefix Notation (Polish Notation)</strong></p>
+<p><strong>Definition</strong>: In prefix notation, operators are written before their operands. There is no need for parentheses as the order of operations is unambiguous.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+    <li>+ A B</li>
+    <li>* + A B C (which is equivalent to (A + B) * C)</li>
+    <li>+ A * B C (which is equivalent to A + (B * C))</li>
+</ul>
+<p><strong>Uses</strong>:</p>
+<ul>
+    <li>Simplifies the process of parsing expressions.</li>
+    <li>Useful in functional programming and certain types of compilers.</li>
+    <li>Eliminates the need for precedence rules and parentheses.</li>
+</ul>
+<p><strong>Evaluation</strong>:</p>
+<p>The expression * + A B C is evaluated as:</p>
+<ol>
+    <li>Evaluate + A B</li>
+    <li>Then, multiply the result by C</li>
+</ol>
+
+<p><strong>Postfix Notation (Reverse Polish Notation)</strong></p>
+<p><strong>Definition</strong>: In postfix notation, operators are written after their operands. Like prefix notation, there is no need for parentheses because the order of operations is clear.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+    <li>A B +</li>
+    <li>A B C + * (which is equivalent to A * (B + C))</li>
+    <li>A B C * + (which is equivalent to A + (B * C))</li>
+</ul>
+<p><strong>Uses</strong>:</p>
+<ul>
+    <li>Particularly useful in stack-based and postfix calculators.</li>
+    <li>Simplifies the process of evaluating expressions in computer programs.</li>
+    <li>Eliminates the need for precedence rules and parentheses.</li>
+</ul>
+<p><strong>Evaluation</strong>:</p>
+<p>The expression A B C * + is evaluated as:</p>
+<ol>
+    <li>Evaluate B C *</li>
+    <li>Then, add the result to A</li>
+</ol>
+
+<p><strong>Conversion Between Notations</strong></p>
+<ol>
+    <li><strong>Infix to Prefix</strong>:
+        <ul>
+            <li>A + B becomes + A B</li>
+            <li>(A + B) * C becomes * + A B C</li>
+        </ul>
+    </li>
+    <li><strong>Infix to Postfix</strong>:
+        <ul>
+            <li>A + B becomes A B +</li>
+            <li>(A + B) * C becomes A B + C *</li>
+        </ul>
+    </li>
+    <li><strong>Prefix to Postfix</strong>:
+        <ul>
+            <li>+ A B becomes A B +</li>
+            <li>* + A B C becomes A B + C *</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Practical Uses</strong></p>
+<ul>
+    <li><strong>Compilers</strong>: Prefix and postfix notations are used in the intermediate stages of compilation for expression evaluation.</li>
+    <li><strong>Calculators</strong>: Postfix notation is used in many calculators and stack-based programming languages because it is easier to evaluate using stacks.</li>
+    <li><strong>Expression Parsing</strong>: Prefix and postfix notations simplify parsing algorithms, eliminating the need for parentheses and operator precedence handling.</li>
+</ul>
+
+<p><strong>Example Comparisons</strong></p>
+<p><strong>Infix</strong>: (3 + 4) * 5</p>
+<ul>
+    <li><strong>Prefix</strong>: * + 3 4 5</li>
+    <li><strong>Postfix</strong>: 3 4 + 5 *</li>
+</ul>
+<p><strong>Infix</strong>: A + (B * C)</p>
+<ul>
+    <li><strong>Prefix</strong>: + A * B C</li>
+    <li><strong>Postfix</strong>: A B C * +</li>
+</ul>
+
+<p>By understanding and using these notations, you can simplify the process of expression evaluation, especially in the context of computer science and programming.</p>
+
+<h3>Infix To PostFix</h3>
+<ul>
+    <li><strong>Initialize Stack and Result</strong>:
+        <ul>
+            <li><strong>stack</strong> is used to keep track of operators.</li>
+            <li><strong>ans</strong> is a string that will hold the resulting postfix expression.</li>
+        </ul>
+    </li>
+    <li><strong>Order of Operations</strong>:
+        <ul>
+            <li>A dictionary <strong>order</strong> is used to define the precedence of operators. Higher values indicate higher precedence.</li>
+        </ul>
+    </li>
+    <li><strong>Iterate Through the Expression</strong>:
+        <ul>
+            <li>For each character in the input string <strong>s</strong>:</li>
+            <ul>
+                <li><strong>If the character is an operand</strong> (alphanumeric), append it directly to <strong>ans</strong>.</li>
+                <li><strong>If the character is (</strong> (opening parenthesis), push it onto the stack.</li>
+                <li><strong>If the character is )</strong> (closing parenthesis), pop from the stack and append to <strong>ans</strong> until ( is encountered.</li>
+                <li><strong>If the character is an operator</strong>:
+                    <ul>
+                        <li>Pop from the stack and append to <strong>ans</strong> while the precedence of the current operator is less than or equal to the precedence of the operator at the top of the stack.</li>
+                        <li>Push the current operator onto the stack.</li>
+                    </ul>
+                </li>
+            </ul>
+        </ul>
+    </li>
+    <li><strong>Append Remaining Operators</strong>:
+        <ul>
+            <li>After the input string has been fully processed, pop any remaining operators from the stack and append them to <strong>ans</strong>.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Example</strong></p>
+<ul>
+    <li><strong>Input</strong>: n = 7, s = "A+B*C"</li>
+    <li><strong>Output</strong>: "ABC*+"</li>
+</ul>
+
+<p><strong>Detailed Steps for Example</strong></p>
+<ul>
+    <li><strong>Initialization</strong>:
+        <ul>
+            <li>stack = []</li>
+            <li>ans = ""</li>
+        </ul>
+    </li>
+    <li><strong>Processing Each Character</strong>:
+        <ul>
+            <li>s[0] = 'A' (operand): Append to ans → ans = "A"</li>
+            <li>s[1] = '+' (operator): Push onto stack → stack = ['+']</li>
+            <li>s[2] = 'B' (operand): Append to ans → ans = "AB"</li>
+            <li>s[3] = '*' (operator): Push onto stack (higher precedence) → stack = ['+', '*']</li>
+            <li>s[4] = 'C' (operand): Append to ans → ans = "ABC"</li>
+        </ul>
+    </li>
+    <li><strong>Final Stack Emptying</strong>:
+        <ul>
+            <li>Pop '*' from stack and append to ans → ans = "ABC*"</li>
+            <li>Pop '+' from stack and append to ans → ans = "ABC*+"</li>
+        </ul>
+    </li>
+    <li><strong>Return Result</strong>:
+        <ul>
+            <li>The final postfix expression is "ABC*+".</li>
+        </ul>
+    </li>
+</ul>
+
+
+```python
+def solve(n,s):
+    stack=[]
+    ans=""
+    order={"(":0,")":0,"+":1,"-":1,"*":2,"/":2,"^":3}
+    for i in range(n):
+        if(s[i].isalnum()):
+            ans+=s[i]
+        elif(s[i] == "("):
+            stack.append(s[i])
+        elif(s[i] == ")"):
+            while stack and stack[-1]!="(":
+                ans+=stack.pop()
+            stack.pop()
+        else:
+            while stack and (order[s[i]]<=order[stack[-1]]):
+                ans+=stack.pop()
+            stack.append(s[i])
+    while stack:
+        ans+=stack.pop()
+    return ans
+
+s=input()
+n=len(s)
+print(solve(n,s))
+```
+
+<p><strong>Time Complexity : O(n)</strong>Each character in the input string is processed exactly once, and stack operations are O(1) on average</p>
+<p><strong>Space Complexity : O(n)</strong> We need O(n) space for the result string and O(n) space for the stack.</p>
+
+
+<h3>Infix To Prefix</h3>
+<p><strong>Steps to Convert Infix to Prefix</strong></p>
+
+<ul>
+    <li><strong>Reverse the Infix Expression</strong>: Reverse the input string.</li>
+    <li><strong>Replace Parentheses</strong>: Swap the opening and closing parentheses.</li>
+    <li><strong>Apply Infix to Postfix Conversion</strong>: Convert the modified infix expression to postfix.</li>
+    <li><strong>Reverse the Postfix Expression</strong>: Reverse the resulting postfix expression to get the prefix expression.</li>
+</ul>
+
+<p><strong>Explanation of Each Step</strong></p>
+
+<ul>
+    <li><strong>Reverse the Infix Expression</strong>:
+        <ul>
+            <li>Reversing the string ensures that operators are processed in the correct order for prefix notation.</li>
+            <li>For example, the infix expression <strong>A + B * C</strong> becomes <strong>C * B + A</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Replace Parentheses</strong>:
+        <ul>
+            <li>Swapping the parentheses adjusts their positions due to the reversal.</li>
+            <li>For example, <strong>)</strong> becomes <strong>(</strong> and <strong>(</strong> becomes <strong>)</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Apply Infix to Postfix Conversion</strong>:
+        <ul>
+            <li>This step uses the Shunting Yard algorithm to convert the modified infix expression to postfix.</li>
+        </ul>
+    </li>
+    <li><strong>Reverse the Postfix Expression</strong>:
+        <ul>
+            <li>Reversing the postfix expression gives the final prefix expression.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Example</strong></p>
+
+<ul>
+    <li><strong>Input</strong>: A + B * C</li>
+    <li><strong>Reverse</strong>: C * B + A</li>
+    <li><strong>Replace Parentheses</strong>: Not applicable here since there are no parentheses.</li>
+    <li><strong>Infix to Postfix</strong>: Convert C * B + A to CB*A+</li>
+    <li><strong>Reverse Postfix</strong>: +A*BC</li>
+</ul>
+
+<p><strong>Handling ^ Operator</strong></p>
+<p>The exponentiation operator <strong>^</strong> is handled differently in the infix to postfix conversion due to its higher precedence and right-to-left associativity.</p>
+<p><strong>Higher Precedence</strong></p>
+<ul>
+    <li><strong>^</strong> has a higher precedence than <strong>*</strong>, <strong>+</strong>, and <strong>-</strong>. Therefore, when <strong>^</strong> is encountered, it needs to stay on the stack until a lower precedence operator or an operand is encountered.</li>
+</ul>
+<p><strong>Right-to-Left Associativity</strong></p>
+<ul>
+    <li>Unlike other operators which are left-to-right associative, <strong>^</strong> is right-to-left associative. This means that for expressions like <strong>A ^ B ^ C</strong>, the expression is evaluated as <strong>A ^ (B ^ C)</strong>.</li>
+</ul>
+
+```python
+def solve(n,s):
+    s=s[::-1]
+    temp=list(s)
+    for i in range(n):
+        if(temp[i]=="("):
+            temp[i]=")"
+        elif(temp[i]==")"):
+            temp[i]="("
+    s="".join(temp)
+    stack=[]
+    ans=""
+    order={"(":0,")":0,"+":1,"-":1,"*":2,"/":2,"^":3}
+    for i in range(n):
+        if(s[i].isalnum()):
+            ans+=s[i]
+        elif(s[i] == "("):
+            stack.append(s[i])
+        elif(s[i] == ")"):
+            while stack and stack[-1]!="(":
+                ans+=stack.pop()
+            stack.pop()
+        else:
+            if(s[i]=="^"):
+                while stack and (order[s[i]]<=order[stack[-1]]):
+                    ans+=stack.pop()
+            else:
+                while stack and (order[s[i]]<order[stack[-1]]):
+                    ans+=stack.pop()
+            stack.append(s[i])
+    while stack:
+        ans+=stack.pop()
+    return ans[::-1]
+
+s=input()
+n=len(s)
+print(solve(n,s))
+```
+
+<ul>
+    <li><strong>Time Complexity</strong>: O(n) – Each character is processed a constant number of times.</li>
+    <li><strong>Space Complexity</strong>: O(n) – Space is used for the reversed string, stack, and result.</li>
+</ul>
+
+<h3>Postfix to Infix</h3>
+<p><strong>Steps to Convert Postfix to Infix</strong></p>
+
+<ul>
+    <li><strong>Initialize an empty stack.</strong></li>
+    <li><strong>Iterate through each character in the postfix expression.</strong>
+        <ul>
+            <li>If the character is an operand, push it onto the stack.</li>
+            <li>If the character is an operator, pop two elements from the stack, create a new string with the operator between the two operands, and push this new string back onto the stack.</li>
+        </ul>
+    </li>
+    <li><strong>The final element in the stack is the infix expression.</strong></li>
+</ul>
+
+<p><strong>Example</strong></p>
+
+<ul>
+    <li><strong>Input (Postfix Expression)</strong>: <code>ab+c*</code></li>
+    <li><strong>Output (Infix Expression)</strong>: <code>((a+b)*c)</code></li>
+</ul>
+
+<p><strong>Explanation of the Example</strong></p>
+
+<ul>
+    <li>Read <strong>'a'</strong>: Operand, push onto stack: <code>['a']</code></li>
+    <li>Read <strong>'b'</strong>: Operand, push onto stack: <code>['a', 'b']</code></li>
+    <li>Read <strong>'+'</strong>: Operator, pop 'b' and 'a', form <code>(a+b)</code>, push back onto stack: <code>['(a+b)']</code></li>
+    <li>Read <strong>'c'</strong>: Operand, push onto stack: <code>['(a+b)', 'c']</code></li>
+    <li>Read <strong>'*'</strong>: Operator, pop 'c' and '(a+b)', form <code>((a+b)*c)</code>, push back onto stack: <code>['((a+b)*c)']</code></li>
+</ul>
+
+<p><strong>Code</strong></p>
+
+```python
+def solve(n, s):
+    stack = []
+    for i in range(n):
+        if s[i].isalnum():
+            stack.append(s[i])
+        else:
+            op1 = stack.pop()
+            op2 = stack.pop()
+            new = f"({op2+s[i]+op1})"
+            stack.append(new)
+    return stack[-1]
+
+s = input()
+n = len(s)
+print(solve(n, s))
+```
+
+<p><strong>Complexity Analysis</strong></p>
+<p><strong>Time Complexity</strong></p>
+<ul>
+    <li>Each character in the string is processed once, so the time complexity is <strong>O(n)</strong>.</li>
+</ul>
+<p><strong>Space Complexity</strong></p>
+<ul>
+    <li>The stack can hold up to <strong>O(n)</strong> elements in the worst case, so the space complexity is <strong>O(n)</strong>.</li>
+</ul>
+
+<br>    
+<br>    
+
+
+<h3>Prefix To Infix</h3>
+<p><strong>Steps to Convert Postfix to Infix</strong></p>
+
+<ul>
+    <li><strong>Initialize an empty stack.</strong></li>
+    <li><strong>Iterate through each character in the postfix expression from right to left.</strong>
+        <ul>
+            <li>If the character is an operand, push it onto the stack.</li>
+            <li>If the character is an operator, pop two elements from the stack, create a new string with the operator between the two operands, and push this new string back onto the stack.</li>
+        </ul>
+    </li>
+    <li><strong>The final element in the stack is the infix expression.</strong></li>
+</ul>
+
+<p><strong>Example</strong></p>
+
+<ul>
+    <li><strong>Input (Postfix Expression)</strong>: <code>ab+c*</code></li>
+    <li><strong>Output (Infix Expression)</strong>: <code>((a+b)*c)</code></li>
+</ul>
+
+<p><strong>Explanation of the Example</strong></p>
+
+<ul>
+    <li>Read <strong>'c'</strong>: Operand, push onto stack: <code>['c']</code></li>
+    <li>Read <strong>'*'</strong>: Operator, pop 'c' and 'b', form <code>(b*c)</code>, push back onto stack: <code>['(b*c)']</code></li>
+    <li>Read <strong>'+'</strong>: Operator, pop '(b*c)' and 'a', form <code>(a+(b*c))</code>, push back onto stack: <code>['(a+(b*c))']</code></li>
+    <li>Read <strong>'b'</strong>: Operand, push onto stack: <code>['b', '(a+(b*c))']</code></li>
+    <li>Read <strong>'a'</strong>: Operand, push onto stack: <code>['a', 'b', '(a+(b*c))']</code></li>
+</ul>
+
+<p><strong>Code</strong></p>
+
+```python
+def solve(n, s):
+    stack = []
+    for i in range(n - 1, -1, -1):
+        if s[i].isalnum():
+            stack.append(s[i])
+        else:
+            op1 = stack.pop()
+            op2 = stack.pop()
+            new = f"({op1+s[i]+op2})"
+            stack.append(new)
+    return stack[-1]
+
+s = input()
+n = len(s)
+print(solve(n, s))
+```
+
+<p><strong>Complexity Analysis</strong></p>
+<p><strong>Time Complexity</strong></p>
+<ul>
+    <li>Each character in the string is processed once, so the time complexity is <strong>O(n)</strong>.</li>
+</ul>
+<p><strong>Space Complexity</strong></p>
+<ul>
+    <li>The stack can hold up to <strong>O(n)</strong> elements in the worst case, so the space complexity is <strong>O(n)</strong>.</li>
+</ul>
+
+<br>
+<br>
+
+<h3>Postfix To Prefix</h3>
+<p><strong>Steps to Convert Postfix to Infix</strong></p>
+
+<ul>
+    <li><strong>Initialize an empty stack.</strong></li>
+    <li><strong>Iterate through each character in the postfix expression.</strong>
+        <ul>
+            <li>If the character is an operand (a letter or digit), push it onto the stack.</li>
+            <li>If the character is an operator, pop the top two operands from the stack. 
+                <ul>
+                    <li>The first operand popped is <strong>op1</strong>, and the second operand popped is <strong>op2</strong>.</li>
+                    <li>Create a new infix expression by placing the operator between <strong>op2</strong> and <strong>op1</strong>, and enclose it in parentheses.</li>
+                    <li>Push this new infix expression back onto the stack.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>The final element in the stack is the complete infix expression.</strong></li>
+</ul>
+
+<p><strong>Example</strong></p>
+
+<ul>
+    <li><strong>Input (Postfix Expression)</strong>: <code>ab+c*</code></li>
+    <li><strong>Output (Infix Expression)</strong>: <code>((a+b)*c)</code></li>
+</ul>
+
+<p><strong>Explanation of the Example</strong></p>
+
+<ul>
+    <li>Read <strong>'a'</strong>: Operand, push onto stack: <code>['a']</code></li>
+    <li>Read <strong>'b'</strong>: Operand, push onto stack: <code>['a', 'b']</code></li>
+    <li>Read <strong>'+'</strong>: Operator, pop 'b' and 'a', form <code>(a+b)</code>, push back onto stack: <code>['(a+b)']</code></li>
+    <li>Read <strong>'*'</strong>: Operator, pop '(a+b)' and 'c', form <code>((a+b)*c)</code>, push back onto stack: <code>['((a+b)*c)']</code></li>
+</ul>
+
+<p><strong>Code</strong></p>
+
+<pre>
+<code>
+def solve(n, s):
+    stack = []
+    for i in range(n):
+        if s[i].isalnum():
+            stack.append(s[i])
+        else:
+            op1 = stack.pop()
+            op2 = stack.pop()
+            new = "({}{}{})".format(op2, s[i], op1)
+            stack.append(new)
+    return stack[-1]
+
+s = input()
+n = len(s)
+print(solve(n, s))
+</code>
+</pre>
+
+<p><strong>Complexity Analysis</strong></p>
+
+<p><strong>Time Complexity</strong></p>
+
+<ul>
+    <li>Each character in the string is processed once, so the time complexity is <strong>O(n)</strong>.</li>
+</ul>
+
+<p><strong>Space Complexity</strong></p>
+
+<ul>
+    <li>The stack can hold up to <strong>O(n)</strong> elements in the worst case, so the space complexity is <strong>O(n)</strong>.</li>
+</ul>
+
+
+<h3>Prefix To Postfix</h3>
+<p>This function converts a postfix expression to its corresponding prefix expression by processing the postfix expression from right to left.</p>
+
+<p><strong>Steps to Convert Postfix to Prefix</strong></p>
+
+<ul>
+    <li><strong>Initialize an empty stack.</strong></li>
+    <li><strong>Iterate through each character in the postfix expression from right to left.</strong>
+        <ul>
+            <li>If the character is an operand (a letter or digit), push it onto the stack.</li>
+            <li>If the character is an operator, pop the top two operands from the stack. 
+                <ul>
+                    <li>The first operand popped is <strong>op1</strong>, and the second operand popped is <strong>op2</strong>.</li>
+                    <li>Create a new prefix expression by placing the operator before <strong>op1</strong> and <strong>op2</strong>, resulting in <strong>op1+op2+operator</strong>.</li>
+                    <li>Push this new prefix expression back onto the stack.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>The final element in the stack is the complete prefix expression.</strong></li>
+</ul>
+
+<p><strong>Example</strong></p>
+
+<ul>
+    <li><strong>Input (Postfix Expression)</strong>: <code>ab+c*</code></li>
+    <li><strong>Output (Prefix Expression)</strong>: <code>*+abc</code></li>
+</ul>
+
+<p><strong>Explanation of the Example</strong></p>
+
+<ul>
+    <li>Read <strong>'c'</strong>: Operand, push onto stack: <code>['c']</code></li>
+    <li>Read <strong>'+'</strong>: Operator, pop 'c' and 'b', form <code>+bc</code>, push back onto stack: <code>['+bc']</code></li>
+    <li>Read <strong>'a'</strong>: Operand, push onto stack: <code>['a', '+bc']</code></li>
+    <li>Read <strong>'*'</strong>: Operator, pop '+bc' and 'a', form <code>*+abc</code>, push back onto stack: <code>['*+abc']</code></li>
+</ul>
+
+<p><strong>Code</strong></p>
+
+```python
+def solve(n, s):
+    stack = []
+    for i in range(n - 1, -1, -1):
+        if s[i].isalnum():
+            stack.append(s[i])
+        else:
+            op1 = stack.pop()
+            op2 = stack.pop()
+            new = op1 + op2 + s[i]
+            stack.append(new)
+    return stack[-1]
+
+s = input()
+n = len(s)
+print(solve(n, s))
+```
+
+<p><strong>Complexity Analysis</strong></p>
+<p><strong>Time Complexity</strong></p>
+<ul>
+    <li>Each character in the string is processed once, so the time complexity is <strong>O(n)</strong>.</li>
+</ul>
+<p><strong>Space Complexity</strong></p>
+<ul>
+    <li>The stack can hold up to <strong>O(n)</strong> elements in the worst case, so the space complexity is <strong>O(n)</strong>.</li>
+</ul>
