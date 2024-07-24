@@ -1185,3 +1185,6 @@ print(solve(n, s))
 <ul>
     <li>The stack can hold up to <strong>O(n)</strong> elements in the worst case, so the space complexity is <strong>O(n)</strong>.</li>
 </ul>
+
+
+
