@@ -14,16 +14,12 @@ def better(n,arr):
     pge=[]
     stack=[]
     for i in range(n):
-        if(i==0):
-            pge.append(-1)
-            stack.append(i)
+        while stack and arr[i]>=arr[stack[-1]]:
+            stack.pop()
+        if(stack):
+            pge.append(stack[-1])
         else:
-            while stack and arr[i]>=arr[stack[-1]]:
-                stack.pop()
-            if(stack):
-                pge.append(stack[-1])
-            else:
-                pge.append(-1)
+            pge.append(-1)
         stack.append(i)
     ans=[]
     for i in range(n):
@@ -34,16 +30,12 @@ def optimized(n,arr):
     ans=[]
     stack=[]
     for i in range(n):
-        if(i==0):
-            ans.append(i-(-1))
-            stack.append(i)
+        while stack and arr[i]>=arr[stack[-1]]:
+            stack.pop()
+        if(stack):
+            ans.append(i-stack[-1])
         else:
-            while stack and arr[i]>=arr[stack[-1]]:
-                stack.pop()
-            if(stack):
-                ans.append(i-stack[-1])
-            else:
-                ans.append(i-(-1))
+            ans.append(i-(-1))
         stack.append(i)
     return ans
     

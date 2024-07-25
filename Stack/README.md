@@ -1188,3 +1188,1195 @@ print(solve(n, s))
 
 
 
+<p>The stack stores all possible greater elements for the elements processed so far. This helps efficiently find the next greater element for each item in the array.</p>
+
+<p><strong>Purpose of the Stack:</strong></p>
+<ul>
+    <li>The stack keeps track of elements that might be the next greater element for the elements to the left of the current element in the array.</li>
+</ul>
+
+<p><strong>Processing Each Element:</strong></p>
+<ol>
+    <li><strong>From Right to Left:</strong> By processing the array from right to left, the stack can be used to efficiently find the next greater element.</li>
+    <li><strong>Pop Operation:</strong>
+        <ul>
+            <li><strong>Removing Smaller Elements:</strong> For each element, while the stack is not empty and the top of the stack is less than or equal to the current element, pop elements from the stack. This ensures that only elements greater than the current element remain in the stack.</li>
+        </ul>
+    </li>
+    <li><strong>Determining the Next Greater Element:</strong>
+        <ul>
+            <li><strong>Top of the Stack:</strong> If the stack is not empty after popping, the top element of the stack is the next greater element for the current element.</li>
+            <li><strong>Stack is Empty:</strong> If the stack is empty, there is no greater element for the current element, so <strong>-1</strong> is appended to the result list <strong>ans</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Push Operation:</strong>
+        <ul>
+            <li><strong>Adding Current Element:</strong> After processing the current element, push it onto the stack. This prepares it to potentially be the next greater element for the elements to the left.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Example Walkthrough:</strong></p>
+<p>Let's take an example array <strong>[4, 5, 2, 10, 8]</strong> to see how the stack stores possible greater elements and how it is updated:</p>
+
+<ol>
+    <li><strong>Initialization:</strong>
+        <ul>
+            <li><strong>ans = []</strong></li>
+            <li><strong>stack = []</strong></li>
+        </ul>
+    </li>
+    <li><strong>Process elements from right to left:</strong>
+        <ul>
+            <li><strong>Element 8 (at index 4):</strong>
+                <ul>
+                    <li>Append <strong>-1</strong> to <strong>ans</strong> because there is no next element.</li>
+                    <li>Push <strong>8</strong> onto the stack.</li>
+                    <li><strong>ans = [-1]</strong></li>
+                    <li><strong>stack = [8]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 10 (at index 3):</strong>
+                <ul>
+                    <li>Pop <strong>8</strong> from the stack because <strong>8 <= 10</strong>.</li>
+                    <li>Append <strong>-1</strong> to <strong>ans</strong> because the stack is now empty.</li>
+                    <li>Push <strong>10</strong> onto the stack.</li>
+                    <li><strong>ans = [-1, -1]</strong></li>
+                    <li><strong>stack = [10]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 2 (at index 2):</strong>
+                <ul>
+                    <li>No elements in the stack are less than or equal to <strong>2</strong>, so no popping occurs.</li>
+                    <li>Append <strong>10</strong> to <strong>ans</strong> because the top of the stack is <strong>10</strong>.</li>
+                    <li>Push <strong>2</strong> onto the stack.</li>
+                    <li><strong>ans = [-1, -1, 10]</strong></li>
+                    <li><strong>stack = [10, 2]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 5 (at index 1):</strong>
+                <ul>
+                    <li>Pop <strong>2</strong> from the stack because <strong>2 <= 5</strong>.</li>
+                    <li>Append <strong>10</strong> to <strong>ans</strong> because the top of the stack is <strong>10</strong>.</li>
+                    <li>Push <strong>5</strong> onto the stack.</li>
+                    <li><strong>ans = [-1, -1, 10, 10]</strong></li>
+                    <li><strong>stack = [10, 5]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 4 (at index 0):</strong>
+                <ul>
+                    <li>No elements in the stack are less than or equal to <strong>4</strong>, so no popping occurs.</li>
+                    <li>Append <strong>5</strong> to <strong>ans</strong> because the top of the stack is <strong>5</strong>.</li>
+                    <li>Push <strong>4</strong> onto the stack.</li>
+                    <li><strong>ans = [-1, -1, 10, 10, 5]</strong></li>
+                    <li><strong>stack = [10, 5, 4]</strong></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Reverse the ans List:</strong> Reverse <strong>ans</strong> to match the original left-to-right order of the array.</li>
+    <li><strong>Final result:</strong> <strong>[5, 10, 10, -1, -1]</strong></li>
+</ol>
+
+
+
+```python
+def optimized(n, arr):
+    ans = []  # Initialize an empty list to store the answers
+    stack = []  # Initialize an empty stack
+    
+    for i in range(n-1, -1, -1):  # Traverse the array from right to left
+        while stack and arr[i] >= stack[-1]:  # Pop elements from stack while they are less than or equal to current element
+            stack.pop()
+        
+        if stack:  # If the stack is not empty, the top element is the next greater element
+            ans.append(stack[-1])
+        else:  # If the stack is empty, there is no next greater element
+            ans.append(-1)
+        
+        stack.append(arr[i])  # Push the current element onto the stack
+    
+    return ans[::-1]  # Reverse the answer list before returning
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p><strong>Summary</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <strong>O(n)</strong> due to the traversal and stack operations.</li>
+    <li><strong>Space Complexity:</strong> <strong>O(n)</strong> due to the stack and output list <strong>ans</strong>.</li>
+</ul>
+
+
+<h3>Next Smaller Elements</h3>
+<p>For each element in the array, find the first smaller element that comes after it. If no such element exists, the result is -1.</p>
+<p>Here, it follows same approach as previous, just condition while popping element from stack will change</p>
+<p>It will pop only when curren element less than stack top element</p>
+
+```python
+def next_smaller(n, arr):
+    ans = []
+    stack = []
+    for i in range(n-1, -1, -1):
+        while stack and  arr[i] <= stack[-1] :
+            stack.pop()
+        if stack:
+            ans.append(stack[-1])
+        else:
+            ans.append(-1)
+        stack.append(arr[i])
+    return ans[::-1]
+```
+
+<h3>Previous Smaller Element</h3>
+<p>For each element in the array, find the first smaller element that comes before it. If no such element exists, the result is -1.</p>
+<p>Here, we will loop from left to right, since we need to track left elements that will be used as answers for right elements</p>
+
+```python
+def previous_smaller(n, arr):
+    ans = []
+    stack = []
+    for i in range(n):
+        while stack and arr[i] <= stack[-1]:
+            stack.pop()
+        if stack:
+            ans.append(stack[-1])
+        else:
+            ans.append(-1)
+        stack.append(arr[i])
+    return ans
+```
+
+<h3>Previous Greater Element</h3>
+<p>For each element in the array, find the first greater element that comes before it. If no such element exists, the result is -1.</p>
+<p>Here We Finding Greater Elements</p>
+
+```python
+def previous_greater(n, arr):
+    ans = []
+    stack = []
+    for i in range(n):
+        while stack and arr[i] >= stack[-1]:
+            stack.pop()
+        if stack:
+            ans.append(stack[-1])
+        else:
+            ans.append(-1)
+        stack.append(arr[i])
+    return ans
+
+```
+<br>
+<br>
+
+<h2>Next Greater Element : Circular</h2>
+<p>Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.</p>
+<p>The next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.</p>
+
+<p><strong>Examples</strong></p>
+<p><strong>Input :</strong>nums = [1,2,1]</p>
+<p><strong>Output :</strong>[2,-1,2]</p>
+<p><strong>Explanation :</strong>he first 1's next greater number is 2; The number 2 can't find next greater number. The second 1's next greater number needs to search circularly, which is also 2.</p>
+<p><strong>Input :</strong>nums = [1,2,3,4,3]</p>
+<p><strong>Output :</strong>[2,3,4,-1,4]</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>Here, For Each Element, we compare with remaining n-1 elements to find greater element</p>
+<p>In a circular array, we treat the array as if it loops around. For each element, we look for the next element that is greater than it by checking all subsequent elements, including wrapping around to the start of the array if necessary. If no such element is found, we return <strong>-1</strong>.</p>
+
+<p><strong>Code Explanation</strong></p>
+<p>The function <strong>bruteForce</strong> goes through each element of the array and finds the next greater element using a nested loop. Here’s a step-by-step breakdown of the code:</p>
+
+<ul>
+    <li><strong>Initialization</strong>:
+        <ul>
+            <li>Create an empty list <strong>ans</strong> to store the results.</li>
+        </ul>
+    </li>
+    <li><strong>Outer Loop</strong>:
+        <ul>
+            <li>Iterate through each element of the array using the index <strong>i</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Inner Loop</strong>:
+        <ul>
+            <li>For each element at index <strong>i</strong>, check all subsequent elements up to the next <strong>(n-1)</strong> elements.</li>
+            <li>Use the modulo operation <strong>(j % n)</strong> to wrap around the array when the end is reached.</li>
+        </ul>
+    </li>
+    <li><strong>Condition</strong>:
+        <ul>
+            <li>If a greater element is found, append it to the result list <strong>ans</strong> and break out of the inner loop.</li>
+            <li>If no greater element is found after checking <strong>(n-1)</strong> elements, append <strong>-1</strong> to the result list <strong>ans</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Return the Result</strong>:
+        <ul>
+            <li>Return the result list <strong>ans</strong>.</li>
+        </ul>
+    </li>
+</ul>
+
+```python
+def bruteForce(n, arr):
+    ans = []
+    for i in range(n):
+        flag = True
+        for j in range(i + 1, n + i):
+            if arr[j % n] > arr[i]:
+                ans.append(arr[j % n])
+                flag = False
+                break
+        if flag:
+            ans.append(-1)
+    return ans
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p><strong>Example Walkthrough</strong></p>
+
+<p>Consider the array <strong>[4, 5, 2, 10, 8]</strong>:</p>
+
+<ol>
+    <li><strong>Initialization</strong>:
+        <ul>
+            <li><strong>ans = []</strong></li>
+        </ul>
+    </li>
+    <li><strong>Process each element</strong>:
+        <ul>
+            <li><strong>Element 4</strong> (at index 0):
+                <ul>
+                    <li>Check elements: 5, 2, 10, 8, (4 - wraps around)</li>
+                    <li>Next greater element is 5.</li>
+                    <li><strong>ans = [5]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 5</strong> (at index 1):
+                <ul>
+                    <li>Check elements: 2, 10, 8, 4, (5 - wraps around)</li>
+                    <li>Next greater element is 10.</li>
+                    <li><strong>ans = [5, 10]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 2</strong> (at index 2):
+                <ul>
+                    <li>Check elements: 10, 8, 4, 5, (2 - wraps around)</li>
+                    <li>Next greater element is 10.</li>
+                    <li><strong>ans = [5, 10, 10]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 10</strong> (at index 3):
+                <ul>
+                    <li>Check elements: 8, 4, 5, 2, (10 - wraps around)</li>
+                    <li>No greater element found, so append -1.</li>
+                    <li><strong>ans = [5, 10, 10, -1]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 8</strong> (at index 4):
+                <ul>
+                    <li>Check elements: 4, 5, 2, 10, (8 - wraps around)</li>
+                    <li>Next greater element is 10.</li>
+                    <li><strong>ans = [5, 10, 10, -1, 10]</strong></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Summary</strong></p>
+<ul>
+    <li><strong>Time Complexity</strong>: O(n^2) due to the nested loops.</li>
+    <li><strong>Space Complexity</strong>: O(n) for the result list ans.</li>
+</ul>
+
+<p><strong>Efficient Approach</strong></p>
+
+<p><strong>Intuition in Simple Words</strong></p>
+<p>In a circular array, imagine the array is connected end-to-end. For each element, we want to find the next greater element, even if it means wrapping around to the beginning of the array.</p>
+<p>To do this efficiently:</p>
+<ul>
+    <li><strong>Use a Stack</strong>: Think of the stack as a tool to keep track of elements that might be the next greater element for upcoming elements.</li>
+    <li><strong>Process from End to Start</strong>: By going backwards, we can ensure that we have already considered all potential next greater elements for each element as we encounter it.</li>
+    <li><strong>Wrap Around</strong>: By looping through the array twice, we simulate the circular nature without explicitly handling it separately.</li>
+</ul>
+
+<p><strong>Step-by-Step Process</strong></p>
+<ol>
+    <li><strong>Initialize</strong>:
+        <ul>
+            <li>Start with an empty stack and an empty result list.</li>
+        </ul>
+    </li>
+    <li><strong>Loop Through Elements Backwards Twice</strong>:
+        <ul>
+            <li>This means we effectively handle the circular part without extra complexity.</li>
+        </ul>
+    </li>
+    <li><strong>For Each Element</strong>:
+        <ul>
+            <li><strong>Pop Elements from the Stack</strong>: Remove elements from the stack that are less than or equal to the current element because they can't be the next greater element.</li>
+            <li><strong>Add to Result</strong>: If we are in the first pass (i.e., actual elements in the array), append the top element of the stack to the result as it is the next greater element. If the stack is empty, append <strong>-1</strong> (no greater element found).</li>
+            <li><strong>Push Current Element</strong>: Push the current element onto the stack as it might be the next greater element for upcoming elements.</li>
+        </ul>
+    </li>
+    <li><strong>Reverse the Result</strong>:
+        <ul>
+            <li>Since we collected results in reverse order, reverse <strong>ans</strong> before returning.</li>
+        </ul>
+    </li>
+</ol>
+
+```python
+def optimized(n, arr):
+    ans = []
+    stack = []
+    for j in range(2 * n - 1, -1, -1):
+        i = j % n
+        while stack and arr[i] >= stack[-1]:
+            stack.pop()
+        if j < n:
+            if stack:
+                ans.append(stack[-1])
+            else:
+                ans.append(-1)
+        stack.append(arr[i])
+    ans = ans[::-1]
+    return ans
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p><strong>Example Walkthrough</strong></p>
+
+<p>Consider the array <strong>[4, 5, 2, 10, 8]</strong>:</p>
+
+<ol>
+    <li><strong>Initialization</strong>:
+        <ul>
+            <li><strong>ans = []</strong></li>
+            <li><strong>stack = []</strong></li>
+        </ul>
+    </li>
+    <li><strong>Process each element (in reverse order)</strong>:
+        <ul>
+            <li><strong>Element 8</strong> (at index 4):
+                <ul>
+                    <li>Check: Stack is empty.</li>
+                    <li>Push <strong>8</strong> onto stack.</li>
+                    <li><strong>stack = [8]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 10</strong> (at index 3):
+                <ul>
+                    <li>Check: 8 is less than 10, pop 8.</li>
+                    <li>Push <strong>10</strong> onto stack.</li>
+                    <li><strong>stack = [10]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 2</strong> (at index 2):
+                <ul>
+                    <li>Check: Stack is not empty, 10 is greater.</li>
+                    <li>Append <strong>10</strong> to <strong>ans</strong>.</li>
+                    <li>Push <strong>2</strong> onto stack.</li>
+                    <li><strong>ans = [10]</strong></li>
+                    <li><strong>stack = [10, 2]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 5</strong> (at index 1):
+                <ul>
+                    <li>Check: 2 is less than 5, pop 2.</li>
+                    <li>Stack is not empty, 10 is greater.</li>
+                    <li>Append <strong>10</strong> to <strong>ans</strong>.</li>
+                    <li>Push <strong>5</strong> onto stack.</li>
+                    <li><strong>ans = [10, 10]</strong></li>
+                    <li><strong>stack = [10, 5]</strong></li>
+                </ul>
+            </li>
+            <li><strong>Element 4</strong> (at index 0):
+                <ul>
+                    <li>Check: Stack is not empty, 5 is greater.</li>
+                    <li>Append <strong>5</strong> to <strong>ans</strong>.</li>
+                    <li>Push <strong>4</strong> onto stack.</li>
+                    <li><strong>ans = [10, 10, 5]</strong></li>
+                    <li><strong>stack = [10, 5, 4]</strong></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Reverse the Result</strong>:
+        <ul>
+            <li><strong>ans = [5, 10, 10, -1, 10]</strong> (after reversing)</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Summary</strong></p>
+<ul>
+    <li><strong>Time Complexity</strong>: O(n) because each element is pushed and popped from the stack at most once.</li>
+    <li><strong>Space Complexity</strong>: O(n) for the stack and result list <strong>ans</strong>.</li>
+</ul>
+
+<p><strong>Next Smaller Element in Circular Array</strong></p>
+
+<p><strong>Intuition</strong></p>
+<p>In a circular array, we treat the array as if it loops around. For each element, we look for the next smaller element. We use a stack to keep track of potential next smaller elements efficiently.</p>
+
+<p><strong>Code</strong></p>
+
+```python
+def next_smaller(n, arr):
+    ans = []
+    stack = []
+    for j in range(2 * n - 1, -1, -1):
+        i = j % n
+        while stack and arr[i] <= stack[-1]:
+            stack.pop()
+        if j < n:
+            if stack:
+                ans.append(stack[-1])
+            else:
+                ans.append(-1)
+        stack.append(arr[i])
+    ans = ans[::-1]
+    return ans
+```
+
+<p><strong>Previous Smaller Element in Circular Array</strong></p>
+
+<p><strong>Intuition</strong></p>
+<p>For each element in the circular array, we look for the previous element that is smaller than it. We use a stack to keep track of potential previous smaller elements efficiently.</p>
+
+<p><strong>Code</strong></p>
+
+```python
+def previous_smaller(n, arr):
+    ans = [-1] * n
+    stack = []
+    for j in range(n):
+        i = j % n
+        while stack and arr[stack[-1]] >= arr[i]:
+            stack.pop()
+        if stack:
+            ans[i] = arr[stack[-1]]
+        stack.append(i)
+    return ans
+```
+
+<p><strong>Previous Greater Element in Circular Array</strong></p>
+
+<p><strong>Intuition</strong></p>
+<p>For each element in the circular array, we look for the previous element that is greater than it. We use a stack to keep track of potential previous greater elements efficiently.</p>
+
+<p><strong>Code</strong></p>
+
+```python
+def previous_greater(n, arr):
+    ans = [-1] * n
+    stack = []
+    for j in range(n):
+        i = j % n
+        while stack and arr[stack[-1]] <= arr[i]:
+            stack.pop()
+        if stack:
+            ans[i] = arr[stack[-1]]
+        stack.append(i)
+    return ans
+```
+
+
+<br>
+<br>
+
+<h2>Sum Of Subarray Minimums</h2>
+<p>Given an array of integers arr, find the sum of min(b), where b ranges over every (contiguous) subarray of arr. Since the answer may be large, return the answer modulo 109 + 7.</p>
+
+<p><strong>Examples</strong></p>
+<p><strong>Input:</strong>arr = [3,1,2,4] </p>
+<p><strong>Output:</strong>17</p>
+<p><strong>Explanation:</strong>Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4]. Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.Sum is 17.</p>
+<p><strong>Input:</strong>arr = [11,81,94,43,3] </p>
+<p><strong>Output:</strong>444</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In this approach, we will find out all possible subarrays for given array, and for each subarrays we will find minimum value</p>
+<p>The sum of all minimum values will be our answer</p>
+
+```python
+def bruteforce(n,arr):
+    sum=0
+    for i in range(n):
+        for j in range(i,n):
+            mini=float('inf')
+            for k in range(i,j+1):
+                mini=min(mini,arr[k])
+            sum+=mini
+    return sum
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteforce(n,arr))
+```
+
+<p><strong>Time Complexity :</strong> O(n^3), since we have 3 nested loops</p>
+<p><strong>Space Complexity :</strong>O(1), we are not using any extra space</p>
+
+<p><strong>Better Approach</strong></p>
+<p>We will just modify the above approach, to eliminate 3rd inner loop</p>
+
+```python
+def better(n,arr):
+    sum=0
+    for i in range(n):
+        mini=float('inf')
+        for j in range(i,n):
+            mini=min(mini,arr[j])
+            sum+=mini
+    return sum
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteforce(n,arr))
+```
+<p><strong>Time Complexity :</strong> O(n^2), since we have 2 nested loops</p>
+<p><strong>Space Complexity :</strong>O(1), we are not using any extra space</p>
+
+<p><strong>Efficient Approach</strong></p>
+<p>In this approach, We will loop through given array, for each element, we will find how many subarrays will have current element as minimum cuurent, then we will multiply current element with number of possible subbarrays, then will add that to final sum</p>
+<p>Each number in the array can be the smallest number in several subarrays. We need to figure out how many times each number is the smallest in different subarrays and then sum up these contributions.</p>
+<p>To find out how many subarrays have a specific element as the smallest element, follow these simple steps:</p>
+<ul>
+    <li><strong>Identify Boundaries:</strong></li>
+    <ul>
+        <li>For each element in the array, figure out:
+            <ul>
+                <li><strong>How far to the left</strong> you can go while this element is still the smallest.</li>
+                <li><strong>How far to the right</strong> you can go while this element is still the smallest.</li>
+            </ul>
+        </li>
+    </ul>
+</ul>
+
+<ul>
+    <li><strong>Calculate the Lengths:</strong></li>
+    <ul>
+        <li><strong>Left Length:</strong> How many subarrays start from this element and extend to the left boundary.</li>
+        <li><strong>Right Length:</strong> How many subarrays end at this element and extend to the right boundary.</li>
+    </ul>
+</ul>
+
+<p><strong>Example</strong></p>
+<p>Let's use an array <strong>[3, 1, 2, 4]</strong> and find out how many subarrays have the element <strong>2</strong> (at index 2) as the smallest.</p>
+
+<ul>
+    <li><strong>Find the Boundaries for 2:</strong></li>
+    <ul>
+        <li><strong>Left Boundary:</strong>
+            <p>Look to the left of <strong>2</strong> to see how far you can extend while <strong>2</strong> is still the smallest.</p>
+            <p>The nearest smaller number to the left of <strong>2</strong> is <strong>1</strong> (at index 1).</p>
+            <p>So, <strong>2</strong> can extend left to the position right after <strong>1</strong> (i.e., index 2 can start from index 1 and extend to index 2).</p>
+        </li>
+        <li><strong>Right Boundary:</strong>
+            <p>Look to the right of <strong>2</strong> to see how far you can extend while <strong>2</strong> is still the smallest.</p>
+            <p>The nearest smaller number to the right of <strong>2</strong> is <strong>4</strong> (at index 3).</p>
+            <p>So, <strong>2</strong> can extend right up to index 3 (i.e., index 2 can end at index 3).</p>
+        </li>
+    </ul>
+</ul>
+
+<ul>
+    <li><strong>Calculate the Lengths:</strong></li>
+    <ul>
+        <li><strong>Left Length:</strong>
+            <p>From index <strong>2</strong>, you can extend to the start of the array (index <strong>1</strong>).</p>
+            <p>So, <strong>Left Length</strong> = <strong>2 - 1</strong> = <strong>1</strong></p>
+        </li>
+        <li><strong>Right Length:</strong>
+            <p>From index <strong>2</strong>, you can extend up to index <strong>3</strong>.</p>
+            <p>So, <strong>Right Length</strong> = <strong>3 - 2</strong> = <strong>1</strong></p>
+        </li>
+    </ul>
+</ul>
+
+<p><strong>Count Subarrays:</strong></p>
+<p><strong>Number of Subarrays with 2 as the Minimum:</strong></p>
+<p>The total number of subarrays where <strong>2</strong> is the smallest is <strong>Left Length * Right Length</strong>.</p>
+<p>For <strong>2</strong>: <strong>1 (Left Length) * 1 (Right Length) = 1</strong></p>
+
+<p><strong>Summary</strong></p>
+<ol>
+    <li>For each number, find out how far left and right you can go while keeping that number as the smallest.</li>
+    <li>Multiply these two lengths to get the number of subarrays where that number is the smallest.</li>
+</ol>
+
+<p>In Order to find, previous smaller and next smaller for each element in given array, we can use algorithms discussed previously</p>
+
+<p>The given code solves the problem of finding the sum of the minimum values of all subarrays efficiently. It consists of three main parts:</p>
+
+<ul>
+    <li><strong>Finding the Next Smaller Element:</strong> Computes the index of the next smaller element for each element in the array.</li>
+    <li><strong>Finding the Previous Smaller or Equal Element:</strong> Computes the index of the previous smaller or equal element for each element in the array.</li>
+    <li><strong>Calculating the Total Sum:</strong> Uses the results from the previous two functions to calculate the total sum of minimum values of all subarrays.</li>
+</ul>
+
+<p><strong>1. nextSmallerElement(n, arr)</strong></p>
+<p>This function computes the index of the next smaller element for each element in the array. If there is no smaller element to the right, it returns <code>n</code> (the length of the array).</p>
+<ul>
+    <li><strong>Input:</strong> <code>n</code> (length of the array), <code>arr</code> (the array of integers)</li>
+    <li><strong>Output:</strong> A list where each position contains the index of the next smaller element.</li>
+</ul>
+<p><strong>How it works:</strong></p>
+<ul>
+    <li>Traverse the array from right to left.</li>
+    <li>Use a stack to keep track of indices of elements.</li>
+    <li>For each element, pop from the stack while the stack's top element is greater than or equal to the current element.</li>
+    <li>If the stack is not empty, the top of the stack is the index of the next smaller element; otherwise, use <code>n</code>.</li>
+    <li>Append the current index to the stack.</li>
+    <li>Reverse the result list at the end to match the original order of the array.</li>
+</ul>
+
+<p><strong>2. previousSmallerOrEqualElement(n, arr)</strong></p>
+<p>This function computes the index of the previous smaller or equal element for each element in the array. If there is no such smaller or equal element to the left, it returns <code>-1</code>.</p>
+<ul>
+    <li><strong>Input:</strong> <code>n</code> (length of the array), <code>arr</code> (the array of integers)</li>
+    <li><strong>Output:</strong> A list where each position contains the index of the previous smaller or equal element.</li>
+</ul>
+<p><strong>How it works:</strong></p>
+<ul>
+    <li>Traverse the array from left to right.</li>
+    <li>Use a stack to keep track of indices of elements.</li>
+    <li>For each element, pop from the stack while the stack's top element is strictly greater than the current element (since we are looking for smaller or equal elements).</li>
+    <li>If the stack is not empty, the top of the stack is the index of the previous smaller or equal element; otherwise, use <code>-1</code>.</li>
+    <li>Append the current index to the stack.</li>
+</ul>
+
+<p><strong>3. optimized(n, arr)</strong></p>
+<p>This function calculates the sum of minimum values of all subarrays using the results from the two helper functions above.</p>
+<ul>
+    <li><strong>Input:</strong> <code>n</code> (length of the array), <code>arr</code> (the array of integers)</li>
+    <li><strong>Output:</strong> The total sum of minimum values of all subarrays.</li>
+</ul>
+<p><strong>How it works:</strong></p>
+<ul>
+    <li>Compute the next smaller element (NSE) and previous smaller or equal element (PSE) arrays using the two helper functions.</li>
+    <li>For each element in the array:
+        <ul>
+            <li>Calculate how many subarrays it can be the smallest in by using the difference between its index and the NSE and PSE indices.</li>
+            <li>Multiply the number of such subarrays by the element's value.</li>
+            <li>Sum these contributions to get the final result.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Example Walkthrough</strong></p>
+<p>Consider <code>arr = [3, 1, 2, 4]</code>.</p>
+<ul>
+    <li><strong>For element 3 at index 0:</strong>
+        <ul>
+            <li><strong>NSE:</strong> Index 1 (value 1 is the next smaller element).</li>
+            <li><strong>PSE:</strong> No smaller element to the left, so index -1.</li>
+            <li><strong>Right Length:</strong> <code>NSE[0] - 0 = 1</code></li>
+            <li><strong>Left Length:</strong> <code>0 - PSE[0] = 0 - (-1) = 1</code></li>
+            <li><strong>Contribution:</strong> <code>3 * 1 * 1 = 3</code></li>
+        </ul>
+    </li>
+    <li><strong>For element 1 at index 1:</strong>
+        <ul>
+            <li><strong>NSE:</strong> Index 2 (value 2 is the next smaller element).</li>
+            <li><strong>PSE:</strong> No smaller element to the left, so index -1.</li>
+            <li><strong>Right Length:</strong> <code>NSE[1] - 1 = 2 - 1 = 1</code></li>
+            <li><strong>Left Length:</strong> <code>1 - PSE[1] = 1 - (-1) = 2</code></li>
+            <li><strong>Contribution:</strong> <code>1 * 1 * 2 = 2</code></li>
+        </ul>
+    </li>
+    <li><strong>For element 2 at index 2:</strong>
+        <ul>
+            <li><strong>NSE:</strong> Index 3 (value 4 is the next smaller element).</li>
+            <li><strong>PSE:</strong> Index 1 (value 1 is the previous smaller element).</li>
+            <li><strong>Right Length:</strong> <code>NSE[2] - 2 = 3 - 2 = 1</code></li>
+            <li><strong>Left Length:</strong> <code>2 - PSE[2] = 2 - 1 = 1</code></li>
+            <li><strong>Contribution:</strong> <code>2 * 1 * 1 = 2</code></li>
+        </ul>
+    </li>
+    <li><strong>For element 4 at index 3:</strong>
+        <ul>
+            <li><strong>NSE:</strong> Beyond the end of the array, so <code>n</code>.</li>
+            <li><strong>PSE:</strong> Index 2 (value 2 is the previous smaller element).</li>
+            <li><strong>Right Length:</strong> <code>NSE[3] - 3 = 4 - 3 = 1</code></li>
+            <li><strong>Left Length:</strong> <code>3 - PSE[3] = 3 - 2 = 1</code></li>
+            <li><strong>Contribution:</strong> <code>4 * 1 * 1 = 4</code></li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Final Sum Calculation</strong></p>
+<p>Add up all the contributions: <code>3 + 2 + 2 + 4 = 11</code>.</p>
+
+
+```python
+def nextSmallerElement(n,arr):
+    ans=[]
+    stack=[]
+    for i in range(n-1,-1,-1):
+        while stack and arr[i]<=arr[stack[-1]]:
+            stack.pop()
+        if(stack):
+            ans.append(stack[-1])
+        else:
+            ans.append(n)
+        stack.append(i)
+    return ans[::-1]
+
+def previousSmallerOrEqualElement(n,arr):
+    ans=[]
+    stack=[]
+    for i in range(n):
+        while stack and arr[i]<arr[stack[-1]]:
+            stack.pop()
+        if(stack):
+            ans.append(stack[-1])
+        else:
+            ans.append(-1)
+        stack.append(i)
+    return ans
+
+def optimized(n,arr):
+    nse=nextSmallerElement(n,arr)
+    pse=previousSmallerOrEqualElement(n,arr)
+    sum=0
+    for i in range(n):
+        right=nse[i]-i
+        left=i-pse[i]
+        sum+=(left*right*arr[i])
+    return sum
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<ul>
+    <li><strong>Time Complexity</strong>O(n) for each function, and thus O(n) for the combined operations.</li>
+    <li><strong>Space Complexity</strong>O(n) due to the storage required for the stack and result arrays.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Sum of Subarray Ranges</h2>
+<p>You are given an integer array nums. The range of a subarray of nums is the difference between the largest and smallest element in the subarray.</p>
+<p>Return the sum of all subarray ranges of nums.</p>
+<p>A subarray is a contiguous non-empty sequence of elements within an array.</p>
+<p><strong>Examples</strong></p>
+<pre>
+Input: nums = [1,2,3]
+Output: 4
+Explanation: The 6 subarrays of nums are the following:
+[1], range = largest - smallest = 1 - 1 = 0 
+[2], range = 2 - 2 = 0
+[3], range = 3 - 3 = 0
+[1,2], range = 2 - 1 = 1
+[2,3], range = 3 - 2 = 1
+[1,2,3], range = 3 - 1 = 2
+So the sum of all ranges is 0 + 0 + 0 + 1 + 1 + 2 = 4.
+</pre>
+<pre>
+Input: nums = [1,3,3]
+Output: 4
+Explanation: The 6 subarrays of nums are the following:
+[1], range = largest - smallest = 1 - 1 = 0
+[3], range = 3 - 3 = 0
+[3], range = 3 - 3 = 0
+[1,3], range = 3 - 1 = 2
+[3,3], range = 3 - 3 = 0
+[1,3,3], range = 3 - 1 = 2
+So the sum of all ranges is 0 + 0 + 0 + 2 + 0 + 2 = 4.
+</pre>
+<pre>
+Input: nums = [4,-2,-3,4,1]
+Output: 59
+Explanation: The sum of all subarray ranges of nums is 59.
+</pre>
+
+<p><strong>Solution</strong></p>
+
+<p>The problem is to find the sum of all subarray ranges of a given integer array <code>nums</code>. The range of a subarray is the difference between the largest and smallest element in that subarray.</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p><strong>Explanation:</strong> This approach calculates the sum of ranges for all possible subarrays by explicitly iterating over all possible subarrays.</p>
+<ul>
+    <li>Iterate over all starting indices of subarrays.</li>
+    <li>For each starting index, iterate over all ending indices.</li>
+    <li>For each subarray defined by these indices, find the minimum and maximum values.</li>
+    <li>Compute the range (difference between maximum and minimum) and add it to the total sum.</li>
+</ul>
+<p><strong>Complexity:</strong> O(n^3) due to nested loops for subarray and element comparisons.</p>
+
+```python
+def bruteforce(n, arr):
+    sum = 0
+    for i in range(n):
+        for j in range(i, n):
+            mini = float('inf')
+            maxi = float('-inf')
+            for k in range(i, j + 1):
+                mini = min(mini, arr[k])
+                maxi = max(maxi, arr[k])
+            sum += (maxi - mini)
+    return sum
+```
+
+<p><strong>Better Approach</strong></p>
+
+<p><strong>Explanation:</strong> This approach improves upon the brute force approach by maintaining the minimum and maximum values while expanding the subarray.</p>
+<ul>
+    <li>Iterate over all starting indices of subarrays.</li>
+    <li>For each starting index, initialize minimum and maximum values.</li>
+    <li>Expand the subarray by extending the ending index and updating the minimum and maximum values.</li>
+    <li>Compute the range and add it to the sum.</li>
+</ul>
+
+<p><strong>Complexity:</strong> O(n^2) due to nested loop for subarrays and linear update operations.</p>
+
+```python
+def better(n, arr):
+    sum = 0
+    for i in range(n):
+        mini = float('inf')
+        maxi = float('-inf')
+        for j in range(i, n):
+            mini = min(mini, arr[j])
+            maxi = max(maxi, arr[j])
+            sum += (maxi - mini)
+    return sum
+```
+
+<p><strong>Optimized Approach</strong></p>
+<p>In this approach, simply we will find minimum sum and maximum sum as previous problem, and the difference would be our answer</p>
+<p><strong>Explanation:</strong> This approach uses monotonic stacks to efficiently calculate the contribution of each element to the total sum of ranges.</p>
+<ul>
+    <li>Compute the next and previous smaller or equal elements and the next and previous greater or equal elements using stacks.</li>
+    <li>Calculate the contribution of each element as minimum and maximum in all possible subarrays.</li>
+    <li>Subtract the total contribution of minimum values from the total contribution of maximum values to get the final result.</li>
+</ul>
+
+<p><strong>Complexity:</strong> O(n) for each of the stack-based computations, resulting in an overall O(n) complexity.</p>
+
+```python
+def nextSmallerElement(n, arr):
+    ans = []
+    stack = []
+    for i in range(n - 1, -1, -1):
+        while stack and arr[i] <= arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            ans.append(stack[-1])
+        else:
+            ans.append(n)
+        stack.append(i)
+    return ans[::-1]
+
+def previousSmallerOrEqualElement(n, arr):
+    ans = []
+    stack = []
+    for i in range(n):
+        while stack and arr[i] < arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            ans.append(stack[-1])
+        else:
+            ans.append(-1)
+        stack.append(i)
+    return ans
+
+def optimizedMin(n, arr):
+    nse = nextSmallerElement(n, arr)
+    pse = previousSmallerOrEqualElement(n, arr)
+    sum = 0
+    for i in range(n):
+        right = nse[i] - i
+        left = i - pse[i]
+        sum += (left * right * arr[i])
+    return sum
+
+def nextGreaterElement(n, arr):
+    ans = []
+    stack = []
+    for i in range(n - 1, -1, -1):
+        while stack and arr[i] >= arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            ans.append(stack[-1])
+        else:
+            ans.append(n)
+        stack.append(i)
+    return ans[::-1]
+
+def previousGreaterOrEqualElement(n, arr):
+    ans = []
+    stack = []
+    for i in range(n):
+        while stack and arr[i] > arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            ans.append(stack[-1])
+        else:
+            ans.append(-1)
+        stack.append(i)
+    return ans
+
+def optimizedMax(n, arr):
+    nse = nextGreaterElement(n, arr)
+    pse = previousGreaterOrEqualElement(n, arr)
+    sum = 0
+    for i in range(n):
+        right = nse[i] - i
+        left = i - pse[i]
+        sum += (left * right * arr[i])
+    return sum
+
+def optimized(n, arr):
+    return optimizedMax(n, arr) - optimizedMin(n, arr)
+```
+
+<ul>
+    <li><strong>Time Complexity</strong>O(n) for each function, and thus O(n) for the combined operations.</li>
+    <li><strong>Space Complexity</strong>O(n) due to the storage required for the stack and result arrays.</li>
+</ul>
+
+<br>
+<br>
+
+
+<h2>Asteroid Collision</h2>
+<p>We are given an array asteroids of integers representing asteroids in a row.</p>
+<p>For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.</p>
+<p>Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.</p>
+
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>asteroids = [5,10,-5]</p>
+<p><strong>Output : </strong>[5,10]</p>
+<p><strong>Explantion : </strong>The 10 and -5 collide resulting in 10. The 5 and 10 never collide.</p>
+<p><strong>Input : </strong>asteroids = [8,-8]</p>
+<p><strong>Output : </strong>[]</p>
+<p><strong>Explantion : </strong>The 8 and -8 collide exploding each other. </p>
+<p><strong>Input : </strong>asteroids = [10,2,-5]</p>
+<p><strong>Output : </strong>[10]</p>
+<p><strong>Explantion : </strong>The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.</p>
+
+<p><strong>Solution</strong></p>
+<p><strong>Problem Understanding:</strong></p>
+<ul>
+    <li><strong>Asteroid Representation:</strong>
+        <ul>
+            <li>Positive values represent asteroids moving to the right.</li>
+            <li>Negative values represent asteroids moving to the left.</li>
+            <li>Two asteroids moving in the same direction will not collide.</li>
+        </ul>
+    </li>
+    <li><strong>Collision Rules:</strong>
+        <ul>
+            <li>When a right-moving asteroid (positive) meets a left-moving asteroid (negative):
+                <ul>
+                    <li>The larger asteroid survives, and the smaller one explodes.</li>
+                    <li>If they are of equal size, both explode.</li>
+                </ul>
+            </li>
+            <li>If both asteroids are moving in the same direction, they don’t collide.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Solution Strategy:</strong></p>
+<ul>
+    <li><strong>Use a Stack:</strong> The stack will help us keep track of the asteroids that are moving to the right and haven't yet collided with any asteroids moving to the left.</li>
+    <li><strong>Iterate Through Asteroids:</strong> For each asteroid, check if it collides with the top asteroid in the stack. Handle the collision based on the size of the asteroids and update the stack accordingly.</li>
+</ul>
+
+<p><strong>Detailed Steps:</strong></p>
+<ol>
+    <li><strong>Initialize an Empty Stack:</strong> This stack will store the asteroids moving to the right.</li>
+    <li><strong>Process Each Asteroid:</strong>
+        <ul>
+            <li>If the current asteroid is moving to the right (positive value), push it onto the stack.</li>
+            <li>If the current asteroid is moving to the left (negative value):
+                <ul>
+                    <li>Check collisions with the top of the stack:
+                        <ul>
+                            <li>Pop the stack while collisions occur (i.e., the top asteroid is moving to the right and is larger).</li>
+                            <li>If the top of the stack is equal to the absolute value of the current asteroid, pop the stack (both explode).</li>
+                            <li>If the stack is empty or the top of the stack is a left-moving asteroid, push the current asteroid onto the stack.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Return the Final Stack:</strong> The stack will contain the state of the asteroids after all collisions.</li>
+</ol>
+
+<p><strong>Python Code Implementation:</strong></p>
+
+```python
+def asteroidCollision(asteroids):
+    stack = []
+
+    for asteroid in asteroids:
+        if asteroid > 0:
+            stack.append(asteroid)
+        else:
+            while stack and stack[-1] > 0 and stack[-1] < abs(asteroid):
+                stack.pop()
+            if stack and stack[-1] == abs(asteroid):
+                stack.pop()
+            elif not stack or stack[-1] < 0:
+                stack.append(asteroid)
+
+    return stack
+arr=list(map(int,input().split()))
+n=len(arr)
+print(asteroidCollision(n,arr))
+````
+
+<p><strong>Example Walkthrough:</strong></p>
+<ul>
+    <li><strong>Example Input:</strong>
+        <pre><code>asteroids = [5, 10, -5]</code></pre>
+    </li>
+    <li><strong>Execution Steps:</strong>
+        <ul>
+            <li><strong>Process 5:</strong> Positive, push onto the stack. Stack: [5]</li>
+            <li><strong>Process 10:</strong> Positive, push onto the stack. Stack: [5, 10]</li>
+            <li><strong>Process -5:</strong>
+                <ul>
+                    <li>Collision with 10:</li>
+                    <li>10 is larger than 5, so 10 survives and -5 does not collide.</li>
+                    <li>Stack: [5, 10] (no changes needed)</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Final Stack:</strong> After processing all asteroids, the stack contains [5, 10], indicating that these asteroids survived.</li>
+    <li><strong>Example Output:</strong>
+        <pre><code>[5, 10]</code></pre>
+    </li>
+</ul>
+
+<p><strong>Complexity Analysis:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n), where n is the number of asteroids. Each asteroid is pushed and popped from the stack at most once.</li>
+    <li><strong>Space Complexity:</strong> O(n), due to the space required for the stack in the worst case.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Remove K Digits</h2>
+<p>Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input :</strong>num = "1432219", k = 3</p>
+<p><strong>Output :</strong>"1219"</p>
+<p><strong>Explantion :</strong>Remove the three digits 4, 3, and 2 to form the new number 1219 which is the smallest.</p>
+<p><strong>Input :</strong>num = "10200", k = 1</p>
+<p><strong>Output :</strong>"200"</p>
+<p><strong>Explantion :</strong>Remove the leading 1 and the number is 200. Note that the output must not contain leading zeroes.</p>
+<p><strong>Input :</strong>num = "10", k = 2</p>
+<p><strong>Output :</strong>"0"</p>
+<p><strong>Explantion :</strong>Remove all the digits from the number and it is left with nothing which is 0.</p>
+
+<p><strong>Solution</strong></p>
+<h2>Approach:</h2>
+
+<ol>
+    <li><strong>Using a Stack:</strong>
+        <p>Think of a stack as a "smart list" where you can easily add and remove elements. We’ll use this stack to build the smallest possible number step-by-step.</p>
+    </li>
+    <li><strong>Processing Digits:</strong>
+        <ul>
+            <li><strong>Check if the current digit can make the number smaller:</strong> If the digit you are currently looking at is smaller than the last digit in the stack, and you still have digits left to remove (<code>k</code>), then remove the last digit from the stack.</li>
+            <li><strong>Add the current digit to the stack:</strong> After adjusting the stack, add the current digit to the stack.</li>
+        </ul>
+    </li>
+    <li><strong>Removing Remaining Digits:</strong>
+        <p>After processing all digits, if there are still digits left to remove (<code>k</code> is still greater than 0), remove digits from the end of the stack.</p>
+    </li>
+    <li><strong>Forming the Final Number:</strong>
+        <ul>
+            <li>Convert the stack to a string to form the number.</li>
+            <li>Remove any leading zeros (because they don’t count in a number).</li>
+            <li>If the result is empty (meaning you removed all digits), return <code>'0'</code>.</li>
+        </ul>
+    </li>
+</ol>
+
+<h2>Why This Works:</h2>
+
+<ul>
+    <li><strong>Removing Larger Digits First:</strong> By removing larger digits when you find a smaller digit that comes after them, you ensure the remaining digits form a smaller number.</li>
+    <li><strong>Building in a Greedy Way:</strong> You’re always making the best choice locally (removing digits to make the number smaller) to achieve the smallest overall number.</li>
+</ul>
+
+<h2>Example:</h2>
+
+<p>For the number <code>1432219</code> with <code>k = 3</code>:</p>
+
+<ol>
+    <li>Start with an empty stack.</li>
+    <li>Add '1' to the stack.</li>
+    <li>Add '4' to the stack.</li>
+    <li>When you reach '3', '3' is smaller than '4', so remove '4' (because '3' makes the number smaller when it's before '4').</li>
+    <li>Continue this process for each digit.</li>
+</ol>
+
+<p>After processing all digits and removing any leftover digits if necessary, you end up with the smallest possible number after removing <code>k</code> digits.</p>
+
+<p>This method ensures that at each step, you’re making choices that lead to the smallest number overall.</p>
+
+
+```python
+def solve(n,s,k):
+    stack=[]
+    for i in range(n):
+        while stack and int(s[i]) <int(stack[-1]) and k>0:
+            stack.pop()
+            k-=1
+        stack.append(s[i])
+
+    while k>0:
+        k-=1
+        stack.pop()
+    final="".join(stack).lstrip('0')
+    return final if final else '0'
+
+s=input()
+n=len(s)
+k=int(input())
+print(solve(n,s,k))
+```
+
+<ul>
+    <li><strong>Time Complexity:</strong> O(n), where n is the number of digits traversed</li>
+    <li><strong>Space Complexity:</strong> O(n), due to the space required for the stack in the worst case.</li>
+</ul>
+
+
+<h2>Area of largest rectangle in Histogram</h2>
+<p>Given an array of integers heights representing the histogram's bar height where the width of each bar is 1  return the area of the largest rectangle in histogram.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>N =6, heights[] = {2,1,5,6,2,3}</p>
+<p><strong>Output : </strong>10</p>
+<p><strong>Explanation : </strong></p>
+<img src="https://lh3.googleusercontent.com/0HBN1kCWyRdgeNIlyx7qYR5sQM6qQaqFDTFO_0BeolTyHuWTD9xmawkqhxmrKwcBjLDcd3p73JfhNTZr0JxGtYv5fw3gDU1ccJa7JJZiO4VM32QA92VFIob1YTFaVEN3r4UVUzm3">
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+<p></p>

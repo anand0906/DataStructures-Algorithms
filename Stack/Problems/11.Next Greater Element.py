@@ -15,17 +15,13 @@ def optimized(n,arr):
     ans=[]
     stack=[]
     for i in range(n-1,-1,-1):
-        if(i==n-1):
-            ans.append(-1)
-            stack.append(arr[i])
+        while stack and arr[i]>=stack[-1]:
+            stack.pop()
+        if(stack):
+            ans.append(stack[-1])
         else:
-            while stack and arr[i]>=stack[-1]:
-                stack.pop()
-            if(stack):
-                ans.append(stack[-1])
-            else:
-                ans.append(-1)
-            stack.append(arr[i])
+            ans.append(-1)
+        stack.append(arr[i])
     return ans[::-1]
     
 arr=list(map(int,input().split()))
