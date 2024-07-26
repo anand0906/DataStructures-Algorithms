@@ -19,34 +19,26 @@ def nextSmallerElement(n,arr):
     ans=[]
     stack=[]
     for i in range(n-1,-1,-1):
-        if(i==n-1):
-            ans.append(n)
-            stack.append(i)
+        while stack and arr[i]<=arr[stack[-1]]:
+            stack.pop()
+        if(stack):
+            ans.append(stack[-1])
         else:
-            while stack and arr[i]<=arr[stack[-1]]:
-                stack.pop()
-            if(stack):
-                ans.append(stack[-1])
-            else:
-                ans.append(n)
-            stack.append(i)
+            ans.append(n)
+        stack.append(i)
     return ans[::-1]
 
 def previousSmallerElement(n,arr):
     ans=[]
     stack=[]
     for i in range(n):
-        if(i==0):
-            ans.append(-1)
-            stack.append(i)
+        while stack and arr[i]<=arr[stack[-1]]:
+            stack.pop()
+        if(stack):
+            ans.append(stack[-1])
         else:
-            while stack and arr[i]<=arr[stack[-1]]:
-                stack.pop()
-            if(stack):
-                ans.append(stack[-1])
-            else:
-                ans.append(-1)
-            stack.append(i)
+            ans.append(-1)
+        stack.append(i)
     return ans
 
 def better(n,arr):

@@ -2368,15 +2368,1338 @@ print(solve(n,s,k))
     <li><strong>Space Complexity:</strong> O(n), due to the space required for the stack in the worst case.</li>
 </ul>
 
+<br>
+<br>
+
 
 <h2>Area of largest rectangle in Histogram</h2>
 <p>Given an array of integers heights representing the histogram's bar height where the width of each bar is 1  return the area of the largest rectangle in histogram.</p>
 <p><strong>Examples</strong></p>
 <p><strong>Input : </strong>N =6, heights[] = {2,1,5,6,2,3}</p>
 <p><strong>Output : </strong>10</p>
-<p><strong>Explanation : </strong></p>
+<p><strong>Explanation : </strong>The above is a histogram where width of each bar is 1.The largest rectangle is shown in the red area, which has an area = 10 units.</p>
 <img src="https://lh3.googleusercontent.com/0HBN1kCWyRdgeNIlyx7qYR5sQM6qQaqFDTFO_0BeolTyHuWTD9xmawkqhxmrKwcBjLDcd3p73JfhNTZr0JxGtYv5fw3gDU1ccJa7JJZiO4VM32QA92VFIob1YTFaVEN3r4UVUzm3">
+<p><strong>Input : </strong>N =2, heights = [2,4]</p>
+<p><strong>Output : </strong>4</p>
+<img src="https://assets.leetcode.com/uploads/2021/01/04/histogram-1.jpg">
 
 <p><strong>Solution</strong></p>
 <p>This problem can be solved in several approaches</p>
-<p></p>
+<p>You are given an array where each element represents the height of a bar in a histogram. The width of each bar is 1. You need to find the area of the largest rectangle that can be formed using these bars.</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In this approach, we can use the concept of finding the next smaller element on both the left and the right of each bar. This allows us to determine the width of the largest rectangle that can be formed with each bar as the shortest bar.</p>
+<p><strong>Intuition:</strong></p>
+<ol>
+    <li>
+        <p><strong>Understanding the Histogram:</strong></p>
+        <ul>
+            <li>Imagine a histogram as a series of vertical bars lined up next to each other.</li>
+            <li>Each bar has a height (given in the array) and a fixed width of 1.</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Forming Rectangles:</strong></p>
+        <ul>
+            <li>To find the largest rectangle, you need to consider each bar as a potential "shortest bar" in a rectangle.</li>
+            <li>The rectangle can extend to the left and right of this bar as long as the heights of the bars are greater than or equal to the height of the "shortest bar."</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Finding the Extents:</strong></p>
+        <ul>
+            <li>For each bar, determine how far you can extend the rectangle to the left and to the right without encountering a shorter bar.</li>
+            <li>This will give you the width of the rectangle for which this bar is the shortest.</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Calculating the Area:</strong></p>
+        <ul>
+            <li>The area of the rectangle with the current bar as the shortest is calculated by multiplying the height of the bar by the width (distance between the left and right extents).</li>
+            <li>Keep track of the maximum area found during these calculations.</li>
+        </ul>
+    </li>
+</ol>
+<p><strong>Explanation of the Brute Force Approach:</strong></p>
+<ol>
+    <li>
+        <p><strong>Initialization:</strong></p>
+        <ul>
+            <li><code>maxArea</code> is initialized to 0 to keep track of the largest rectangle area found.</li>
+            <li>The outer loop iterates over each bar <code>i</code> in the histogram.</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Finding the Nearest Smaller Element on the Left (<code>leftMin</code>):</strong></p>
+        <ul>
+            <li>For each bar <code>i</code>, the inner loop iterates backward from <code>i-1</code> to 0.</li>
+            <li>If a bar smaller than the current bar is found, <code>leftMin</code> is set to the index of that bar.</li>
+            <li>If no smaller bar is found, <code>leftMin</code> remains -1.</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Finding the Nearest Smaller Element on the Right (<code>rightMin</code>):</strong></p>
+        <ul>
+            <li>For each bar <code>i</code>, the inner loop iterates forward from <code>i+1</code> to <code>n-1</code>.</li>
+            <li>If a bar smaller than the current bar is found, <code>rightMin</code> is set to the index of that bar.</li>
+            <li>If no smaller bar is found, <code>rightMin</code> remains <code>n</code>.</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Calculating the Area:</strong></p>
+        <ul>
+            <li>The width of the rectangle is calculated as <code>rightMin - leftMin - 1</code>.</li>
+            <li>The area is calculated as the height of the current bar multiplied by the width.</li>
+            <li><code>maxArea</code> is updated if the calculated area is larger than the current <code>maxArea</code>.</li>
+        </ul>
+    </li>
+</ol>
+
+```python
+def bruteForce(n, arr):
+    maxArea = 0
+    for i in range(n):
+        leftMin = -1
+        rightMin = n
+        # Find the nearest smaller element to the left
+        for j in range(i - 1, -1, -1):
+            if arr[j] < arr[i]:
+                leftMin = j
+                break
+        # Find the nearest smaller element to the right
+        for j in range(i + 1, n):
+            if arr[j] < arr[i]:
+                rightMin = j
+                break
+        # Calculate the area with arr[i] as the height
+        area = (rightMin - leftMin - 1) * arr[i]
+        maxArea = max(maxArea, area)
+    return maxArea
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<ul>
+    <li><strong>Time Complexity:</strong> O(n^2),  where n is the number of bars in the histogram. 
+    This is because for each bar, you iterate over all previous and subsequent bars to find the nearest smaller elements.</li>
+    <li><strong>Space Complexity:</strong> O(1), we are not using any extra space.</li>
+</ul>
+
+<p><strong>Better Approach</strong></p>
+<p>Instead of checking every bar for every possible left and right extent, use a stack to efficiently find the nearest smaller elements to the left and right.</p>
+<p>Create two arrays (left and right) that store the indices of the nearest smaller elements to the left and right of each bar.</p>
+<p>These arrays help in determining the width of the rectangle for each bar efficiently.</p>
+<p><strong>Explanation</strong></p>
+<ol>
+    <li><strong>Finding Next Smaller Elements (<code>nextSmallerElement</code> Function):</strong>
+        <ul>
+            <li>This function determines the index of the next smaller element for each bar in the histogram.</li>
+            <li>Traverse the histogram from right to left using a stack to keep track of indices.</li>
+            <li>For each bar, pop elements from the stack while they are greater than or equal to the current bar.</li>
+            <li>If the stack is empty after this process, it means there is no smaller element to the right, so append the length of the array (<code>n</code>).</li>
+            <li>Push the current index onto the stack.</li>
+            <li>Reverse the result list to restore the original order of the indices.</li>
+        </ul>
+    </li>
+    <li><strong>Finding Previous Smaller Elements (<code>previousSmallerElement</code> Function):</strong>
+        <ul>
+            <li>This function determines the index of the previous smaller element for each bar in the histogram.</li>
+            <li>Traverse the histogram from left to right using a stack to keep track of indices.</li>
+            <li>For each bar, pop elements from the stack while they are greater than or equal to the current bar.</li>
+            <li>If the stack is empty after this process, it means there is no smaller element to the left, so append <code>-1</code>.</li>
+            <li>Push the current index onto the stack.</li>
+        </ul>
+    </li>
+    <li><strong>Calculating Maximum Area (<code>better</code> Function):</strong>
+        <ul>
+            <li>Use the results from the <code>nextSmallerElement</code> and <code>previousSmallerElement</code> functions to compute the largest rectangle area.</li>
+            <li>For each bar, determine the width of the rectangle by subtracting the indices of the nearest smaller elements (right and left).</li>
+            <li>Calculate the area of the rectangle with the current bar height and update <code>maxArea</code> if the current area is larger.</li>
+        </ul>
+    </li>
+</ol>
+
+```python
+def nextSmallerElement(n, arr):
+    ans = []
+    stack = []
+    # Traverse the array from right to left
+    for i in range(n - 1, -1, -1):
+        # Maintain elements in the stack that are smaller than the current element
+        while stack and arr[i] <= arr[stack[-1]]:
+            stack.pop()
+        # If stack is not empty, the top of the stack is the index of the next smaller element
+        if stack:
+            ans.append(stack[-1])
+        else:
+            # If stack is empty, there is no smaller element to the right, use n (size of the array)
+            ans.append(n)
+        # Push current index to stack
+        stack.append(i)
+    # Reverse the result to match the original order of the array
+    return ans[::-1]
+
+def previousSmallerElement(n, arr):
+    ans = []
+    stack = []
+    # Traverse the array from left to right
+    for i in range(n):
+        # Maintain elements in the stack that are smaller than the current element
+        while stack and arr[i] <= arr[stack[-1]]:
+            stack.pop()
+        # If stack is not empty, the top of the stack is the index of the previous smaller element
+        if stack:
+            ans.append(stack[-1])
+        else:
+            # If stack is empty, there is no smaller element to the left, use -1
+            ans.append(-1)
+        # Push current index to stack
+        stack.append(i)
+    return ans
+
+def better(n, arr):
+    nse = nextSmallerElement(n, arr)
+    pse = previousSmallerElement(n, arr)
+    maxArea = 0
+    # Calculate the maximum area for each bar
+    for i in range(n):
+        leftMin = pse[i]
+        rightMin = nse[i]
+        # Calculate the width of the rectangle where the current bar is the smallest
+        area = (rightMin - leftMin - 1) * arr[i]
+        # Update maxArea if the current area is larger
+        maxArea = max(maxArea, area)
+    return maxArea
+arr=list(map(int,input().split()))
+n=len(arr)
+print(better(n,arr))
+```
+
+<ul>
+    <li><strong>Time Complexity:</strong> O(n)</li>
+    <li><strong>Space Complexity:</strong> O(n)</li>
+</ul>
+
+
+<p><strong>Efficient Approach</strong></p>
+<p><strong>Intuition:</strong></p>
+<ul>
+    <li>We use a stack to keep track of the indices of the bars in the histogram.</li>
+    <li>The goal is to calculate the largest rectangle possible for each bar, considering it as the smallest bar in the rectangle.</li>
+    <li>By using the stack, we efficiently find the width of the largest rectangle for each bar without rechecking every possible bar, which improves performance.</li>
+</ul>
+
+<p><strong>Code:</strong></p>
+
+```python
+def optimized(n, arr):
+    stack = []
+    maxArea = 0
+    for i in range(n):
+        while stack and arr[i] < arr[stack[-1]]:
+            current = arr[stack.pop()]
+            rightMin = i
+            if stack:
+                leftMin = stack[-1]
+            else:
+                leftMin = -1
+            area = (rightMin - leftMin - 1) * current
+            maxArea = max(maxArea, area)
+        stack.append(i)
+    while stack:
+        rightMin = n
+        current = arr[stack.pop()]
+        if stack:
+            leftMin = stack[-1]
+        else:
+            leftMin = -1
+        area = (rightMin - leftMin - 1) * current
+        maxArea = max(maxArea, area)
+    return maxArea
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p><strong>Step-by-Step Explanation:</strong></p>
+<ol>
+    <li><strong>Initialization:</strong>
+        <ul>
+            <li><code>stack = []</code>: A stack to keep indices of the histogram bars.</li>
+            <li><code>maxArea = 0</code>: Variable to store the maximum area found.</li>
+        </ul>
+    </li>
+    <li><strong>First Pass (Processing the Histogram Bars):</strong>
+        <ul>
+            <li>Traverse each bar in the histogram from left to right.</li>
+            <li>For each bar:
+                <ul>
+                    <li><strong>While Loop:</strong>
+                        <ul>
+                            <li>While the stack is not empty and the current bar is smaller than the bar at the top of the stack:
+                                <ul>
+                                    <li>Pop the top index from the stack and calculate the area of the rectangle using the popped bar as the height.</li>
+                                    <li>The right boundary of the rectangle is the current index (<code>i</code>).</li>
+                                    <li>The left boundary of the rectangle is the new top index of the stack (if the stack is not empty) or <code>-1</code> (if the stack is empty).</li>
+                                    <li>Calculate the width of the rectangle and the area.</li>
+                                    <li>Update <code>maxArea</code> if the calculated area is larger.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Append the current index to the stack.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Second Pass (Processing Remaining Bars in Stack):</strong>
+        <ul>
+            <li>After the first pass, there may still be indices left in the stack. These bars are taller than any of the bars to their right.</li>
+            <li>For each remaining bar in the stack:
+                <ul>
+                    <li>Pop the top index from the stack and calculate the area using the popped bar as the height.</li>
+                    <li>The right boundary is the end of the histogram (<code>n</code>).</li>
+                    <li>The left boundary is the new top index of the stack (if the stack is not empty) or <code>-1</code> (if the stack is empty).</li>
+                    <li>Calculate the width of the rectangle and the area.</li>
+                    <li>Update <code>maxArea</code> if the calculated area is larger.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Return Result:</strong>
+        <ul>
+            <li>Return <code>maxArea</code>, which is the largest rectangle area found in the histogram.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Complexity Analysis:</strong></p>
+
+<p><strong>Time Complexity:</strong></p>
+<ul>
+    <li>Each bar is pushed and popped from the stack at most once.</li>
+    <li>This results in a linear time complexity, <code>O(n)</code>, where <code>n</code> is the number of bars in the histogram.</li>
+</ul>
+
+<p><strong>Space Complexity:</strong></p>
+<ul>
+    <li>The stack holds indices, so in the worst case, it can hold all <code>n</code> indices.</li>
+    <li>This results in a linear space complexity, <code>O(n)</code>.</li>
+</ul>
+
+<p><strong>Summary:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n)</code> - Efficiently processes each bar in linear time.</li>
+    <li><strong>Space Complexity:</strong> <code>O(n)</code> - Uses stack space proportional to the number of bars.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Maximal Rectangle</h2>
+<p>Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.</p>
+<p><strong>Examples</strong></p>
+<img src="https://assets.leetcode.com/uploads/2020/09/14/maximal.jpg">
+<p><strong>Input : </strong>matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]</p>
+<p><strong>Output: </strong>6</p>
+<p><strong>Explanation :</strong> The maximal rectangle is shown in the above picture.</p>
+<p><strong>Input : </strong> matrix = [["0"]]</p>
+<p><strong>Output: </strong>0</p>
+<p><strong>Input : </strong> matrix = [["1"]]</p>
+<p><strong>Output: </strong>1</p>
+
+<p><strong>Code Explanation:</strong></p>
+<p>To solve the problem of finding the largest rectangle containing only 1's in a binary matrix, we can utilize a method similar to the one used for finding the largest rectangle in a histogram. We will convert each row of the matrix into a histogram and then apply the largest rectangle in histogram algorithm to each row.</p>
+<img src="https://i.sstatic.net/XBXH3.png">
+<ol>
+    <li><strong>Histogram Calculation for Each Row:</strong>
+        <ul>
+            <li>Traverse each column and convert each row into a histogram.</li>
+            <li>For each column, if the current element is <code>1</code>, increase the height of the corresponding histogram bar.</li>
+            <li>If the current element is <code>0</code>, reset the height of the histogram bar to <code>0</code>.</li>
+        </ul>
+    </li>
+    <li><strong>Apply Histogram Algorithm:</strong>
+        <ul>
+            <li>For each updated histogram row, use the <code>optimizedHistogram</code> function to find the largest rectangle area for that row.</li>
+            <li>Track the maximum area found across all rows.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def optimizedHistogram(n,arr):
+    stack=[]
+    maxArea=0
+    for i in range(n):
+        while stack and arr[i]<arr[stack[-1]]:
+            current=arr[stack.pop()]
+            rightMin=i
+            if(stack):
+                leftMin=stack[-1]
+            else:
+                leftMin=-1
+            area=(rightMin-leftMin-1)*current
+            maxArea=max(maxArea,area)
+        stack.append(i)
+    while stack:
+        rightMin=n
+        current=arr[stack.pop()]
+        if(stack):
+            leftMin=stack[-1]
+        else:
+            leftMin=-1
+        area=(rightMin-leftMin-1)*current
+        maxArea=max(maxArea,area)
+    return maxArea
+
+
+def optimized(n,m,matrix):
+
+    for i in range(m):
+        sum=0
+        for j in range(n):
+            sum+=matrix[j][i]
+            if(matrix[j][i]==0):
+                sum=0
+            matrix[j][i]=sum
+    maxArea=0
+    for i in range(n):
+        area=optimizedHistogram(m,matrix[i])
+        maxArea=max(maxArea,area)
+    return maxArea
+    
+
+n,m=list(map(int,input().split()))
+matrix=[list(map(int,input().split())) for i in range(n)]
+print(optimized(n,m,matrix))
+````
+<p><strong>Explanation:</strong></p>
+
+<ol>
+    <li><strong>optimizedHistogram function:</strong>
+        <ul>
+            <li>It calculates the largest rectangle in a histogram using a stack to keep track of bar indices.</li>
+            <li>The stack helps in efficiently finding the left and right boundaries for each bar to calculate the area of the rectangle.</li>
+        </ul>
+    </li>
+    <li><strong>maximalRectangle function:</strong>
+        <ul>
+            <li>It converts each row of the binary matrix into a histogram. For every element in the row, it adds the value from the previous row if the element is <code>1</code> to form a histogram.</li>
+            <li>It then uses the <code>optimizedHistogram</code> function on each histogram row to find the largest rectangle area.</li>
+            <li>Finally, it returns the maximum rectangle area found across all rows.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Time Complexity:</strong></p>
+<ul>
+    <li>Converting the matrix rows to histograms takes <code>O(n * m)</code>, where <code>n</code> is the number of rows and <code>m</code> is the number of columns.</li>
+    <li>Finding the largest rectangle in each histogram row takes <code>O(m)</code>.</li>
+    <li>Therefore, the total time complexity is <code>O(n * m)</code>.</li>
+</ul>
+
+<p><strong>Space Complexity:</strong></p>
+<ul>
+    <li>The space complexity is <code>O(m)</code> for the stack used in the <code>optimizedHistogram</code> function.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Sliding Window Maximum</h2>
+<p>You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.</p>
+<p>Return the max sliding window.</p>
+
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>nums = [1,3,-1,-3,5,3,6,7], k = 3</p>
+<p><strong>Output : </strong>[3,3,5,5,6,7]</p>
+<p><strong>Explanation</strong></p>
+<pre>
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+</pre>
+<p><strong>Input : </strong>nums = [1], k = 1</p>
+<p><strong>Output : </strong>[1]</p>
+
+<p><strong>Bruteforce Approach</strong></p>
+<p>In this approach, we will find all possible windows of size k , and find its maximum value among the window and that will be added to final ans</p>
+<ol>
+    <li><strong>Iterate Over All Windows:</strong>
+        <ul>
+            <li>The outer loop iterates over all possible starting indices of the sliding window. It ranges from <code>0</code> to <code>n-k</code> (inclusive), where <code>n</code> is the length of the array and <code>k</code> is the size of the window.</li>
+            <li>For each starting index <code>i</code>, the inner loop iterates through the <code>k</code> elements of the window to find the maximum value.</li>
+        </ul>
+    </li>
+    <li><strong>Find the Maximum Value:</strong>
+        <ul>
+            <li>Within the inner loop, the maximum value (<code>maxi</code>) is updated by comparing it with the current element of the window.</li>
+        </ul>
+    </li>
+    <li><strong>Store the Result:</strong>
+        <ul>
+            <li>After processing each window, the maximum value for that window is appended to the result list <code>ans</code>.</li>
+        </ul>
+    </li>
+</ol>
+
+
+```python
+def bruteForce(n, arr, k):
+    ans = []
+    for i in range(n - k + 1):
+        maxi = float('-inf')
+        for j in range(i, i + k):
+            maxi = max(maxi, arr[j])
+        ans.append(maxi)
+    return ans
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(bruteForce(n,arr,k))
+```
+
+<p><strong>Time Complexity</strong></p>
+
+<ul>
+    <li><strong>Outer Loop:</strong> Runs <code>n - k + 1</code> times.</li>
+    <li><strong>Inner Loop:</strong> Runs <code>k</code> times for each iteration of the outer loop.</li>
+    <li><strong>Total Time Complexity:</strong> <code>O((n - k + 1) * k)</code> which simplifies to <code>O(n * k)</code>.</li>
+</ul>
+
+<p><strong>Space Complexity</strong></p>
+
+<ul>
+    <li><strong>Space Complexity:</strong> <code>O(n - k + 1)</code> for the result list <code>ans</code>.</li>
+</ul>
+
+<p><strong>Optimized Approach</strong></p>
+<ol>
+    <li><strong>Concept of Sliding Window:</strong>
+        <p>Imagine you have a window of size <code>k</code> that moves across an array from left to right. You want to find the maximum value in each window as it slides.</p>
+    </li> 
+    <li><strong>Role of the Deque:</strong>
+        <p>Think of the deque (double-ended queue) as a tool that helps you keep track of potential candidates for the maximum value within the current window.</p>
+    </li>    
+    <li><strong>Maintaining the Deque:</strong>
+        <p>The deque stores indices of array elements. It is always kept in such a way that the values corresponding to these indices are in decreasing order. This means that the front of the deque will always hold the index of the maximum element for the current window.</p>
+    </li>   
+    <li><strong>Why Deque is Useful:</strong>
+        <ol>
+            <li><strong>Efficient Updates:</strong> When the window moves, you need to quickly remove indices that are no longer within the window. The deque allows this efficiently.</li>
+            <li><strong>Maintaining Order:</strong> By removing elements from the back of the deque that are smaller than the current element, you ensure that only indices of potentially larger elements remain. This helps in maintaining the maximum at the front.</li>
+        </ol>
+    </li>  
+    <li><strong>Steps in the Algorithm:</strong>
+        <ol>
+            <li><strong>Remove Out-of-Range Indices:</strong> If an index at the front of the deque is outside the current window, remove it.</li>
+            <li><strong>Maintain Maximum Candidates:</strong> Remove indices from the back of the deque while the current element is larger than the element at those indices. This is because the current element has a better chance of being the maximum for future windows.</li>
+            <li><strong>Add the Current Index:</strong> Add the current index to the deque.</li>
+            <li><strong>Get the Maximum:</strong> Once you have processed at least <code>k</code> elements (i.e., the window is full), the element at the front of the deque is the maximum for that window.</li>
+        </ol>
+    </li>
+</ol>
+
+<p>By following these steps, the algorithm efficiently keeps track of the maximum values in each sliding window without needing to re-evaluate the entire window from scratch for each position.</p>
+<ol>
+    <li><strong>Initialization:</strong>
+        <ul>
+            <li><p><strong>ans</strong> is an empty list that will store the result.</p></li>
+            <li><p><strong>dq</strong> is a deque that will store indices of array elements.</p></li>
+        </ul>
+    </li>
+    <li><strong>Edge Case:</strong>
+        <p>If <strong>k</strong> is 1, simply return the array since each element is a window by itself.</p>
+    </li>
+    <li><strong>Processing the Array:</strong>
+        <ul>
+            <li><p>Loop through each element in the array using the index <strong>i</strong>.</p></li>
+            <li><p>Remove indices from the deque that are out of the current window's range (<strong>i - k</strong>).</p></li>
+            <li><p>Maintain the deque so that it contains indices of elements in decreasing order. Remove elements from the deque that are less than the current element since they can't be the maximum in the future.</p></li>
+            <li><p>Append the current index to the deque.</p></li>
+            <li><p>If the current index <strong>i</strong> is greater than or equal to <strong>k - 1</strong>, append the element at the index stored at the front of the deque to the result list <strong>ans</strong>.</p></li>
+        </ul>
+    </li>
+    <li><strong>Return Result:</strong>
+        <p>After processing all elements, <strong>ans</strong> will contain the maximums of all sliding windows.</p>
+    </li>
+</ol>
+
+<p>The code in a clean and commented form is as follows:</p>
+
+```python
+from collections import deque 
+
+def optimized(n, arr, k):
+    if k == 1:
+        return arr
+
+    ans = []
+    dq = deque()
+
+    for i in range(n):
+        # Remove indices that are out of the current window
+        if dq and dq[0] <= (i - k):
+            dq.popleft()
+
+        # Remove indices of elements smaller than the current element
+        while dq and arr[i] > arr[dq[-1]]:
+            dq.pop()
+
+        # Add current element index to the deque
+        dq.append(i)
+
+        # Append the maximum of the current window to the result list
+        if i >= k - 1:
+            ans.append(arr[dq[0]])
+
+    return ans
+arr=list(map(int,input().split()))
+n=len(arr)
+k=int(input())
+print(optimized(n,arr,k))
+````
+
+<p><strong>Time Complexity :</strong> O(n)</p>
+<p><strong>Space Complexity :</strong>O(n)</p>
+
+
+<h2>Stock Span Problem</h2>
+<p>You have a stock and you get its price each day. You want to know, for each day's price, how many consecutive days up to and including today the price has been less than or equal to today's price. This count of days is called the "span" for that day.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>[7, 2, 1, 2]</p>
+<p><strong>Output : </strong>[1, 1, 1, 3]</p>
+
+<p><strong>Solution</strong></p>
+<p>In this problem, we have to find count of number of elements less than or equal to current element in array.</p>
+
+<p><strong>Brute Force Approach</strong></p>
+
+<p><strong>Intuition:</strong> The brute force approach directly compares each day's price with previous days' prices to count how many consecutive days, including the current day, have prices less than or equal to the current day's price.</p>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteForce(n, arr):
+    ans = []
+    for i in range(n):
+        cnt = 1
+        for j in range(i-1, -1, -1):
+            if arr[j] <= arr[i]:
+                cnt += 1
+            else:
+                break
+        ans.append(cnt)
+    return ans
+arr=list(map(int,input().split()))
+n=len(arr)
+print(bruteForce(n,arr))
+```
+
+<p><strong>Explanation:</strong></p>
+<ol>
+    <li><p><strong>Initialization:</strong> Create an empty list <strong>ans</strong> to store the spans.</p></li>
+    <li><p><strong>Outer Loop:</strong> For each day's price <strong>arr[i]</strong> (from 0 to <strong>n-1</strong>):
+        <ul>
+            <li><p>Initialize <strong>cnt</strong> to 1 (the span of the current day itself).</p></li>
+            <li><p><strong>Inner Loop:</strong> Iterate backwards from the previous day (<strong>i-1</strong>) to the start of the array:
+                <ul>
+                    <li>If the price on day <strong>j</strong> is less than or equal to the current day's price <strong>arr[i]</strong>, increment <strong>cnt</strong>.</li>
+                    <li>If the price on day <strong>j</strong> is greater, break the loop.</li>
+                </ul>
+            </p></li>
+            <li><p>Append <strong>cnt</strong> to <strong>ans</strong>.</p></li>
+        </ul>
+    </p></li>
+    <li><p>Return the list <strong>ans</strong>.</p></li>
+</ol>
+
+<p><strong>Time Complexity:</strong></p>
+<p>The outer loop runs <strong>n</strong> times. The inner loop runs up to <strong>i</strong> times in the worst case. Overall: <strong>O(n^2)</strong></p>
+
+<p><strong>Space Complexity:</strong></p>
+<p><strong>O(n)</strong> for the result list <strong>ans</strong>.</p>
+
+<p><strong>Better Approach</strong></p>
+
+<p><strong>Intuition:</strong> This approach uses a stack to efficiently find the nearest previous greater element (PGE). By maintaining indices of prices in a stack in decreasing order, we can quickly determine the span of each day's price.</p>
+
+<p><strong>Code:</strong></p>
+
+```python
+def better(n, arr):
+    pge = []
+    stack = []
+    for i in range(n):
+        while stack and arr[i] >= arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            pge.append(stack[-1])
+        else:
+            pge.append(-1)
+        stack.append(i)
+    ans = []
+    for i in range(n):
+        ans.append(i - pge[i])
+    return ans
+arr=list(map(int,input().split()))
+n=len(arr)
+print(better(n,arr))
+```
+
+<p><strong>Explanation:</strong></p>
+<ol>
+    <li><p><strong>Initialization:</strong> Create empty lists <strong>pge</strong> and <strong>stack</strong>.</p></li>
+    <li><p><strong>First Loop:</strong> For each day's price <strong>arr[i]</strong> (from 0 to <strong>n-1</strong>):
+        <ul>
+            <li>Pop elements from <strong>stack</strong> while the current price <strong>arr[i]</strong> is greater than or equal to the price at the index stored at the top of the stack.</li>
+            <li>If the stack is not empty after popping, append the top of the stack (index of PGE) to <strong>pge</strong>; otherwise, append -1.</li>
+            <li>Push the current index <strong>i</strong> to the stack.</li>
+        </ul>
+    </p></li>
+    <li><p><strong>Second Loop:</strong> For each day's price <strong>arr[i]</strong>, calculate the span as <strong>i - pge[i]</strong> and append it to <strong>ans</strong>.</p></li>
+    <li><p>Return the list <strong>ans</strong>.</p></li>
+</ol>
+
+<p><strong>Time Complexity:</strong></p>
+<p>Each element is pushed and popped from the stack at most once. Overall: <strong>O(n)</strong></p>
+
+<p><strong>Space Complexity:</strong></p>
+<p><strong>O(n)</strong> for the stack and the result list <strong>ans</strong>.</p>
+
+<p><strong>Optimized Approach</strong></p>
+
+<p><strong>Intuition:</strong> This approach combines the calculation of PGE and span directly within a single loop, using a stack to maintain the indices of prices.</p>
+
+<p><strong>Code:</strong></p>
+
+```python
+def optimized(n, arr):
+    ans = []
+    stack = []
+    for i in range(n):
+        while stack and arr[i] >= arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            ans.append(i - stack[-1])
+        else:
+            ans.append(i - (-1))
+        stack.append(i)
+    return ans
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+```
+
+<p><strong>Explanation:</strong></p>
+<ol>
+    <li><p><strong>Initialization:</strong> Create empty lists <strong>ans</strong> and <strong>stack</strong>.</p></li>
+    <li><p><strong>Loop:</strong> For each day's price <strong>arr[i]</strong> (from 0 to <strong>n-1</strong>):
+        <ul>
+            <li>Pop elements from <strong>stack</strong> while the current price <strong>arr[i]</strong> is greater than or equal to the price at the index stored at the top of the stack.</li>
+            <li>If the stack is not empty after popping, calculate the span as <strong>i - stack[-1]</strong> and append it to <strong>ans</strong>; otherwise, append <strong>i - (-1)</strong>.</li>
+            <li>Push the current index <strong>i</strong> to the stack.</li>
+        </ul>
+    </p></li>
+    <li><p>Return the list <strong>ans</strong>.</p></li>
+</ol>
+
+<p><strong>Time Complexity:</strong></p>
+<p>Each element is pushed and popped from the stack at most once. Overall: <strong>O(n)</strong></p>
+
+<p><strong>Space Complexity:</strong></p>
+<p><strong>O(n)</strong> for the stack and the result list <strong>ans</strong>.</p>
+
+
+<h2>The Celebrity Problem</h2>
+<p>In a party of N people, only one person is known to everyone. Such a person may be present at the party, if yes, (s)he doesn’t know anyone at the party. We can only ask questions like “does A know B? “. Find the stranger (celebrity) in the minimum number of questions.</p>
+<p>We can describe the problem input as an array of numbers/characters representing persons in the party. We also have a hypothetical function HaveAcquaintance(A, B) which returns true if A knows B, and false otherwise. How can we solve the problem? </p>
+
+<p><strong>Examples</strong></p>
+<p><strong>Input :</strong>MATRIX = { {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}, {0, 0, 1, 0} }</p>
+<p><strong>Output :</strong>id = 2</p>
+<p><strong>Examples :</strong>The person with ID 2 does not know anyone but everyone knows him</p>
+<p><strong>Input :</strong>MATRIX = { {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 1, 0, 0}, {0, 0, 1, 0} }</p>
+<p><strong>Output :</strong>No celebrity</p>
+<p><strong>Examples :</strong>There is no celebrity.</p>
+
+<p><strong>Solution</strong></p>
+<p>this problem can be solve din several approaches</p>
+
+<p><strong>Brute Force Approach</strong></p>
+
+<p><strong>Intuition:</strong> The brute force approach counts how many people each person knows and how many people know each person. A celebrity is someone who knows no one but is known by everyone else.</p>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteforce(n, matrix):
+    personKnows = [0] * n
+    personKnownBy = [0] * n
+    for i in range(n):
+        for j in range(n):
+            if matrix[i][j] == 1:
+                personKnows[i] += 1
+                personKnownBy[j] += 1
+    for i in range(n):
+        if personKnows[i] == 0 and personKnownBy[i] == n - 1:
+            return i
+    return -1
+n=int(input())
+matrix=[list(map(int,input().split())) for i in range(n)]
+print(bruteforce(n,matrix))
+```
+
+<p><strong>Explanation:</strong></p>
+<ol>
+    <li><p><strong>Initialization:</strong> Create two lists <strong>personKnows</strong> and <strong>personKnownBy</strong> of size <strong>n</strong> initialized to 0.</p></li>
+    <li><p><strong>Count Relationships:</strong> Iterate through the <strong>matrix</strong>. If <strong>matrix[i][j] == 1</strong>, increment <strong>personKnows[i]</strong> and <strong>personKnownBy[j]</strong>.</p></li>
+    <li><p><strong>Find Celebrity:</strong> Iterate through each person <strong>i</strong> to check if they are a celebrity. A celebrity <strong>i</strong> should satisfy <strong>personKnows[i] == 0</strong> and <strong>personKnownBy[i] == n - 1</strong>.</p></li>
+    <li><p><strong>Return Result:</strong> Return the index of the celebrity if found, otherwise return <strong>-1</strong>.</p></li>
+</ol>
+
+<p><strong>Time Complexity:</strong></p>
+<p>Counting relationships: <strong>O(n^2)</strong></p>
+<p>Finding the celebrity: <strong>O(n)</strong></p>
+<p><strong>Overall:</strong> <strong>O(n^2)</strong></p>
+
+<p><strong>Space Complexity:</strong></p>
+<p><strong>O(n)</strong> for the counts arrays.</p>
+
+<p><strong>Optimized Approach with Stack</strong></p>
+
+<p><strong>Intuition:</strong> This approach uses a stack to iteratively narrow down the potential celebrity candidates by comparing pairs of people. The idea is that if person <strong>a</strong> knows person <strong>b</strong>, then <strong>a</strong> cannot be a celebrity, and if <strong>a</strong> does not know <strong>b</strong>, then <strong>b</strong> cannot be a celebrity.</p>
+
+<p><strong>Code:</strong></p>
+
+```python
+def knows(a, b, matrix):
+    return matrix[a][b]
+
+def optimized(n, matrix):
+    stack = []
+    for i in range(n):
+        stack.append(i)
+    while len(stack) > 1:
+        a, b = stack.pop(), stack.pop()
+        if knows(a, b, matrix):
+            stack.append(b)
+        else:
+            stack.append(a)
+    celeb = stack.pop()
+    for i in range(n):
+        if celeb != i and (knows(celeb, i, matrix) or not knows(i, celeb, matrix)):
+            return -1
+    return celeb
+n=int(input())
+matrix=[list(map(int,input().split())) for i in range(n)]
+print(optimized(n,matrix))
+```
+
+<p><strong>Explanation:</strong></p>
+<ol>
+    <li><p><strong>Initialization:</strong> Push all people (0 to <strong>n-1</strong>) onto the stack.</p></li>
+    <li><p><strong>Eliminate Non-Celebrities:</strong> While there is more than one person on the stack:
+        <ul>
+            <li>Pop two people, <strong>a</strong> and <strong>b</strong>.</li>
+            <li>If <strong>a</strong> knows <strong>b</strong>, <strong>a</strong> cannot be a celebrity, so push <strong>b</strong> back onto the stack.</li>
+            <li>If <strong>a</strong> does not know <strong>b</strong>, <strong>b</strong> cannot be a celebrity, so push <strong>a</strong> back onto the stack.</li>
+        </ul>
+    </p></li>
+    <li><p><strong>Verify Celebrity:</strong> The last remaining person on the stack is the potential celebrity (<strong>celeb</strong>). Verify by checking:
+        <ul>
+            <li><strong>celeb</strong> should not know anyone else.</li>
+            <li>Everyone else should know <strong>celeb</strong>.</li>
+        </ul>
+    </p></li>
+    <li><p><strong>Return Result:</strong> If <strong>celeb</strong> passes the verification, return <strong>celeb</strong>; otherwise, return <strong>-1</strong>.</p></li>
+</ol>
+
+<p><strong>Time Complexity:</strong></p>
+<p>Eliminating non-celebrities: <strong>O(n)</strong></p>
+<p>Verifying the celebrity: <strong>O(n)</strong></p>
+<p><strong>Overall:</strong> <strong>O(n)</strong></p>
+
+<p><strong>Space Complexity:</strong></p>
+<p><strong>O(n)</strong> for the stack.</p>
+
+<p><strong>Optimized Two-Pointer Approach</strong></p>
+
+<p><strong>Intuition:</strong> This approach uses two pointers (<strong>left</strong> and <strong>right</strong>) to eliminate non-celebrity candidates by comparing the left and right ends of the list. It then verifies the final candidate.</p>
+
+<p><strong>Code:</strong></p>
+
+```python
+def knows(a, b, matrix):
+    return matrix[a][b]
+
+def optimized2(n, matrix):
+    left, right = 0, n - 1
+    while left < right:
+        if knows(left, right, matrix):
+            left += 1
+        else:
+            right -= 1
+    celeb = left
+    for i in range(n):
+        if celeb != i and (knows(celeb, i, matrix) or not knows(i, celeb, matrix)):
+            return -1
+    return celeb
+n=int(input())
+matrix=[list(map(int,input().split())) for i in range(n)]
+print(optimized2(n,matrix))
+```
+<p><strong>Explanation:</strong></p>
+<ol>
+    <li><p><strong>Initialization:</strong> Set two pointers, <strong>left</strong> at the start (0) and <strong>right</strong> at the end (<strong>n-1</strong>).</p></li>
+    <li><p><strong>Eliminate Non-Celebrities:</strong> While <strong>left</strong> is less than <strong>right</strong>:
+        <ul>
+            <li>If <strong>left</strong> knows <strong>right</strong>, <strong>left</strong> cannot be a celebrity, so increment <strong>left</strong>.</li>
+            <li>If <strong>left</strong> does not know <strong>right</strong>, <strong>right</strong> cannot be a celebrity, so decrement <strong>right</strong>.</li>
+        </ul>
+    </p></li>
+    <li><p><strong>Verify Celebrity:</strong> The pointer <strong>left</strong> (or <strong>right</strong>) now points to the potential celebrity (<strong>celeb</strong>). Verify by checking:
+        <ul>
+            <li><strong>celeb</strong> should not know anyone else.</li>
+            <li>Everyone else should know <strong>celeb</strong>.</li>
+        </ul>
+    </p></li>
+    <li><p><strong>Return Result:</strong> If <strong>celeb</strong> passes the verification, return <strong>celeb</strong>; otherwise, return <strong>-1</strong>.</p></li>
+</ol>
+
+<p><strong>Time Complexity:</strong></p>
+<p>Eliminating non-celebrities: <strong>O(n)</strong></p>
+<p>Verifying the celebrity: <strong>O(n)</strong></p>
+<p><strong>Overall:</strong> <strong>O(n)</strong></p>
+
+<p><strong>Space Complexity:</strong></p>
+<p><strong>O(1)</strong> for the pointers.</p>
+
+<p><strong>Summary:</strong></p>
+<ul>
+    <li><p><strong>Brute Force Approach:</strong> Simple but inefficient with <strong>O(n^2)</strong> time complexity.</p></li>
+    <li><p><strong>Optimized Approach with Stack:</strong> Uses a stack to efficiently narrow down the potential celebrity candidates with <strong>O(n)</strong> time complexity.</p></li>
+    <li><p><strong>Optimized Two-Pointer Approach:</strong> Uses two pointers to eliminate non-celebrity candidates and verify the celebrity with <strong>O(n)</strong> time complexity.</p></li>
+</ul>
+
+<h2>Least Recently Used (LRU) Cache</h2>
+<p>“Design a data structure that follows the constraints of Least Recently Used (LRU) cache”.</p>
+<p>Implement the LRUCache class:</p>
+<ul>
+    <li><strong>LRUCache(int capacity)</strong> we need to initialize the LRU cache with positive size capacity.</li>
+    <li><strong>int get(int key)</strong> returns the value of the key if the key exists, otherwise return -1.</li>
+    <li><strong>Void put(int key,int value)</strong>, Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache.if the number of keys exceeds the capacity from this operation, evict the least recently used key.</li>
+</ul>
+<p>The functions get and put must each run in O(1) average time complexity.</p>
+<p><strong>Examples</strong></p>
+<pre>
+ Input:
+ ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
+       [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
+
+Output:
+ [null, null, null, 1, null, -1, null, -1, 3, 4]
+
+Explanation:
+
+LRUCache lRUCache = new LRUCache(2);
+lRUCache.put(1, 1); // cache is {1=1}
+lRUCache.put(2, 2); // cache is {1=1, 2=2}
+lRUCache.get(1);    // return 1
+lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+lRUCache.get(2);    // returns -1 (not found)
+lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+lRUCache.get(1);    // return -1 (not found)
+lRUCache.get(3);    // return 3
+lRUCache.get(4);    // return 4   
+</pre>
+
+<p><strong>Solution</strong></p>
+
+
+<p><strong>Intuition Behind the Solution</strong></p>
+<p>The LRU Cache is a data structure that keeps track of the order of access for items and evicts the least recently used item when it reaches its capacity. It is typically implemented using a combination of a doubly linked list and a hash map (dictionary) to achieve efficient operations.</p>
+<ul>
+    <li><strong>Doubly Linked List</strong>: This structure allows us to quickly remove and add items at the beginning or end. In this case, we use the linked list to track the order of usage—items closer to the head are more recently used, and items closer to the tail are less recently used.</li>
+    <li><strong>Hash Map (Dictionary)</strong>: This provides constant-time access to nodes in the doubly linked list by storing references to nodes, allowing quick updates and lookups.</li>
+</ul>
+
+<p><strong>Explanation of Each Function</strong></p>
+
+<ul>
+    <li><strong>__init__(self, capacity)</strong>
+        <p><strong>Purpose</strong>: Initializes the LRU Cache with a given capacity.</p>
+        <ul>
+            <li><strong>self.capacity</strong>: Stores the maximum number of items the cache can hold.</li>
+            <li><strong>self.head</strong>: A dummy head node of the doubly linked list to make operations simpler.</li>
+            <li><strong>self.tail</strong>: A dummy tail node of the doubly linked list.</li>
+            <li><strong>self.map</strong>: A dictionary to store key-node pairs for quick lookups.</li>
+        </ul>
+        <p><strong>Visual Example</strong>:
+            <pre>
+Head -> [dummy_head] <-> [dummy_tail] <- Tail
+            </pre>
+        </p>
+    </li>
+    <li><strong>put(self, key, val)</strong>
+        <p><strong>Purpose</strong>: Adds a new key-value pair to the cache or updates an existing key.</p>
+        <ul>
+            <li><strong>Check if key exists</strong>: If the key is already in the cache, it removes the old node.</li>
+            <li><strong>Check capacity</strong>: If the cache is full, it removes the least recently used item (i.e., the node just before the tail).</li>
+            <li><strong>Insert new node</strong>: Adds the new key-value pair at the beginning of the list.</li>
+        </ul>
+        <p><strong>Visual Example</strong>:
+            <pre>
+1. Add (key=1, val=10):
+Head -> [1:10] <-> [dummy_tail] <- Tail
+
+2. Add (key=2, val=20):
+Head -> [2:20] <-> [1:10] <-> [dummy_tail] <- Tail
+
+3. Capacity reached, add (key=3, val=30) (Evicts 1:10):
+Head -> [3:30] <-> [2:20] <-> [dummy_tail] <- Tail
+            </pre>
+        </p>
+    </li>
+    <li><strong>get(self, key)</strong>
+        <p><strong>Purpose</strong>: Retrieves the value associated with the key if it exists in the cache, and marks the item as recently used.</p>
+        <ul>
+            <li><strong>Check if key exists</strong>: If the key is not in the cache, return -1.</li>
+            <li><strong>Move node to the beginning</strong>: If the key exists, retrieve its value, remove it from its current position, and insert it at the beginning of the list.</li>
+        </ul>
+        <p><strong>Visual Example</strong>:
+            <pre>
+1. Get (key=2):
+Head -> [2:20] <-> [3:30] <-> [dummy_tail] <- Tail
+
+2. Get (key=2) again:
+Head -> [2:20] <-> [3:30] <-> [dummy_tail] <- Tail
+            </pre>
+        </p>
+    </li>
+    <li><strong>insertBegin(self, node)</strong>
+        <p><strong>Purpose</strong>: Inserts a node at the beginning of the doubly linked list (right after the head).</p>
+        <ul>
+            <li><strong>Update map</strong>: Stores the node reference in the dictionary.</li>
+            <li><strong>Update pointers</strong>: Adjusts the next and previous pointers of the node and the surrounding nodes to insert it at the beginning.</li>
+        </ul>
+        <p><strong>Visual Example</strong>:
+            <pre>
+1. Insert Node (key=4, val=40):
+Head -> [4:40] <-> [2:20] <-> [3:30] <-> [dummy_tail] <- Tail
+            </pre>
+        </p>
+    </li>
+
+    <li><strong>delete(self, node)</strong>
+        <p><strong>Purpose</strong>: Removes a node from the doubly linked list and dictionary.</p>
+        <ul>
+            <li><strong>Update map</strong>: Deletes the node’s reference from the dictionary.</li>
+            <li><strong>Update pointers</strong>: Adjusts the pointers of the surrounding nodes to bypass the node being removed.</li>
+        </ul>
+        <p><strong>Visual Example</strong>:
+            <pre>
+1. Delete Node (key=3):
+Head -> [4:40] <-> [2:20] <-> [dummy_tail] <- Tail
+            </pre>
+        </p>
+    </li>
+</ul>
+
+```python
+class Node:
+
+    def __init__(self,key,val):
+        self.key=key
+        self.val=val
+        self.next=None
+        self.prev=None
+
+
+class LRUCache:
+
+    def __init__(self,capacity):
+        self.capacity=capacity
+        self.head=Node(0,0)
+        self.tail=Node(0,0)
+        self.map={}
+        self.head.next=self.tail
+        self.tail.prev=self.head
+
+    def put(self,key,val):
+        if key in self.map:
+            self.delete(self.map[key])
+        if(len(self.map)==self.capacity):
+            self.delete(self.tail.prev)
+        self.insertBegin(Node(key,val))
+
+    def get(self,key):
+        if key not in self.map:
+            return -1
+        val=self.map[key].val
+        self.delete(self.map[key])
+        self.insertBegin(Node(key,val))
+        return self.map[key].val
+
+    def insertBegin(self,node):
+        self.map[node.key]=node
+        node.next=self.head.next
+        node.prev=self.head
+        self.head.next.prev=node
+        self.head.next=node
+
+    def delete(self,node):
+        del self.map[node.key]
+        node.prev.next=node.next
+        node.next.prev=node.prev
+        node.next=None
+        node.prev=None
+
+```
+
+<h2>Least Frequently Used(LFU) Cache</h2>
+<p>Design and implement a data structure for a Least Frequently Used (LFU) cache.</p>
+<p>Implement the LFUCache class:</p>
+<ul>
+    <li>LFUCache(int capacity) Initializes the object with the capacity of the data structure.</li>
+    <li>int get(int key) Gets the value of the key if the key exists in the cache. Otherwise, returns -1.</li>
+    <li>void put(int key, int value) Update the value of the key if present, or inserts the key if not already present. When the cache reaches its capacity, it should invalidate and remove the least frequently used key before inserting a new item. For this problem, when there is a tie (i.e., two or more keys with the same frequency), the least recently used key would be invalidated.</li>
+</ul>
+<p>To determine the least frequently used key, a use counter is maintained for each key in the cache. The key with the smallest use counter is the least frequently used key.</p>
+<p>When a key is first inserted into the cache, its use counter is set to 1 (due to the put operation). The use counter for a key in the cache is incremented either a get or put operation is called on it.</p>
+<p>The functions get and put must each run in O(1) average time complexity.</p>
+
+<p><strong>Examples</strong></p>
+
+<pre>
+Input
+-----
+["LFUCache", "put", "put", "get", "put", "get", "get", "put", "get", "get", "get"]
+[[2], [1, 1], [2, 2], [1], [3, 3], [2], [3], [4, 4], [1], [3], [4]]
+Output
+------
+[null, null, null, 1, null, -1, 3, null, -1, 3, 4]
+
+Explanation
+-----------
+// cnt(x) = the use counter for key x
+// cache=[] will show the last used order for tiebreakers (leftmost element is  most recent)
+LFUCache lfu = new LFUCache(2);
+lfu.put(1, 1);   // cache=[1,_], cnt(1)=1
+lfu.put(2, 2);   // cache=[2,1], cnt(2)=1, cnt(1)=1
+lfu.get(1);      // return 1
+                 // cache=[1,2], cnt(2)=1, cnt(1)=2
+lfu.put(3, 3);   // 2 is the LFU key because cnt(2)=1 is the smallest, invalidate 2.
+                 // cache=[3,1], cnt(3)=1, cnt(1)=2
+lfu.get(2);      // return -1 (not found)
+lfu.get(3);      // return 3
+                 // cache=[3,1], cnt(3)=2, cnt(1)=2
+lfu.put(4, 4);   // Both 1 and 3 have the same cnt, but 1 is LRU, invalidate 1.
+                 // cache=[4,3], cnt(4)=1, cnt(3)=2
+lfu.get(1);      // return -1 (not found)
+lfu.get(3);      // return 3
+                 // cache=[3,4], cnt(4)=1, cnt(3)=3
+lfu.get(4);      // return 4
+                 // cache=[4,3], cnt(4)=2, cnt(3)=3
+</pre>
+
+<p><strong>Solution</strong></p>
+<p><strong>Intuition Behind the Solution</strong></p>
+<p>The LFU Cache maintains items based on their access frequency. The least frequently used items are removed first when the cache reaches its capacity. To efficiently support operations and maintain the least frequently used items, the solution uses two main data structures:</p>
+<ul>
+    <li><strong>Linked List</strong>: Each frequency has its own linked list to track nodes with that frequency.</li>
+    <li><strong>Hash Maps</strong>: 
+        <ul>
+            <li><strong>keyMap</strong>: Maps keys to their corresponding nodes.</li>
+            <li><strong>freqMap</strong>: Maps frequencies to their corresponding linked lists.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Explanation of Each Class and Function</strong></p>
+
+<ol>
+    <li><strong>Node Class</strong>
+        <p><strong>Purpose</strong>: Represents a node in the cache.</p>
+        <ul>
+            <li><strong>self.key</strong>: Key of the node.</li>
+            <li><strong>self.val</strong>: Value of the node.</li>
+            <li><strong>self.count</strong>: Frequency of access.</li>
+            <li><strong>self.next</strong>: Pointer to the next node in the linked list.</li>
+            <li><strong>self.prev</strong>: Pointer to the previous node in the linked list.</li>
+        </ul>
+    </li>
+    <li><strong>LinkedList Class</strong>
+        <p><strong>Purpose</strong>: Represents a doubly linked list to maintain nodes with the same frequency.</p>
+        <ul>
+            <li><strong>__init__(self)</strong>: Initializes a linked list with a dummy head and tail node.
+                <pre>
+Head -> [dummy_head] <-> [dummy_tail] <- Tail
+                </pre>
+            </li>
+            <li><strong>InsertBegin(self, node)</strong>: Inserts a node at the beginning of the linked list.
+                <pre>
+Head -> [node] <-> [dummy_tail] <- Tail
+                </pre>
+            </li>
+            <li><strong>deleteAtEnd(self, node)</strong>: Removes a node from the end of the linked list.
+                <pre>
+Head -> [remaining_nodes] <-> [dummy_tail] <- Tail
+                </pre>
+            </li>
+        </ul>
+    </li>
+    <li><strong>LFUCache Class</strong>
+        <p><strong>Purpose</strong>: Implements the LFU Cache functionality.</p>
+        <ul>
+            <li><strong>__init__(self, capacity)</strong>: Initializes the LFU cache with a given capacity.
+                <ul>
+                    <li><strong>self.size</strong>: Capacity of the cache.</li>
+                    <li><strong>self.keyMap</strong>: Maps keys to nodes.</li>
+                    <li><strong>self.freqMap</strong>: Maps frequencies to linked lists of nodes with that frequency.</li>
+                    <li><strong>self.currentSize</strong>: Current number of items in the cache.</li>
+                    <li><strong>self.minFreq</strong>: Minimum frequency in the cache.</li>
+                </ul>
+            </li>
+            <li><strong>updateFrequencyList(self, node)</strong>: Updates the frequency list of a node when its frequency changes.
+                <p>1. Removes the node from its current frequency list.</p>
+                <p>2. If the current frequency list is empty and it is the minimum frequency, it increments <strong>minFreq</strong>.</p>
+                <p>3. Updates the node’s frequency and adds it to the new frequency list.</p>
+                <pre>
+1. Before Update:
+Frequency 1: Head -> [node1] <-> [dummy_tail] <- Tail
+
+2. After Update (node's frequency increases to 2):
+Frequency 2: Head -> [node] <-> [dummy_tail] <- Tail
+Frequency 1: Head -> [dummy_head] <-> [dummy_tail] <- Tail
+                </pre>
+            </li>
+            <li><strong>get(self, key)</strong>: Retrieves the value for a key and updates its frequency.
+                <p>1. If the key is not found, returns <strong>-1</strong>.</p>
+                <p>2. Updates the node’s frequency and returns its value.</p>
+                <pre>
+1. Cache state before get:
+Frequency 1: Head -> [node1] <-> [dummy_tail] <- Tail
+Frequency 2: Head -> [node2] <-> [dummy_tail] <- Tail
+
+2. After get(key=1):
+Frequency 2: Head -> [node1] <-> [dummy_tail] <- Tail
+Frequency 1: Head -> [node2] <-> [dummy_tail] <- Tail
+                </pre>
+            </li>
+            <li><strong>put(self, key, val)</strong>: Adds or updates a key-value pair in the cache.
+                <p>1. If the cache is at capacity, removes the least frequently used item.</p>
+                <p>2. Adds the new item to the cache, or updates an existing item’s value and frequency.</p>
+                <pre>
+1. Cache is full, adding (key=3, val=30):
+Frequency 1: Head -> [node1] <-> [dummy_tail] <- Tail
+Frequency 2: Head -> [node2] <-> [dummy_tail] <- Tail
+Frequency 3: Head -> [node3] <-> [dummy_tail] <- Tail
+
+2. If cache needs to evict:
+Frequency 1: Head -> [node2] <-> [dummy_tail] <- Tail
+                </pre>
+            </li>
+        </ul>
+    </li>
+</ol>
+
+
+```python
+class Node:
+    def __init__(self,key,val):
+        self.key=key
+        self.val=val
+        self.count=1
+        self.next=None
+        self.prev=None
+
+class LinkedList:
+
+    def __init__(self):
+        self.head=Node(0,0)
+        self.tail=Node(0,0)
+        self.head.next=self.tail
+        self.tail.prev=self.head
+        self.size=0
+
+
+    def InsertBegin(self,node):
+        node.next=self.head.next
+        node.prev=self.head
+        self.head.next.prev=node
+        self.head.next=node
+        self.size+=1
+
+    def deleteAtEnd(self,node):
+        node.prev.next=node.next
+        node.next.prev=node.prev
+        self.size-=1
+
+class LFUCache:
+
+    def __init__(self,capacity):
+        self.size=capacity
+        self.keyMap={}
+        self.freqMap={}
+        self.currentSize=0
+        self.minFreq=0
+
+
+    def updateFreqencyList(self,node):
+        self.keyMap.pop(node.key)
+        self.freqMap[node.count].deleteAtEnd(node)
+        if(node.count==self.minFreq and self.freqMap[node.count].size==0):
+            self.minFreq+=1
+        node.count+=1
+        if(node.count in self.freqMap):
+            nextHigherList=self.freqMap[node.count]
+        else:
+            nextHigherList=LinkedList()
+        nextHigherList.InsertBegin(node)
+        self.freqMap[node.count]=nextHigherList
+        self.keyMap[node.key]=node
+
+    def get(self,key):
+        if key not in self.keyMap:
+            return -1
+        node=self.keyMap[key]
+        self.updateFreqencyList(node)
+        return node.val
+
+
+    def put(self,key,val):
+        if(self.size==0):
+            return -1
+
+        if(key in self.keyMap):
+            node=self.keyMap[key]
+            node.val=val
+            self.updateFreqencyList(node)
+        else:
+            if(self.currentSize==self.size):
+                minList=self.freqMap[self.minFreq]
+                self.keyMap.pop(minList.tail.prev.key)
+                minList.deleteAtEnd(minList.tail.prev)
+                self.currentSize-=1
+            self.currentSize+=1
+            self.minFreq=1
+            if(self.minFreq in self.freqMap):
+                currentList=self.freqMap[self.minFreq]
+            else:
+                currentList=LinkedList()
+            node=Node(key,val)
+            currentList.InsertBegin(node)
+            self.keyMap[key]=node
+            self.freqMap[self.minFreq]=currentList
+    
+```
