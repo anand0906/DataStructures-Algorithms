@@ -51,7 +51,7 @@
 </ol>
 <h3>General Tree</h3>
 <p>The general tree is one of the types of tree data structure. In the general tree, a node can have either 0 or maximum n number of nodes. There is no restriction imposed on the degree of the node (the number of nodes that a node can contain). The topmost node in a general tree is known as a root node. The children of the parent node are known as subtrees.</p>
-<img src="https://camo.githubusercontent.com/0c96e7c1b0f7f77f1ff01b4a0c1794484e0a8b71cf1ce29562c12ebc438c6ef5/68747470733a2f2f7374617469632e6a61766174706f696e742e636f6d2f64732f696d616765732f74797065732d6f662d74726565312e706e67">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsmGJw2gxctsfkR5Djfa3iwwaFu0aQ-u9UVA&s">
 <h3>Binary Tree</h3>
 <p>Binary Tree is a tree in which each parent contains almost 2 children,i.e left and right child.</p>
 <img src="https://cdn-media-1.freecodecamp.org/images/1*ofbwuz4inpf2OlB-l9gtHw.jpeg">
@@ -72,21 +72,17 @@
 	<li>Degenerate Binary Tree</li>
 	<li>Balenced Binary Tree</li>
 </ol>
+<img src="https://www.theknowledgeacademy.com/_files/images/Types_of_Binary_Trees.png">
 <h4>Full Binary Tree</h4>
 <p>A Tree said to be full binary tree if and only if all the nodes of a tree contains either zero or two childrens.</p>
 <p>It is also called as Strict/Proper Binary Tree</p>
-<img src="https://camo.githubusercontent.com/7003c8e90872f532d8f6d7aeec111e357fe5f1246cf13ad16a72e8c0dd64319d/68747470733a2f2f7374617469632e6a61766174706f696e742e636f6d2f64732f696d616765732f74797065732d6f662d62696e6172792d747265652e706e67">
 <h4>Complete Binary Tree</h4>
 <p>The complete binary tree is a tree in which all the nodes are completely filled except the last level. In the last level, all the nodes must be as left as possible. In a complete binary tree, the nodes should be added from the left.</p>
-<img src="https://camo.githubusercontent.com/4e9182ecea43ce75d760b661f05a200042f4f7843364af025bc5da7222cea1d4/68747470733a2f2f7374617469632e6a61766174706f696e742e636f6d2f64732f696d616765732f74797065732d6f662d62696e6172792d74726565322e706e67">
 <h4>Perfect Binary Tree</h4>
 <p>A Binary tree is a Perfect Binary Tree in which all the internal nodes have two children and all leaf nodes are at the same level.</p>
-<img src="https://camo.githubusercontent.com/14200aa191ee0773251c844c4434a2c162cfb14236b7602e9a2742a5e1a4daa8/68747470733a2f2f7374617469632e6a61766174706f696e742e636f6d2f64732f696d616765732f74797065732d6f662d62696e6172792d74726565332e706e67">
 <h4>Degenerate Binary Tree</h4>
 <p>The degenerate binary tree is a tree in which all the internal nodes have only one children.</p>
-<img src="https://camo.githubusercontent.com/1d2553ab8c0563bd58f812725513be7569ded86aa1308929c0fe401558a5353c/68747470733a2f2f7374617469632e6a61766174706f696e742e636f6d2f64732f696d616765732f74797065732d6f662d62696e6172792d74726565352e706e67">
 <p>The above tree is a degenerate binary tree because all the nodes have only one child. It is also known as a right-skewed tree as all the nodes have a right child only.</p>
-<img src="https://camo.githubusercontent.com/aab35389c1c72976ca7e41b66381b348ecc6ba9c2c387be8cf0155c020857e9e/68747470733a2f2f7374617469632e6a61766174706f696e742e636f6d2f64732f696d616765732f74797065732d6f662d62696e6172792d74726565362e706e67">
 <p>The above tree is also a degenerate binary tree because all the nodes have only one child. It is also known as a left-skewed tree as all the nodes have a left child only.</p>
 <h4>Balenced Binary Tree</h4>
 <p>A binary tree is balanced if the height of the tree is O(Log n) where n is the number of nodes.</p>
