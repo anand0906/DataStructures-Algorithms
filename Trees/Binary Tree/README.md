@@ -643,3 +643,967 @@ root.right.right=Node(6)
 root.right.right.left=Node(8)
 print(solve(root))
 ```
+
+<h1>Height / Maximum Depth Of Given Tree</h1>
+<p>Given the root of a binary tree, return its maximum depth.</p>
+<p>A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
+<p><strong>Examples : </strong></p>
+<img src="https://assets.leetcode.com/uploads/2020/11/26/tmp-tree.jpg">
+<p><strong>Input :</strong>root = [3,9,20,null,null,15,7]</p>
+<p><strong>Output :</strong>3</p>
+<img src="https://static.takeuforward.org/content/depth-binary-image1-4ZMPxYhK">
+<p><strong>Input :</strong>Binary Tree: 1 2 5 -1 -1 4 6 5</p>
+<p><strong>Output :</strong>4</p>
+<p>In the above example, the height of the binary tree is along the longest path from the root node 1 -> 5 -> 4 -> 5. </p>
+<img src="https://static.takeuforward.org/content/depth-of-binary-tree-image3-AKue3nNZ">
+<p><strong>Input :</strong>Binary Tree: 3 1 2</p>
+<p><strong>Output :</strong>2</p>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in two approaches</p>
+
+<p><strong>Recursive Approach</strong></p>
+<p>Here, to find out height of a partcular node, it will ask its left node's height and right node's height recursively, then it will consider max height and by adding 1 to max height to include current node, we will get height of that partcular node</p>
+<ol>
+    <li><strong>Check if Node is Empty:</strong>
+        <ul>
+            <li>If the current node is <strong>None</strong>, the height is <strong>0</strong>.</li>
+            <li>This is your stopping condition.</li>
+        </ul>
+    </li>
+    <li><strong>Calculate Heights of Subtrees:</strong>
+        <ul>
+            <li>Find the height of the left subtree.</li>
+            <li>Find the height of the right subtree.</li>
+        </ul>
+    </li>
+    <li><strong>Combine and Add One:</strong>
+        <ul>
+            <li>Take the maximum height of the left and right subtrees.</li>
+            <li>Add <strong>1</strong> to this maximum height (for the current node).</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Visualization:</strong></p>
+<p>Think of it like climbing a tree:</p>
+<ol>
+    <li><strong>Base Camp (Empty Node):</strong>
+        <ul>
+            <li>If there’s no tree (node is <strong>None</strong>), you’re at base camp, so height is <strong>0</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Explore Left and Right Paths:</strong>
+        <ul>
+            <li>Look at the left path (left subtree) and see how high you can go.</li>
+            <li>Look at the right path (right subtree) and see how high you can go.</li>
+        </ul>
+    </li>
+    <li><strong>Find the Highest Point:</strong>
+        <ul>
+            <li>The highest point you can reach from the current node is <strong>1 + the higher path (left or right)</strong>.</li>
+        </ul>
+    </li>
+</ol>
+
+```python
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+
+def findHeight(node):
+    if not node:
+        return 0
+    leftHeight=findHeight(node.left)
+    rightHeight=findHeight(node.right)
+    return 1+max(leftHeight,rightHeight)
+
+root=Node(4)
+root.left=Node(2)
+root.right=Node(5)
+root.left.left=Node(3)
+root.left.left.right=Node(9)
+root.left.left.right.left=Node(1)
+root.right.left=Node(7)
+root.right.right=Node(6)
+root.right.right.left=Node(8)
+print(findHeight(root))
+```
+
+<p><strong>Time Complexity :</strong>O(n), atmost we will visit each node at once</p>
+<p><strong>Space Complexity :</strong>O(n), recursion call stack will store maximum of given nodes</p>
+
+<p><strong>Example 1: Height 0</strong></p>
+<p><strong>Diagram:</strong></p>
+<pre>
+  (None)
+</pre>
+<p><strong>Explanation:</strong></p>
+<ul>
+    <li>If the tree is empty (i.e., there is no root node), its height is 0.</li>
+</ul>
+<p><strong>Flow:</strong></p>
+<ol>
+    <li>The function <code>findHeight</code> is called with <code>node = None</code>.</li>
+    <li>The function checks if <code>node</code> is <code>None</code>. Since it is, it returns 0.</li>
+</ol>
+<p><strong>Code:</strong></p>
+<pre>
+node = None
+print(findHeight(node))  # Output: 0
+</pre>
+
+<p><strong>Example 2: Height 1</strong></p>
+<p><strong>Diagram:</strong></p>
+<pre>
+    1
+   / \
+(None)(None)
+</pre>
+<p><strong>Explanation:</strong></p>
+<ul>
+    <li>The tree has only one node (the root), with no children.</li>
+    <li>Height is 1 (from the root to itself).</li>
+</ul>
+<p><strong>Flow:</strong></p>
+<ol>
+    <li>The function <code>findHeight</code> is called with the root node <code>1</code>.</li>
+    <li>The function checks if <code>node</code> is <code>None</code>. It's not, so it proceeds to calculate the heights of the left and right subtrees.</li>
+    <li>It calls <code>findHeight</code> on <code>node.left</code> (which is <code>None</code>) and gets 0.</li>
+    <li>It calls <code>findHeight</code> on <code>node.right</code> (which is <code>None</code>) and gets 0.</li>
+    <li>It returns <code>1 + max(0, 0)</code>, which is 1.</li>
+</ol>
+<p><strong>Code:</strong></p>
+<pre>
+root = TreeNode(1)
+print(findHeight(root))  # Output: 1
+</pre>
+
+<p><strong>Example 3: Height 2</strong></p>
+<p><strong>Diagram:</strong></p>
+<pre>
+    1
+   / \
+  2   3
+ / \
+(None)(None)
+</pre>
+<p><strong>Explanation:</strong></p>
+<ul>
+    <li>The tree has a root and two levels. The root has two children, and each child has no children.</li>
+    <li>The height is 2 (from the root to the farthest leaf).</li>
+</ul>
+<p><strong>Flow:</strong></p>
+<ol>
+    <li>The function <code>findHeight</code> is called with the root node <code>1</code>.</li>
+    <li>The function checks if <code>node</code> is <code>None</code>. It's not, so it proceeds to calculate the heights of the left and right subtrees.</li>
+    <li>It calls <code>findHeight</code> on <code>node.left</code> (node <code>2</code>).</li>
+    <ul>
+        <li>For node <code>2</code>:</li>
+        <ol>
+            <li>It calls <code>findHeight</code> on <code>node.left</code> (which is <code>None</code>) and gets 0.</li>
+            <li>It calls <code>findHeight</code> on <code>node.right</code> (which is <code>None</code>) and gets 0.</li>
+            <li>It returns <code>1 + max(0, 0)</code>, which is 1.</li>
+        </ol>
+    </ul>
+    <li>It calls <code>findHeight</code> on <code>node.right</code> (node <code>3</code>).</li>
+    <ul>
+        <li>For node <code>3</code>:</li>
+        <ol>
+            <li>It calls <code>findHeight</code> on <code>node.left</code> (which is <code>None</code>) and gets 0.</li>
+            <li>It calls <code>findHeight</code> on <code>node.right</code> (which is <code>None</code>) and gets 0.</li>
+            <li>It returns <code>1 + max(0, 0)</code>, which is 1.</li>
+        </ol>
+    </ul>
+    <li>It returns <code>1 + max(1, 1)</code>, which is 2.</li>
+</ol>
+<p><strong>Code:</strong></p>
+<pre>
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+print(findHeight(root))  # Output: 2
+</pre>
+
+<p><strong>Iterative Approach</strong></p>
+<p>Here, we can use level order traversal to find out height, since number of levels in given tree will be the height of our tree</p>
+<ol>
+    <li>
+        <strong>Understanding Tree Height</strong>:
+        <ul>
+            <li>The height of a tree is the number of levels or layers it has.</li>
+            <li>A single node tree has a height of 1, and an empty tree has a height of 0.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Using a Queue for Level-by-Level Processing</strong>:
+        <ul>
+            <li>To find the height, we use a queue to help us process each level of the tree one by one.</li>
+            <li>A queue is like a line where you add items to the back and take them from the front.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Starting with the Root</strong>:
+        <ul>
+            <li>We start by putting the root node (the topmost node of the tree) into the queue.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Processing Each Level</strong>:
+        <ul>
+            <li>While the queue is not empty, we do the following:</li>
+            <ul>
+                <li>Count the number of nodes currently in the queue. This represents all the nodes at the current level.</li>
+                <li>Remove each of these nodes from the queue, and for each node, add its children (left and right) to the queue.</li>
+                <li>After processing all nodes at the current level, increase the level count by 1.</li>
+            </ul>
+        </ul>
+    </li>
+    <li>
+        <strong>Continuing Until All Levels Are Processed</strong>:
+        <ul>
+            <li>We repeat the above steps until there are no more nodes left in the queue.</li>
+            <li>Each time we finish processing a level, we move to the next level by working on the nodes that were added to the queue.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Result</strong>:
+        <ul>
+            <li>The number of times we increase the level count is equal to the height of the tree.</li>
+        </ul>
+    </li>
+</ol>
+
+
+```python
+from collections import deque
+
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+
+def findHeight2(node):
+    if not node:
+        return 0
+    queue = deque()
+    queue.append(node)
+    level = 0
+    while queue:
+        n = len(queue)
+        for i in range(n):
+            temp = queue.popleft()
+            if temp.left:
+                queue.append(temp.left)
+            if temp.right:
+                queue.append(temp.right)
+        level += 1
+    return level
+
+# Example usage
+if __name__ == "__main__":
+    # Constructing a simple binary tree
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.right.left = Node(6)
+    root.right.right = Node(7)
+
+    print("Height of the tree is:", findHeight2(root))
+
+```
+
+
+<p><strong>Time Complexity :</strong>O(n)</p>
+<p>The function processes each node exactly once. It enqueues and dequeues each node one time, leading to a time complexity that is directly proportional to the number of nodes in the tree.</p>
+<p><strong>Space Complexity :</strong>O(n)</p>
+<p> In the worst case, the queue can hold up to half of the nodes (if the tree is a complete binary tree). This happens because the widest part of the tree (the level with the most nodes) determines the maximum space needed for the queue.</p>
+
+<br>
+<br>
+
+<h1>Balenced Binary Tree</h1>
+<p> Given a Binary Tree, return true if it is a Balanced Binary Tree else return false. A Binary Tree is balanced if, for all nodes in the tree, the difference between left and right subtree height is not more than 1.</p>
+<p><strong>Examples</strong></p>
+<img src="https://static.takeuforward.org/content/balanced-tree-image1-EWX-8Niv">
+<p><strong>Input :</strong>Binary Tree: 3 9 20 -1 -1 15 7</p>
+<p><strong>Output :</strong>True, This is a Balanced Binary Tree</p>
+<img src="https://static.takeuforward.org/content/balanced-tree-image2-46UA3Wf3">
+<p><strong>Explanation :</strong>The difference in the height of left and right subtree is 1 hence the tree is balanced.</p>
+
+<img src="https://static.takeuforward.org/content/balanced-tree-image3-Fjdfx1vW">
+<p><strong>Input :</strong>Binary Tree: 1 3 2 5 4 -1 -1 7 6 </p>
+<p><strong>Output :</strong>False, this is not a Balanced Binary Tree.</p>
+<img src="https://static.takeuforward.org/content/balanced-tree-image4-srgyTlGy">
+<p><strong>Explanation :</strong>The difference in the height of left and right subtree is 2 hence the tree is not balanced.</p>
+
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>BruteForce Approach : </strong></p>
+<p>The brute force approach for checking if a binary tree is balanced involves the following steps:</p>
+<ul>
+    <li><strong>Understanding Tree Height:</strong>
+        <ul>
+            <li>The height of a tree is the number of edges on the longest path from the root to a leaf.</li>
+            <li>To find the height of a node, you need to know the height of its left and right subtrees.</li>
+        </ul>
+    </li>
+    <li><strong>Balanced Tree Definition:</strong>
+        <ul>
+            <li>A tree is balanced if, for every node, the difference in height between its left and right subtrees is at most 1.</li>
+        </ul>
+    </li>
+    <li><strong>Brute Force Approach:</strong>
+        <ol>
+            <li><strong>Calculate the Height of the Left Subtree:</strong>
+                <ul>
+                    <li>Recursively find the height of the left child node.</li>
+                </ul>
+            </li>
+            <li><strong>Calculate the Height of the Right Subtree:</strong>
+                <ul>
+                    <li>Recursively find the height of the right child node.</li>
+                </ul>
+            </li>
+            <li><strong>Check the Balance Condition:</strong>
+                <ul>
+                    <li>Compute the difference in heights between the left and right subtrees.</li>
+                    <li>If the difference is more than 1, the tree is not balanced.</li>
+                </ul>
+            </li>
+            <li><strong>Check Subtree Balance:</strong>
+                <ul>
+                    <li>Recursively ensure that both the left and right subtrees are also balanced.</li>
+                </ul>
+            </li>
+        </ol>
+    </li>
+</ul>
+<img src="https://static.takeuforward.org/content/balanced-tree-image6-0sxtQE1r">
+
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def findHeight(node):
+    if not node:
+        return 0
+    leftHeight = findHeight(node.left)
+    rightHeight = findHeight(node.right)
+    return 1 + max(leftHeight, rightHeight)
+
+def isBalanced(node):
+    if not node:
+        return True
+    leftHeight = findHeight(node.left)
+    rightHeight = findHeight(node.right)
+    diff = abs(leftHeight - rightHeight)
+    if diff <= 1 and isBalanced(node.left) and isBalanced(node.right):
+        return True
+    return False
+
+# Example usage:
+# Construct a sample tree:
+#       1
+#      / \
+#     2   3
+#    / \
+#   4   5
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+# Check if the tree is balanced
+print(isBalanced(root))  # Output: True
+
+```
+
+<p><strong>Time Complexity :</strong>O(n^2), because the height function is called multiple times for each node.</p>
+<p><strong>Space Complexity :</strong>O(n) ,in the worst case due to the recursion stack, which can grow to the height of the tree.</p>
+
+<br>
+
+<p><strong>Optimized Approach</strong></p>
+<h1>Intuition Behind the Optimized Approach</h1>
+
+<p><strong>Understanding Balance:</strong></p>
+<ul>
+    <li>A binary tree is balanced if, for every node, the height difference between its left and right subtrees is at most 1.</li>
+</ul>
+
+<p><strong>Combining Tasks:</strong></p>
+<ul>
+    <li>Instead of separately calculating the height of the tree and then checking if it’s balanced, you can do both in one go. This avoids recalculating heights multiple times.</li>
+</ul>
+
+<p><strong>Single Pass Calculation:</strong></p>
+<ul>
+    <li>The idea is to use a single function that:
+        <ol>
+            <li><strong>Calculates the Height</strong> of each subtree.</li>
+            <li><strong>Checks if the Tree is Balanced</strong> at the same time.</li>
+        </ol>
+    </li>
+</ul>
+
+<p><strong>Early Exit for Unbalanced Trees:</strong></p>
+<ul>
+    <li>If at any point, the function detects that a subtree is unbalanced (by returning -1), it immediately stops further calculations. This is efficient because you don’t waste time checking other parts of the tree if you already know it’s not balanced.</li>
+</ul>
+
+<p><strong>How It Works:</strong></p>
+<ul>
+    <li><strong>Starting from the Root:</strong>
+      <ul>
+          <li>Begin at the root of the tree.</li>
+      </ul>
+    </li>
+    <li><strong>Recursive Calculation:</strong>
+    <ul>
+        <li>For each node:
+            <ol>
+                <li><strong>Calculate Heights of Subtrees:</strong> Recursively find the height of the left and right subtrees.</li>
+                    <li><strong>Check Balance:</strong> Compare the heights of the left and right subtrees. If the difference is more than 1, return -1 to indicate the tree is unbalanced.</li>
+                </ol>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Return Height if Balanced:</strong>
+        <ul>
+            <li>If the node and its subtrees are balanced, return the height of the node’s subtree.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<p>Consider a tree:</p>
+<pre>
+   1
+  / \
+ 2   3
+/ \
+4   5
+</pre>
+
+<ul>
+    <li><strong>At Node 1:</strong>
+        <ul>
+            <li>Calculate height of left subtree (rooted at 2).</li>
+            <li>Calculate height of right subtree (rooted at 3).</li>
+            <li>Check the balance condition.</li>
+            <li>Combine results and return the height.</li>
+        </ul>
+    </li>
+    <li><strong>At Node 2:</strong>
+        <ul>
+            <li>Calculate height of left subtree (rooted at 4).</li>
+            <li>Calculate height of right subtree (rooted at 5).</li>
+            <li>Check balance.</li>
+        </ul>
+    </li>
+    <li><strong>At Nodes 4 and 5:</strong>
+        <ul>
+            <li>They are leaf nodes, so their heights are straightforward.</li>
+        </ul>
+    </li>
+</ul>
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def Height(node):
+    # Base case: empty tree
+    if not node:
+        return 0
+    
+    # Get height of left subtree
+    leftHeight = Height(node.left)
+    if leftHeight == -1:
+        return -1  # Left subtree is not balanced
+    
+    # Get height of right subtree
+    rightHeight = Height(node.right)
+    if rightHeight == -1:
+        return -1  # Right subtree is not balanced
+    
+    # Check if current node is balanced
+    if abs(leftHeight - rightHeight) > 1:
+        return -1  # Current tree is not balanced
+    
+    # Return height of current tree
+    return 1 + max(leftHeight, rightHeight)
+
+def optimized(node):
+    return Height(node) != -1
+
+# Example usage:
+# Construct a sample tree:
+#       1
+#      / \
+#     2   3
+#    / \
+#   4   5
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+# Check if the tree is balanced
+print(optimized(root))  # Output: True
+
+```
+
+<p><strong>Time Complexity :</strong>O(n), atmost we will visit each node at once</p>
+<p><strong>Space Complexity :</strong>O(n), recursion call stack will store maximum of given nodes</p>
+
+<br>
+<br>
+
+<h1>Diameter / Width Of A Tree</h1>
+<p>Given the root of the Binary Tree, return the length of its diameter. The Diameter of a Binary Tree is the longest distance between any two nodes of that tree. This path may or may not pass through the root.</p>
+<p><strong>Examples</strong></p>
+<img src="https://static.takeuforward.org/content/diameter-tree-image1-rfCH6MsT">
+<p><strong>Input :</strong></p>
+<p><strong>Output :</strong>4</p>
+<img src="https://static.takeuforward.org/content/diameter-tree-image2-eZz0n4yE">
+<p><strong>Explanation :</strong>The distance between the leftmost node 4 and the rightmost node 3 is 4, since this is the longest horizontal distance of the binary tree, hence its diameter.</p>
+
+<p><strong>Input : </strong></p>
+<img src="https://static.takeuforward.org/content/diameter-tree-image3-UlLQBXcW">
+<p><strong>Output : </strong>7</p>
+<p><strong>Explanation : </strong>The distance between the leftmost node 4 and the rightmost node 3 is 4, since this is the longest horizontal distance of the binary tree, hence its diameter.</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>Bruteforce Approach : </strong></p>
+
+<p><strong>Understanding Diameter:</strong></p>
+<ul>
+    <li>The diameter of a binary tree is the longest path between any two nodes.</li>
+    <li>This path can pass through the root, be entirely in the left subtree, or be entirely in the right subtree.</li>
+</ul>
+
+<p><strong>Breaking Down the Problem:</strong></p>
+<ul>
+    <li>For each node, the diameter can be calculated as the sum of the heights of its left and right subtrees.</li>
+    <li>We need to compare this diameter with the diameters of the left and right subtrees.</li>
+</ul>
+
+<p><strong>Recursive Calculation:</strong></p>
+<ul>
+    <li>For each node:
+        <ol>
+            <li>Calculate the height of the left subtree.</li>
+            <li>Calculate the height of the right subtree.</li>
+            <li>The potential diameter at this node is the sum of these two heights.</li>
+            <li>Recursively find the diameters of the left and right subtrees.</li>
+            <li>The diameter of the tree rooted at this node is the maximum of these three values.</li>
+        </ol>
+    </li>
+</ul>
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def findHeight(node):
+    # Base case: if the node is null, the height is 0
+    if not node:
+        return 0
+    # Recursively find the height of the left subtree
+    leftHeight = findHeight(node.left)
+    # Recursively find the height of the right subtree
+    rightHeight = findHeight(node.right)
+    # The height of the current node is 1 + the maximum of the heights of the left and right subtrees
+    return 1 + max(leftHeight, rightHeight)
+
+def bruteForce(node):
+    # Base case: if the node is null, the diameter is 0
+    if not node:
+        return 0
+    # Calculate the height of the left subtree
+    leftHeight = findHeight(node.left)
+    # Calculate the height of the right subtree
+    rightHeight = findHeight(node.right)
+    # The potential diameter at the current node is the sum of the heights of the left and right subtrees
+    currentDiameter = leftHeight + rightHeight
+    # Recursively find the diameter of the left subtree
+    leftDiameter = bruteForce(node.left)
+    # Recursively find the diameter of the right subtree
+    rightDiameter = bruteForce(node.right)
+    # The diameter of the tree rooted at the current node is the maximum of the current diameter, left diameter, and right diameter
+    return max(currentDiameter, leftDiameter, rightDiameter)
+
+# Example usage:
+# Construct a sample tree:
+#       1
+#      / \
+#     2   3
+#    / \
+#   4   5
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+# Find the diameter of the tree
+print(bruteForce(root))  # Output: 3
+
+```
+
+
+<p><strong>Time Complexity :</strong>O(n^2), because the height function is called multiple times for each node.</p>
+<p><strong>Space Complexity :</strong>O(n) ,in the worst case due to the recursion stack, which can grow to the height of the tree.</p>
+
+<br>
+
+<p><strong>Optimized Approach</strong></p>
+<p><strong>Understanding Diameter:</strong></p>
+<ul>
+    <li>The diameter of a binary tree is the longest path between any two nodes.</li>
+    <li>This path can pass through the root, be entirely in the left subtree, or be entirely in the right subtree.</li>
+</ul>
+
+<p><strong>Combining Tasks:</strong></p>
+<ul>
+    <li>Instead of calculating the height of the tree and then separately checking for the diameter, the optimized approach combines these tasks.</li>
+    <li>This avoids recalculating heights multiple times, making the solution more efficient.</li>
+</ul>
+
+<p><strong>Single Pass Calculation:</strong></p>
+<ul>
+    <li>The idea is to use a single function that:
+        <ol>
+            <li>Calculates the height of each subtree.</li>
+            <li>Updates the diameter at each node based on the heights of the left and right subtrees.</li>
+        </ol>
+    </li>
+</ul>
+
+<p><strong>How It Works:</strong></p>
+<ul>
+    <li><strong>Starting from the Root:</strong>
+        <ul>
+            <li>Begin at the root of the tree.</li>
+        </ul>
+    </li>
+    <li><strong>Recursive Calculation:</strong>
+        <ul>
+            <li>For each node:
+                <ol>
+                    <li>Calculate the height of the left subtree.</li>
+                    <li>Calculate the height of the right subtree.</li>
+                    <li>Update the diameter using the sum of the heights of the left and right subtrees.</li>
+                    <li>Return the height of the node's subtree.</li>
+                </ol>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def Height(node, diameter):
+    # Base case: if the node is null, the height is 0
+    if not node:
+        return 0
+    # Recursively find the height of the left subtree
+    leftHeight = Height(node.left, diameter)
+    # Recursively find the height of the right subtree
+    rightHeight = Height(node.right, diameter)
+    # Update the diameter with the sum of the heights of the left and right subtrees
+    diameter[0] = max(diameter[0], leftHeight + rightHeight)
+    # The height of the current node is 1 + the maximum of the heights of the left and right subtrees
+    return 1 + max(leftHeight, rightHeight)
+
+def optimized(node):
+    # Initialize diameter as a list to store the maximum diameter
+    diameter = [0]
+    # Call the helper function to calculate the height and update the diameter
+    Height(node, diameter)
+    # Return the diameter
+    return diameter[0]
+
+# Example usage:
+# Construct a sample tree:
+#       1
+#      / \
+#     2   3
+#    / \
+#   4   5
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+# Find the diameter of the tree
+print(optimized(root))  # Output: 3
+
+```
+
+<p><strong>Time Complexity :</strong>O(n), atmost we will visit each node at once</p>
+<p><strong>Space Complexity :</strong>O(n), recursion call stack will store maximum of given nodes</p>
+
+<br>
+<br>
+
+<h1>Max Path Sum</h1>
+<p>Given a Binary Tree, determine the maximum sum achievable along any path within the tree. A path in a binary tree is defined as a sequence of nodes where each pair of adjacent nodes is connected by an edge. Nodes can only appear once in the sequence, and the path is not required to start from the root. Identify and compute the maximum sum possible along any path within the given binary tree.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>Binary Tree: -10 9 20 -1 -1 15 7</p>
+<img src="https://static.takeuforward.org/content/Maximum-path-sum-image1-28CrKnMo">
+<p><strong>Output : </strong>42</p>
+<img src="https://static.takeuforward.org/content/Maximum-path-sum-image2-YUVqI9Hq">
+<p><strong>Explanation : </strong>Out of all the paths possible in the Binary Tree, 15 -> 20 -> 7 has the greatest sum ie. 42.
+</p>
+
+<p><strong>Input : </strong>Binary Tree: -2 2 1</p>
+<img src="https://static.takeuforward.org/content/Maximum-path-sum-image3-BUE4Y-7t">
+<p><strong>Output : </strong>2</p>
+<img src="https://static.takeuforward.org/content/Maximum-path-sum-image4-d9m4rdz8">
+<p><strong>Explanation : </strong>Out of all the paths possible in the Binary Tree, a path starting and ending at the node with value 2 has the greatest sum ie. 2.
+</p>
+
+<p><strong>Solution : </strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>Optimized Approach</strong></p>
+<p><strong>Understanding Maximum Path Sum:</strong></p>
+<ul>
+    <li>The path can start and end at any node in the tree.</li>
+    <li>It can traverse both left and right subtrees, but it cannot return back to the parent node (i.e., it forms a "V" shape).</li>
+</ul>
+
+<p><strong>Breaking Down the Problem:</strong></p>
+<ul>
+    <li>For each node, calculate the maximum path sum that passes through the node.</li>
+    <li>Compare it with the maximum path sums of its left and right subtrees to update the global maximum path sum.</li>
+</ul>
+
+<p><strong>Recursive Calculation:</strong></p>
+<ul>
+    <li>For each node:
+        <ol>
+            <li>Calculate the maximum path sum of the left subtree (ignore negative sums as they reduce the overall sum).</li>
+            <li>Calculate the maximum path sum of the right subtree (ignore negative sums as they reduce the overall sum).</li>
+            <li>Update the global maximum path sum using the current node's value and the maximum sums of its left and right subtrees.</li>
+            <li>Return the maximum path sum where the current node is the end point, so it can be used in its parent node's path sum calculation.</li>
+        </ol>
+    </li>
+</ul>
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def maxSum(node, maxi):
+    # Base case: if the node is null, return 0
+    if not node:
+        return 0
+    
+    # Recursively find the maximum path sum of the left subtree
+    # Only consider positive sums to maximize the path sum
+    leftSum = max(0, maxSum(node.left, maxi))
+    
+    # Recursively find the maximum path sum of the right subtree
+    # Only consider positive sums to maximize the path sum
+    rightSum = max(0, maxSum(node.right, maxi))
+    
+    # Update the global maximum path sum
+    maxi[0] = max(maxi[0], leftSum + rightSum + node.data)
+    
+    # Return the maximum path sum where the current node is the end point
+    return node.data + max(leftSum, rightSum)
+
+# Example usage:
+# Construct a sample tree:
+#       1
+#      / \
+#     2   3
+#    / \
+#   4   5
+
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+
+# Find the maximum path sum
+maxi = [float('-inf')]
+print(maxSum(root, maxi))  # Output: 11
+print(maxi[0])  # Output: 15
+```
+<p><strong>Time Complexity :</strong>O(n), atmost we will visit each node at once</p>
+<p><strong>Space Complexity :</strong>O(n), recursion call stack will store maximum of given nodes</p>
+
+<br>
+<br>
+
+<h1>Max Sum Path from Root to Leaf Node</h1>
+
+<p><strong>Problem Statement:</strong></p>
+<p>Find the maximum path sum from the root to any leaf node in a binary tree. A path is defined as a sequence of nodes starting from the root and ending at any leaf node, where each node is connected to its child nodes.</p>
+
+<p><strong>Example Test Cases:</strong></p>
+<ol>
+    <li>
+        <strong>Example 1:</strong>
+        <p>Tree:</p>
+        <pre>
+<code>
+    10
+   /  \
+  2    10
+ / \      \
+20  1     -25
+           /  \
+          3    4
+</code>
+            </pre>
+            <p>Maximum Path Sum: 10 → 2 → 20 = 32</p>
+        </li>
+        <li>
+            <strong>Example 2:</strong>
+            <p>Tree:</p>
+            <pre>
+<code>
+    -15
+   /   \
+  5    6
+ / \    \
+-8  1    3
+         / \
+        7   4
+</code>
+            </pre>
+            <p>Maximum Path Sum: -15 → 6 → 3 → 7 = 1</p>
+        </li>
+    </ol>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li><strong>Starting Point:</strong> Begin from the root node.</li>
+    <li><strong>Path to Leaf:</strong> For each node, find the maximum sum path from that node to any leaf node.</li>
+    <li><strong>Recursive Calculation:</strong> For each node:
+        <ul>
+            <li>Compute the maximum path sum for its left and right subtrees.</li>
+            <li>Add the node's value to the maximum of the sums from its left or right subtree.</li>
+        </ul>
+    </li>
+    <li><strong>Return the Best Sum:</strong> For the root node, this gives the maximum path sum from the root to any leaf.</li>
+</ul>
+
+<p><strong>Program:</strong></p>
+<pre>
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def maxSumPath(root):
+    # Base case: If the tree is empty
+    if root is None:
+        return 0
+
+    # Recursive function to find the maximum path sum from root to leaf
+    def maxPathSum(node):
+        # Base case: If the node is a leaf node
+        if node.left is None and node.right is None:
+            return node.data
+
+        # Initialize left and right maximum sums
+        leftSum = float('-inf')
+        rightSum = float('-inf')
+
+        # Recursively calculate maximum sums from left and right subtrees
+        if node.left is not None:
+            leftSum = maxPathSum(node.left)
+        if node.right is not None:
+            rightSum = maxPathSum(node.right)
+
+        # Return the maximum path sum from root to leaf
+        return node.data + max(leftSum, rightSum)
+
+    # Call the recursive function and return the result
+    return maxPathSum(root)
+
+# Example usage:
+# Constructing the example tree:
+#       10
+#      /  \
+#     2    10
+#    / \      \
+#   20  1     -25
+#              /  \
+#             3    4
+
+root = Node(10)
+root.left = Node(2)
+root.right = Node(10)
+root.left.left = Node(20)
+root.left.right = Node(1)
+root.right.right = Node(-25)
+root.right.right.left = Node(3)
+root.right.right.right = Node(4)
+
+# Find the maximum path sum from root to any leaf
+print(maxSumPath(root))  # Output: 32
+```
+
+    </pre>
+
+<p><strong>Explanation:</strong></p>
+<ul>
+  <li><strong>Class Definition:</strong> Define a <code>Node</code> class for tree nodes.</li>
+  <li><strong>Recursive Function:</strong> The <code>maxPathSum</code> function calculates the maximum path sum from the current node to any leaf node.
+      <ul>
+          <li><strong>Base Case:</strong> If the node is a leaf, return its value.</li>
+          <li><strong>Recursive Case:</strong> Compute maximum sums for left and right subtrees, and add the node's value to the maximum of these sums.</li>
+      </ul>
+  </li>
+  <li><strong>Example Tree:</strong> An example tree is constructed, and the <code>maxSumPath</code> function is called to find the maximum path sum.</li>
+</ul>
+
+<p><strong>Time Complexity :</strong>O(n), atmost we will visit each node at once</p>
+<p><strong>Space Complexity :</strong>O(n), recursion call stack will store maximum of given nodes</p>
