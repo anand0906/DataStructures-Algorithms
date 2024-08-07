@@ -1607,3 +1607,1057 @@ print(maxSumPath(root))  # Output: 32
 
 <p><strong>Time Complexity :</strong>O(n), atmost we will visit each node at once</p>
 <p><strong>Space Complexity :</strong>O(n), recursion call stack will store maximum of given nodes</p>
+
+
+<h1>Check Two Tree Are Identical Or Not</h1>
+<p>Given the roots of two binary trees, write a function to check if they are identical. Two binary trees are considered identical if they have the same structure and every corresponding node has the same value.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>p = [1,2,3], q = [1,2,3]</p>
+<img src="https://assets.leetcode.com/uploads/2020/12/20/ex1.jpg">
+<p><strong>Output :</strong>True</p>
+<p><strong>Input : </strong>p = [1,2], q = [1,null,2]</p>
+<img src="https://assets.leetcode.com/uploads/2020/12/20/ex2.jpg">
+<p><strong>Output :</strong>False</p>
+
+<br>
+
+<p><strong>Solution</strong></p>
+<p>This solution checks if two binary trees are identical by comparing their structure and values in a recursive manner. The function returns True if both trees are identical and False otherwise.</p>
+<p>We want to check if two binary trees are identical, meaning they have the same structure and values.</p>
+<p><strong>Steps</strong></p>
+<ol>
+  <li><strong>Base Case: Both Nodes are None</strong>
+    <ul>
+      <li>If both nodes (<code>node1</code> and <code>node2</code>) are <code>None</code>, it means we've reached the end of both trees at the same time. Since both are empty at this point, they are identical. Return <code>True</code>.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Base Case: One Node is None, the Other is Not</strong>
+    <ul>
+      <li>If one node is <code>None</code> and the other is not, it means the trees are not identical at this point because one tree has a node where the other does not. Return <code>False</code>.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Compare Current Nodes' Values</strong>
+    <ul>
+      <li>If both nodes are not <code>None</code>, compare their values (<code>node1.data</code> and <code>node2.data</code>). If the values are different, return <code>False</code>.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Recursive Comparison of Subtrees</strong>
+    <ul>
+      <li>Recursively compare the left children of both nodes (<code>node1.left</code> and <code>node2.left</code>).</li>
+      <li>Recursively compare the right children of both nodes (<code>node1.right</code> and <code>node2.right</code>).</li>
+    </ul>
+  </li>
+  
+  <li><strong>Combine Results</strong>
+    <ul>
+      <li>The current nodes are identical if:
+        <ul>
+          <li>Their values are the same.</li>
+          <li>Their left subtrees are identical.</li>
+          <li>Their right subtrees are identical.</li>
+        </ul>
+      </li>
+      <li>Return <code>True</code> if all three conditions are satisfied.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Visual Breakdown</strong></p>
+
+<p>Let's visualize the comparison process step-by-step for two identical trees:</p>
+
+<pre>
+Tree 1:        1
+             /   \
+            2     3
+
+Tree 2:        1
+             /   \
+            2     3
+</pre>
+
+<ol>
+  <li>Compare root nodes <code>1</code> and <code>1</code>: Values are the same.</li>
+  <li>Recursively compare left children <code>2</code> and <code>2</code>:
+    <ul>
+      <li>Values are the same.</li>
+      <li>Both left and right children of <code>2</code> are <code>None</code> in both trees.</li>
+    </ul>
+  </li>
+  <li>Recursively compare right children <code>3</code> and <code>3</code>:
+    <ul>
+      <li>Values are the same.</li>
+      <li>Both left and right children of <code>3</code> are <code>None</code> in both trees.</li>
+    </ul>
+  </li>
+  <li>Since all comparisons returned <code>True</code>, the trees are identical.</li>
+</ol>
+
+```python
+def optimized(node1,node2):
+    if(node1==None and node2==None):
+        return True
+    if((node1==None and node2!=None) or (node1!=None and node2==None)):
+        return False
+    a=(node1.data==node2.data)
+    b=optimized(node1.left,node2.left)
+    c=optimized(node1.right,node2.right)
+    return a and b and c
+
+root1=Node(4)
+root1.left=Node(2)
+root1.right=Node(5)
+root2=Node(4)
+root2.left=Node(2)
+root2.right=Node(5)
+print(optimized(root1,root2))
+root2.right=Node(10)
+print(optimized(root1,root2))
+```
+
+<p><strong>Time Complexity : </strong>O(n), where n is the number of nodes in the trees, because each node is visited once.</p>
+<p><strong>Space Complexity : </strong>𝑂(h) is the height of the trees, due to the recursion stack used in the depth-first traversal.</p>
+
+
+<br>
+<br>
+
+<h1>Zig Zag Traversal</h1>
+<p>Given a Binary Tree, print the zigzag traversal of the Binary Tree. Zigzag traversal of a binary tree is a way of visiting the nodes of the tree in a zigzag pattern, alternating between left-to-right and right-to-left at each level.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>Binary Tree: 1 2 3 4 5 -1 6</p>
+<img src="https://static.takeuforward.org/content/zig-zag-image1-fkiEDFoN">
+<p><strong>Output : </strong>[[1],[3, 2],[4, 5, 6]]</p>
+<p><strong>Explantaion</strong></p>
+<img src="https://static.takeuforward.org/content/zig-zag-image2-ATavNI7k">
+<ul>
+  <li>Level 1 (Root): Visit the root node 1 from left to right. Zigzag Traversal: [1]</li>
+  <li>Level 2: Visit nodes at this level in a right-to-left order. Zigzag Traversal:  [1], [3, 2]</li>
+  <li>Level 3: Visit nodes at this level in a left-to-right order. Zigzag Traversal:  [1], [3, 2], [4, 5, 6]</li>
+</ul>
+
+<p><strong>Input : </strong>Binary Tree: 1 2 -1 4 5 -1 -1 7 8</p>
+<img src="https://static.takeuforward.org/content/zig-zag-image3-hqVEj8-y">
+<p><strong>Output : </strong>[[1], [2], [4, 5], [8, 7]]</p>
+<p><strong>Explantaion</strong></p>
+<img src="https://static.takeuforward.org/content/zig-zag-image4-B908-MAE">
+<ul>
+  <li>Level 1 (Root): Visit the root node 1 from left to right. Zigzag Traversal: [1]</li>
+  <li>Level 2: Visit nodes at this level in a right-to-left order. Zigzag Traversal:  [1], [2]</li>
+  <li>Level 3: Visit nodes at this level in a left-to-right order. Zigzag Traversal:  [1], [3, 2], [4, 5]</li>
+  <li>Level 4: Visit nodes at this level in a right-to-left order. Zigzag Traversal:  [1], [3, 2], [4, 5], [8, 7]</li>
+</ul>
+
+<br>
+
+<p><strong>Solution</strong></p>
+<p>In this solution, basically we will find level order traversal, for each alternating level we are trying to store nodes in reverse order</p>
+<p><strong>Steps</strong></p>
+<ol>
+  <li><strong>Initialization:</strong>
+    <ul>
+      <li>Create an empty list <code>ans</code> to store the final result.</li>
+      <li>If the input <code>node</code> is <code>None</code>, return an empty list.</li>
+      <li>Initialize a <code>deque</code> called <code>queue</code> and add the root node to it.</li>
+      <li>Set a boolean variable <code>reverse</code> to <code>False</code>, indicating the order of node values on the current level.</li>
+    </ul>
+  </li>
+
+  <li><strong>Level-order Traversal:</strong>
+    <ul>
+      <li>While there are nodes in the <code>queue</code>, perform the following steps:
+        <ul>
+          <li>Determine the number of nodes at the current level (<code>n</code>).</li>
+          <li>Create a list <code>level</code> with <code>n</code> zeros to store node values for this level.</li>
+          <li>For each node at this level:
+            <ul>
+              <li>Dequeue a node.</li>
+              <li>Determine the position to place this node's value in the <code>level</code> list. If <code>reverse</code> is <code>True</code>, place it from the end; otherwise, place it from the start.</li>
+              <li>Add the node’s left and right children to the <code>queue</code> if they exist.</li>
+            </ul>
+          </li>
+          <li>Append the <code>level</code> list to the <code>ans</code> list.</li>
+          <li>Toggle the <code>reverse</code> boolean to switch the order for the next level.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Return Result:</strong>
+    <ul>
+      <li>Return the <code>ans</code> list, which contains node values in zigzag level-order.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+from collections import deque
+
+def solve(node):
+    ans = []  # List to store the result
+    if not node:  # If the tree is empty
+        return []
+    
+    queue = deque()
+    queue.append(node)
+    reverse = False  # Flag to alternate between left-to-right and right-to-left
+    
+    while queue:
+        n = len(queue)  # Number of nodes at the current level
+        level = [0] * n  # Initialize a list to store node values for this level
+        
+        for i in range(n):
+            temp = queue.popleft()
+            pos = (n - i - 1) if reverse else i  # Determine position based on direction
+            level[pos] = temp.data
+            
+            if temp.left:  # Add left child to queue
+                queue.append(temp.left)
+            if temp.right:  # Add right child to queue
+                queue.append(temp.right)
+        
+        ans.append(level)  # Append the current level to the result
+        reverse = not reverse  # Toggle the direction for the next level
+    
+    return ans
+
+```
+
+<p><strong>Time and Space Complexity</strong></p>
+
+<ul>
+  <li><strong>Time Complexity:</strong> <code>O(n)</code>, where <code>n</code> is the number of nodes in the tree. Each node is processed exactly once.</li>
+  <li><strong>Space Complexity:</strong> <code>O(w)</code>, where <code>w</code> is the maximum width of the tree (i.e., the maximum number of nodes at any level). This space is used by the <code>deque</code> and the <code>level</code> list.</li>
+</ul>
+
+
+<h1>Boundary Traversal</h1>
+<p> Given a Binary Tree, perform the boundary traversal of the tree. The boundary traversal is the process of visiting the boundary nodes of the binary tree in the anticlockwise direction, starting from the root.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input : </strong>Binary Tree: 1 2 7 3 -1 -1 8 -1 4 9 -1 5 6 10 11</p>
+<img src="https://static.takeuforward.org/content/boundary-traversal-image1-XAwduImr">
+<p><strong>Output : </strong>Boundary Traversal: [1, 2, 3, 4, 5, 6, 10, 11, 9, 8, 7]</p>
+<p><strong>Explanation : </strong></p>
+<img src="https://static.takeuforward.org/content/boundary-traversal-image2-1EFr7OIC">
+<p>The boundary traversal of a binary tree involves visiting its boundary nodes in an anticlockwise direction:</p>
+<ul>
+  <li>Starting from the root, we traverse from: 1</li>
+  <li>The left side traversal includes the nodes: 2, 3, 4</li>
+  <li>The bottom traversal include the leaf nodes: 5, 6, 10, 11</li>
+  <li>The right side traversal includes the nodes: 9, 8, 7</li>
+  <li>We return to the  root and the boundary traversal is complete.</li>
+</ul>
+<br>
+<p><strong>Input : </strong>Binary Tree: 10 5 20 3 8 18 25 -1 7 -1 -1</p>
+<img src="Binary Tree: 10 5 20 3 8 18 25 -1 7 -1 -1">
+<p><strong>Output : </strong>Boundary Traversal: [10, 5, 3, 7, 8, 18, 25, 20]</p>
+<p><strong>Explanation : </strong></p>
+<img src="https://static.takeuforward.org/content/boundary-traversal-image4-4QJ8Okw7">
+<p>The boundary traversal of a binary tree involves visiting its boundary nodes in an anticlockwise direction:</p>
+<ul>
+  <li>Starting from the root, we traverse from: 10</li>
+  <li>The left side traversal includes the nodes: 5</li>
+  <li>The bottom traversal include the leaf nodes: 3, 7, 8, 18, 25</li>
+  <li>The right side traversal includes the nodes: 20</li>
+  <li>We return to the  root and the boundary traversal is complete.</li>
+</ul>
+
+<br>
+
+<p><strong>Solution</strong></p>
+<p><strong>Intuition Behind Boundary Traversal</strong></p>
+
+<p>We want to collect the nodes that form the outer boundary of the binary tree. This includes:</p>
+<ul>
+  <li>The left boundary (excluding leaf nodes)</li>
+  <li>All the leaf nodes</li>
+  <li>The right boundary (excluding leaf nodes)</li>
+</ul>
+
+<p><strong>Steps to Collect Boundary Nodes:</strong></p>
+
+<ol>
+  <li><strong>Add Root Node:</strong>
+    <ul>
+      <li>Start with the root node. If it’s not a leaf, add its value to the list. This is the starting point of our boundary.</li>
+    </ul>
+  </li>
+
+  <li><strong>Add Left Boundary:</strong>
+    <ul>
+      <li>Move down the left side of the tree, adding nodes to the boundary list.</li>
+      <li>Skip leaf nodes because they are added separately.</li>
+      <li>Continue this until you reach the end of the left boundary (either a leaf node or a node with no left child).</li>
+    </ul>
+  </li>
+
+  <li><strong>Add Leaf Nodes:</strong>
+    <ul>
+      <li>Use pre-order traversal to visit all leaf nodes (nodes with no children).</li>
+      <li>Add these leaf nodes to the boundary list.</li>
+    </ul>
+  </li>
+
+  <li><strong>Add Right Boundary:</strong>
+    <ul>
+      <li>Move down the right side of the tree, similar to the left boundary, but this time collect nodes in reverse order (using a stack).</li>
+      <li>Skip leaf nodes as they are already included in the previous step.</li>
+      <li>After traversing the right boundary, reverse the collected nodes and add them to the boundary list.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Summary:</strong></p>
+<ul>
+  <li><strong>Start:</strong> Add the root node if it’s not a leaf.</li>
+  <li><strong>Left Boundary:</strong> Traverse and add non-leaf nodes on the left side.</li>
+  <li><strong>Leaf Nodes:</strong> Collect all leaf nodes.</li>
+  <li><strong>Right Boundary:</strong> Traverse and collect non-leaf nodes on the right side in reverse order.</li>
+</ul>
+
+<p>This approach ensures that all boundary nodes are collected in the correct order and avoids duplicates.</p>
+
+```python
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+def isLeaf(node):
+    return node.left==None and node.right==None
+
+def addLeftBoundary(node,ans):
+    current=node.left
+    while current:
+        if(not isLeaf(current)):
+            ans.append(current.data)
+        if(current.left):
+            current=current.left
+        else:
+            current=current.right
+
+def addRightBoundary(node,ans):
+    current=node.right
+    stack=[]
+    while current:
+        if(not isLeaf(current)):
+            stack.append(current.data)
+        if(current.right):
+            current=current.right
+        else:
+            current=current.left
+    while stack:
+        ans.append(stack.pop())
+
+def preOrder(node,ans):
+    if(not node):
+        return
+    if(isLeaf(node)):
+        ans.append(node.data)
+    preOrder(node.left,ans)
+    preOrder(node.right,ans)
+
+def solve(node):
+    ans=[]
+    if(not node):
+        return ans
+    if(not isLeaf(node)):
+        ans.append(node.data)
+    addLeftBoundary(node,ans)
+    preOrder(node,ans)
+    addRightBoundary(node,ans)
+    return ans
+            
+
+root=Node(4)
+root.left=Node(2)
+root.right=Node(5)
+root.left.left=Node(3)
+root.left.left.right=Node(9)
+root.left.left.right.left=Node(1)
+root.right.left=Node(7)
+root.right.right=Node(6)
+root.right.right.left=Node(8)
+print(solve(root))
+```
+
+<p><strong>1. <code>isLeaf(node)</code></strong></p>
+<p><strong>Purpose:</strong> Determine if a node is a leaf node (a node with no children).</p>
+<p><strong>Intuition:</strong></p>
+<ul>
+  <li>A leaf node is a node that does not have left or right children.</li>
+  <li>If both <code>node.left</code> and <code>node.right</code> are <code>None</code>, the node is a leaf.</li>
+  <li>This function helps in identifying which nodes are leaves and should be treated differently (e.g., not added to boundaries but included in the leaf nodes list).</li>
+</ul>
+
+<p><strong>2. <code>addLeftBoundary(node, ans)</code></strong></p>
+<p><strong>Purpose:</strong> Add all non-leaf nodes along the left boundary of the tree to the <code>ans</code> list.</p>
+<p><strong>Intuition:</strong></p>
+<ul>
+  <li>Start from the left child of the root and move down the left side of the tree.</li>
+  <li>Add each node's value to the list if it is not a leaf. This ensures that only the boundary nodes are included.</li>
+  <li>If a node has a left child, continue moving left. If not, move to the right child (if it exists) to cover nodes that might be at the boundary.</li>
+  <li>This function helps in collecting the leftmost boundary nodes of the tree.</li>
+</ul>
+
+<p><strong>3. <code>addRightBoundary(node, ans)</code></strong></p>
+<p><strong>Purpose:</strong> Add all non-leaf nodes along the right boundary of the tree to the <code>ans</code> list in reverse order.</p>
+<p><strong>Intuition:</strong></p>
+<ul>
+  <li>Start from the right child of the root and move down the right side of the tree.</li>
+  <li>Use a stack to reverse the order of nodes collected during traversal, since the right boundary nodes need to be added in reverse order to match the boundary traversal order.</li>
+  <li>If a node has a right child, continue moving right. If not, move to the left child (if it exists).</li>
+  <li>This function helps in collecting the rightmost boundary nodes and ensuring they are added in the correct order.</li>
+</ul>
+
+<p><strong>4. <code>preOrder(node, ans)</code></strong></p>
+<p><strong>Purpose:</strong> Add all leaf nodes to the <code>ans</code> list using pre-order traversal.</p>
+<p><strong>Intuition:</strong></p>
+<ul>
+  <li>Pre-order traversal visits nodes in the order: root, left, right. This traversal is useful for visiting all nodes in a subtree.</li>
+  <li>If a node is a leaf (no children), its value is added to the list.</li>
+  <li>Recursively visit the left and right children to ensure all leaves in the tree are included.</li>
+  <li>This function helps in collecting all leaf nodes, which are a part of the boundary but not included in the left or right boundaries.</li>
+</ul>
+
+<p><strong>5. <code>solve(node)</code></strong></p>
+<p><strong>Purpose:</strong> Combine all parts to collect boundary nodes of the binary tree.</p>
+<p><strong>Intuition:</strong></p>
+<ul>
+  <li>Start by adding the root node (if it’s not a leaf) to the boundary list.</li>
+  <li>Add the left boundary nodes by traversing the left side of the tree.</li>
+  <li>Collect all leaf nodes using pre-order traversal.</li>
+  <li>Add the right boundary nodes in reverse order using a stack.</li>
+  <li>This function orchestrates the process of boundary collection by calling the helper functions and combining their results.</li>
+</ul>
+
+<p><strong>Time Complexity:</strong> O(N) – Each node in the binary tree is visited once during traversal.</p>
+<p><strong>Space Complexity:</strong> O(H) – Space is required for the height of the tree due to recursive calls and stack storage.</p>
+
+
+<br>
+<br>
+
+
+<h1>Vertical Order Traversal</h1>
+<p>Given a Binary Tree, return the Vertical Order Traversal of it starting from the Leftmost level to the Rightmost level. If there are multiple nodes passing through a vertical line, then they should be printed as they appear in level order traversal of the tree</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input :Binary Tree: 1 2 3 4 10 9 11 -1 5 -1 -1 -1 -1 -1 -1 -1 6</strong></p>
+<img src="https://static.takeuforward.org/content/vertical-traversal-image1-diChK2E3">
+<p><strong>Output :Vertical Order Traversal: [[4],[2, 5], [1, 10, 9, 6],[3],[11]]</strong></p>
+<p><strong>Explanation :</strong></p>
+<img src="https://static.takeuforward.org/content/vertical-traversal-image2-L8jBykS-">
+<p>Vertical Levels from left to right:</p>
+<ul>
+  <li>Level -2: [4]</li>
+  <li>Level -1: [2]</li>
+  <li>Level 0: [1, 10, 9, 6] (Overlapping nodes are added in their level order sequence)</li>
+  <li>Level 1: [3]</li>
+  <li>Level 2: [11]</li>
+</ul>
+<br>
+<p><strong>Input : Binary Tree: 2 7 5 2 6 -1 9 -1 -1 5 11 4 -1</strong></p>
+<img src="https://static.takeuforward.org/content/vertical-traversal-image3-t3_XyQdZ">
+<p><strong>Output :</strong>[[2],[7, 5],[2, 6], [5, 11, 4],[9]]</p>
+<p><strong>Explanation :</strong></p>
+<img src="https://static.takeuforward.org/content/vertical-traversal-image4-aWuNOE3V">
+<p>Vertical Levels from left to right:</p>
+<ul>
+  <li>Level -2: [2]</li>
+  <li>Level -1: [7, 5]</li>
+  <li>Level 0: [2, 6]</li>
+  <li>Level 1: [5, 11, 4] (Overlapping nodes are added in their level order sequence)</li>
+  <li>Level 2: [9]</li>
+</ul>
+
+<br>
+
+<p><strong>Solution</strong></p>
+<p><strong>Intuition of the Approach:</strong></p>
+
+<p><strong>1. Concept of Vertical Order Traversal:</strong></p>
+<ul>
+  <li>We aim to print nodes of the binary tree in vertical order, grouping nodes that align vertically.</li>
+  <li>Nodes at the same vertical level are listed from top to bottom.</li>
+</ul>
+
+<img src="https://static.takeuforward.org/content/vertical-traversal-image5-umLmDdn9">
+<img src="https://static.takeuforward.org/content/vertical-traversal-image6-C7TnRsK4">
+<p><strong>2. Using Horizontal Distance:</strong></p>
+<ul>
+  <li>We use "horizontal distance" to track a node's position from the root node horizontally.</li>
+  <li>The root node starts at a horizontal distance of <code>0</code>.</li>
+  <li>Nodes to the left decrease the horizontal distance by <code>1</code> for each step left.</li>
+  <li>Nodes to the right increase the horizontal distance by <code>1</code> for each step right.</li>
+  <li>Example:</li>
+  <pre>
+      1
+     / \
+    2   3
+  </pre>
+  <ul>
+    <li>Node <code>1</code> is at horizontal distance <code>0</code>.</li>
+    <li>Node <code>2</code> is at horizontal distance <code>-1</code> (one step left).</li>
+    <li>Node <code>3</code> is at horizontal distance <code>1</code> (one step right).</li>
+  </ul>
+</ul>
+
+<p><strong>3. Level Tracking:</strong></p>
+<ul>
+  <li>Along with horizontal distance, we track the "level" or depth of the node in the tree.</li>
+  <li>The root node is at level <code>0</code>.</li>
+  <li>Each child node is at the level of its parent plus <code>1</code>.</li>
+  <li>Example:</li>
+  <pre>
+      1 (Level 0)
+     / \
+    2   3 (Level 1)
+  </pre>
+</ul>
+
+<p><strong>4. Traversal Using a Queue:</strong></p>
+<ul>
+  <li>Use a queue for level-order traversal (breadth-first traversal).</li>
+  <li>Start with the root node, enqueue its children with updated horizontal distances and levels.</li>
+  <li>Process each node, adding its value to a storage structure based on horizontal distance and level.</li>
+</ul>
+
+<p><strong>5. Storing Node Values:</strong></p>
+<ul>
+  <li>Store node values in a dictionary where:</li>
+  <ul>
+    <li>The key is the horizontal distance.</li>
+    <li>The value is another dictionary with:</li>
+    <ul>
+      <li>The key being the level.</li>
+      <li>The value being a list of node values at that level.</li>
+    </ul>
+  </ul>
+  <li>Example:</li>
+  <pre>
+  store:
+  {
+    -1: {1: [2]},
+     0: {0: [1], 1: [5]},
+     1: {1: [3], 2: [7]},
+     2: {2: [6]}
+  }
+  </pre>
+</ul>
+<img src="https://static.takeuforward.org/content/vertical-traversal-image8-ieYxlxXx">
+
+<p><strong>6. Constructing the Final Result:</strong></p>
+<ul>
+  <li>After processing all nodes, sort the keys of the outer dictionary (horizontal distances) and then sort nodes at each level.</li>
+  <li>Combine the sorted nodes for each horizontal distance into a single list.</li>
+  <li>Example:</li>
+  <pre>
+  Final Result:
+  [
+    [4],        # Horizontal distance -2
+    [2],        # Horizontal distance -1
+    [1, 5],     # Horizontal distance 0
+    [3, 7],     # Horizontal distance 1
+    [6]         # Horizontal distance 2
+  ]
+  </pre>
+</ul>
+<img src="https://static.takeuforward.org/content/vertical-traversal-image10-OwfFCRvB">
+<p><strong>Summary of Steps:</strong></p>
+<ul>
+  <li><strong>Initialization:</strong> Start with the root node and initialize a queue with the root and its horizontal distance <code>0</code>.</li>
+  <li><strong>Level-order Traversal:</strong> Process nodes level by level using the queue, updating horizontal distances and levels.</li>
+  <li><strong>Store Values:</strong> Use a dictionary to store node values grouped by horizontal distance and level.</li>
+  <li><strong>Result Construction:</strong> Sort the stored values and combine them to form the final vertical order list.</li>
+</ul>
+
+
+```python
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+from collections import deque,defaultdict
+def default():
+    return defaultdict(list)
+def solve(node):
+    ans=[]
+    if not node:
+        return ans
+    queue=deque()
+    queue.append((node,0))
+    level=0
+    store=defaultdict(default)
+    while queue:
+        n=len(queue)
+        for i in range(n):
+            node,x=queue.popleft()
+            store[x][level].append(node.data)
+            if(node.left):
+                queue.append((node.left,x-1))
+            if(node.right):
+                queue.append((node.right,x+1))
+        level+=1
+    temp=sorted(store.items(),key=lambda x:x[0])
+    for x,l_values in temp:
+        vertical=[]
+        l_values=sorted(l_values.items(),key=lambda x:x[0])
+        for level,values in l_values:
+            vertical.extend(sorted(values))
+        ans.append(vertical)
+    return ans
+        
+        
+    
+
+
+root=Node(1)
+root.left=Node(2)
+root.right=Node(3)
+root.left.right=Node(4)
+
+print(solve(root))
+
+```
+
+<p><strong>Time Complexity:</strong> O(N log N) – Sorting nodes adds a log factor, but each node is processed once.</p>
+<p><strong>Space Complexity:</strong> O(N) – Space for the queue and the <code>store</code> dictionary, which stores all nodes.</p>
+
+
+<br>
+<br>
+
+<h1>Top View Of Binary Tree</h1>
+<p>Given a Binary Tree, return its Top View. The Top View of a Binary Tree is the set of nodes visible when we see the tree from the top.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input :</strong>Binary Tree: 1 2 3 4 10 9 11 -1 5 -1 -1 -1 -1 -1 -1 -1 6</p>
+<img src="https://static.takeuforward.org/content/top-view-tree-image1-B4hVS6fx">
+<p><strong>Output :</strong>Top View: [4, 2, 1, 3, 11]</p>
+<p><strong>Explanation :</strong></p>
+<img src="https://static.takeuforward.org/content/top-view-tree-image2-yzsmeIXv">
+<br>
+<p><strong>Input :</strong>Binary Tree: 2 7 5 2 6 -1 9 -1 -1 5 11 4 -1</p>
+<img src="https://static.takeuforward.org/content/top-view-tree-image3-HzQGi34x">
+<p><strong>Output :</strong>Top View: [2, 7, 2, 5, 9]</p>
+<p><strong>Explanation :</strong></p>
+<img src="https://static.takeuforward.org/content/top-view-tree-image4-IZBtc6WM">
+
+<br>
+
+<p><strong>Solution</strong></p>
+<p><strong>Intuition Behind the Top View of a Binary Tree:</strong></p>
+
+<p><strong>Goal:</strong></p>
+<ul>
+  <li>To print the top view of a binary tree, which includes the nodes that are visible when the tree is viewed from above.</li>
+  <li>Specifically, we need to capture the nodes that appear at the top-most level for each vertical column of the tree.</li>
+</ul>
+
+<p><strong>Concepts Involved:</strong></p>
+
+<ul>
+  <li><strong>Horizontal Distance (HD):</strong></li>
+  <ul>
+    <li>Nodes are assigned a horizontal distance from the root node:</li>
+    <ul>
+      <li>The root node starts at horizontal distance <code>0</code>.</li>
+      <li>Moving left decreases the horizontal distance by <code>1</code>.</li>
+      <li>Moving right increases the horizontal distance by <code>1</code>.</li>
+    </ul>
+  </ul>
+  <li><strong>Vertical Levels:</strong></li>
+  <ul>
+    <li>Nodes at the same horizontal distance but different levels (depths) will be printed based on the top-most level.</li>
+    <li>The idea is to only keep track of the first node encountered at each horizontal distance, as this will be the top-most node for that column.</li>
+  </ul>
+</ul>
+
+<p><strong>Steps of the Approach:</strong></p>
+<ul>
+  <li><strong>Initialization:</strong></li>
+  <ul>
+    <li>Use a queue for level-order traversal (breadth-first traversal) of the tree.</li>
+    <li>Start with the root node at horizontal distance <code>0</code>.</li>
+  </ul>
+  <li><strong>Traversal:</strong></li>
+  <ul>
+    <li>Process each node in the queue, and for each node:</li>
+    <ul>
+      <li>Record its value if its horizontal distance is not already in the dictionary (<code>store</code>).</li>
+      <li>Update the dictionary with the node's value for its horizontal distance if it's the first node encountered at that distance.</li>
+      <li>Add the node’s left and right children to the queue with updated horizontal distances.</li>
+    </ul>
+  </ul>
+  <li><strong>Result Construction:</strong></li>
+  <ul>
+    <li>After traversal, sort the dictionary by horizontal distance.</li>
+    <li>Collect the node values from the sorted dictionary, which represent the top view of the tree.</li>
+  </ul>
+</ul>
+
+<p><strong>Detailed Explanation of the Code:</strong></p>
+
+```python
+from collections import deque
+
+def solve(node):
+    ans = []
+    if not node:
+        return ans
+    
+    # Initialize a queue for level-order traversal
+    queue = deque()
+    queue.append((node, 0))  # (node, horizontal distance)
+    
+    # Dictionary to store the first node at each horizontal distance
+    store = {}
+    
+    while queue:
+        n = len(queue)  # Number of nodes at the current level
+        for i in range(n):
+            node, x = queue.popleft()  # Dequeue node and its horizontal distance
+            
+            # Store the node data if the horizontal distance is not already in the dictionary
+            if x not in store:
+                store[x] = node.data
+            
+            # Enqueue left and right children with updated horizontal distances
+            if node.left:
+                queue.append((node.left, x - 1))
+            if node.right:
+                queue.append((node.right, x + 1))
+    
+    # Sort the dictionary by horizontal distance
+    temp = sorted(store.items(), key=lambda x: x[0])
+    
+    # Collect the values in sorted order
+    for x, data in temp:
+        ans.append(data)
+    
+    return ans
+```
+
+<p><strong>Explanation of the Code:</strong></p>
+
+<ul>
+  <li><strong>Queue Initialization:</strong> Start with the root node and its horizontal distance <code>0</code>.</li>
+  <li><strong>Processing Nodes:</strong> Dequeue nodes, and for each node:</li>
+  <ul>
+    <li>Check if its horizontal distance is already in <code>store</code>. If not, add it.</li>
+    <li>Add children to the queue with their respective horizontal distances.</li>
+  </ul>
+  <li><strong>Sorting and Collecting Results:</strong> After traversing the tree, sort the horizontal distances. Append node values to <code>ans</code> in the order of sorted horizontal distances.</li>
+</ul>
+
+<p><strong>Summary:</strong></p>
+<ul>
+  <li><strong>Top View:</strong> Captures nodes visible from above.</li>
+  <li><strong>First Encountered Nodes:</strong> Only the first node at each horizontal distance is stored.</li>
+  <li><strong>Sorting:</strong> Ensures nodes are collected in the correct order for output.</li>
+</ul>
+
+<p>This approach ensures that you accurately capture the top view of the binary tree by focusing on horizontal distance and the first visible nodes at each distance.</p>
+
+<p><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree. Each node is processed exactly once in level-order traversal.</p>
+
+<p><strong>Space Complexity:</strong> O(N), where N is the number of nodes in the tree. Space is required for the queue and the dictionary to store nodes and their horizontal distances.</p>
+
+
+<br>
+<br>
+
+<h2>Bottom View Of Binary Tree</h2>
+<p>Given a Binary Tree, return its Bottom View. The Bottom View of a Binary Tree is the set of nodes visible when we see the tree from the bottom.</p>
+<p><strong>Input :</strong>Binary Tree: 1 2 3 4 10 9 11 -1 5 -1 -1 -1 -1 -1 -1 -1 6</p>
+<img src="https://static.takeuforward.org/content/top-view-tree-image1-B4hVS6fx">
+<p><strong>Output :</strong>Bottom View Traversal: [4, 5, 6, 3, 11]</p>
+<p><strong>Explanation :</strong>The bottom view of the binary tree would comprise of the nodes that are the last encountered nodes for each vertical index.</p>
+<img src="https://static.takeuforward.org/content/bottom-view-tree-image1-I3NBaM0T">
+<br>
+<p><strong>Input :</strong>Binary Tree: 2 7 5 2 6 -1 9 -1 -1 5 11 4 -1</p>
+<img src="https://static.takeuforward.org/content/top-view-tree-image3-HzQGi34x">
+<p><strong>Output :Bottom View: [2 5 6 11 4 9]</strong></p>
+<p><strong>Explanation :</strong></p>
+<img src="https://static.takeuforward.org/content/bottom-view-tree-image2-x_0nezDl">
+
+<br>
+
+<p><strong>Solution</strong></p>
+<p><strong>Goal:</strong></p>
+<ul>
+    <li>To print the bottom view of a binary tree, which includes the nodes that are visible when the tree is viewed from below.</li>
+    <li>The bottom view captures the nodes that appear at the bottom-most level for each vertical column of the tree.</li>
+</ul>
+<p>So, we have to track last nodes of a vertical order, so we keep on updating dictionary, so at final it will contain last nodes of binary tree</p>
+
+<p><strong>Code Explanation:</strong></p>
+
+
+```python
+from collections import deque
+
+def solve(node):
+    ans = []
+    if not node:
+        return ans
+    
+    # Initialize a queue for level-order traversal
+    queue = deque()
+    queue.append((node, 0))  # (node, horizontal distance)
+    
+    # Dictionary to store the last node at each horizontal distance
+    store = {}
+    
+    while queue:
+        n = len(queue)  # Number of nodes at the current level
+        for i in range(n):
+            node, x = queue.popleft()  # Dequeue node and its horizontal distance
+            
+            # Store or update the node data for the horizontal distance
+            store[x] = node.data
+            
+            # Enqueue left and right children with updated horizontal distances
+            if node.left:
+                queue.append((node.left, x - 1))
+            if node.right:
+                queue.append((node.right, x + 1))
+    
+    # Sort the dictionary by horizontal distance
+    temp = sorted(store.items(), key=lambda x: x[0])
+    
+    # Collect the values in sorted order
+    for x, data in temp:
+        ans.append(data)
+    
+    return ans
+```
+
+<p><strong>Detailed Intuition:</strong></p>
+<ul>
+    <li><strong>Horizontal Distance (HD):</strong></li>
+    <ul>
+        <li>Nodes are assigned a horizontal distance from the root node:</li>
+        <ul>
+            <li>Root node starts at horizontal distance <code>0</code>.</li>
+            <li>Moving left decreases the horizontal distance by <code>1</code>.</li>
+            <li>Moving right increases the horizontal distance by <code>1</code>.</li>
+        </ul>
+    </ul>
+    <li><strong>Bottom View Nodes:</strong></li>
+    <ul>
+        <li>We need to capture the nodes that are at the bottom-most level for each vertical column.</li>
+        <li>This means that if a node is at the same horizontal distance but at a lower level (deeper in the tree), it should be the one recorded.</li>
+    </ul>
+    <li><strong>Level-Order Traversal:</strong></li>
+    <ul>
+        <li>Use a queue to perform level-order traversal of the tree.</li>
+        <li>For each node, update the dictionary to store the node's value for its horizontal distance. This ensures that the latest node encountered at that distance (i.e., the bottom-most node) is recorded.</li>
+    </ul>
+    <li><strong>Constructing Result:</strong></li>
+    <ul>
+        <li>After traversal, sort the dictionary by horizontal distance.</li>
+        <li>Collect the node values from the sorted dictionary, which represent the bottom view of the tree.</li>
+    </ul>
+</ul>
+
+<p><strong>Time and Space Complexity:</strong></p>
+<p><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree. Each node is processed exactly once in level-order traversal.</p>
+
+<p><strong>Space Complexity:</strong> O(N), where N is the number of nodes in the tree. Space is required for the queue and the dictionary to store nodes and their horizontal distances.</p>
+
+<p><strong>Summary:</strong></p>
+<ul>
+    <li><strong>Bottom View:</strong> Captures nodes visible from below.</li>
+    <li><strong>Last Encountered Nodes:</strong> Only the last node at each horizontal distance is stored.</li>
+    <li><strong>Sorting:</strong> Ensures nodes are collected in the correct order for output.</li>
+</ul>
+
+<p>This approach accurately captures the bottom view of the binary tree by focusing on the latest visible nodes at each horizontal distance.</p>
+
+
+<br>
+<br>
+
+<h1>Left And Right View Of Binary Tree</h1>
+<p>Given a Binary Tree, return its right and left views.</p>
+<p>The Right View of a Binary Tree is a list of nodes that can be seen when the tree is viewed from the right side. The Left View of a Binary Tree is a list of nodes that can be seen when the tree is viewed from the left side.</p>
+
+<p><strong>Examples</strong></p>
+<p><strong>Input :</strong>Binary Tree: 1 2 3 4 10 9 11 -1 5 -1 -1 -1 -1 -1 -1 -1 6 </p>
+<img src="https://static.takeuforward.org/content/right-left-tree-image1-LK79LuMP">
+<p><strong>Output :</strong>Left View: [1, 2, 4, 5, 6] , Right View: [1, 3, 11, 5, 6]</p>
+<p><strong>Explanation :</strong></p>
+<img src="https://static.takeuforward.org/content/right-left-tree-image2-4lJ-ias4">
+<br>
+<p><strong>Input :</strong>Binary Tree: 2 7 5 2 6 -1 9 -1 -1 5 11 4 -1</p>
+<img src="https://static.takeuforward.org/content/right-left-tree-image3-oyZSMVIG">
+<p><strong>Output :</strong>Left View Traversal:[2,7,2,5], Right View Traversal:[2,5,9,4] </p>
+<p><strong>Explanation :</strong></p>
+<img src="https://static.takeuforward.org/content/right-left-tree-image4-bZR52MA_">
+
+<br>
+
+<p><strong>Iterative Solution</strong></p>
+<p><strong>Goal:</strong></p>
+<ul>
+    <li><strong>Left View:</strong> Nodes visible when the tree is viewed from the left side.</li>
+    <li><strong>Right View:</strong> Nodes visible when the tree is viewed from the right side.</li>
+</ul>
+<p><strong>Detailed Intuition:</strong></p>
+<ul>
+    <li><strong>Left and Right View Concepts:</strong></li>
+    <ul>
+        <li><strong>Left View:</strong> Nodes that are visible when looking at the tree from the left. These are typically the first nodes encountered at each level.</li>
+        <li><strong>Right View:</strong> Nodes that are visible when looking at the tree from the right. These are typically the last nodes encountered at each level.</li>
+    </ul>
+    <li><strong>Level-Order Traversal:</strong></li>
+    <ul>
+        <li>Use a queue to perform level-order traversal (breadth-first traversal) of the tree. This ensures that nodes are processed level by level.</li>
+        <li>For each level:
+            <ul>
+                <li><strong>Left View:</strong> Record the first node encountered at the level.</li>
+                <li><strong>Right View:</strong> Record the last node encountered at the level.</li>
+            </ul>
+        </li>
+    </ul>
+    <li><strong>Processing Nodes:</strong></li>
+    <ul>
+        <li>As nodes are processed at each level, collect the first and last node values of that level to build the left and right views, respectively.</li>
+    </ul>
+    <li><strong>Constructing Result:</strong></li>
+    <ul>
+        <li>After traversal, the collected nodes for each view represent the left and right views of the binary tree.</li>
+    </ul>
+</ul>
+
+```python
+from collections import deque
+
+def solve(node):
+    left, right = [], []
+    if not node:
+        return left, right
+    
+    queue = deque()
+    queue.append(node)
+    level = []
+    
+    while queue:
+        n = len(queue)  # Number of nodes at the current level
+        for i in range(n):
+            node = queue.popleft()
+            level.append(node.data)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        
+        # Append the first and last element of the current level
+        left.append(level[0])
+        right.append(level[n-1])
+        level = []
+    
+    return left, right
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<p><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree. Each node is processed exactly once in level-order traversal.</p>
+
+<p><strong>Space Complexity:</strong> O(N), where N is the number of nodes in the tree. Space is required for the queue and the level lists to store nodes at each level.</p>
+
+<p><strong>Summary:</strong></p>
+<ul>
+    <li><strong>Left View:</strong> Captures the nodes visible from the left side of the tree.</li>
+    <li><strong>Right View:</strong> Captures the nodes visible from the right side of the tree.</li>
+    <li><strong>Level Order Traversal:</strong> Ensures nodes are processed level by level to correctly identify the left and right view nodes.</li>
+</ul>
+
+<p>This approach accurately captures the left and right views of the binary tree by focusing on the first and last nodes at each level during level-order traversal.</p>
+<br>
+<p><strong>Recursive Solution</strong></p>
+<p><strong>Goal:</strong></p>
+<ul>
+    <li><strong>Left View:</strong> Nodes visible when the tree is viewed from the left side.</li>
+    <li><strong>Right View:</strong> Nodes visible when the tree is viewed from the right side.</li>
+</ul>
+
+<p><strong>Detailed Intuition:</strong></p>
+<ul>
+    <li><strong>Left and Right View Concepts:</strong></li>
+    <ul>
+        <li><strong>Left View:</strong> Nodes that are visible when looking at the tree from the left. These are typically the first nodes encountered at each level.</li>
+        <li><strong>Right View:</strong> Nodes that are visible when looking at the tree from the right. These are typically the first nodes encountered at each level.</li>
+    </ul>
+    <li><strong>Recursive Approach:</strong></li>
+    <ul>
+        <li>Use recursion to traverse the tree and collect the first node encountered at each level.</li>
+        <li>For the <strong>left view</strong>:
+            <ul>
+                <li>Traverse the left subtree before the right subtree.</li>
+            </ul>
+        </li>
+        <li>For the <strong>right view</strong>:
+            <ul>
+                <li>Traverse the right subtree before the left subtree.</li>
+            </ul>
+        </li>
+    </ul>
+    <li><strong>Processing Nodes:</strong></li>
+    <ul>
+        <li>For each node, check if it is the first node at its level (i.e., <code>level == len(ans)</code>).</li>
+        <li>If it is, add the node's data to the result list <code>ans</code>.</li>
+    </ul>
+    <li><strong>Constructing Result:</strong></li>
+    <ul>
+        <li>The collected nodes for each view (stored in <code>ans</code>) represent the left and right views of the binary tree.</li>
+    </ul>
+</ul>
+
+
+```python
+def leftView(node, level, ans):
+    if not node:
+        return
+    # If this is the first node of its level
+    if level == len(ans):
+        ans.append(node.data)
+    # Recur for left subtree first, then right subtree
+    leftView(node.left, level + 1, ans)
+    leftView(node.right, level + 1, ans)
+
+def rightView(node, level, ans):
+    if not node:
+        return
+    # If this is the first node of its level
+    if level == len(ans):
+        ans.append(node.data)
+    # Recur for right subtree first, then left subtree
+    rightView(node.right, level + 1, ans)
+    rightView(node.left, level + 1, ans)
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<p><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree. Each node is processed exactly once.</p>
+
+<p><strong>Space Complexity:</strong> O(H), where H is the height of the tree. Space is required for the recursion stack.</p>
+
+<p><strong>Summary:</strong></p>
+<ul>
+    <li><strong>Left View:</strong> Captures the nodes visible from the left side of the tree by traversing the left subtree before the right subtree.</li>
+    <li><strong>Right View:</strong> Captures the nodes visible from the right side of the tree by traversing the right subtree before the left subtree.</li>
+    <li><strong>Recursive Approach:</strong> Ensures nodes are processed in the correct order to identify the left and right view nodes.</li>
+</ul>
+
+<p>This approach accurately captures the left and right views of the binary tree by focusing on the first nodes encountered at each level during recursive traversal.</p>
+
+
+<br>
+<br>
