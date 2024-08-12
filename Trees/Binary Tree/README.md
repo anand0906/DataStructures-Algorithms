@@ -2661,3 +2661,37 @@ def rightView(node, level, ans):
 
 <br>
 <br>
+
+
+<h1>Check for Symmetrical Binary Tree</h1>
+<p>Given a Binary Tree, determine whether the given tree is symmetric or not. A Binary Tree would be Symmetric, when its mirror image is exactly the same as the original tree. If we were to draw a vertical line through the centre of the tree, the nodes on the left and right side would be mirror images of each other.</p>
+<p><strong>Examples</strong></p>
+<p><strong>Input :</strong>Binary Tree: 1 2 2 3 4 4 3</p>
+<img src="https://static.takeuforward.org/content/symmetric-tree-image1-ROcYfPPX">
+<p><strong>Output :</strong>True, this tree is symmetric.</p>
+<p><strong>Explanation :</strong></p>
+<p>If we were to draw a vertical line through the centre of the tree, dividing it into left and right parts, we observe that the nodes on the left and right sides are mirror images of each other.</p>
+<ul>
+  <li>The root node (1) is at the centre.</li>
+  <li>The left subtree has a node (2) on the left, and the right subtree has a corresponding node (2) on the right.</li>
+  <li>Further, the left subtree of (2) has nodes (3) and (4) from left to right, while the right subtree of (2) has nodes (4) and (3) from right to left.</li>
+</ul>
+<p>This mirroring pattern continues throughout the tree. The left and right subtrees are symmetrically arranged with respect to the central vertical line. Therefore, the given binary tree is symmetric.</p>
+<img src="https://static.takeuforward.org/content/symmetric-tree-image2-SUmry2OP">
+<br>
+<p><strong>Input :</strong>Binary Tree: 1 2 2 -1 3 -1 3</p>
+<img src="https://static.takeuforward.org/content/symmetric-tree-image3-0sAVyLsF">
+<p><strong>Output :</strong>False, this is not a symmetric Binary Tree.</p>
+<p><strong>Explanation :</strong>While the tree has a symmetric structure at the first level with nodes 2 and 2, the subtrees under nodes 2 and 2 are not symmetric. If we were to draw a vertical line through the centre of the tree, dividing it into left and right parts, we observe that the nodes on the left and right sides are not mirror images of each other.</p>
+<img src="https://static.takeuforward.org/content/symmetric-tree-image4--hvMePlJ">
+
+<p><strong>Solution</strong></p>
+<p>A tree is said to be symmetric when its structure exhibits a mirroring pattern, meaning that the left and right subtrees of any node are identical or mirror images of each other. In other words, if you could draw a vertical line through the centre of the tree, the nodes on the left side should be symmetrically aligned with the nodes on the right side.</p>
+<img src="https://static.takeuforward.org/content/symmetric-tree-image5-bdhH3k4V">
+<p>For a binary tree to be symmetric:</p>
+<ul>
+  <li>The root node and its two subtrees (left and right) must have the same value.</li>
+  <li>The left subtree of the root should be a mirror image of the right subtree.</li>
+  <li>This mirroring should be consistent throughout the entire tree, not just at the root level.</li>
+</ul>
+<p>When recursively checking the left and right subtrees for symmetry in a binary tree, the traversals are mirrored. Specifically, the algorithm compares the left child of the left subtree with the right child of the right subtree and the right child of the left subtree with the left child of the right subtree.</p>
