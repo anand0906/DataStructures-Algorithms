@@ -1590,9 +1590,6 @@ root.right.right.right = Node(4)
 # Find the maximum path sum from root to any leaf
 print(maxSumPath(root))  # Output: 32
 ```
-
-    </pre>
-
 <p><strong>Explanation:</strong></p>
 <ul>
   <li><strong>Class Definition:</strong> Define a <code>Node</code> class for tree nodes.</li>
@@ -4295,20 +4292,20 @@ def solve(n, inorder, postorder):
     </li>
 </ul>
 
-<h2>Approach</h2>
+<p><strong>Approach</strong></h2>
 <p>The current approach builds on the level-order traversal method:</p>
 <ul>
     <li><strong>Serialization:</strong> Traverse the tree level by level, appending node values and placeholders for missing children.</li>
     <li><strong>Deserialization:</strong> Rebuild the tree by processing the serialized string in a level-order fashion.</li>
 </ul>
 
-<h2>Intuition in Simple Words</h2>
+<p><strong>Intuition in Simple Words</strong></p>
 <ul>
     <li><strong>Serialization:</strong> Convert the tree to a string where each level's nodes are recorded, and missing children are represented by placeholders.</li>
     <li><strong>Deserialization:</strong> Convert the string back to a tree by recreating nodes level by level based on the recorded values and placeholders.</li>
 </ul>
 
-<h2>Detailed Steps To Solve</h2>
+<p><strong>Detailed Steps To Solve</strong></p>
 <ul>
     <li><strong>Serialization:</strong>
         <ol>
@@ -4328,7 +4325,7 @@ def solve(n, inorder, postorder):
     </li>
 </ul>
 
-<h2>Code</h2>
+<p>C<strong>Code</strong></h2>
 
 ```python
 from collections import deque
@@ -4392,7 +4389,7 @@ def deserialize(s):
 
 ```
 
-<h2>Time and Space Complexity</h2>
+<p><strong>Time and Space Complexity</strong></p>
 <ul>
     <li><strong>Serialization:</strong></li>
     <ul>
@@ -4411,7 +4408,6 @@ def deserialize(s):
 <br>
 
 <h1>Morris Inorder Traversal</h1>
-<h1>Morris Traversal for In-Order Traversal</h1>
 
 <p><strong>Problem Statement:</strong></p>
 <p>Given a binary tree, perform an in-order traversal without using extra space for recursion or stack. This approach should yield the nodes in in-order sequence.</p>
