@@ -1532,7 +1532,6 @@ print(maxi[0])  # Output: 15
 </ul>
 
 <p><strong>Program:</strong></p>
-<pre>
 
 ```python
 class Node:
