@@ -5,7 +5,7 @@ class Node:
         self.right=None
 def findPath(node,target,ans):
     if(not node):
-        return
+        return False
     ans.append(node.data)
     if(node.data==target):
         return True

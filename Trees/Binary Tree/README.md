@@ -2695,3 +2695,1934 @@ def rightView(node, level, ans):
   <li>This mirroring should be consistent throughout the entire tree, not just at the root level.</li>
 </ul>
 <p>When recursively checking the left and right subtrees for symmetry in a binary tree, the traversals are mirrored. Specifically, the algorithm compares the left child of the left subtree with the right child of the right subtree and the right child of the left subtree with the left child of the right subtree.</p>
+
+<p><strong>Steps To Solve</strong></p>
+<ol>
+    <li>
+        <strong>Check if Either Side is Missing:</strong>
+        <ul>
+            <li>First, the function checks if either of the two nodes (left or right) is missing:</li>
+            <ul>
+                <li>If both are missing (both <strong>None</strong>), that part of the tree is symmetric, so return <strong>True</strong>.</li>
+                <li>If one is missing and the other isn’t, the tree can’t be symmetric, so return <strong>False</strong>.</li>
+            </ul>
+        </ul>
+    </li>
+    <li>
+        <strong>Compare the Node Values:</strong>
+        <ul>
+            <li>If both nodes exist, the function compares their values:</li>
+            <ul>
+                <li>If the values are different, the tree can’t be symmetric, so return <strong>False</strong>.</li>
+            </ul>
+        </ul>
+    </li>
+    <li>
+        <strong>Check the Mirror Image in the Subtrees:</strong>
+        <ul>
+            <li>The function then checks if the children of these nodes are mirror images:</li>
+            <ul>
+                <li>It compares the left child of the left node with the right child of the right node (outer pair).</li>
+                <li>It also compares the right child of the left node with the left child of the right node (inner pair).</li>
+                <li>Both these comparisons must be <strong>True</strong> for the whole structure to be symmetric.</li>
+            </ul>
+        </ul>
+    </li>
+    <li>
+        <strong>Return the Final Result:</strong>
+        <ul>
+            <li>If all these checks pass, the tree (or subtree) is symmetric at this level, so return <strong>True</strong>.</li>
+        </ul>
+    </li>
+</ol>
+
+
+```python
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+def isSymmetric(leftNode,rightNode):
+    if(leftNode==None or rightNode==None):
+        return leftNode==rightNode
+    if(leftNode.data!=rightNode.data):
+        return False
+    a=isSymmetric(leftNode.left,rightNode.right)
+    b=isSymmetric(leftNode.right,rightNode.left)
+    return a and b
+
+
+def solve(root):
+    if(root==None):
+        return True
+    return isSymmetric(root.left,root.right)
+
+    
+root=Node(1)
+root.left=Node(2)
+root.right=Node(2)
+print(solve(root))
+```
+
+<p><strong>Time Complexity : </strong>O(n), where is the number of nodes in the tree, because each node is visited once.</p>
+<p><strong>Space Complexity : </strong>O(h), where h is the height of the tree, due to the recursion stack used during traversal.</p>
+
+<br>
+<br>
+
+<h1>Find Path From Root Node To Given Node</h1>
+<p>Given the root of a binary tree and a target value, write a function <strong>findPath</strong> that finds and returns the path from the root node to the node containing the target value. If the target node is found, the path is returned as a list of node values. If the target node does not exist in the tree, return an empty list.</p>
+
+<p><strong>Sample Test Cases</strong></p>
+<ol>
+    <li>
+        <strong>Test Case 1:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+    / \ / \
+   4  5 6  7
+                </pre>
+                Target: 5
+            </li>
+            <li><strong>Output:</strong> [1, 2, 5]</li>
+            <li><strong>Explanation:</strong> The path from the root (1) to the node with value 5 is 1 → 2 → 5.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Test Case 2:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+    / \ / \
+   4  5 6  7
+                </pre>
+                Target: 6
+            </li>
+            <li><strong>Output:</strong> [1, 3, 6]</li>
+            <li><strong>Explanation:</strong> The path from the root (1) to the node with value 6 is 1 → 3 → 6.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Test Case 3:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+    / \ / \
+   4  5 6  7
+                </pre>
+                Target: 8
+            </li>
+            <li><strong>Output:</strong> []</li>
+            <li><strong>Explanation:</strong> Node with value 8 does not exist in the tree, so the output is an empty list.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Intuition in Simple Words</strong></p>
+<ul>
+    <li><strong>Start at the root:</strong> Begin at the root of the tree and start moving towards the target node.</li>
+    <li><strong>Check the current node:</strong> If the current node's value is the target, you're done! Add it to the path and return.</li>
+    <li><strong>Explore both subtrees:</strong> If the current node is not the target, explore both its left and right children to see if either subtree contains the target.</li>
+    <li><strong>Backtrack if necessary:</strong> If neither child contains the target, remove the current node from the path (since it won't lead to the target) and backtrack to try a different path.</li>
+    <li><strong>Return the path if found:</strong> If you find the target node during your exploration, return the path from the root to that node.</li>
+</ul>
+<p>This process is similar to exploring different branches of a tree to find a particular leaf. You keep track of your path and backtrack when necessary until you find the leaf you’re looking for.</p>
+
+
+```python
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+def findPath(node,target,ans):
+    if(not node):
+        return False
+    ans.append(node.data)
+    if(node.data==target):
+        return True
+    a=findPath(node.left,target,ans)
+    b=findPath(node.right,target,ans)
+    if(a or b):
+        return True
+    ans.pop()
+    return False
+
+def solve(root,target):
+    ans=[]
+    if not root:
+        return ans
+    findPath(root,target,ans)
+    return ans
+        
+root=Node(1)
+root.left=Node(2)
+root.right=Node(3)
+root.left.right=Node(4)
+print(solve(root,2))
+
+```
+
+<p><strong>Time Complexity:</strong> The time complexity of the <code>findPath</code> function is O(N), where N is the number of nodes in the tree. This is because in the worst case, the function may need to explore all nodes to find the target.</p>
+
+<p><strong>Space Complexity:</strong> The space complexity is O(H), where H is the height of the tree. This is due to the recursion stack and the space needed to store the path, which is proportional to the height of the tree.</p>
+
+<br>
+<br>
+
+<h1>Find All Possible Paths From Root Node To Target Node</h1>
+<p>Given the root of a binary tree, write a function <code>findPath</code> that finds all root-to-leaf paths in the tree. Each path should be returned as a list of node values. The function should update a list <code>total</code> with all the paths found.</p>
+
+<p><strong>Sample Test Cases</strong></p>
+<ol>
+    <li>
+        <strong>Test Case 1:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+    / \   \
+   4   5   6
+                </pre>
+                Total: []
+            </li>
+            <li><strong>Output:</strong> [[1, 2, 4], [1, 2, 5], [1, 3, 6]]</li>
+            <li><strong>Explanation:</strong> The function finds all paths from the root to the leaf nodes, resulting in three paths.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Test Case 2:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+    </pre>
+                Total: []
+            </li>
+            <li><strong>Output:</strong> [[1, 2], [1, 3]]</li>
+            <li><strong>Explanation:</strong> The function finds paths from the root to the two leaf nodes.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Test Case 3:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / 
+     2   
+    </pre>
+                Total: []
+            </li>
+            <li><strong>Output:</strong> [[1, 2]]</li>
+            <li><strong>Explanation:</strong> The function finds the single path from the root to the leaf node.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Intuition in Simple Words</strong></p>
+<ul>
+    <li><strong>Start at the root:</strong> Begin at the root of the tree and explore both left and right children recursively.</li>
+    <li><strong>Track paths:</strong> Maintain a list of node values to keep track of the current path. When a leaf node is reached, add the path to the results list.</li>
+    <li><strong>Backtrack:</strong> Remove the last node from the path (backtrack) after exploring both subtrees of the current node to explore other possible paths.</li>
+</ul>
+
+```python
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+        
+def findPath(node,ans,total):
+    if(not node):
+        return
+    ans.append(node.data)
+    findPath(node.left,ans,total)
+    findPath(node.right,ans,total)
+    if(node.left==None and node.right==None):
+        total.append(ans.copy())
+    ans.pop()
+
+def solve(root):
+    ans=[]
+    total=[]
+    if not root:
+        return []
+    findPath(root,ans,total)
+    return total
+        
+
+root=Node(1)
+root.left=Node(2)
+root.right=Node(3)
+root.left.right=Node(4)
+print(solve(root))
+```
+
+
+<p><strong>Time Complexity:</strong> The time complexity of the <code>findPath</code> function is O(N), where N is the number of nodes in the tree. This is because each node is visited once to generate all paths.</p>
+
+<p><strong>Space Complexity:</strong> The space complexity is O(N * H), where N is the number of nodes and H is the height of the tree. This includes space for storing all paths and the recursion stack.</p>
+
+
+<br>
+<br>
+
+<h1>Lowest Common Ancester</h1>
+<p>Given a binary tree, Find the Lowest Common Ancestor for two given Nodes (x,y).</p>
+<p>The lowest common ancestor is defined between two nodes x and y as the lowest node in T that has both x and y as descendants (where we allow a node to be a descendant of itself.</p>
+<p><strong>Sample Test Cases</strong></p>
+<ol>
+    <li>
+        <strong>Test Case 1:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+    / \   \
+   4   5   6
+    Target1: 4
+    Target2: 5
+                </pre>
+            </li>
+            <li><strong>Output:</strong> 2</li>
+            <li><strong>Explanation:</strong> The LCA of nodes 4 and 5 is node 2, as it is the deepest node that is an ancestor of both.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Test Case 2:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+      \
+       4
+    Target1: 2
+    Target2: 4
+                </pre>
+            </li>
+            <li><strong>Output:</strong> 2</li>
+            <li><strong>Explanation:</strong> The LCA of nodes 2 and 4 is node 2, as it is the deepest node that is an ancestor of both.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Test Case 3:</strong>
+        <ul>
+            <li><strong>Input:</strong>
+                <pre>
+    Tree:
+       1
+      / \
+     2   3
+    Target1: 2
+    Target2: 3
+                </pre>
+            </li>
+            <li><strong>Output:</strong> 1</li>
+            <li><strong>Explanation:</strong> The LCA of nodes 2 and 3 is node 1, as it is the deepest node that is an ancestor of both.</li>
+        </ul>
+    </li>
+</ol>
+
+
+<br>
+
+<p><strong>Solution</strong></p>
+<p>This problem can be solved in several approaches</p>
+
+<p><strong>BruteForce Approach</strong></p>
+<p>In this approach,  you trace each path from the start to the target positions, then look for the last common point in those paths. That common point is where the two people (or nodes) share the same route, which is their Lowest Common Ancestor.</p>
+<ol>
+    <li><strong>Trace the Paths</strong>:
+        <ul>
+            <li><strong>Find Path to First Node</strong>: Start from the root of the tree and trace the path to the first target node. Write down all the nodes you visit along the way.</li>
+            <li><strong>Find Path to Second Node</strong>: Similarly, trace the path from the root to the second target node and write down all the nodes.</li>
+        </ul>
+    </li>
+    <li><strong>List the Paths</strong>:
+        <ul>
+            <li>You’ll have two lists now. Each list shows the sequence of nodes from the root to the respective target node.</li>
+        </ul>
+    </li>
+    <li><strong>Compare the Paths</strong>:
+        <ul>
+            <li>Start from the beginning of both lists and compare the nodes one by one.</li>
+            <li>Move through the lists, checking if the nodes match.</li>
+        </ul>
+    </li>
+    <li><strong>Find the Last Common Node</strong>:
+        <ul>
+            <li>The comparison will show where the nodes in the paths start to differ.</li>
+            <li>The last node where both lists have the same node before they start differing is the meeting point.</li>
+        </ul>
+    </li>
+    <li><strong>Return the Meeting Point</strong>:
+        <ul>
+            <li>This last common node is the Lowest Common Ancestor (LCA) of the two target nodes.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Example</strong>:</p>
+
+<ol>
+    <li><strong>Trace Paths</strong>:
+        <ul>
+            <li>Path to <strong>target1</strong>: [A, B, C]</li>
+            <li>Path to <strong>target2</strong>: [A, B, D]</li>
+        </ul>
+    </li>
+    <li><strong>List Paths</strong>:
+        <ul>
+            <li>Path to <strong>target1</strong>: [A, B, C]</li>
+            <li>Path to <strong>target2</strong>: [A, B, D]</li>
+        </ul>
+    </li>
+    <li><strong>Compare Paths</strong>:
+        <ul>
+            <li>Compare nodes: A matches A, B matches B, but C and D differ.</li>
+        </ul>
+    </li>
+    <li><strong>Last Common Node</strong>:
+        <ul>
+            <li>The last common node before the paths differ is B.</li>
+        </ul>
+    </li>
+    <li><strong>Return</strong>:
+        <ul>
+            <li>B is the Lowest Common Ancestor.</li>
+        </ul>
+    </li>
+</ol>
+
+```python
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+def findPath(node,target,ans):
+    if(not node):
+        return
+    ans.append(node.data)
+    if(node.data==target):
+        return True
+    a=findPath(node.left,target,ans)
+    b=findPath(node.right,target,ans)
+    if(a or b):
+        return True
+    ans.pop()
+    return False
+        
+def bruteForce(root,target1,target2):
+    ans=None
+    if not root:
+        return ans
+    path1=[]
+    findPath(root,target1,path1)
+    path2=[]
+    findPath(root,target2,path2)
+    index=0
+    n1,n2=len(path1),len(path2)
+    while index<n1 and index<n2 and path1[index]==path2[index]:
+        ans=path1[index]
+        index+=1
+    return ans
+
+def lca(node,target1,target2):
+    if not node:
+        return None
+    if(node.data==target1 or node.data==target2):
+        return node
+    left=lca(node.left,target1,target2)
+    right=lca(node.right,target1,target2)
+    if(left and right):
+        return node
+    if(left):
+        return left
+    else:
+        return right
+
+
+
+def optimized(root,target1,target2):
+    ans=None
+    if not root:
+        return ans
+    ans=lca(root,target1,target2)
+    return ans.data
+
+
+root=Node(1)
+root.left=Node(2)
+root.right=Node(3)
+root.left.right=Node(4)
+target1,target2=list(map(int,input().split()))
+print(bruteForce(root,target1,target2))
+print(optimized(root,target1,target2))
+```
+
+<p><strong>Time Complexity:</strong> The time complexity is O(N), where N is the number of nodes in the tree. This includes finding the paths and comparing them.</p>
+
+<p><strong>Space Complexity:</strong> The space complexity is O(N) due to storing the paths for both target nodes.</p>
+
+<br>
+
+<p><strong>Optimized Solution</strong></p>
+<ol>
+    <li><strong>Base Case</strong>:
+        <ul>
+            <li>If the current node is <strong>None</strong>, it means you’ve reached the end of a path in the tree, so return <strong>None</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Check If Current Node Is One of the Targets</strong>:
+        <ul>
+            <li>If the current node’s value is either <strong>target1</strong> or <strong>target2</strong>, then this node is a potential ancestor. Return this node.</li>
+        </ul>
+    </li>
+    <li><strong>Recursive Search</strong>:
+        <ul>
+            <li>Recursively search in the left subtree to find the LCA of <strong>target1</strong> and <strong>target2</strong>.</li>
+            <li>Recursively search in the right subtree to find the LCA of <strong>target1</strong> and <strong>target2</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Determine the LCA</strong>:
+        <ul>
+            <li>If both the left and right recursive calls return non-<strong>None</strong> values, it means <strong>target1</strong> and <strong>target2</strong> are found in different subtrees of the current node. Thus, the current node is their LCA.</li>
+            <li>If only the left recursive call returns a non-<strong>None</strong> value, it means both <strong>target1</strong> and <strong>target2</strong> are in the left subtree, so return the result from the left subtree.</li>
+            <li>If only the right recursive call returns a non-<strong>None</strong> value, it means both <strong>target1</strong> and <strong>target2</strong> are in the right subtree, so return the result from the right subtree.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Example</strong>:</p>
+
+<pre>
+        A
+       / \
+      B   C
+     / \
+    D   E
+
+</pre>
+
+<ol>
+    <li><strong>Starting at A</strong>:
+        <ul>
+            <li>Neither <strong>D</strong> nor <strong>E</strong> is <strong>A</strong>.</li>
+            <li>Recursively check left (<strong>B</strong>) and right (<strong>C</strong>) subtrees.</li>
+        </ul>
+    </li>
+    <li><strong>At B</strong>:
+        <ul>
+            <li>Neither <strong>D</strong> nor <strong>E</strong> is <strong>B</strong>.</li>
+            <li>Recursively check left (<strong>D</strong>) and right (<strong>E</strong>) subtrees.</li>
+        </ul>
+    </li>
+    <li><strong>At D</strong>:
+        <ul>
+            <li><strong>D</strong> is one of the targets, so return <strong>D</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>At E</strong>:
+        <ul>
+            <li><strong>E</strong> is one of the targets, so return <strong>E</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>At B</strong>:
+        <ul>
+            <li>The left subtree has <strong>D</strong> and the right subtree has <strong>E</strong>. Thus, <strong>B</strong> is the LCA of <strong>D</strong> and <strong>E</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>At A</strong>:
+        <ul>
+            <li>The left subtree returns <strong>B</strong>, and the right subtree does not contain <strong>D</strong> or <strong>E</strong>, so <strong>B</strong> is the LCA.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Simplified Function</strong>:</p>
+
+```python
+def lca(node, target1, target2):
+    # Base case: if the node is None, return None
+    if not node:
+        return None
+    
+    # If the current node is one of the targets, return it
+    if node.data == target1 or node.data == target2:
+        return node
+    
+    # Recursively find LCA in left and right subtrees
+    left = lca(node.left, target1, target2)
+    right = lca(node.right, target1, target2)
+    
+    # If both left and right returned non-None, current node is the LCA
+    if left and right:
+        return node
+    
+    # Otherwise, return whichever side returned a non-None value
+    return left if left else right
+
+def optimized(root,target1,target2):
+    ans=None
+    if not root:
+        return ans
+    ans=lca(root,target1,target2)
+    return ans.data
+
+
+root=Node(1)
+root.left=Node(2)
+root.right=Node(3)
+root.left.right=Node(4)
+target1,target2=list(map(int,input().split()))
+print(bruteForce(root,target1,target2))
+print(optimized(root,target1,target2))
+
+```
+
+
+<p><strong>Time Complexity: O(N)</strong>, where N is the number of nodes in the tree. This is because the function visits each node exactly once.</p>
+<p><strong>Space Complexity : O(h)</strong>,  where h is the height of the tree. For a balanced tree, this is O(logN), and for an unbalanced tree, it is O(N) due to the recursive call stack.</p>
+
+<br>
+<br>
+
+<h1>Maximum Width Of Binary Tree : Level Wise</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a binary tree, find the maximum width of the tree. The width of a level in the tree is defined as the number of nodes between the leftmost and rightmost nodes on that level, including both endpoints.</p>
+
+<p><strong>Sample Test Cases:</strong></p>
+<ol>
+    <li><strong>Single Node Tree:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            1
+        </pre>
+        <p><strong>Output:</strong> 1</p>
+    </li>
+    <li><strong>Complete Binary Tree:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            1
+           / \
+          2   3
+         /|   |\
+        4 5   6 7
+        </pre>
+        <p><strong>Output:</strong> 4 (The last level has 4 nodes: 4, 5, 6, 7)</p>
+    </li>
+    <li><strong>Unbalanced Tree:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            1
+           / \
+          2   3
+         /
+        4
+        </pre>
+        <p><strong>Output:</strong> 2 (The widest level is the second level with nodes 2 and 3)</p>
+    </li>
+    <li><strong>Tree with One Side Deep:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            1
+           /
+          2
+         /
+        3
+       /
+      4
+        </pre>
+        <p><strong>Output:</strong> 1 (All levels have only one node)</p>
+    </li>
+</ol>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li><strong>Level-Order Traversal:</strong> To find the width of each level, use a level-order traversal (BFS). This allows visiting each node level by level.</li>
+    <li><strong>Track Positions:</strong> By using position indices, calculate the width of the level. Nodes at a level have indices that help determine the distance between the leftmost and rightmost nodes.</li>
+    <li><strong>Update Maximum Width:</strong> At each level, compute the width by finding the difference between the positions of the last and first nodes. Update the maximum width if the current level’s width is greater.</li>
+</ul>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li><strong>Initialize:</strong>
+        <ul>
+            <li>Create a queue for level-order traversal.</li>
+            <li>Initialize variables to keep track of the maximum width.</li>
+        </ul>
+    </li>
+    <li><strong>Process Each Level:</strong>
+        <ul>
+            <li>For each level, track the first and last position indices.</li>
+            <li>Add children to the queue with their respective position indices.</li>
+        </ul>
+    </li>
+    <li><strong>Calculate Width:</strong>
+        <ul>
+            <li>Compute the width of the level as <code>last - first + 1</code> and update the maximum width.</li>
+        </ul>
+    </li>
+    <li><strong>Return the Maximum Width:</strong>
+        <ul>
+            <li>After processing all levels, return the maximum width found.</li>
+        </ul>
+    </li>
+</ol>
+<img src="https://static.takeuforward.org/content/maximum-width-image5-HkC08iI9">
+<img src="https://static.takeuforward.org/content/maximum-width-image6-fTMhqbX8">
+<img src="https://static.takeuforward.org/content/maximum-width-image6-fTMhqbX8">
+
+<p><strong>Code:</strong></p>
+
+```python
+from collections import deque
+
+def solve(node):
+    ans = 0
+    if not node:
+        return ans
+    
+    queue = deque()
+    queue.append((node, 1))  # Start with the root node at position index 1
+    while queue:
+        n = len(queue)  # Number of nodes at the current level
+        first = last = 0  # Initialize first and last position indices
+        for i in range(n):
+            node, x = queue.popleft()  # Dequeue node and its position index
+            if i == 0:
+                first = x  # Track the first node's position at the current level
+            if i == n - 1:
+                last = x  # Track the last node's position at the current level
+            if node.left:
+                queue.append((node.left, 2 * x + 1))  # Add left child
+            if node.right:
+                queue.append((node.right, 2 * x + 2))  # Add right child
+        ans = max(ans, last - first + 1)  # Update the maximum width
+    return ans
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> The function performs a level-order traversal of the binary tree. Each node is processed exactly once. Therefore, the time complexity is <code>O(N)</code>, where <code>N</code> is the number of nodes in the tree.</li>
+    <li><strong>Space Complexity:</strong> The space complexity is primarily due to the queue used for level-order traversal. In the worst case, the queue may contain all nodes at the maximum level, leading to a space complexity of <code>O(N)</code> in the worst case for an unbalanced tree. Additionally, the space complexity for the recursion stack or other data structures is <code>O(H)</code>, where <code>H</code> is the height of the tree. In practice, this is usually <code>O(log N)</code> for balanced trees but could be <code>O(N)</code> for skewed trees.</li>
+</ul>
+
+
+<br>
+<br>
+
+<h1>Check Children Sum Property</h1>
+
+<p><strong>Problem Statement:</strong></p>
+<p>Given a binary tree, determine if it satisfies the <strong>Children Sum Property</strong>. This property states that for every node in the binary tree:</p>
+<ul>
+    <li>The value of the node should be equal to the sum of the values of its left and right children.</li>
+    <li>If a node has no children, the property is trivially satisfied for that node.</li>
+</ul>
+
+<p><strong>Sample Test Cases:</strong></p>
+<ol>
+    <li><strong>Tree Satisfying Property:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            10
+           /  \
+          4    6
+         / \  / \
+        1  3  2  4
+        </pre>
+        <p><strong>Output:</strong> True</p>
+        <p><strong>Explanation:</strong> For every node, the value equals the sum of its children (if they exist).</p>
+    </li>
+    <li><strong>Tree Not Satisfying Property:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            10
+           /  \
+          4    7
+         / \  / \
+        1  3  2  4
+        </pre>
+        <p><strong>Output:</strong> False</p>
+        <p><strong>Explanation:</strong> The root node's value (10) is not equal to the sum of its children (4 + 7 = 11).</p>
+    </li>
+    <li><strong>Single Node Tree:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            5
+        </pre>
+        <p><strong>Output:</strong> True</p>
+        <p><strong>Explanation:</strong> A single node tree trivially satisfies the property as it has no children.</p>
+    </li>
+    <li><strong>Tree with Missing Children:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            7
+           / \
+          3   4
+         /
+        2
+        </pre>
+        <p><strong>Output:</strong> True</p>
+        <p><strong>Explanation:</strong> For each node with children, the node’s value is equal to the sum of its children’s values. Leaf nodes trivially satisfy the property.</p>
+    </li>
+</ol>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li><strong>Recursive Check:</strong> To verify the property, check each node recursively:
+        <ul>
+            <li>Calculate the sum of the left and right children’s values.</li>
+            <li>Ensure this sum matches the node’s value.</li>
+            <li>Recursively ensure that all subtrees also satisfy this property.</li>
+        </ul>
+    </li>
+    <li><strong>Base Case:</strong> A node with no children (a leaf node) automatically satisfies the property, as there's nothing to compare against.</li>
+    <li><strong>Combining Results:</strong> Ensure that both the left and right subtrees satisfy the property. The entire tree is valid if and only if all nodes satisfy the property.</li>
+</ul>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li><strong>Check Node Value:</strong>
+        <ul>
+            <li>For each node, calculate the sum of the values of its left and right children.</li>
+        </ul>
+    </li>
+    <li><strong>Compare with Node Value:</strong>
+        <ul>
+            <li>Compare the node’s value with the computed sum.</li>
+            <li>If the values do not match, the property is violated.</li>
+        </ul>
+    </li>
+    <li><strong>Recursive Validation:</strong>
+        <ul>
+            <li>Recursively check the left and right subtrees to ensure they also satisfy the property.</li>
+        </ul>
+    </li>
+    <li><strong>Combine Results:</strong>
+        <ul>
+            <li>Return True if the current node and all its subtrees satisfy the property; otherwise, return False.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+
+```python
+def checkTree(node):
+    if not node:
+        return True  # An empty tree is trivially satisfying the property
+    
+    left = checkTree(node.left)  # Recursively check the left subtree
+    right = checkTree(node.right)  # Recursively check the right subtree
+    
+    # If either subtree does not satisfy the property, return False
+    if not left or not right:
+        return False
+    
+    childSum = 0  # Initialize sum of children
+    if node.left:
+        childSum += node.left.data
+    if node.right:
+        childSum += node.right.data
+    
+    # Check if the current node's value equals the sum of its children
+    if node.left or node.right:  # Node must have at least one child
+        if childSum == node.data:
+            return True
+        else:
+            return False
+    
+    # If the node is a leaf node, it trivially satisfies the property
+    return True
+```
+
+<p><strong>Explain With One Example:</strong></p>
+<p><strong>Example Tree:</strong></p>
+<pre>
+    10
+   /  \
+  4    6
+ / \  / \
+1  3 2  4
+</pre>
+<p><strong>Process:</strong></p>
+<ul>
+    <li><strong>Node 10:</strong>
+        <ul>
+            <li>Left child = 4, Right child = 6</li>
+            <li>Sum of children = 4 + 6 = 10</li>
+            <li>Node value = 10, which equals the sum of its children. Check subtrees.</li>
+        </ul>
+    </li>
+    <li><strong>Node 4:</strong>
+        <ul>
+            <li>Left child = 1, Right child = 3</li>
+            <li>Sum of children = 1 + 3 = 4</li>
+            <li>Node value = 4, which equals the sum of its children. Check subtrees.</li>
+        </ul>
+    </li>
+    <li><strong>Node 6:</strong>
+        <ul>
+            <li>Left child = 2, Right child = 4</li>
+            <li>Sum of children = 2 + 4 = 6</li>
+            <li>Node value = 6, which equals the sum of its children. Check subtrees.</li>
+        </ul>
+    </li>
+    <li><strong>Leaf Nodes (1, 3, 2, 4):</strong>
+        <ul>
+            <li>All are leaf nodes and trivially satisfy the property.</li>
+        </ul>
+    </li>
+</ul>
+<p><strong>Result:</strong> The tree satisfies the Children Sum Property, so the output is <code>True</code>.</p>
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> The function performs a recursive traversal of all nodes in the tree. Each node is visited exactly once, leading to a time complexity of <code>O(N)</code>, where <code>N</code> is the number of nodes.</li>
+    <li><strong>Space Complexity:</strong> The space complexity is determined by the maximum depth of the recursion stack. For a balanced binary tree, this is <code>O(log N)</code>. For an unbalanced (skewed) tree, the space complexity can be <code>O(N)</code> in the worst case.</li>
+</ul>
+
+
+<br>
+<br>
+
+<h1>Convert Children Sum Property</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a binary tree, transform it to ensure that each node's value is updated to be the sum of its children’s values if the sum is greater than or equal to the node’s value. If the sum is less, the node’s value is updated to be the maximum of its children’s values.</p>
+
+<p><strong>Sample Test Cases:</strong></p>
+<ol>
+    <li><strong>Tree Before Transformation:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            10
+           /  \
+          4    6
+         / \  / \
+        1  3 2  4
+        </pre>
+        <p><strong>Output:</strong></p>
+        <pre>
+            10
+           /  \
+          4    6
+         / \  / \
+        1  3 2  4
+        </pre>
+        <p><strong>Explanation:</strong> The values of the nodes are updated based on the sum of their children’s values. In this case, the values of the nodes already satisfy the condition.</p>
+    </li>
+    <li><strong>Tree After Transformation:</strong>
+        <p><strong>Input:</strong></p>
+        <pre>
+            7
+           / \
+          2   5
+         / \
+        1   2
+        </pre>
+        <p><strong>Output:</strong></p>
+        <pre>
+            7
+           / \
+          3   5
+         / \
+        1   2
+        </pre>
+        <p><strong>Explanation:</strong> The root node's value (7) is updated to be the sum of its children’s values (2 + 5 = 7). The left child (2) is updated to be the sum of its children (1 + 2 = 3).</p>
+    </li>
+</ol>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li><strong>Calculate Child Sum:</strong> For each node, calculate the sum of the values of its left and right children.</li>
+    <li><strong>Update Node Value:</strong> 
+        <ul>
+            <li>If the sum of children’s values is greater than or equal to the node’s value, update the node’s value to this sum.</li>
+            <li>If the sum is less, update the node’s value to be the maximum of its children’s values.</li>
+        </ul>
+    </li>
+    <li><strong>Propagate Changes:</strong> Ensure that the values are updated in a way that changes are propagated down to the children.</li>
+</ul>
+
+<p><strong>Steps To Solve:</strong></p>
+<ol>
+    <li><strong>Base Case:</strong> If the node is <code>None</code>, return immediately.</li>
+    <li><strong>Calculate Initial Child Sum:</strong> Compute the sum of the values of the left and right children.</li>
+    <li><strong>Update Node Value Based on Child Sum:</strong>
+        <ul>
+            <li>If the child sum is greater than or equal to the node's value, set the node's value to this sum.</li>
+            <li>If the child sum is less, set the node's value to the maximum value of the children.</li>
+        </ul>
+    </li>
+    <li><strong>Recursively Update Children:</strong> Recursively apply the same process to the left and right children.</li>
+    <li><strong>Recalculate Child Sum After Updates:</strong> After updating the node, recalculate and update its value based on its children’s new values.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+
+```python
+def changeTree(node):
+    if not node:
+        return
+    
+    # Initial child sum calculation
+    childSum = 0
+    if node.left:
+        childSum += node.left.data
+    if node.right:
+        childSum += node.right.data
+    
+    # Update node's value based on child sum
+    if childSum >= node.data:
+        node.data = childSum
+    else:
+        if node.left:
+            node.left.data = node.data
+        if node.right:
+            node.right.data = node.data
+    
+    # Recur for left and right children
+    changeTree(node.left)
+    changeTree(node.right)
+    
+    # Recalculate child sum after updates
+    childSum = 0
+    if node.left:
+        childSum += node.left.data
+    if node.right:
+        childSum += node.right.data
+    
+    # Update node's value based on new child sum
+    if node.left or node.right:
+        node.data = childSum
+
+```
+
+<p><strong>Explain With One Example:</strong></p>
+<p><strong>Example Tree:</strong></p>
+<pre>
+    5
+   / \
+  3   2
+ / \
+1   2
+</pre>
+<p><strong>Process:</strong></p>
+<ul>
+    <li><strong>Node 5:</strong>
+        <ul>
+            <li>Left child = 3, Right child = 2</li>
+            <li>Initial child sum = 3 + 2 = 5 (which is equal to the node's value, so no change needed).</li>
+            <li>Recur on children.</li>
+        </ul>
+    </li>
+    <li><strong>Node 3:</strong>
+        <ul>
+            <li>Left child = 1, Right child = 2</li>
+            <li>Initial child sum = 1 + 2 = 3 (which is equal to the node's value, so no change needed).</li>
+            <li>Recur on children.</li>
+        </ul>
+    </li>
+    <li><strong>Node 2:</strong>
+        <ul>
+            <li>No children, so no change needed.</li>
+        </ul>
+    </li>
+    <li><strong>Leaf Nodes (1, 2):</strong>
+        <ul>
+            <li>No children, so no changes.</li>
+        </ul>
+    </li>
+</ul>
+<p><strong>Result:</strong> The tree remains the same as it already satisfies the condition.</p>
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> The function performs a recursive traversal of all nodes in the tree. Each node is visited exactly once, so the time complexity is <code>O(N)</code>, where <code>N</code> is the number of nodes in the tree.</li>
+    <li><strong>Space Complexity:</strong> The space complexity is determined by the maximum depth of the recursion stack. For a balanced binary tree, the space complexity is <code>O(log N)</code>. For an unbalanced (skewed) tree, the space complexity can be <code>O(N)</code> in the worst case.</li>
+</ul>
+
+
+<br>
+<br>
+
+<h1>Minimum Time To Burn Tree From Given Node</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a binary tree and a target node, find the minimum time required to burn the entire binary tree if the fire starts from the target node. The fire spreads to the node's left child, right child, and parent every second.</p>
+
+<p><strong>Sample Test Cases (All Possible):</strong></p>
+<ul>
+    <li>
+        <p><strong>Tree Example 1:</strong></p>
+        <p><strong>Input:</strong></p>
+        <pre>
+            1
+           / \
+          2   3
+         / \
+        4   5
+        </pre>
+        <p><strong>Start Node:</strong> 4</p>
+        <p><strong>Output:</strong> Minimum time to burn the entire tree: 4</p>
+    </li>
+    <li>
+        <p><strong>Tree Example 2:</strong></p>
+        <p><strong>Input:</strong></p>
+        <pre>
+            1
+           / \
+          2   3
+             / \
+            4   5
+        </pre>
+        <p><strong>Start Node:</strong> 5</p>
+        <p><strong>Output:</strong> Minimum time to burn the entire tree: 4</p>
+    </li>
+</ul>
+
+<p><strong>Approach:</strong></p>
+<ul>
+    <li>Find the target node in the binary tree.</li>
+    <li>Assign parent pointers to each node using BFS.</li>
+    <li>Perform BFS starting from the target node to simulate the burning process and determine the time required to burn the entire tree.</li>
+</ul>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li>The fire spreads from the starting node to its adjacent nodes (children and parent) every second.</li>
+    <li>To determine the time required to burn the entire tree, you need to track the maximum time it takes to reach the farthest node from the starting node.</li>
+</ul>
+
+<p><strong>Detailed Steps To Solve:</strong></p>
+<ol>
+    <li><strong>Find the Target Node:</strong> Traverse the tree to locate the node with the given target value.</li>
+    <li><strong>Assign Parent Pointers:</strong> Use BFS to traverse the tree and assign parent pointers to each node.</li>
+    <li><strong>Simulate Burning:</strong>
+        <ul>
+            <li>Perform BFS starting from the target node.</li>
+            <li>Track nodes that have been visited to avoid reprocessing.</li>
+            <li>Add each node's left child, right child, and parent to the BFS queue and mark them as visited.</li>
+            <li>Track the maximum distance from the starting node to the farthest node to determine the total time required to burn the entire tree.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+from collections import deque
+
+def findNode(root, target):
+  if not root:
+      return None
+  if root.data == target:
+      return root
+  left = findNode(root.left, target)
+  right = findNode(root.right, target)
+  return left if left else right
+
+def assignParent(root):
+  queue = deque([root])
+  root.parent = None
+  while queue:
+      node = queue.popleft()
+      if node.left:
+          node.left.parent = node
+          queue.append(node.left)
+      if node.right:
+          node.right.parent = node
+          queue.append(node.right)
+
+  def minTimeToBurnTree(root, target):
+    if not root:
+        return 0
+
+    # Step 1: Find the target node
+    target_node = findNode(root, target)
+    if not target_node:
+        return -1  # Target node not found
+
+    # Step 2: Assign parent pointers
+    assignParent(root)
+
+    # Step 3: Perform BFS to simulate burning
+    queue = deque([(target_node, 0)])  # (node, time)
+    visited = set()
+    visited.add(target_node)
+    max_time = 0
+
+    while queue:
+        node, time = queue.popleft()
+        max_time = max(max_time, time)
+
+        # Add adjacent nodes (left, right, parent) to the queue
+        if node.left and node.left not in visited:
+            visited.add(node.left)
+            queue.append((node.left, time + 1))
+        if node.right and node.right not in visited:
+            visited.add(node.right)
+            queue.append((node.right, time + 1))
+        if node.parent and node.parent not in visited:
+            visited.add(node.parent)
+            queue.append((node.parent, time + 1))
+
+    return max_time
+
+```
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong></li>
+    <ul>
+        <li>Finding the target node: <code>O(N)</code>, where <code>N</code> is the number of nodes in the tree.</li>
+        <li>Assigning parent pointers: <code>O(N)</code>.</li>
+        <li>BFS to simulate burning: <code>O(N)</code>.</li>
+        <li><strong>Overall time complexity: <code>O(N)</code>.</strong></li>
+    </ul>
+    <li><strong>Space Complexity:</strong></li>
+    <ul>
+        <li>Space complexity is determined by the BFS queue and visited set.</li>
+        <li>In the worst case, the space complexity is <code>O(N)</code>, where <code>N</code> is the number of nodes in the tree.</li>
+    </ul>
+</ul>
+
+<br>
+<br>
+
+<h1>Count Of Nodes In Complete Binary Tree</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a complete binary tree, count the number of nodes in the tree. A complete binary tree is a binary tree where all levels are fully filled except possibly for the last level, which is filled from left to right.</p>
+
+<p><strong>Sample Test Cases (All Possible Cases):</strong></p>
+<ul>
+    <li>
+        <p><strong>Tree Example 1:</strong></p>
+        <pre>
+            1
+           / \
+          2   3
+         / \
+        4   5
+        </pre>
+        <p><strong>Output:</strong> 5</p>
+    </li>
+    <li>
+        <p><strong>Tree Example 2:</strong></p>
+        <pre>
+            1
+           / \
+          2   3
+         / \
+        4   5
+       /
+      6
+        </pre>
+        <p><strong>Output:</strong> 6</p>
+    </li>
+</ul>
+
+<p><strong>Brute Force Approach</strong></p>
+
+<p><strong>Approach:</strong></p>
+<ul>
+    <li>Traverse the entire tree using in-order traversal to count each node.</li>
+</ul>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li>Simply visit each node in the tree and keep a count of the nodes encountered.</li>
+    <li>This approach does not leverage the properties of a complete binary tree but counts all nodes directly.</li>
+</ul>
+
+<p><strong>Steps To Solve:</strong></p>
+<ol>
+    <li>Perform an in-order traversal of the tree.</li>
+    <li>Count each node during traversal.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def InOrder(node, count):
+  if not node:
+      return
+  count[0] += 1
+  InOrder(node.left, count)
+  InOrder(node.right, count)
+
+def bruteForce(root):
+  if not root:
+      return 0
+  count = [0]
+  InOrder(root, count)
+  return count[0]
+```
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(N)</code>, where <code>N</code> is the number of nodes in the tree. Each node is visited once.</li>
+    <li><strong>Space Complexity:</strong> <code>O(N)</code> due to the recursion stack in case of large trees.</li>
+</ul>
+
+<p><strong>Optimized Approach</strong></p>
+
+<p><strong>Approach:</strong></p>
+<ul>
+    <li>Utilize the properties of complete binary trees to count nodes more efficiently.</li>
+    <li>Determine if the tree is perfect and use the formula <code>2^height - 1</code> for counting nodes, otherwise, recursively count nodes.</li>
+</ul>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li>A complete binary tree has a specific structure where all levels are fully filled except possibly the last one.</li>
+    <li>If the tree's left and right heights are equal, it's a perfect binary tree and you can use a formula to count nodes.</li>
+    <li>If not, count nodes recursively in both subtrees.</li>
+</ul>
+
+<p><strong>Steps To Solve:</strong></p>
+<ol>
+    <li>Find the height of the leftmost and rightmost paths to determine if the tree is perfect.</li>
+    <li>If the heights are equal, use the formula <code>2^height - 1</code> to get the number of nodes.</li>
+    <li>If the tree is not perfect, recursively count the nodes in the left and right subtrees.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def findLeftHeight(node):
+  h = 0
+  while node:
+      h += 1
+      node = node.left
+  return h
+
+def findRightHeight(node):
+  h = 0
+  while node:
+      h += 1
+      node = node.right
+  return h
+
+def count(node):
+  if not node:
+      return 0
+  lh = findLeftHeight(node)
+  rh = findRightHeight(node)
+  if lh == rh:
+      return (2 ** lh - 1)
+  return 1 + count(node.left) + count(node.right)
+
+def optimized(root):
+  if not root:
+      return 0
+  return count(root)
+```
+  
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(log^2 N)</code>. Calculating the height and counting nodes involves recursive calls and operations proportional to the height of the tree.</li>
+    <li><strong>Space Complexity:</strong> <code>O(log N)</code> due to the recursion stack depth in case of large trees.</li>
+</ul>
+
+<br>
+<br>
+
+<h1>Construct Tree Using InOrder And PreOrder</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given the preorder and inorder traversals of a binary tree, reconstruct the original binary tree.</p>
+
+<p><strong>Sample Test Cases (All Possible):</strong></p>
+<ul>
+    <li>
+        <p><strong>Tree Example 1:</strong></p>
+        <pre>
+            Preorder: [1, 2, 4, 5, 3, 6, 7]
+            Inorder: [4, 2, 5, 1, 6, 3, 7]
+            Resulting Tree:
+                1
+               / \
+              2   3
+             / \ / \
+            4  5 6  7
+        </pre>
+    </li>
+    <li>
+        <p><strong>Tree Example 2:</strong></p>
+        <pre>
+            Preorder: [3, 9, 20, 15, 7]
+            Inorder: [9, 3, 15, 20, 7]
+            Resulting Tree:
+                3
+               / \
+              9   20
+                 / \
+                15  7
+        </pre>
+    </li>
+</ul>
+
+<p>Approach<p>
+<p>To reconstruct the binary tree, follow these steps:</p>
+<ul>
+    <li>Use the preorder traversal to identify the root of the tree or subtree.</li>
+    <li>Use the inorder traversal to locate the position of the root, which helps in determining the left and right subtrees.</li>
+    <li>Recursively build the left and right subtrees using the identified indices.</li>
+</ul>
+
+<p>Intuition in Simple Words<p>
+<ul>
+    <li>The first element of preorder traversal is always the root of the tree or subtree.</li>
+    <li>The inorder traversal provides a way to split the tree into left and right subtrees based on the root's position.</li>
+    <li>By combining these traversals, you can reconstruct the entire tree structure recursively.</li>
+</ul>
+
+<p>Detailed Steps To Solve<p>
+<ol>
+    <li><strong>Create Index Mapping:</strong> Map each value in the inorder list to its index for quick lookup.</li>
+    <li><strong>Recursive Function to Build Tree:</strong>
+        <ul>
+            <li><strong>Base Case:</strong> Return <code>None</code> if indices are out of bounds.</li>
+            <li><strong>Root Creation:</strong> Use the current preorder element to create the root node.</li>
+            <li><strong>Identify Subtrees:</strong> Determine left and right subtrees based on root's position in inorder list.</li>
+            <li><strong>Recursive Calls:</strong> Build left and right subtrees with updated indices.</li>
+        </ul>
+    </li>
+</ol>
+
+<p>Code<p>
+
+```python
+
+class Node:
+  def __init__(self, key):
+      self.left = None
+      self.right = None
+      self.data = key
+
+def buildTree(preOrder, preStart, preEnd, inOrder, inStart, inEnd, index):
+  if preStart > preEnd or inStart > inEnd:
+      return None
+  root = Node(preOrder[preStart])
+  inRoot = index[preOrder[preStart]]
+  numsLeft = inRoot - inStart
+  root.left = buildTree(preOrder, preStart + 1, preStart + numsLeft, inOrder, inStart, inRoot - 1, index)
+  root.right = buildTree(preOrder, preStart + numsLeft + 1, preEnd, inOrder, inRoot + 1, inEnd, index)
+  return root
+
+def solve(n, inorder, preorder):
+  root = None
+  if n == 0:
+      return root
+  index = {}
+  for i in range(n):
+      index[inorder[i]] = i
+  preStart, preEnd = 0, n - 1
+  inStart, inEnd = 0, n - 1
+  root = buildTree(preorder, preStart, preEnd, inorder, inStart, inEnd, index)
+  return root
+
+```
+
+<p>Time and Space Complexity<p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(N)</code>. Each node is processed once, and lookups in the index dictionary are <code>O(1)</code>.</li>
+    <li><strong>Space Complexity:</strong> <code>O(N)</code> for the recursion stack and storing node values in the dictionary.</li>
+</ul>
+
+<br>
+<br>
+
+<h1>Construct Tree Using Inorder and Postorder</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given the postorder and inorder traversals of a binary tree, reconstruct the original binary tree.</p>
+
+<p><strong>Sample Test Cases (All Possible Cases):</strong></p>
+<ul>
+    <li>
+        <p><strong>Tree Example 1:</strong></p>
+        <pre>
+            Postorder: [4, 5, 2, 6, 7, 3, 1]
+            Inorder: [4, 2, 5, 1, 6, 3, 7]
+            
+            Resulting Tree:
+                1
+               / \
+              2   3
+             / \ / \
+            4  5 6  7
+        </pre>
+    </li>
+    <li>
+        <p><strong>Tree Example 2:</strong></p>
+        <pre>
+            Postorder: [9, 15, 7, 20, 3]
+            Inorder: [9, 3, 15, 20, 7]
+            
+            Resulting Tree:
+                3
+               / \
+              9   20
+                 / \
+                15  7
+        </pre>
+    </li>
+</ul>
+
+<p><strong>Approach (How We Are Modifying Previous Approach)</strong></p>
+<p>In the previous approach (preorder and inorder), the root was identified from the beginning of the preorder list. In this approach:</p>
+<ul>
+    <li><strong>Root Identification:</strong> Use the last element in the postorder traversal to determine the root of the tree or subtree.</li>
+    <li><strong>Subtree Identification:</strong> Use the inorder traversal to split the tree into left and right subtrees based on the root's position.</li>
+    <li><strong>Recursive Construction:</strong> Build the left and right subtrees recursively using updated postorder and inorder slices.</li>
+</ul>
+
+<p><strong>Code</strong></p>
+
+```python
+class Node:
+  def __init__(self, key):
+      self.left = None
+      self.right = None
+      self.data = key
+
+def buildTree(postOrder, postStart, postEnd, inOrder, inStart, inEnd, index):
+  if postStart > postEnd or inStart > inEnd:
+      return None
+  root = Node(postOrder[postEnd])
+  inRoot = index[postOrder[postEnd]]
+  numsLeft = inRoot - inStart
+  root.left = buildTree(postOrder, postStart, postStart + numsLeft - 1, inOrder, inStart, inRoot - 1, index)
+  root.right = buildTree(postOrder, postStart + numsLeft, postEnd - 1, inOrder, inRoot + 1, inEnd, index)
+  return root
+
+def solve(n, inorder, postorder):
+  root = None
+  if n == 0:
+      return root
+  index = {}
+  for i in range(n):
+      index[inorder[i]] = i
+  postStart, postEnd = 0, n - 1
+  inStart, inEnd = 0, n - 1
+  root = buildTree(postorder, postStart, postEnd, inorder, inStart, inEnd, index)
+  return root
+```
+
+<p><strong>Time and Space Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(N). Each node is processed once, and lookups in the index dictionary are O(1).</li>
+    <li><strong>Space Complexity:</strong> O(N). This includes the recursion stack and storing node values in the dictionary.</li>
+</ul>
+
+<br>
+<br>
+
+<h1>Serialize and deserialize give Tree</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a binary tree, convert it into a string representation (serialization) and then reconstruct the original binary tree from that string (deserialization).</p>
+
+<p><strong>Sample Test Cases (All Possible Cases):</strong></p>
+<ul>
+    <li>
+        <p><strong>Tree Example 1:</strong></p>
+        <pre>
+            Input Tree:
+                1
+               / \
+              2   3
+             / \
+            4   5
+            Serialized: "1,2,3,4,5,#,#,#,#,#,#"
+            Deserialized Tree:
+                1
+               / \
+              2   3
+             / \
+            4   5
+        </pre>
+    </li>
+    <li>
+        <p><strong>Tree Example 2:</strong></p>
+        <pre>
+            Input Tree:
+                1
+               / 
+              2   
+             / \
+            4   5        
+            Serialized: "1,2,#,4,5,#,#,#,#"
+            Deserialized Tree:
+                1
+               / 
+              2   
+             / \
+            4   5
+        </pre>
+    </li>
+</ul>
+
+<h2>Approach</h2>
+<p>The current approach builds on the level-order traversal method:</p>
+<ul>
+    <li><strong>Serialization:</strong> Traverse the tree level by level, appending node values and placeholders for missing children.</li>
+    <li><strong>Deserialization:</strong> Rebuild the tree by processing the serialized string in a level-order fashion.</li>
+</ul>
+
+<h2>Intuition in Simple Words</h2>
+<ul>
+    <li><strong>Serialization:</strong> Convert the tree to a string where each level's nodes are recorded, and missing children are represented by placeholders.</li>
+    <li><strong>Deserialization:</strong> Convert the string back to a tree by recreating nodes level by level based on the recorded values and placeholders.</li>
+</ul>
+
+<h2>Detailed Steps To Solve</h2>
+<ul>
+    <li><strong>Serialization:</strong>
+        <ol>
+            <li>Initialize an empty list and a queue containing the root node.</li>
+            <li>Perform level-order traversal, appending each node's value to the list.</li>
+            <li>Append placeholders for missing children.</li>
+            <li>Join the list into a comma-separated string.</li>
+        </ol>
+    </li>
+    <li><strong>Deserialization:</strong>
+        <ol>
+            <li>Split the string into a list of values.</li>
+            <li>Create the root node from the first value.</li>
+            <li>Rebuild the tree using level-order traversal, adding children based on the remaining values.</li>
+            <li>Return the reconstructed tree.</li>
+        </ol>
+    </li>
+</ul>
+
+<h2>Code</h2>
+
+```python
+from collections import deque
+
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.data = key
+
+def serialize(root):
+    ans = []
+    if not root:
+        return ""
+    queue = deque()
+    queue.append(root)
+    ans.append(str(root.data))
+    while queue:
+        n = len(queue)
+        for i in range(n):
+            node = queue.popleft()
+            if node.left:
+                queue.append(node.left)
+                ans.append(str(node.left.data))
+            else:
+                ans.append("#")
+            if node.right:
+                queue.append(node.right)
+                ans.append(str(node.right.data))
+            else:
+                ans.append("#")
+    s = ",".join(ans)
+    return s
+
+def deserialize(s):
+    if not s:
+        return None
+    arr = s.split(',')
+    queue = deque()
+    index = 0
+    root = Node(arr[index])
+    queue.append(root)
+    index += 1
+    while queue:
+        node = queue.popleft()
+        if arr[index] == "#":
+            node.left = None
+        else:
+            new = Node(arr[index])
+            node.left = new
+            queue.append(new)
+        index += 1
+        if arr[index] == "#":
+            node.right = None
+        else:
+            new = Node(arr[index])
+            node.right = new
+            queue.append(new)
+        index += 1
+    return root
+
+```
+
+<h2>Time and Space Complexity</h2>
+<ul>
+    <li><strong>Serialization:</strong></li>
+    <ul>
+        <li><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree.</li>
+        <li><strong>Space Complexity:</strong> O(N), for storing the serialized data.</li>
+    </ul>
+    <li><strong>Deserialization:</strong></li>
+    <ul>
+        <li><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree.</li>
+        <li><strong>Space Complexity:</strong> O(N), for storing the nodes in the queue and the constructed tree.</li>
+    </ul>
+</ul>
+
+
+<br>
+<br>
+
+<h1>Morris Inorder Traversal</h1>
+<h1>Morris Traversal for In-Order Traversal</h1>
+
+<p><strong>Problem Statement:</strong></p>
+<p>Given a binary tree, perform an in-order traversal without using extra space for recursion or stack. This approach should yield the nodes in in-order sequence.</p>
+
+<p><strong>Sample Test Cases (All Possible Cases):</strong></p>
+<ul>
+    <li>
+        <p><strong>Tree Example 1:</strong></p>
+        <pre>
+            Input Tree:
+                1
+               / \
+              2   3
+             / \
+            4   5   
+            Output: [4, 2, 5, 1, 3]
+        </pre>
+    </li>
+    <li>
+        <p><strong>Tree Example 2:</strong></p>
+        <pre>
+            Input Tree:
+                1
+                 \
+                  2
+                   \
+                    3
+            
+            Output: [1, 2, 3]
+        </pre>
+    </li>
+</ul>
+
+<p><strong>Approach:</strong></p>
+<p>The Morris Traversal technique is used here to perform an in-order traversal without using additional space for recursion or a stack. This is achieved by modifying the tree structure temporarily during traversal.</p>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li>Use the concept of temporary threaded pointers to traverse the tree in in-order sequence.</li>
+    <li>For each node, find the rightmost node in its left subtree and link it back to the current node. If this link already exists, break it and move to the right subtree.</li>
+</ul>
+
+<p><strong>Detailed Steps To Solve:</strong></p>
+<ul>
+    <li>Initialize an empty list <strong>ans</strong> to store the traversal result.</li>
+    <li>Start from the root node and traverse the tree using Morris Traversal:</li>
+    <ol>
+        <li>If the current node has no left child, append its value to <strong>ans</strong> and move to the right child.</li>
+        <li>If the current node has a left child, find the rightmost node in the left subtree (predecessor).</li>
+        <li>If the rightmost node's right pointer is <strong>None</strong>, set it to point to the current node and move to the left child.</li>
+        <li>If the rightmost node's right pointer points to the current node, break the link, append the current node's value to <strong>ans</strong>, and move to the right child.</li>
+    </ol>
+    <li>Return the list <strong>ans</strong> which contains the nodes in in-order sequence.</li>
+</ul>
+
+<p><strong>Code:</strong></p>
+
+
+```python
+def solve(root):
+    ans = []
+    if not root:
+        return ans
+    current = root
+    while current:
+        if current.left is None:
+            ans.append(current.data)
+            current = current.right
+        else:
+            rightMost = current.left
+            while rightMost.right and rightMost.right != current:
+                rightMost = rightMost.right
+            if rightMost.right is None:
+                rightMost.right = current
+                ans.append(current.data)
+                current = current.left
+            else:
+                rightMost.right = None
+                current = current.right
+    return ans
+
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree. Each node is visited once.</li>
+    <li><strong>Space Complexity:</strong> O(1), as no additional space is used except for the output list.</li>
+</ul>
+
+<br>
+<br>
+
+
+<h1>Flatten Given Binary Tree Into Linked List</h1>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a binary tree, transform it into a linked list in-place such that the linked list follows the reverse post-order traversal of the binary tree.</p>
+
+<p><strong>Sample Test Cases (All Possible Cases):</strong></p>
+<ul>
+    <li>
+        <p><strong>Tree Example 1:</strong></p>
+        <pre>
+            Input Tree:
+                1
+               / \
+              2   3
+             / \
+            4   5
+            Output (Linked List): 4 -> 5 -> 2 -> 3 -> 1
+        </pre>
+    </li>
+    <li>
+        <p><strong>Tree Example 2:</strong></p>
+        <pre>
+            Input Tree:
+                1
+                 \
+                  2
+                   \
+                    3
+            
+            Output (Linked List): 3 -> 2 -> 1
+        </pre>
+    </li>
+</ul>
+
+<p><strong>BruteForce Approach:</strong></p>
+<p><strong>Approach:</strong></p>
+<p>This approach uses a recursive function to traverse the binary tree in reverse post-order and reconstruct the tree into a linked list by maintaining a global previous node reference.</p>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li>Perform a reverse post-order traversal (right -> left -> root) to collect nodes.</li>
+    <li>Link nodes in the reverse order to transform the tree into a linked list.</li>
+</ul>
+
+<p><strong>Steps To Solve:</strong></p>
+<ul>
+    <li>Initialize a global variable <strong>prev</strong> to keep track of the previous node.</li>
+    <li>Perform reverse post-order traversal and adjust pointers to create the linked list.</li>
+</ul>
+
+<p><strong>Code:</strong></p>
+<pre>
+    <code>
+prev=None
+def revPostOrder(node):
+    global prev
+    if not node:
+        return
+    revPostOrder(node.right)
+    revPostOrder(node.left)
+    node.right=prev
+    node.left=None
+    prev=node
+
+def bruteForce(root):
+    global prev
+    prev=None
+    if not root:
+        return None
+    revPostOrder(root)
+    return root
+    </code>
+</pre>
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree. Each node is visited once.</li>
+    <li><strong>Space Complexity:</strong> O(N) due to the recursion stack used in reverse post-order traversal.</li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+<p><strong>Approach:</strong></p>
+<p>This approach uses an iterative method with a stack to efficiently transform the tree into a linked list in reverse post-order without recursion.</p>
+
+<p><strong>Intuition in Simple Words:</strong></p>
+<ul>
+    <li>Use a stack to simulate the reverse post-order traversal and modify the tree pointers accordingly.</li>
+    <li>Adjust pointers to link nodes directly in reverse post-order sequence.</li>
+</ul>
+
+<p><strong>Steps To Solve:</strong></p>
+<ul>
+    <li>Use a stack to perform a depth-first traversal of the tree.</li>
+    <li>For each node, adjust its right pointer to the next node in the stack.</li>
+    <li>Set the left pointer of each node to <strong>None</strong> to finalize the linked list structure.</li>
+</ul>
+
+<p><strong>Code:</strong></p>
+<pre>
+    <code>
+def better(root):
+    if not root:
+        return None
+    stack=[]
+    stack.append(root)
+    while stack:
+        current=stack.pop()
+        if(current.right):
+            stack.append(current.right)
+        if(current.left):
+            stack.append(current.left)
+        current.right=stack[-1] if stack else None
+        current.left=None
+    return root
+    </code>
+</pre>
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(N), where N is the number of nodes in the tree. Each node is processed once.</li>
+    <li><strong>Space Complexity:</strong> O(N) due to the stack used for depth-first traversal.</li>
+</ul>
