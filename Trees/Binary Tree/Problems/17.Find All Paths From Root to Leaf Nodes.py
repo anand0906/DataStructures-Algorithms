@@ -3,6 +3,8 @@ class Node:
         self.data=data
         self.left=None
         self.right=None
+
+        
 def findPath(node,ans,total):
     if(not node):
         return
@@ -21,9 +23,6 @@ def solve(root):
     findPath(root,ans,total)
     return total
         
-        
-    
-
 
 root=Node(1)
 root.left=Node(2)

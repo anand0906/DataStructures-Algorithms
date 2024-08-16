@@ -86,3 +86,5 @@
 <p>The above tree is also a degenerate binary tree because all the nodes have only one child. It is also known as a left-skewed tree as all the nodes have a left child only.</p>
 <h4>Balenced Binary Tree</h4>
 <p>A binary tree is balanced if the height of the tree is O(Log n) where n is the number of nodes.</p>
+
+

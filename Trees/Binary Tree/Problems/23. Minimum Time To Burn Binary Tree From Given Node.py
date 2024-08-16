@@ -29,7 +29,7 @@ def assignParent(root):
     queue.append(root)
     root.parent=None
     while queue:
-        n=len(queue)
+        n=len(queue)    
         for i in range(n):
             node=queue.popleft()
             if(node.left):
