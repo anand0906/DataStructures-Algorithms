@@ -12,6 +12,8 @@ class NodeValue:
         self.min=min
         self.size=size
 
+
+ # Wrong
 def postOrder(node):
     if(not node):
         return NodeValue(float('inf'),float('-inf'),0)

@@ -2127,7 +2127,7 @@ def solve(root):
 <br>
 <br>
 
-<h1>Largest BST in Given Binary Tree</h1>
+<h1>Largest BST in Given Binary Tree (Wrong Learn Again)</h1>
 <p><strong>Problem Statement:</strong> Given a binary tree, you need to find the size of the largest subtree which is a BST.</p>
 
 <p><strong>Sample Test Cases</strong></p>
