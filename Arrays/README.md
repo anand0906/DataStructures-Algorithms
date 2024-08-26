@@ -3716,6 +3716,73 @@ print(optimized(n,arr))
 <p>Reason: We are not changing the merge sort algorithm except by adding a variable to it. So, the time complexity is as same as the merge sort.</p>
 <p>Space Complexity: O(N), as in the merge sort We use a temporary array to store elements in sorted order.</p>
 
+<p>Another Detailed Approach</p>
+<p>Here we are externally comparing two sorted arrays</p>
+
+```python
+
+def merge(arr,low,mid,high):
+    left=low
+    right=mid+1
+    temp=[]
+    while(left<=mid and right<=high):
+        if(arr[left]<arr[right]):
+            temp.append(arr[left])
+            left+=1
+        else:
+            temp.append(arr[right])
+            right+=1
+
+    while left<=mid:
+        temp.append(arr[left])
+        left+=1
+
+    while right<=high:
+        temp.append(arr[right])
+        right+=1
+
+    for i in range(low,high+1):
+        arr[i]=temp[i-low]
+
+def count(arr,low,mid,high):
+    cnt=0
+    left=low
+    right=mid+1
+    for i in range(low,mid+1):
+        while right<=high and arr[i]>arr[right]:
+            right+=1
+        cnt+=(right-(mid+1))
+    return cnt
+
+
+def mergesort(arr,low,high):
+    cnt=0
+    if(low>=high):
+        return cnt
+    mid=(low+high)//2
+    cnt+=mergesort(arr,low,mid)
+    cnt+=mergesort(arr,mid+1,high)
+    cnt+=count(arr,low,mid,high)
+    merge(arr,low,mid,high)
+    return cnt
+
+
+def optimized(n,arr):
+    low=0
+    high=n-1
+    return mergesort(arr,low,high)
+
+
+arr=list(map(int,input().split()))
+n=len(arr)
+print(optimized(n,arr))
+print(arr)
+
+```
+
+
+
+
 <h2>Count Reverse Pairs</h2>
 <p>Given an array of numbers, you need to return the count of reverse pairs. Reverse Pairs are those pairs where i< j and arr[i]>2*arr[j].</p>
 <p><strong>Examples</strong></p>
