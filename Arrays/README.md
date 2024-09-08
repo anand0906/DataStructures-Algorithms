@@ -1551,12 +1551,11 @@ def optimized(n,arr):
             arr[low],arr[mid]=arr[mid],arr[low]
             low+=1
             mid+=1
-        if(arr[mid]==1):
+        elif(arr[mid]==1):
             mid+=1
-        if(arr[mid]==2):
+        elif(arr[mid]==2):
             arr[mid],arr[high]=arr[high],arr[mid]
             high-=1
-            mid+=1
     return arr
 
 arr=list(map(int,input().split()))
