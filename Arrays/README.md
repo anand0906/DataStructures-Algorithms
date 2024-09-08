@@ -827,7 +827,6 @@ print("true" if result else "false")
 <p>We can apply binary search to find target in the row</p>
 <p>In this way, we can check target in the matrix</p>
 
-
 ```python
 def binarySearch(nums, target):
     n = len(nums) # size of the array
@@ -858,8 +857,6 @@ result = searchMatrix(matrix, 8)
 print("true" if result else "false")
 
 ```
-
-
 <p>Time Complexity: O(N + logM), where N = given row number, M = given column number.</p>
 <p>Reason: We are traversing all rows and it takes O(N) time complexity. But for all rows, we are not applying binary search rather we are only applying it once for a particular row. That is why the time complexity is O(N + logM) instead of O(N*logM).</p>
 <p>Space Complexity: O(1) as we are not using any extra space.</p>
