@@ -113,76 +113,116 @@
 	    <td><a href="https://leetcode.com/problems/unique-paths/description/">Leetcode</a></td>
 	  </tr>
 	  <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Pascal's Triangle</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#pascals-traingle">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/pascals-triangle/description/">Leetcode</a></td>
 	  </tr>
 	  <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Find the repeating and missing numbers</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-repeating-and-missing-numbers">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/find-missing-and-repeating2512/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=find-missing-and-repeating">GeeksForGeeks</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Leaders in an Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#leaders-in-an-array--greater-than-all-of-the-elements-on-its-right-side-in-the-array">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/leaders-in-an-array-1587115620/1">GeeksForGeeks</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Stock Buy And Sell</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#stock-buy-and-sell">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Maximum Subarray Sum in an Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#kadanes-algorithm--maximum-subarray-sum-in-an-array">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/maximum-subarray/description/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Print Maximum Subarray Sum in an Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#print-maximum-subarray-sum-in-an-array">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/max-sum-in-sub-arrays0824/0?">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Find the repeating and missing numbers</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-repeating-and-missing-numbers">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/find-missing-and-repeating2512/1">GeeksForGeeks</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Maximum Product Subarray in an Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#maximum-product-subarray-in-an-array">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/maximum-product-subarray/description/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Longest Consecutive Sequence in an Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#longest-consecutive-sequence-in-an-array">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/longest-consecutive-sequence/editorial/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Merge overlapping sub-intervals</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#merge-overlapping-sub-intervals">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/merge-intervals/description/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>next_permutation : next greater number with given digits</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#next_permutation--find-next-lexicographically-greater-permutation">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/next-permutation/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Merge two Sorted Arrays Without Extra Space</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#merge-two-sorted-arrays-without-extra-space">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/merge-sorted-array/description/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Find the Majority Element that occurs more than N/2 times</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-majority-element-that-occurs-more-than-n2-times">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/majority-element/description/">Leetcode</a></td>
 	  </tr>
           <tr>
-	    <td></td>
-	    <td><a href="">Click Here</a></td>
-	    <td><a href="">Leetcode</a></td>
+	    <td>Find the elements that appears more than N/3 times in the array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-elements-that-appears-more-than-n3-times-in-the-array">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/majority-element-ii/description/">Leetcode</a></td>
 	  </tr>
-    
+   	  <tr>
+	    <td>Longest Subarray with given Sum K(Positives)/(Negatives)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#longest-subarray-with-given-sum-kpositivesnegatives">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1">Leetcode</a></td>
+	  </tr>
+   	  <tr>
+	    <td>Count Subarray sum Equals K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-subarray-sum-equals-k">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Leetcode</a></td>
+	  </tr>
+   	  <tr>
+	    <td>Count the number of subarrays with given xor K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-the-number-of-subarrays-with-given-xor-k">Click Here</a></td>
+	    <td><a href="https://www.interviewbit.com/problems/subarray-with-given-xor/">InterviewBit</a></td>
+	  </tr>
+   	  <tr>
+	    <td>Count inversions in an array (A[j] <b><</b> A[i] && i<j)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-inversions-in-an-array">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/inversion-of-array-1587115620/1">GeeksForGeeks</a></td>
+	  </tr>
+   	  <tr>
+	    <td>Count Reverse Pairs (arr[i]>2*arr[j] && i<b><</b>j) </td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-reverse-pairs">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/reverse-pairs/description/">Leetcode</a></td>
+	  </tr>
+   	  <tr>
+	    <td>Find the duplicate in an array of N+1 integers</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-duplicate-in-an-array-of-n1-integers">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/find-the-duplicate-number/description/">Leetcode</a></td>
+	  </tr>
 </table>
 
+<h2>Two Pointer And Sliding Window</h2>
 
+<table>
+	<tr>
+		<th>Problem</th>
+		<th>Article</th>
+		<th>Practice</th>
+	</tr>
+	<tr>
+		<td></td>
+	</tr>
+</table>
