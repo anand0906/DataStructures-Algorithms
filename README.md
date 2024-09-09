@@ -27,16 +27,162 @@
 
 <h1>Arrays</h1>
 <table>
-  <tr>
-    <th>Problem</th>
-    <th>Article</th>
-    <th>Practice</th>
-  </tr>
-  <tr>
-    <td>Two Sum</td>
-    <td><a href="../Arrays#two-sum--check-if-a-pair-with-given-sum-exists-in-array/">Click Here</a></td>
-    <td><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">LeetCode</a></td>
-  </tr>
+	  <tr>
+	    <th>Problem</th>
+	    <th>Article</th>
+	    <th>Practice</th>
+	  </tr>
+	  <tr>
+	    <td>Linear Search In Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#linear-search-in-array">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/who-will-win-1587115621/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=who-will-win">GeeksForGeeks</a></td>
+	  </tr>
+	  <tr>
+	    <td>Check if an Array is Sorted</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#check-if-an-array-is-sorted">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Find the Largest element in an array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-largest-element-in-an-array">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/largest-element-in-array4009/0?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=largest-element-in-array">GeeksForGeeks</a></td>
+	  </tr>
+	  <tr>
+	    <td>Find Second Smallest and Second Largest Element in an array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-second-smallest-and-second-largest-element-in-an-array">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/second-largest3735/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=second-largest">GeeksForGeeks</a></td>
+	  </tr>
+	  <tr>
+	    <td>Count Maximum Consecutive Ones in the array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-maximum-consecutive-ones-in-the-array">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/max-consecutive-ones/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Left Rotate the Array by One</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#left-rotate-the-array-by-one">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/rotate-array/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Rotate array by K elements</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#rotate-array-by-k-elements">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/rotate-array/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Find the missing number in an array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-missing-number-in-an-array">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/missing-number/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Find the number that appears once, and other numbers twice.</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#find-the-number-that-appears-once-and-the-other-numbers-twice">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/single-number/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Rearrange the array in alternating positive and negative items</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#rearrange-the-array-in-alternating-positive-and-negative-items">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/rearrange-array-elements-by-sign/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Union of Two Sorted Arrays</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#union-of-two-sorted-arrays">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/union-of-two-sorted-arrays-1587115621/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=union-of-two-sorted-arrays">GeeksForGeeks</a></td>
+	  </tr>
+	  <tr>
+	    <td>Search in a sorted 2D matrix</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#search-in-a-sorted-2d-matrix">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/search-a-2d-matrix/">GeeksForGeeks</a></td>
+	  </tr>
+	  <tr>
+	    <td>Spiral Traversal of Matrix</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#spiral-traversal-of-matrix">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/spiral-matrix/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Rotate Matrix By 90 degrees ClockWise</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#rotate-matrix-by-90-degrees-clockwise">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/rotate-image/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Set Matrix Zero</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#set-matrix-zero">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/set-matrix-zeroes/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td>Grid Unique Paths</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#grid-unique-paths">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/unique-paths/description/">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+          <tr>
+	    <td></td>
+	    <td><a href="">Click Here</a></td>
+	    <td><a href="">Leetcode</a></td>
+	  </tr>
+    
 </table>
 
 
