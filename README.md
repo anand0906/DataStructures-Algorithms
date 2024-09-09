@@ -24,3 +24,19 @@
 <p>These structures allow more complex relationships among elements</p>
 <p>Non-linear data structures are essential for representing and managing hierarchical and interconnected data.</p>
 <p>Eg : Tree, Graph</p>
+
+<h1>Arrays</h1>
+<table>
+  <tr>
+    <th>Problem</th>
+    <th>Article</th>
+    <th>Practice</th>
+  </tr>
+  <tr>
+    <td>Two Sum</td>
+    <td><a href="../Arrays#two-sum--check-if-a-pair-with-given-sum-exists-in-array/">Click Here</a></td>
+    <td><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">LeetCode</a></td>
+  </tr>
+</table>
+
+
