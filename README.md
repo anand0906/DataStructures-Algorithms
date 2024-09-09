@@ -223,6 +223,38 @@
 		<th>Practice</th>
 	</tr>
 	<tr>
+		<td>Move all Zeros to the end of the array</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#move-all-zeros-to-the-end-of-the-array">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/move-zeroes/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Remove Duplicates from Sorted Array</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#remove-duplicates-from-sorted-array">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Sort an array of 0s,1s and 2s</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#sort-an-array-of-0s1s-and-2s">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/sort-colors/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Two Sum : Check if a pair with given sum exists in Array</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#two-sum--check-if-a-pair-with-given-sum-exists-in-array">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/two-sum/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Three Sum : Find triplets that add up to a zero</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#3-sum--find-triplets-that-add-up-to-a-zero">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/3sum/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Four Sum : Find Quads that add up to a target value</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#4-sum---find-quads-that-add-up-to-a-target-value">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/4sum/description/">Leetcode</a></td>
+	</tr>
+	<tr>
 		<td></td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
 	</tr>
 </table>
