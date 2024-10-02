@@ -33,7 +33,7 @@ def optimized(n,s,k):
             count[s[right]]+=1
         else:
             count[s[right]]=1
-        if(len(count)>2):
+        if(len(count)>k):
             while (len(count)>k):
                 count[s[left]]-=1
                 if(count[s[left]]==0):
