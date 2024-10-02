@@ -96,11 +96,131 @@
 		<li><strong>Example</strong> : Removing duplicates from a sorted array or detecting cycles in a linked list.</li>
 	</ul>
 </ol>
-<h3>Problems</h3>
 
-| Problem | Article | Practice |
-| :---         |     :---:      |     :---:     |
-| Two Sum | <a href="../Arrays#two-sum--check-if-a-pair-with-given-sum-exists-in-array/">Click Here</a> | <a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">LeetCode</a> |
-| Three Sum | <a href="../Arrays#3-sum--find-triplets-that-add-up-to-a-zero/">Click Here</a> | <a href="https://leetcode.com/problems/3sum/description/">LeetCode</a> |
-| Four Sum | <a href="../Arrays#4-sum---find-quads-that-add-up-to-a-target-value/">Click Here</a> | <a href="https://leetcode.com/problems/4sum/description/">LeetCode</a> |
-| Container With Most Water | <a href="./Two%20Pointer%20Problems#container-with-most-water/">Click Here</a> | <a href="https://leetcode.com/problems/container-with-most-water/">LeetCode</a> |
+
+<h2>Sliding Window</h2>
+<p><strong>Here’s a detailed explanation of each sliding window pattern with real-world examples:</strong></p>
+
+<ol>
+  <li><strong>Fixed Sliding Window Pattern</strong>
+    <p>The window size is fixed, and you slide it over the array or string to perform calculations. This is useful when the window size is constant, and you need to process a sequence of consecutive elements.</p>
+    <ul>
+      <li><strong>Example 1: Maximum Sum Subarray of Size K</strong>
+        <p>You are given an array, and you need to find the maximum sum of any contiguous subarray of size K.</p>
+        <p><strong>Input:</strong> [2, 1, 5, 1, 3, 2], K = 3</p>
+        <p><strong>Output:</strong> 9</p>
+        <p><strong>Explanation:</strong> The subarrays of size 3 are [2, 1, 5], [1, 5, 1], [5, 1, 3], and [1, 3, 2]. The maximum sum is 9 from the subarray [5, 1, 3].</p>
+      </li>
+      <li><strong>Example 2: First Negative Integer in Every Window of Size K</strong>
+        <p>In this problem, you are asked to find the first negative integer for every window of size K.</p>
+        <p><strong>Input:</strong> [12, -1, -7, 8, 15, 30, 16, 28], K = 3</p>
+        <p><strong>Output:</strong> [-1, -1, -7, -7, 0, 0]</p>
+        <p><strong>Explanation:</strong> For each window, you slide and check the first negative integer. If none exists, return 0.</p>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Dynamic Sliding Window Pattern</strong>
+    <p>In dynamic sliding window problems, the window size varies based on conditions, and you dynamically expand or contract the window until the condition is satisfied.</p>
+    <ul>
+      <li><strong>Example 1: Smallest Subarray with a Given Sum</strong>
+        <p>You are given an array and a target sum. Find the smallest contiguous subarray whose sum is greater than or equal to the target.</p>
+        <p><strong>Input:</strong> [2, 1, 5, 2, 3, 2], Target = 7</p>
+        <p><strong>Output:</strong> 2</p>
+        <p><strong>Explanation:</strong> The smallest subarray with a sum of at least 7 is [5, 2] with a length of 2.</p>
+      </li>
+      <li><strong>Example 2: Longest Substring with K Distinct Characters</strong>
+        <p>Given a string, find the length of the longest substring that contains exactly K distinct characters.</p>
+        <p><strong>Input:</strong> "araaci", K = 2</p>
+        <p><strong>Output:</strong> 4</p>
+        <p><strong>Explanation:</strong> The longest substring with exactly 2 distinct characters is "araa" with a length of 4.</p>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Caterpillar Method (Two-Pointer Sliding Window)</strong>
+    <p>This method involves using two pointers (start and end) to expand and contract a window over the array. It’s often used when you need to count subarrays that meet a certain condition.</p>
+    <ul>
+      <li><strong>Example 1: Number of Subarrays with Sum Equals K</strong>
+        <p>Find the number of contiguous subarrays that sum up to a given value K.</p>
+        <p><strong>Input:</strong> [1, 1, 1], K = 2</p>
+        <p><strong>Output:</strong> 2</p>
+        <p><strong>Explanation:</strong> There are two subarrays [1, 1] that sum to 2.</p>
+      </li>
+      <li><strong>Example 2: Subarray Product Less Than K</strong>
+        <p>Given an array of integers, count the number of contiguous subarrays where the product of the elements is less than K.</p>
+        <p><strong>Input:</strong> [10, 5, 2, 6], K = 100</p>
+        <p><strong>Output:</strong> 8</p>
+        <p><strong>Explanation:</strong> The valid subarrays are [10], [5], [2], [6], [5, 2], [2, 6], [5, 2, 6], and [10, 5].</p>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Expanding/Shrinking Sliding Window Pattern</strong>
+    <p>This pattern is common for string problems where you need to adjust the window size dynamically by expanding and shrinking it to meet certain constraints (e.g., unique characters, distinct elements).</p>
+    <ul>
+      <li><strong>Example 1: Longest Substring Without Repeating Characters</strong>
+        <p>Find the length of the longest substring without any repeating characters.</p>
+        <p><strong>Input:</strong> "abcabcbb"</p>
+        <p><strong>Output:</strong> 3</p>
+        <p><strong>Explanation:</strong> The longest substring without repeating characters is "abc", which has a length of 3.</p>
+      </li>
+      <li><strong>Example 2: Longest Substring with At Most Two Distinct Characters</strong>
+        <p>Given a string, find the length of the longest substring that contains at most 2 distinct characters.</p>
+        <p><strong>Input:</strong> "eceba"</p>
+        <p><strong>Output:</strong> 3</p>
+        <p><strong>Explanation:</strong> The longest substring with at most two distinct characters is "ece" with a length of 3.</p>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Exact Subarray Count Pattern</strong>
+    <p>In this pattern, the goal is to count the number of subarrays with exactly K elements or features. It involves finding subarrays with at most K elements and subtracting subarrays with at most K-1 elements.</p>
+    <ul>
+      <li><strong>Example 1: Subarrays with Exactly K Distinct Integers</strong>
+        <p>Find the number of subarrays with exactly K distinct integers.</p>
+        <p><strong>Input:</strong> [1, 2, 1, 2, 3], K = 2</p>
+        <p><strong>Output:</strong> 7</p>
+        <p><strong>Explanation:</strong> The subarrays with exactly 2 distinct integers are [1, 2], [2, 1], [1, 2], [2, 3], [1, 2, 1], [2, 1, 2], and [1, 2, 3].</p>
+      </li>
+      <li><strong>Example 2: Subarrays with Exactly K Odd Numbers</strong>
+        <p>Find the number of subarrays with exactly K odd numbers.</p>
+        <p><strong>Input:</strong> [1, 2, 3, 4, 5], K = 2</p>
+        <p><strong>Output:</strong> 4</p>
+        <p><strong>Explanation:</strong> The subarrays with exactly two odd numbers are [1, 2, 3], [1, 2, 3, 4], [3, 4, 5], and [2, 3, 4, 5].</p>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Important LeetCode Problems</strong>
+    <p>Here are some well-known problems from LeetCode based on these patterns:</p>
+    <ul>
+      <li><strong>Fixed Sliding Window:</strong>
+        <ul>
+          <li>Maximum Sum of K Consecutive Elements</li>
+          <li>First Negative Integer in Every Window of Size K</li>
+          <li>Average of Subarrays of Size K</li>
+        </ul>
+      </li>
+      <li><strong>Dynamic Sliding Window:</strong>
+        <ul>
+          <li>Smallest Subarray with a Given Sum</li>
+          <li>Longest Substring with K Distinct Characters</li>
+          <li>Fruits into Baskets (Longest Subarray with At Most Two Distinct Characters)</li>
+        </ul>
+      </li>
+      <li><strong>Caterpillar Method:</strong>
+        <ul>
+          <li>Number of Subarrays with Sum Equals K</li>
+          <li>Subarray Product Less than K</li>
+        </ul>
+      </li>
+      <li><strong>Expanding/Shrinking Sliding Window:</strong>
+        <ul>
+          <li>Longest Substring Without Repeating Characters</li>
+          <li>Minimum Window Substring</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>

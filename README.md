@@ -214,7 +214,7 @@
 	  </tr>
 </table>
 
-<h2>Two Pointer And Sliding Window</h2>
+<h2>Two Pointer</h2>
 
 <table>
 	<tr>
@@ -258,3 +258,95 @@
 		<td><a href="">Leetcode</a></td>
 	</tr>
 </table>
+
+
+<h2>Sliding Window</h2>
+
+<table>
+	<tr>
+		<th colspan="3">Fixed Size Sliding Window</th>
+	</tr>
+	<tr>
+		<th>Problem</th>
+		<th>Article</th>
+		<th>Practice</th>
+	</tr>
+	<tr>
+		<td>Maximum Points You Can Obtain from Cards</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#maximum-points-you-can-obtain-from-cards">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<th colspan="3">Dynamic Size Sliding Window</th>
+	</tr>
+	<tr>
+		<th>Problem</th>
+		<th>Article</th>
+		<th>Practice</th>
+	</tr>
+	<tr>
+		<td>Longest Substring Without Repeating Characters</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#longest-substring-without-repeating-characters">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Maximum Consecutive 1's with At Most K Flips (Binary Array)</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#maximum-consecutive-1s-wih-atmost-k-flips-binary-array">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/max-consecutive-ones-iii/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Fruits Into Baskets (Longest Subarray Contains At Most 2 Different Elements)</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#fruits-into-basket--longest-subarray-contains-atmost-2-different-element">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/fruit-into-baskets-1663137462/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<td>Longest Repeating Character Replacement with At Most K Operations</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#longest-repeating-character-replacement-with-atmost-k-operations">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/longest-repeating-character-replacement/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Longest Substring with At Most K Different Characters</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#longest-substring-with-atmost-k-different-characters">Click Here</a></td>
+		<td><a href="https://www.naukri.com/code360/problems/distinct-characters_2221410">CodingNinjas</a></td>
+	</tr>
+	<tr>
+		<td>Minimum Window Substring</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#minimum-window-substring">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/minimum-window-substring/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Number of substrings containing all three characters</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#number-of-substrings-containing-all-three-characters">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<th colspan="3">Count Of Subarrays With Condition</th>
+	</tr>
+	<tr>
+		<th>Problem</th>
+		<th>Article</th>
+		<th>Practice</th>
+	</tr>
+	<tr>
+		<td>Count of Subarrays Whose Sum Equals a Given Value (Binary Array)</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#count-of-subarrays-whose-sum-equals-to-given-value--binary-array">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/binary-subarrays-with-sum/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Count Number of Nice Subarrays (Number of Subarrays Containing Exactly K Odd Elements)</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#count-number-of-nice-subarrays--number-of-subarray-which-contains-k-number-of-odd-elements">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/count-number-of-nice-subarrays/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Different Integers</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#subarrays-with-k-different-integers">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/subarrays-with-k-different-integers/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+</table>
+
+
