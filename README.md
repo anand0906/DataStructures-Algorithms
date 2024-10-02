@@ -343,7 +343,47 @@
 		<td><a href="https://leetcode.com/problems/subarrays-with-k-different-integers/description/">Leetcode</a></td>
 	</tr>
 	<tr>
-		<td></td>
+		<td>Subarrays with Exactly K Odd Numbers</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Even Numbers:</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Elements Greater Than a Threshold:</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Distinct Characters:</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Maximum Values:</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Minimum Values:</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Prime Numbers:</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Divisible by a Number:</td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Subarrays with Exactly K Increasing or Decreasing Elements:</td>
 		<td><a href="">Click Here</a></td>
 		<td><a href="">Leetcode</a></td>
 	</tr>
