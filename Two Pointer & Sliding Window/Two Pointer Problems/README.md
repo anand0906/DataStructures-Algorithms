@@ -850,28 +850,26 @@ print(better(n,s,k))
 </ol>
 
 ```python
-def optimized(n,arr):
-    maxi=0
+def optimized(n,s,k):
     left,right=0,0
+    maxi=0
+    maxFreq=0
     count={}
-    while right<n:
-        if arr[right] in count:
-            count[arr[right]]+=1
+    while(right<n):
+        if s[right] in count:
+            count[s[right]]+=1
         else:
-            count[arr[right]]=1
-        if(len(count)>2):
-            while (len(count)>2):
-                count[arr[left]]-=1
-                if(count[arr[left]]==0):
-                    del count[arr[left]]
-                left+=1
+            count[s[right]]=1
+        maxFreq=max(maxFreq,count[s[right]])
         length=right-left+1
+        while((left<right) and (length-maxFreq)>k):
+            count[s[left]]-=1
+            maxFreq=max(maxFreq,count[s[left]])
+            left+=1
+            length=right-left+1
         maxi=max(maxi,length)
         right+=1
     return maxi
-arr=list(map(int,input().split()))
-n=len(arr)
-print(better(n,arr))
 ```
 
 <p><strong>Time Complexity</strong> : O(n)</p>
