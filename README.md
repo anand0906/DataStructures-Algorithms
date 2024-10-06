@@ -395,3 +395,36 @@
 </table>
 
 
+
+<h2>Prefix Sum</h2>
+
+<table>
+	<tr>
+		<th colspan="3">Subarray Realted</th>
+	</tr>
+	<tr>
+		<th>Problem</th>
+		<th>Article</th>
+		<th>Practice</th>
+	</tr>
+	<tr>
+	    <td>Longest Subarray with given Sum K(Positives)/(Negatives)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#longest-subarray-with-given-sum-kpositivesnegatives">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>Largest subarray with equal number of 0s and 1s</td>
+	    <td><a href="https://www.geeksforgeeks.org/largest-subarray-with-equal-number-of-0s-and-1s/">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/largest-subarray-of-0s-and-1s/1">GeeksForGeeks</a></td>
+	</tr>
+   	<tr>
+	    <td>Count Subarray sum Equals K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-subarray-sum-equals-k">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Leetcode</a></td>
+	</tr>
+   	<tr>
+	    <td>Count the number of subarrays with given xor K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-the-number-of-subarrays-with-given-xor-k">Click Here</a></td>
+	    <td><a href="https://www.interviewbit.com/problems/subarray-with-given-xor/">InterviewBit</a></td>
+	</tr>
+</table>
