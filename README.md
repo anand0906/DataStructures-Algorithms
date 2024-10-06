@@ -277,6 +277,31 @@
 		<th>Practice</th>
 	</tr>
 	<tr>
+		<td>Max Sum Subarray Of Size K</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#max-sum-subarray-of-size-k">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<td>Find All Maximum Elements Of Subarrays Of Size K</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#find-all-maximum-elements-of-subarrays-of-size-k">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/maximum-of-all-subarrays-of-size-k3101/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<td>Sum of minimum and maximum elements of subarray of size k</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#sum-of-minimum-and-maximum-elements-of-subarray-of-size-k">Click Here</a></td>
+		<td><a href="https://www.naukri.com/code360/problems/sum-of-minimum-and-maximum-elements-of-all-subarrays-of-size-k_1171047">CodingNinjas</a></td>
+	</tr>
+	<tr>
+		<td>Count Of Distinct Elements In All Subarrays Of Size k</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#count-of-distinct-elements-in-all-subarrays-of-size-k">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/count-distinct-elements-in-every-window/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<td>Find First Negative Number Of Subarray Of Size k</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#find-first-negative-number-of-subarray-of-size-k">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
 		<td>Maximum Points You Can Obtain from Cards</td>
 		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Two%20Pointer%20Problems#maximum-points-you-can-obtain-from-cards">Click Here</a></td>
 		<td><a href="https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/description/">Leetcode</a></td>
@@ -409,7 +434,7 @@
 	</tr>
 	<tr>
 	    <td>Longest Subarray with given Sum K(Positives)/(Negatives)</td>
-	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#longest-subarray-with-given-sum-kpositivesnegatives">Click Here</a></td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#longest-subarray-with-given-sum-kpositivesnegatives">Click Here</a></td>
 	    <td><a href="https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1">GeeksForGeeks</a></td>
 	</tr>
 	<tr>
@@ -419,12 +444,32 @@
 	</tr>
    	<tr>
 	    <td>Count Subarray sum Equals K</td>
-	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-subarray-sum-equals-k">Click Here</a></td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-subarray-sum-equals-k">Click Here</a></td>
 	    <td><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Leetcode</a></td>
 	</tr>
    	<tr>
 	    <td>Count the number of subarrays with given xor K</td>
-	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-the-number-of-subarrays-with-given-xor-k">Click Here</a></td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-the-number-of-subarrays-with-given-xor-k">Click Here</a></td>
 	    <td><a href="https://www.interviewbit.com/problems/subarray-with-given-xor/">InterviewBit</a></td>
+	</tr>
+	<tr>
+	    <td>Longest Subarray Whose Sum Divisible By K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#longest-subarray-whose-sum-divisible-by-k">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/longest-subarray-with-sum-divisible-by-k1259/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>Smallest Subarray Whose Sum Divisible By K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#smallest-subarray-whose-sum-divisible-by-k">Click Here</a></td>
+	    <td><a href="">NAN</a></td>
+	</tr>
+	<tr>
+	    <td>Smallest Subarray To Remove To Make Sum of Array Divisible By K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#smallest-subarray-to-remove-to-make-sum-of-array-divisible-by-k">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/make-sum-divisible-by-p/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Subarrays Whose Sum Divisible By K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-subarrays-whose-sum-divisible-by-k">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/sub-array-sum-divisible-by-k2617/1/">GeeksForGeeks</a></td>
 	</tr>
 </table>
