@@ -458,7 +458,7 @@
 	    <td><a href="https://leetcode.com/problems/count-vowel-strings-in-ranges/description/">LeetCode</a></td>
 	</tr>
 	<tr>
-		<th colspan="">Subarray Related</th>
+		<th colspan="3">Subarray Related</th>
 	</tr>
 	<tr>
 	    <td>(Print/Length of)Longest Subarray with given Sum K(Positives)/(Negatives)</td>
