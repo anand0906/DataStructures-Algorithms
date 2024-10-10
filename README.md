@@ -374,48 +374,48 @@
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Odd Numbers</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Even Numbers:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Elements Greater Than a Threshold:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Distinct Characters:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Maximum Values:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Minimum Values:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Prime Numbers:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Divisible by a Number:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 	<tr>
 		<td>Subarrays with Exactly K Increasing or Decreasing Elements:</td>
-		<td><a href="">Click Here</a></td>
-		<td><a href="">Leetcode</a></td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="#">Leetcode</a></td>
 	</tr>
 </table>
 
@@ -425,32 +425,100 @@
 
 <table>
 	<tr>
-		<th colspan="3">Subarray Realted</th>
-	</tr>
-	<tr>
 		<th>Problem</th>
 		<th>Article</th>
 		<th>Practice</th>
 	</tr>
 	<tr>
-	    <td>Longest Subarray with given Sum K(Positives)/(Negatives)</td>
+		<th colspan="3">Basic Problems</th>
+	</tr>
+	<tr>
+	    <td>Running Sum Of An 1-D Array</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/running-sum-of-1d-array/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Range Sum Queries</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/range-sum-query-immutable/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Range XOR Queries</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/xor-queries-of-a-subarray/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Vowels in Words Array in Range Queries</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Words Whics Starts And Ends With Vowels in Words Array in Range Queries</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/count-vowel-strings-in-ranges/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+		<th colspan="">Subarray Related</th>
+	</tr>
+	<tr>
+	    <td>(Print/Length of)Longest Subarray with given Sum K(Positives)/(Negatives)</td>
 	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#longest-subarray-with-given-sum-kpositivesnegatives">Click Here</a></td>
 	    <td><a href="https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1">GeeksForGeeks</a></td>
 	</tr>
 	<tr>
-	    <td>Largest subarray with equal number of 0s and 1s</td>
+	    <td>(print/length of)Smallest Subarrray Whose Sum Equals To K</td>
+	    <td><a href="https://www.geeksforgeeks.org/smallest-subarray-with-sum-k-from-an-array/">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>	
+	<tr>
+	    <td>Count Of Subarrays Whose Sum Equals To K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-subarray-sum-equals-k">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+	    <td>Print All Subarrays Whose Sum Equals To K</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>(Print/Length of)Largest subarray with equal number of 0s and 1s</td>
 	    <td><a href="https://www.geeksforgeeks.org/largest-subarray-with-equal-number-of-0s-and-1s/">Click Here</a></td>
 	    <td><a href="https://www.geeksforgeeks.org/problems/largest-subarray-of-0s-and-1s/1">GeeksForGeeks</a></td>
 	</tr>
-   	<tr>
-	    <td>Count Subarray sum Equals K</td>
-	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-subarray-sum-equals-k">Click Here</a></td>
-	    <td><a href="https://leetcode.com/problems/subarray-sum-equals-k/description/">Leetcode</a></td>
+	<tr>
+	    <td>(Print/Length of)Smallest subarray with equal number of 0s and 1s</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>Count of subarrays with equal number of 0s and 1s</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>Print all subarrays with equal number of 0s and 1s</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>(Print/Length of)Largest subarray with given xor K</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>(Print/Length of)Smallest subarray with given xor K</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
 	</tr>
    	<tr>
 	    <td>Count the number of subarrays with given xor K</td>
 	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-the-number-of-subarrays-with-given-xor-k">Click Here</a></td>
 	    <td><a href="https://www.interviewbit.com/problems/subarray-with-given-xor/">InterviewBit</a></td>
+	</tr>
+	<tr>
+	    <td>Print All subarrays with given xor K</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
 	</tr>
 	<tr>
 	    <td>Longest Subarray Whose Sum Divisible By K</td>
@@ -463,13 +531,38 @@
 	    <td><a href="">NAN</a></td>
 	</tr>
 	<tr>
-	    <td>Smallest Subarray To Remove To Make Sum of Array Divisible By K</td>
-	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#smallest-subarray-to-remove-to-make-sum-of-array-divisible-by-k">Click Here</a></td>
-	    <td><a href="https://leetcode.com/problems/make-sum-divisible-by-p/description/">Leetcode</a></td>
+	    <td>Count subarrays Whose Sum Divisible By K</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
 	</tr>
 	<tr>
 	    <td>Count Of Subarrays Whose Sum Divisible By K</td>
 	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-subarrays-whose-sum-divisible-by-k">Click Here</a></td>
 	    <td><a href="https://www.geeksforgeeks.org/problems/sub-array-sum-divisible-by-k2617/1/">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>Smallest Subarray To Remove To Make Sum of Array Divisible By K</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#smallest-subarray-to-remove-to-make-sum-of-array-divisible-by-k">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/make-sum-divisible-by-p/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+	    <td>(Print/Length of)Largest subarray with k odd numbers</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>(Print/Length of)Smallest subarray with k odd numbers</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>Count of subarrays with k odd numbers</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+	    <td>Print all subarrays with k odd numbers</td>
+	    <td><a href="#">Click Here</a></td>
+	    <td><a href="#">GeeksForGeeks</a></td>
 	</tr>
 </table>
