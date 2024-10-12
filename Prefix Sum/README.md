@@ -1126,11 +1126,9 @@ def optimized(n, arr, p):
     <li><strong>Input:</strong> arr = [4, 5, 0, -2, -3, 1], k = 5<br>
     <strong>Output:</strong> 7<br>
     <strong>Explanation:</strong> The subarrays that have a sum divisible by 5 are: [5], [5, 0], [0], [4, 5, 0, -2, -3, 1], [-2, -3], [0, -2, -3], [4, 5, 0].</li>
-
     <li><strong>Input:</strong> arr = [3, 1, 4, 2], k = 6<br>
     <strong>Output:</strong> 1<br>
     <strong>Explanation:</strong> Only one subarray has a sum divisible by 6: [3, 1, 4, 2].</li>
-
     <li><strong>Input:</strong> arr = [6, 3, 5, 2], k = 9<br>
     <strong>Output:</strong> 2<br>
     <strong>Explanation:</strong> The subarrays [6, 3] and [5, 2] have sums divisible by 9.</li>
@@ -1276,3 +1274,856 @@ def optimized(n, arr, k):
 </ul>
 
 
+<h2>Count Of Bad Pairs (j - i != nums[j] - nums[i])</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>You are given a 0-indexed integer array <strong>nums</strong>. A pair of indices (i, j) is a <strong>bad pair</strong> if:</p>
+<ul>
+    <li>i &lt; j</li>
+    <li>j - i ≠ nums[j] - nums[i]</li>
+</ul>
+<p>Return the total number of bad pairs in the array.</p>
+
+<p><strong>Test Cases:</strong></p>
+<ul>
+    <li><strong>Test Case 1:</strong> 
+        <ul>
+            <li><strong>Input:</strong> nums = [4, 1, 3, 3]</li>
+            <li><strong>Output:</strong> 5</li>
+            <li><strong>Explanation:</strong> The bad pairs are (0, 1), (0, 2), (0, 3), (1, 2), (2, 3). Total = 5 bad pairs.</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 2:</strong> 
+        <ul>
+            <li><strong>Input:</strong> nums = [1, 2, 3, 4, 5]</li>
+            <li><strong>Output:</strong> 0</li>
+            <li><strong>Explanation:</strong> All pairs satisfy the condition, so there are no bad pairs.</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 3:</strong> 
+        <ul>
+            <li><strong>Input:</strong> nums = [7, 2, 5, 8, 4]</li>
+            <li><strong>Output:</strong> 8</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 4:</strong> 
+        <ul>
+            <li><strong>Input:</strong> nums = [6]</li>
+            <li><strong>Output:</strong> 0</li>
+            <li><strong>Explanation:</strong> There's only one element, so no pairs can be formed.</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 5:</strong> 
+        <ul>
+            <li><strong>Input:</strong> nums = [1, 1, 1, 1]</li>
+            <li><strong>Output:</strong> 0</li>
+            <li><strong>Explanation:</strong> No bad pairs, as the difference between every pair is always equal.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Brute Force Approach:</strong></p>
+
+<p><strong>Intuition:</strong> The brute force approach checks every possible pair of indices (i, j) in the array and determines whether the pair is a bad pair by comparing j - i with nums[j] - nums[i]. If the condition holds, we increment the bad pair count.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize <strong>cnt</strong> as 0 to keep track of the number of bad pairs.</li>
+    <li>Use a nested loop:
+        <ul>
+            <li>The outer loop runs from i = 0 to n-1.</li>
+            <li>The inner loop runs from j = i+1 to n-1.</li>
+        </ul>
+    </li>
+    <li>For each pair (i, j), check if j - i ≠ nums[j] - nums[i].</li>
+    <li>If the condition holds, increment <strong>cnt</strong>.</li>
+    <li>Return <strong>cnt</strong> as the result.</li>
+</ol>
+
+```python
+def bruteForce(n, arr):
+    cnt = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            if (j - i != arr[j] - arr[i]):
+                cnt += 1
+    return cnt
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n²) because we check each pair of indices.</li>
+    <li><strong>Space Complexity:</strong> O(1) since no additional space is used besides the counter.</li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+
+<p><strong>Intuition:</strong></p>
+<p>Given the condition for a bad pair:</p>
+<p><strong>j - i ≠ nums[j] - nums[i]</strong></p>
+
+<p>This can be rewritten as:</p>
+<p><strong>j - nums[j] ≠ i - nums[i]</strong></p>
+
+<p>So, for a pair (i, j), if the values j - nums[j] and i - nums[i] are equal, it is a <strong>good pair</strong>, otherwise, it is a <strong>bad pair</strong>.</p>
+
+<p><strong>Optimized Approach:</strong></p>
+
+<p>The optimized approach works as follows:</p>
+
+<ol>
+    <li><strong>Total Pairs:</strong> The total number of pairs (i, j) where i &lt; j can be computed using the formula for combinations:</li>
+    <p>Suppose n=3, possible combinations</p>
+    <ol>
+        <li>i=0 , j=1</li>
+        <li>i=0 , j=2</li>
+    </ol>
+    <ol>
+        <li>i=1 , j=2</li>
+    </ol>
+    <p>Suppose n=4, possible combinations</p>
+    <ol>
+        <li>i=0 , j=1</li>
+        <li>i=0 , j=2</li>
+        <li>i=0 , j=3</li>
+    </ol>
+    <ol>
+        <li>i=1 , j=2</li>
+        <li>i=1 , j=3</li>
+    </ol>
+    <ol>
+        <li>i=2 , j=3</li>
+    </ol>
+    <p>Hence, For n, if m=n-1, total pairs will be 1+2+...n-1</p>
+    <p><strong>totalCnt = m*(m+1)//2</strong></p>
+    <p>This represents the total number of index pairs in the array.</p>
+    <li><strong>Counting Good Pairs:</strong>
+        <ul>
+            <li>Define a hash map <strong>cntMap</strong> that tracks the frequency of each value of <strong>i - nums[i]</strong>.</li>
+            <li>For every new <strong>i</strong>, if the value <strong>i - nums[i]</strong> already exists in <strong>cntMap</strong>, that means there are <strong>cntMap[temp]</strong> good pairs that satisfy the condition <strong>j - nums[j] = i - nums[i]</strong>.</li>
+            <li>Accumulate this in <strong>goodCnt</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Bad Pairs:</strong> Finally, the number of bad pairs is:</li>
+    <p><strong>badCnt = totalCnt - goodCnt</strong></p>
+</ol>
+
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>For n, if m=n-1</li>
+    <li>Compute the total number of pairs using <strong>m*(m+1)//2</strong>.</li>
+    <li>Initialize a <strong>cntMap</strong> hash map to keep track of the frequency of <strong>i - nums[i]</strong>.</li>
+    <li>Traverse the array and compute <strong>diff = i - nums[i]</strong> for each index.</li>
+    <li>If the current <strong>diff</strong> is already in the hash map, it means we've found a good pair, so increment the good pair count.</li>
+    <li>Update the hash map with the current <strong>diff</strong>.</li>
+    <li>Finally, subtract the number of good pairs from the total pairs to get the number of bad pairs.</li>
+</ol>
+
+```python
+def optimized(n, arr):
+    totalCnt = (n * (n - 1)) // 2  # Total number of pairs
+    
+    goodCnt = 0
+    cntMap = {}  # HashMap to store frequency of i - arr[i]
+    
+    for i in range(n):
+        temp = i - arr[i]
+        
+        # Count how many previous occurrences of this diff exist
+        if temp in cntMap:
+            goodCnt += cntMap[temp]
+            cntMap[temp] += 1
+        else:
+            cntMap[temp] = 1
+    
+    # Number of bad pairs is the total pairs minus the good pairs
+    badCnt = totalCnt - goodCnt
+    return badCnt
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n) because we only traverse the array once and use efficient hash map operations.</li>
+    <li><strong>Space Complexity:</strong> O(n) due to the space used by the hash map.</li>
+</ul>
+
+
+<br>
+<br>
+
+<h2>Count Of Nice Pairs (nums[i] + rev(nums[j]) == nums[j] + rev(nums[i]))</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>You are given an array <strong>nums</strong> that consists of non-negative integers. Define <strong>rev(x)</strong> as the reverse of the non-negative integer <strong>x</strong>. For example, rev(123) = 321, and rev(120) = 21. A pair of indices (i, j) is <strong>nice</strong> if it satisfies all of the following conditions:</p>
+<ul>
+    <li>0 &lt;= i &lt; j &lt; nums.length</li>
+    <li>nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])</li>
+</ul>
+<p>Return the number of nice pairs of indices. Since the number of pairs can be too large, return it modulo 10^9 + 7.</p>
+
+<p><strong>Test Cases:</strong></p>
+<ul>
+    <li><strong>Test Case 1:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [42, 11, 1, 97]</li>
+            <li><strong>Output:</strong> 2</li>
+            <li><strong>Explanation:</strong> The two nice pairs are:
+                <ul>
+                    <li>(0, 3): 42 + rev(97) = 42 + 79 = 121, 97 + rev(42) = 97 + 24 = 121.</li>
+                    <li>(1, 2): 11 + rev(1) = 11 + 1 = 12, 1 + rev(11) = 1 + 11 = 12.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Test Case 2:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [13, 10, 35, 24, 76]</li>
+            <li><strong>Output:</strong> 4</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Brute Force Approach:</strong></p>
+
+<p><strong>Intuition:</strong> The brute force approach checks every possible pair of indices (i, j) and compares the sum of nums[i] and rev(nums[j]) with the sum of nums[j] and rev(nums[i]). If the condition holds, we count it as a nice pair.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Reverse the digits of each number in the array to create a <strong>revArr</strong>.</li>
+    <li>Use a nested loop:
+        <ul>
+            <li>The outer loop runs from i = 0 to n-1.</li>
+            <li>The inner loop runs from j = i+1 to n-1.</li>
+        </ul>
+    </li>
+    <li>For each pair (i, j), check if nums[i] + rev(nums[j]) == nums[j] + rev(nums[i]).</li>
+    <li>If the condition holds, increment the count.</li>
+    <li>Return the count as the result.</li>
+</ol>
+
+```python
+def bruteForce(n,arr):
+    cnt=0
+    revArr=[int(str(i)[::-1]) for i in arr]
+    for i in range(n):
+        for j in range(i+1,n):
+            if(arr[i]+revArr[j]==arr[j]+revArr[i]):
+                cnt+=1
+    return cnt
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n²), as we check each pair of indices.</li>
+    <li><strong>Space Complexity:</strong> O(n) for the reversed array.</li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+
+<p><strong>Intuition:</strong> Instead of checking every possible pair, we observe that the condition <strong>nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])</strong> can be rearranged to <strong>nums[i] - rev(nums[i]) == nums[j] - rev(nums[j])</strong>. Thus, we can track the difference <strong>nums[i] - rev(nums[i])</strong> for each index in a hash map and count how many indices have the same difference.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Reverse the digits of each number in the array to create a <strong>revArr</strong>.</li>
+    <li>Initialize a hash map <strong>cntMap</strong> to track the frequency of <strong>nums[i] - rev(nums[i])</strong>.</li>
+    <li>Traverse the array:
+        <ul>
+            <li>For each number, calculate <strong>diff = nums[i] - rev(nums[i])</strong>.</li>
+            <li>If the difference already exists in the hash map, it means we've found <strong>cntMap[diff]</strong> nice pairs, so increment the count by that value.</li>
+            <li>Update the hash map with the current difference.</li>
+        </ul>
+    </li>
+    <li>Return the total count of nice pairs.</li>
+</ol>
+
+```python
+def optimized(n, arr):
+    # Reverse each number in the array
+    revArr = [int(str(i)[::-1]) for i in arr]
+    
+    cnt = 0  # Initialize count of valid pairs
+    cntMap = {}  # Dictionary to store occurrences of the differences
+    
+    for i in range(n):
+        # Calculate the difference between original and reversed number
+        temp = arr[i] - revArr[i]
+        
+        # If the difference has been seen before, increment the count of valid pairs
+        if temp in cntMap:
+            cnt += cntMap[temp]
+            cntMap[temp] += 1  # Increment the occurrence count
+        else:
+            cntMap[temp] = 1  # Initialize the count for this difference
+    
+    return cnt
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n), as we traverse the array once.</li>
+    <li><strong>Space Complexity:</strong> O(n), due to the space used by the hash map and the reversed array.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Count Of Pairs Whose Absolute Difference Is Equal To K (|nums[i] - nums[j]| == k)</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>Given an integer array <strong>nums</strong> and an integer <strong>k</strong>, return the number of pairs (i, j) where i &lt; j such that |nums[i] - nums[j]| == k.</p>
+
+<p><strong>Test Cases:</strong></p>
+<ul>
+    <li><strong>Test Case 1:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [1, 2, 3, 4], k = 1</li>
+            <li><strong>Output:</strong> 3</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 2:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [4, 4, 4], k = 0</li>
+            <li><strong>Output:</strong> 3</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 3:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [1, 5, 9], k = 3</li>
+            <li><strong>Output:</strong> 0</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>BruteForce Approach:</strong></p>
+<p><strong>Intuition:</strong> We can check all pairs (i, j) where i &lt; j and calculate the absolute difference between <strong>nums[i]</strong> and <strong>nums[j]</strong>. If the difference is equal to <strong>k</strong>, we increment our counter.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize a counter <strong>ans</strong> to 0.</li>
+    <li>Use a nested loop where the outer loop iterates from 0 to n-1, and the inner loop iterates from i+1 to n.</li>
+    <li>For each pair (i, j), calculate the absolute difference and compare it with <strong>k</strong>.</li>
+    <li>If the difference equals <strong>k</strong>, increment the counter.</li>
+    <li>Return the counter value.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteForce(n, arr, k):
+    ans = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            if abs(arr[i] - arr[j]) == k:
+                ans += 1
+    return ans
+```
+
+<p><strong>Time Complexity:</strong> O(n^2), where n is the size of the array.</p>
+<p><strong>Space Complexity:</strong> O(1), as no additional space is used apart from variables.</p>
+
+<p><strong>Optimized Approach:</strong></p>
+<p><strong>Intuition:</strong> Instead of checking every pair, we can use a hash map to store the frequency of each number we have seen so far. For every number in the array, we check if its required difference (+k or -k) exists in the map. If it does, we add the frequency of that difference to the result.</p>
+<p>You use a hash map <code>cntMap</code> to keep track of the frequency of each number encountered so far in the array.</p>
+<p>For each element <code>arr[i]</code>, the code computes two potential differences:</p>
+<ul>
+    <li><code>diff1 = arr[i] + k</code></li>
+    <li><code>diff2 = arr[i] - k</code></li>
+</ul>
+<p>The logic is that for every element <code>arr[i]</code>, if there are numbers in <code>cntMap</code> that differ by exactly <code>k</code> (either <code>arr[i] + k</code> or <code>arr[i] - k</code>), we have a valid pair.</p>
+<p>If <code>diff1</code> or <code>diff2</code> exist in the <code>cntMap</code>, it means we’ve already encountered numbers that can form a valid pair with <code>arr[i]</code>. The count of such pairs is added to <code>ans</code>.</p>
+
+<p>3. <strong>Updating the Hash Map:</strong></p>
+<p>After checking for valid pairs, the current element <code>arr[i]</code> is added to the map or its count is incremented if it's already present.</p>
+
+<p>4. <strong>Return the Result:</strong></p>
+<p>Finally, the function returns <code>ans</code>, the total count of valid pairs.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize a counter <strong>ans</strong> to 0 and a hash map <strong>cntMap</strong> to store the frequency of numbers.</li>
+    <li>Iterate through the array, and for each element, calculate two values: <strong>diff1 = arr[i] + k</strong> and <strong>diff2 = arr[i] - k</strong>.</li>
+    <li>If <strong>diff1</strong> or <strong>diff2</strong> exist in <strong>cntMap</strong>, add their frequencies to the counter.</li>
+    <li>Update the frequency of the current element in the hash map.</li>
+    <li>Return the counter value.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def optimized(n, arr, k):
+    ans = 0
+    cntMap = {}
+    for i in range(n):
+        diff1 = arr[i] + k
+        diff2 = arr[i] - k
+        if diff1 in cntMap:
+            ans += cntMap[diff1]
+        if diff2 in cntMap:
+            ans += cntMap[diff2]
+        if arr[i] in cntMap:
+            cntMap[arr[i]] += 1
+        else:
+            cntMap[arr[i]] = 1
+    return ans
+```
+
+<p><strong>Time Complexity:</strong> O(n), where n is the size of the array.</p>
+<p><strong>Space Complexity:</strong> O(n), as we are using a hash map to store frequencies.</p>
+
+<br>
+<br>
+<h2>Count Of Unique Pairs (arr[i],arr[j]) With Difference Equal To K (|nums[i] - nums[j]| == k and i!=j)</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>Given an array of integers nums and an integer k, return the number of unique k-diff pairs in the array.</p>
+<p>A k-diff pair is an integer pair (nums[i], nums[j]), where the following are true:</p>
+<ul>
+    <li>0 <= i, j < nums.length</li>
+    <li>i != j</li>
+    <li>|nums[i] - nums[j]| == k</li>
+</ul>
+<p>Notice that |val| denotes the absolute value of val.</p>
+
+<p><strong>Test Cases:</strong></p>
+<ul>
+    <li><strong>Test Case 1:</strong> nums = [3, 1, 4, 1, 5], k = 2 <br>
+        <strong>Explanation:</strong> The unique pairs are (1, 3) and (3, 5). These pairs satisfy the condition |nums[i] - nums[j]| = k. So, the output is 2.
+    </li>
+    <li><strong>Test Case 2:</strong> nums = [1, 2, 3, 4, 5], k = 1 <br>
+        <strong>Explanation:</strong> The unique pairs are (1, 2), (2, 3), (3, 4), and (4, 5). Each of these pairs has a difference of 1, so the output is 4.
+    </li>
+    <li><strong>Test Case 3:</strong> nums = [1, 3, 1, 5, 4], k = 0 <br>
+        <strong>Explanation:</strong> We are looking for pairs where the difference is zero, which means we need at least two occurrences of a number. In this case, only the pair (1, 1) satisfies this condition, so the output is 1.
+    </li>
+</ul>
+
+<p><strong>Brute Force Approach:</strong></p>
+
+<p><strong>Intuition:</strong></p>
+<p>The brute force approach uses a nested loop to find all pairs of elements. For each pair (i, j), we check if the absolute difference |nums[i] - nums[j]| equals k. If it does, we store the pair in a set to ensure uniqueness. Since sorting the pair ensures that (a, b) and (b, a) are considered the same pair, using a set prevents duplicate pairs.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Iterate over all elements in the array using two loops.</li>
+    <li>For each pair, calculate the absolute difference between the two elements.</li>
+    <li>If the difference is equal to k, add the pair to a set (sorted to handle duplicates).</li>
+    <li>After checking all pairs, return the size of the set, which contains only unique pairs.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteForce(n,arr,k):
+    ans=set()
+    for i in range(n):
+        for j in range(i+1,n):
+            if(abs(arr[i]-arr[j])==k):
+                ans.add(tuple(sorted([arr[i],arr[j]])))
+    return len(ans)
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<p>Time complexity: O(n^2), Space complexity: O(n)</p>
+
+<p><strong>Better Approach:</strong></p>
+
+<p><strong>Intuition:</strong></p>
+<p>Instead of comparing each element with all others, we can use a hash map to store the count of each element. For each element, we check whether its complement (either nums[i] + k or nums[i] - k) has been seen before. This approach ensures that we only check for valid pairs once, and we store the valid pairs in a set to ensure uniqueness.</p>
+<ul>
+    <li><strong>Key Idea:</strong> Instead of checking all pairs, we can reduce the number of comparisons by leveraging a hash map.</li>
+    <li><strong>Observation:</strong> For each number <strong>nums[i]</strong>, if we know that either <strong>nums[i] + k</strong> or <strong>nums[i] - k</strong> exists earlier in the array, we can instantly form a valid pair without checking all previous elements.</li>
+    <li><strong>Steps:</strong>
+        <ol>
+            <li>For each element <strong>nums[i]</strong>, calculate:
+                <ul>
+                    <li><strong>nums[i] + k:</strong> this would be a number that forms a valid pair if it exists earlier.</li>
+                    <li><strong>nums[i] - k:</strong> this would be another number that forms a valid pair if it exists earlier.</li>
+                </ul>
+            </li>
+            <li>Use a hash map to store the frequency of numbers we have encountered so far, and check if either <strong>nums[i] + k</strong> or <strong>nums[i] - k</strong> exists in this map.</li>
+            <li>Add each valid pair to a set (to ensure uniqueness).</li>
+        </ol>
+    </li>
+</ul>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Use a hash map to store the frequency of each element.</li>
+    <li>For each element, check if its complement (nums[i] + k or nums[i] - k) is already in the hash map.</li>
+    <li>If the complement exists, add the pair to a set.</li>
+    <li>Return the size of the set, which gives the number of unique k-diff pairs.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def better(n,arr,k):
+    ans=set()
+    cntMap={}
+    for i in range(n):
+        diff1=arr[i]+k
+        diff2=arr[i]-k
+        if diff1 in cntMap:
+            ans.add(tuple(sorted([diff1,arr[i]])))
+        if diff2 in cntMap:
+            ans.add(tuple(sorted([diff2,arr[i]])))
+        if arr[i] not in cntMap:
+            cntMap[arr[i]]=1
+    return len(ans)
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<p>Time complexity: O(n), Space complexity: O(n)</p>
+
+<p><strong>Optimized Approach:</strong></p>
+
+<p><strong>Intuition:</strong></p>
+<p>The optimized approach leverages a hash map to reduce the number of comparisons. Instead of checking all pairs, we use a hash map to store the frequency of numbers and check for complements that form a valid k-diff pair.</p>
+<ul>
+    <li><strong>Key Idea:</strong> The most efficient solution builds upon the idea of using a hash map but optimizes further by focusing on the <strong>difference between numbers</strong> rather than their absolute values.</li>
+    <li>The equation we are solving is:
+        <ul>
+            <li><strong>|nums[i] - nums[j]| = k</strong></li>
+        </ul>
+        This means there are two cases to consider for each number:
+        <ol>
+            <li><strong>Case 1:</strong> nums[i] - nums[j] = k, which simplifies to checking if <strong>nums[i] + k = nums[j]</strong>.</li>
+            <li><strong>Case 2:</strong> nums[i] - nums[j] = -k, which simplifies to checking if <strong>nums[i] - k = nums[j]</strong>.</li>
+        </ol>
+    </li>
+    <li><strong>Steps:</strong>
+        <ol>
+            <li>Use a hash map to keep track of the count of each number as we process the array.</li>
+            <li>For each number <strong>nums[i]</strong>, we check two possible values:
+                <ul>
+                    <li>If <strong>nums[i] + k</strong> exists in the map, it means we've found a valid pair.</li>
+                    <li>If <strong>nums[i] - k</strong> exists in the map, it means we've found another valid pair.</li>
+                </ul>
+            </li>
+            <li>Additionally, if <strong>k = 0</strong>, we only want to count pairs where a number appears at least twice (i.e., <strong>nums[i] = nums[j]</strong>).</li>
+        </ol>
+    </li>
+</ul>
+<p>By checking these conditions and counting valid pairs, we can efficiently solve the problem in linear time.</p>
+
+<p><strong>Why This Works:</strong></p>
+<ul>
+    <li>By focusing on the difference between the numbers and using a hash map, we eliminate the need to check every possible pair. Instead, we only check for the existence of potential valid pairs in constant time (via hash map lookups).</li>
+    <li>The map helps us store the frequency of numbers, so we can instantly know if a complement (either <strong>nums[i] + k</strong> or <strong>nums[i] - k</strong>) exists in the array.</li>
+</ul>
+
+<p>This optimized solution reduces the time complexity to <strong>O(n)</strong>, which is much more efficient for large arrays.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Iterate through the array and use a hash map to store the count of each number.</li>
+    <li>For each number, check if its complement (nums[i] + k or nums[i] - k) exists in the hash map.</li>
+    <li>If k = 0, count pairs where a number appears at least twice.</li>
+    <li>Return the total count of unique pairs.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def optimized(n,arr,k):
+    cnt=0
+    cntMap={i:0 for i in arr}
+    for i in arr:
+        cntMap[i]+=1
+    for element in cntMap:
+        if k==0:
+            if(cntMap[element]>=2):
+                cnt+=1
+        else:
+            if(element+k in cntMap):
+                cnt+=1
+    return cnt
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<p>Time complexity: O(n), Space complexity: O(n)</p>
+
+
+<br>
+<br>
+
+<h2>Count Equal and Divisible Pairs in an Array</h2>
+ <p><strong>Problem Statement:</strong></p>
+    <p>Given a 0-indexed integer array <code>nums</code> of length <code>n</code> and an integer <code>k</code>, return the number of pairs   
+ (i, j) where 0 <= i < j < n, such that <code>nums[i] == nums[j]</code> and (i * j) is divisible by <code>k</code>.</p>
+
+<p><strong>Test Cases (All Possible):</strong></p>
+<ol>
+    <li>Empty array: <code>nums = []</code>, <code>k = 1</code>. Expected output: 0.</li>
+    <li>Single element array: <code>nums = [1]</code>, <code>k = 2</code>. Expected output: 0.</li>
+    <li>Two elements with different values: <code>nums = [1, 2]</code>, <code>k = 3</code>. Expected output: 0.</li>
+    <li>Two elements with same value and divisible by k: <code>nums = [2, 2]</code>, <code>k = 2</code>. Expected output: 1.</li>
+    <li>Multiple elements with same value and divisible by k: <code>nums = [3, 3, 3]</code>, <code>k = 3</code>. Expected output: 3.</li>
+    <li>Elements with same value but not divisible by k: <code>nums = [4, 4]</code>, <code>k = 3</code>. Expected output: 0.</li>
+    <li>Mixed elements with some divisible by k and some not: <code>nums = [5, 5, 6, 6, 7]</code>, <code>k = 5</code>. Expected output: 3.</li>
+    <li>Large array with many elements: <code>nums = [100, 100, 100, ..., 100]</code>, <code>k = 100</code>. Expected output: 4950.</li>
+</ol>
+
+<p><strong>BruteForce Approach:</strong></p>
+<ul>
+    <li><strong>Intuition:</strong> The brute force approach iterates through every possible pair of indices (i, j) and checks if the elements at those indices are equal and their product is divisible by k.</li>
+    <li><strong>Steps to Solve:</strong>
+        <ol>
+            <li>Initialize a variable <code>ans</code> to 0 to store the count of valid pairs.</li>
+            <li>Iterate through the array <code>nums</code> from index 0 to <code>n-1</code> (outer loop).</li>
+            <li>For each index <code>i</code>, iterate through the array from index <code>i+1</code> to <code>n-1</code> (inner loop).</li>
+            <li>If the elements at indices <code>i</code> and <code>j</code> are equal and their product is divisible by <code>k</code>, increment <code>ans</code>.</li>
+            <li>Return the final value of <code>ans</code>.</li>
+        </ol>
+    </li>
+    <li><strong>Code:</strong></li>
+
+```python
+        def bruteForce(n, arr, k):
+            ans = 0
+            for i in range(n):
+                for j in range(i+1, n):
+                    if arr[i] == arr[j] and (i * j) % k == 0:
+                        ans += 1
+            return ans
+
+```
+    <li><strong>Time and Space Complexity:</strong>
+        <ul>
+            <li>Time complexity: O(n^2) due to nested loops.</li>
+            <li>Space complexity: O(1) as only constant extra space is used.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+<ul>
+    <li><strong>Intuition:</strong> The optimized approach uses a hash map to store the indices of elements that have been encountered so far. When a new element is encountered, it checks if it already exists in the hash map. If it does, it iterates through the indices stored for that element and checks if the product of the current index and the stored index is divisible by <code>k</code>. This reduces the time complexity from O(n^2) to O(n).</li>
+    <li><strong>Steps to Solve:</strong>
+        <ol>
+            <li>Initialize a variable <code>ans</code> to 0 to store the count of valid pairs.</li>
+            <li>Create an empty hash map <code>cntMap</code> to store the indices of elements.</li>
+            <li>Iterate through the array <code>nums</code> from index 0 to <code>n-1</code>.</li>
+            <li>If the current element <code>arr[i]</code> already exists in <code>cntMap</code>, iterate through the indices stored for that element and check if the product of <code>i</code> and the stored index is divisible by <code>k</code>. If so, increment <code>ans</code>.</li>
+            <li>Add the current index <code>i</code> to the <code>cntMap</code> for the element <code>arr[i]</code>.</li>
+            <li>Return the final value of <code>ans</code>.</li>
+        </ol>
+    </li>
+    <li><strong>Code:</strong></li>
+
+```python
+        def optimized(n, arr, k):
+            ans = 0
+            cntMap = {}
+            for i in range(n):
+                if arr[i] in cntMap:
+                    for j in cntMap[arr[i]]:
+                        if (i * j) % k == 0:
+                            ans += 1
+                if arr[i] in cntMap:
+                    cntMap[arr[i]].append(i)
+                else:
+                    cntMap[arr[i]] = [i]
+            return ans
+```
+    <li><strong>Time and Space Complexity:</strong>
+        <ul>
+            <li>Time complexity: O(n) on average, as each element is processed at most once.</li>
+            <li>Space complexity: O(n) in the worst case, when all elements are distinct.</li>
+        </ul>
+    </li>
+</ul>
+
+
+<h2>Count Of Inequality Pairs</h2>
+
+<p><strong>Problem Statement:</strong></p>
+<p>You are given two integer arrays <strong>nums1</strong> and <strong>nums2</strong>, each of size <strong>n</strong>, and an integer <strong>diff</strong>. You need to find the number of pairs (i, j) such that:</p>
+<ul>
+    <li>0 &lt;= i &lt; j &lt;= n - 1</li>
+    <li>nums1[i] - nums1[j] &lt;= nums2[i] - nums2[j] + diff</li>
+</ul>
+<p>The objective is to return the number of such pairs.</p>
+
+<p><strong>Test Cases:</strong></p>
+<ol>
+    <li>
+        <p><strong>Example Case 1:</strong></p>
+        <ul>
+            <li>nums1 = [3, 1, 4]</li>
+            <li>nums2 = [1, 2, 3]</li>
+            <li>diff = 1</li>
+            <li>Output: 2</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Example Case 2:</strong></p>
+        <ul>
+            <li>nums1 = [1, 4, 2]</li>
+            <li>nums2 = [3, 1, 3]</li>
+            <li>diff = 0</li>
+            <li>Output: 1</li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Example Case 3:</strong></p>
+        <ul>
+            <li>nums1 = [5, 5, 5]</li>
+            <li>nums2 = [2, 2, 2]</li>
+            <li>diff = 1</li>
+            <li>Output: 3</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Brute Force Approach:</strong></p>
+<p>In the brute force approach, you simply iterate over all possible pairs (i, j) and check if they satisfy the condition:</p>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteForce(n,arr1,arr2,k):
+    ans=0
+    for i in range(n):
+        for j in range(i+1,n):
+            if(arr1[i]-arr1[j]<=arr2[i]-arr2[j]+k):
+                ans+=1
+    return ans
+```
+
+<p><strong>Intuition:</strong></p>
+<p>The brute force approach checks each pair (i, j) in <strong>O(n<sup>2</sup>)</strong> time to see if the given condition holds. This is straightforward but inefficient for large arrays.</p>
+
+<p><strong>Steps to Solve (Brute Force):</strong></p>
+<ol>
+    <li>Iterate through each element <strong>i</strong> in <strong>nums1</strong>.</li>
+    <li>For each <strong>i</strong>, iterate through each <strong>j</strong> where <strong>j &gt; i</strong>.</li>
+    <li>Check if the condition <strong>nums1[i] - nums1[j] &lt;= nums2[i] - nums2[j] + diff</strong> holds.</li>
+    <li>If it does, increment the count.</li>
+    <li>Return the total count.</li>
+</ol>
+
+<p><strong>Time and Space Complexity (Brute Force):</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n<sup>2</sup>) since it involves two nested loops.</li>
+    <li><strong>Space Complexity:</strong> O(1) as no extra space is required apart from a few variables.</li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+<p>The optimized solution uses a modified <strong>merge sort</strong> approach to efficiently count the pairs that satisfy the condition. Let’s go through the intuition in detail, step by step, to understand why this method works and how it reduces time complexity to O(n log n).</p>
+
+<ol>
+    <li>
+        <strong>Understanding the Problem Statement</strong>
+        <p>The problem asks us to find pairs (i, j) such that:</p>
+        <p>0 ≤ i &lt; j ≤ n - 1 and nums1[i] - nums1[j] ≤ nums2[i] - nums2[j] + diff</p>
+        <p>To simplify this expression, let’s rearrange:</p>
+        <p>nums1[i] - nums2[i] ≤ nums1[j] - nums2[j] + diff</p>
+        <p>Let’s define a new array <strong>diffArr</strong> where:</p>
+        <p>diffArr[i] = nums1[i] - nums2[i]</p>
+        <p>Now, the condition becomes:</p>
+        <p>diffArr[i] ≤ diffArr[j] + diff</p>
+    </li>
+    <li>
+        <strong>Simplifying the Problem with diffArr</strong>
+        <p>By transforming the original arrays into <strong>diffArr</strong>, the problem reduces to finding pairs (i, j) such that:</p>
+        <p>diffArr[i] ≤ diffArr[j] + diff</p>
+        <p>This allows us to work with a simpler, single-dimensional array instead of considering both nums1 and nums2.</p>
+    </li>
+    <li>
+        <strong>Using Merge Sort for Efficient Counting</strong>
+        <p>Instead of using a brute force approach, which checks each pair and has a time complexity of O(n<sup>2</sup>), we leverage the merge sort algorithm to count pairs efficiently. Here's how merge sort helps:</p>
+        <ul>
+            <li><strong>Divide and Conquer</strong>: Merge sort splits the array into halves, sorts them, and then merges the sorted halves back together. While merging, we can count the pairs that satisfy the condition.</li>
+            <li><strong>Counting During the Merge Phase</strong>: As merge sort processes and combines the two halves, it uses the <strong>two-pointer</strong> technique to count the valid pairs in O(n) time per merge operation.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Detailed Explanation of the Algorithm</strong>
+        <ul>
+            <li>
+                <strong>Step 1: Creating diffArr</strong>
+                <p>We first create <strong>diffArr</strong> based on the given arrays:</p>
+                <p>diffArr = [arr1[i] - arr2[i] for i in range(n)]</p>
+                <p>This transformation allows us to work with a single array where the original condition can be directly applied.</p>
+            </li>
+            <li>
+                <strong>Step 2: Applying Merge Sort</strong>
+                <p>We use a modified merge sort that counts pairs during the merging phase:</p>
+                <ul>
+                    <li><strong>Recursive Division</strong>: The array is divided into smaller halves recursively until each half has a single element.</li>
+                    <li><strong>Count Valid Pairs</strong>: During the merge step, for each element in the left half, we use a pointer to find the first element in the right half that satisfies: diffArr[l] ≤ diffArr[r] + k. For each such valid element diffArr[r], all subsequent elements in the right half are also valid because the array is partially sorted at this stage.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Step 3: Merging and Counting Pairs</strong>
+                <p>Here’s how the modified merge step works:</p>
+                <ol>
+                    <li><strong>Initialization</strong>: Two pointers: l (pointing to the left half) and r (pointing to the right half). As we iterate through elements in the left half using l, we move r to find all right-half elements that satisfy the condition.</li>
+                    <li><strong>Counting Valid Pairs</strong>: If diffArr[l] ≤ diffArr[r] + k, all elements from r to the end of the right half (high) are valid. We count all these elements as valid pairs. This is efficient because once a valid r is found, all subsequent elements are automatically valid.</li>
+                    <li><strong>Merge the Halves</strong>: After counting, we merge the two halves into a sorted array using the standard merge process.</li>
+                </ol>
+            </li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Code Implementation (Optimized Approach):</strong></p>
+
+```python
+def merge(arr,low,mid,high):
+    left=low
+    right=mid+1
+    temp=[]
+    while(left<=mid and right<=high):
+        if(arr[left] <= arr[right]):
+            temp.append(arr[left])
+            left+=1
+        else:
+            temp.append(arr[right])
+            right+=1
+
+    while(left<=mid):
+        temp.append(arr[left])
+        left+=1
+
+    while(right<=high):
+        temp.append(arr[right])
+        right+=1
+
+    for i in range(low,high+1):
+        arr[i]=temp[i-low]
+def countPairs(arr,low,mid,high,k):
+    cnt=0
+    l=low
+    r=mid+1
+    while l<=mid and r<=high:
+        if arr[l]<=arr[r]+k:
+            cnt+=high-r+1
+            l+=1
+        else:
+            r+=1
+    return cnt
+
+def mergeSort(arr,low,high,k):
+    cnt=0
+    if(low>=high):
+        return cnt
+    mid=(low+high)//2
+    cnt+=mergeSort(arr,low,mid,k)
+    cnt+=mergeSort(arr,mid+1,high,k)
+    cnt+=countPairs(arr,low,mid,high,k)
+    merge(arr,low,mid,high)
+    return cnt
+    
+
+
+def optimized(n,arr1,arr2,k):
+    diffArr=[arr1[i]-arr2[i] for i in range(n)]
+    ans=mergeSort(diffArr,0,n-1,k)
+    return ans
+    
+```
+
+<p><strong>Time and Space Complexity (Optimized Approach):</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n log n) due to merge sort.</li>
+    <li><strong>Space Complexity:</strong> O(n) for the temporary array used during the merge process.</li>
+</ul>
