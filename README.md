@@ -565,4 +565,47 @@
 	    <td><a href="#">Click Here</a></td>
 	    <td><a href="#">GeeksForGeeks</a></td>
 	</tr>
+	<tr>
+		<th colspan="3">Count Of Pairs</th>
+	</tr>
+	<tr>
+	    <td>Count Of Bad Pairs (i,j) where i < j and (j - i != nums[j] - nums[i])</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-bad-pairs-j---i--numsj---numsi">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/count-number-of-bad-pairs/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Nice Pairs (nums[i] + rev(nums[j]) == nums[j] + rev(nums[i]))</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-nice-pairs-numsi--revnumsj--numsj--revnumsi">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/count-nice-pairs-in-an-array/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Pairs Whose Absolute Difference Is Equal To K (|nums[i] - nums[j]| == k)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-pairs-whose-absolute-difference-is-equal-to-k-numsi---numsj--k">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/count-number-of-pairs-with-absolute-difference-k/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Unique Pairs (arr[i],arr[j]) With Difference Equal To K (|nums[i] - nums[j]| == k and i!=j)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-unique-pairs-arriarrj-with-difference-equal-to-k-numsi---numsj--k-and-ij">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/k-diff-pairs-in-an-array/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Equal and Divisible Pairs in an Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-equal-and-divisible-pairs-in-an-array">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/count-equal-and-divisible-pairs-in-an-array/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count inversions in an array (A[j] <b><</b> A[i] && i< j)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-inversions-in-an-array">Click Here</a></td>
+	    <td><a href="https://www.geeksforgeeks.org/problems/inversion-of-array-1587115620/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<td>Count Reverse Pairs (arr[i]>2*arr[j] && i<b><</b>j) </td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Arrays#count-reverse-pairs">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/reverse-pairs/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Inequality Pairs</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-inequality-pairs">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/number-of-pairs-satisfying-inequality/description/">LeetCode</a></td>
+	</tr>
 </table>
