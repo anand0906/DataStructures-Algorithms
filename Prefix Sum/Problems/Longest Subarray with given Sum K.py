@@ -38,23 +38,19 @@ def optimized1(n,arr,k):
     return largest
 
 def optimized2(n,arr,k):
-    largest=0
+    maxi=-1
     left,right=0,0
-    sum=arr[0]
+    currentSum=0
     while right<n:
-
-        while (left<=right and sum>k):
-            sum-=arr[left]
-            left-=1
-
-        if(sum==k):
+        currentSum+=arr[right]
+        while currentSum>target and left<=right:
+            currentSum-=arr[left]
+            left+=1
+        if(currentSum==target):
             length=right-left+1
-            largest=max(largest,length)
-
+            maxi=max(maxi,length)
         right+=1
-        if(right<n):
-            sum+=arr[right]
-    return largest
+    return maxi
             
             
                 

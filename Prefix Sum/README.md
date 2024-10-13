@@ -408,6 +408,138 @@ print(optimized2(n,arr,k))
 <p>Space Complexity: O(1) as we are not using any extra space.</p>
 
 
+<br>
+<br>
+
+<h2>Minimum Operations to Reduce X to Zero By Removing Elements From Ends</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>You are given an integer array <strong>nums</strong> and an integer <strong>x</strong>. In one operation, you can either remove the leftmost or the rightmost element from the array <strong>nums</strong> and subtract its value from <strong>x</strong>. This modifies the array for future operations. The goal is to return the minimum number of operations needed to reduce <strong>x</strong> to exactly 0. If it's not possible, return -1.</p>
+
+<p><strong>Test Cases:</strong></p>
+<ul>
+    <li><strong>Test Case 1:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [1, 1, 4, 2, 3], x = 5</li>
+            <li><strong>Output:</strong> 2</li>
+            <li><strong>Explanation:</strong> We remove the last two elements [2, 3], which sum to 5. Only two operations are required.</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 2:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [5, 6, 7, 8, 9], x = 4</li>
+            <li><strong>Output:</strong> -1</li>
+            <li><strong>Explanation:</strong> It's not possible to achieve x = 0 with the given operations.</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 3:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [3, 2, 20, 1, 1, 3], x = 10</li>
+            <li><strong>Output:</strong> 5</li>
+            <li><strong>Explanation:</strong> We remove elements from both ends: [3, 2, 1, 1, 3], and their sum equals 10.</li>
+        </ul>
+    </li>
+    <li><strong>Test Case 4:</strong>
+        <ul>
+            <li><strong>Input:</strong> nums = [1, 1, 1, 1, 1, 1], x = 3</li>
+            <li><strong>Output:</strong> 3</li>
+            <li><strong>Explanation:</strong> We remove the first three elements, which sum to 3.</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Intuition:</strong></p>
+<p>The core idea is to find the longest subarray whose sum equals <strong>total - x</strong>, where <strong>total</strong> is the sum of all elements in the array. The reason is as follows:</p>
+<ol>
+    <li>If we remove elements from both ends of the array, we are essentially left with a subarray in the middle. We need to find the longest subarray whose sum equals the difference between the total sum of the array and <strong>x</strong>. By removing the other elements (leftmost and rightmost), we can achieve the required reduction of <strong>x</strong> to zero.</li>
+    <li>Finding the longest subarray helps minimize the number of operations because the remaining elements are exactly those that we need to keep. The minimum number of operations will be the size of the array minus the length of this subarray.</li>
+</ol>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Calculate the <strong>total</strong> sum of the array.</li>
+    <li>If <strong>total</strong> equals <strong>x</strong>, then all elements must be removed, and the answer is the size of the array.</li>
+    <li>Otherwise, set <strong>target = total - x</strong>. The problem is now to find the longest subarray with a sum equal to <strong>target</strong>.</li>
+    <li>Use helper functions to find the longest subarray with the given sum efficiently:
+        <ul>
+            <li><strong>longestSubarrayWithGivenSum</strong>: This function uses a hash map (dictionary) to store prefix sums and their indices. It checks for the existence of a subarray that matches the target sum.</li>
+            <li><strong>longestSubarrayWithGivenSumOptimized</strong>: This is an optimized version that uses the sliding window technique to find the longest subarray with the given sum in O(n) time complexity.</li>
+        </ul>
+    </li>
+    <li>If such a subarray is found, return the number of operations as <strong>n - length</strong>. Otherwise, return -1 if it's not possible.</li>
+</ol>
+
+
+
+<p><strong>Code Implementation:</strong></p>
+
+
+```python
+def longestSubarrayWithGivenSum(n, arr, target):
+    prefix = {}
+    maxi = -1
+    currentSum = 0
+    for i in range(n):
+        currentSum += arr[i]
+        rem = currentSum - target
+        if rem == 0:
+            length = i + 1
+            maxi = max(maxi, length)
+        if rem in prefix:
+            length = i - prefix[rem]
+            maxi = max(maxi, length)
+        if currentSum not in prefix:
+            prefix[currentSum] = i
+    return maxi
+
+def longestSubarrayWithGivenSumOptimized(n, arr, target):
+    maxi = -1
+    left, right = 0, 0
+    currentSum = 0
+    while right < n:
+        currentSum += arr[right]
+        while currentSum > target and left <= right:
+            currentSum -= arr[left]
+            left += 1
+        if currentSum == target:
+            length = right - left + 1
+            maxi = max(maxi, length)
+        right += 1
+    return maxi
+
+def better(n, arr, x):
+    total = sum(arr)
+    if total == x:
+        return n
+    target = total - x
+    length = longestSubarrayWithGivenSum(n, arr, target)
+    if length == -1:
+        return -1
+    ans = n - length
+    return ans
+
+def optimized(n, arr, x):
+    total = sum(arr)
+    if total == x:
+        return n
+    target = total - x
+    length = longestSubarrayWithGivenSumOptimized(n, arr, target)
+    if length == -1:
+        return -1
+    ans = n - length
+    return ans
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> The <strong>longestSubarrayWithGivenSumOptimized</strong> function runs in O(n) time, and since it is the most time-consuming part, the overall complexity is O(n).</li>
+    <li><strong>Space Complexity:</strong> The optimized version uses O(1) extra space for the sliding window approach, making it efficient.</li>
+</ul>
+
+<br>
+<br>
+
+
+
 <h2>Count Subarray sum Equals K</h2>
 <p>Given an array of integers and an integer k, return the total number of subarrays whose sum equals k.</p>
 <p>A subarray is a contiguous non-empty sequence of elements within an array.</p>
@@ -533,6 +665,8 @@ print(optimized(n,arr,k))
 <p>Reason: For example, if we are using an unordered_map data structure in C++ the time complexity will be O(N) but if we are using a map data structure, the time complexity will be O(N*logN). The least complexity will be O(N) as we are using a loop to traverse the array.</p>
 <p>Space Complexity: O(N) as we are using a map data structure.</p>
 
+<br>
+<br>
 
 <h2>Count the number of subarrays with given xor K</h2>
 <p>Given an array of integers A and an integer B. Find the total number of subarrays having bitwise XOR of all elements equal to k.</p>
@@ -1115,6 +1249,8 @@ def optimized(n, arr, p):
 <p><strong>Space Complexity:</strong><br>
 <code>O(n)</code> because we store the prefix sums and their mods in a hash map.</p>
 
+<br>
+<br>
 
 <h2>Count Of Subarrays Whose Sum Divisible By K</h2>
 
@@ -1272,6 +1408,11 @@ def optimized(n, arr, k):
     <li><strong>Time Complexity</strong>: <code>O(n)</code> because we traverse the array once.</li>
     <li><strong>Space Complexity</strong>: <code>O(k)</code> in the worst case for storing remainders in <code>modMap</code>.</li>
 </ul>
+
+
+<br>
+<br>
+
 
 
 <h2>Count Of Bad Pairs (j - i != nums[j] - nums[i])</h2>
@@ -1931,6 +2072,9 @@ def optimized(n,arr,k):
     </li>
 </ul>
 
+
+<br>
+<br>
 
 <h2>Count Of Inequality Pairs</h2>
 
