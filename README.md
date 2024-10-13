@@ -481,6 +481,11 @@
 	    <td><a href="#">LeetCode</a></td>
 	</tr>
 	<tr>
+	    <td>Minimum Operations to Reduce X to Zero By Removing Elements From Ends</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#minimum-operations-to-reduce-x-to-zero-by-removing-elements-from-ends">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero/description/">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
 	    <td>(Print/Length of)Largest subarray with equal number of 0s and 1s</td>
 	    <td><a href="https://www.geeksforgeeks.org/largest-subarray-with-equal-number-of-0s-and-1s/">Click Here</a></td>
 	    <td><a href="https://www.geeksforgeeks.org/problems/largest-subarray-of-0s-and-1s/1">GeeksForGeeks</a></td>

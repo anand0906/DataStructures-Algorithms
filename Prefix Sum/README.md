@@ -1413,6 +1413,160 @@ def optimized(n, arr, k):
 <br>
 <br>
 
+<h2>Check If Array Pairs Are Divisible by k</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>Given an array of integers <strong>arr</strong> of even length <strong>n</strong> and an integer <strong>k</strong>, determine if it's possible to divide the array into exactly <strong>n / 2</strong> pairs such that the sum of each pair is divisible by <strong>k</strong>. Return <strong>true</strong> if a solution is found, otherwise return <strong>false</strong>.</p>
+
+<p><strong>Test Cases (All Possible):</strong></p>
+<ul>
+    <li><strong>Test Case 1:</strong> arr = [2, 4, 6, 8], k = 4 → Output: True</li>
+    <li><strong>Test Case 2:</strong> arr = [1, 2, 3, 4], k = 5 → Output: True</li>
+    <li><strong>Test Case 3:</strong> arr = [1, 2, 3, 6], k = 5 → Output: False</li>
+    <li><strong>Test Case 4:</strong> arr = [1, 9, 5, 7], k = 3 → Output: True</li>
+</ul>
+
+<p><strong>Brute Force Approach:</strong></p>
+<p>The brute force approach iterates through the array and tries to form pairs manually while checking if their sum is divisible by <strong>k</strong>. A <strong>visited</strong> array is used to track the elements that have been paired.</p>
+
+<p><strong>Intuition:</strong></p>
+<p>By checking all possible combinations of pairs, we can verify if a pair’s sum is divisible by <strong>k</strong> and count the number of valid pairs formed. If we have exactly <strong>n / 2</strong> such pairs, then the condition is satisfied.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Check if the length <strong>n</strong> is odd. If yes, return <strong>false</strong>.</li>
+    <li>Initialize a <strong>visited</strong> array of size <strong>n</strong> to track paired elements.</li>
+    <li>For each element, try to find another element that, when added to it, gives a sum divisible by <strong>k</strong>.</li>
+    <li>Count such pairs and verify if the count equals <strong>n / 2</strong>.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteForce(n, arr, k):
+    if n & 1:
+        return False
+    visited = [False] * n
+    cnt = 0
+    for i in range(n):
+        if visited[i]:
+            continue
+        for j in range(i + 1, n):
+            if (arr[i] + arr[j]) % k == 0 and not visited[j]:
+                cnt += 1
+                visited[j] = True
+                break
+    return cnt == n // 2
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n^2), as it checks all pairs in the array.</li>
+    <li><strong>Space Complexity:</strong> O(n), due to the use of the <strong>visited</strong> array.</li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+<p>The optimized approach uses a hash map (dictionary) to count the frequency of remainders when elements are divided by <strong>k</strong>. This allows us to efficiently determine if pairs can be formed.</p>
+
+
+<h3>Intuition</h3>
+<p>The goal is to determine if the array can be rearranged in such a way that every element pairs with another element, and the sum of the pair is divisible by <strong>k</strong>. This boils down to understanding the remainder (or modulo) when each element is divided by <strong>k</strong> and ensuring these remainders can be paired.</p>
+
+<h3>Step-by-Step Explanation</h3>
+
+<ol>
+    <li><strong>Check if n is even:</strong>
+        <pre>
+
+```python
+if n & 1:
+    return False
+```
+        </pre>
+        <ul>
+            <li>If the size of the array (<strong>n</strong>) is odd, it's impossible to divide it into pairs. Therefore, the function immediately returns <strong>False</strong>.</li>
+            <li>This is because an odd number of elements cannot be grouped into pairs (since a pair requires two elements).</li>
+        </ul>
+    </li>
+    <li><strong>Count the remainders:</strong>
+
+```python
+prefixMod = collections.defaultdict(int)
+for i in range(n):
+    mod = arr[i] % k
+    mod = (mod + k) % k
+    prefixMod[mod] += 1
+```
+        </pre>
+        <ul>
+            <li>A dictionary called <strong>prefixMod</strong> is used to store the frequency of each remainder when the elements of <strong>arr</strong> are divided by <strong>k</strong>.</li>
+            <li>We calculate <strong>mod = arr[i] % k</strong> to get the remainder when <strong>arr[i]</strong> is divided by <strong>k</strong>.</li>
+            <li><strong>(mod + k) % k</strong> ensures that the remainder is non-negative, even if <strong>arr[i]</strong> is negative (handling negative numbers in the array correctly).</li>
+            <li>The frequency of each remainder is incremented in the <strong>prefixMod</strong> dictionary.</li>
+        </ul>
+    </li>
+    <li><strong>Check if the remainder 0 can be paired:</strong>
+
+```python
+if prefixMod[0] % 2 != 0:
+    return False
+```
+        </pre>
+        <ul>
+            <li>Elements with a remainder of <strong>0</strong> (i.e., numbers already divisible by <strong>k</strong>) must be paired with other elements that also have a remainder of <strong>0</strong>.</li>
+            <li>If there is an odd number of such elements, it is impossible to pair them all, so the function returns <strong>False</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Check if other remainders can be paired:</strong>
+
+```python
+for i in range(1, k // 2 + 1):
+    if prefixMod[i] != prefixMod[k - i]:
+        return False
+```
+        </pre>
+        <ul>
+            <li>We iterate through remainders from <strong>1</strong> to <strong>k // 2</strong>.</li>
+            <li>For each remainder <strong>i</strong>, there must be an equal count of elements with remainder <strong>i</strong> and remainder <strong>k - i</strong>.</li>
+            <li>This is because these two remainders complement each other to form a sum divisible by <strong>k</strong>.</li>
+            <li>If the counts do not match (<strong>prefixMod[i] != prefixMod[k - i]</strong>), it is impossible to form valid pairs, so the function returns <strong>False</strong>.</li>
+        </ul>
+    </li>
+    <li><strong>Return True if all checks pass:</strong>
+        <ul>
+            <li>If none of the above conditions fail, the array can be partitioned into pairs where each pair's sum is divisible by <strong>k</strong>, so the function returns <strong>True</strong>.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+import collections
+def optimized(n, arr, k):
+    if n & 1:
+        return False
+    prefixMod = collections.defaultdict(int)
+    for i in range(n):
+        mod = arr[i] % k
+        mod = (mod + k) % k
+        prefixMod[mod] += 1
+    if prefixMod[0] % 2 != 0:
+        return False
+    for i in range(1, k // 2 + 1):
+        if prefixMod[i] != prefixMod[k - i]:
+            return False
+    return True
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> O(n), as it iterates through the array and processes remainders efficiently.</li>
+    <li><strong>Space Complexity:</strong> O(n), due to the hash map storing the count of remainders.</li>
+</ul>
+
+
+<br>
+<br>
 
 
 <h2>Count Of Bad Pairs (j - i != nums[j] - nums[i])</h2>
