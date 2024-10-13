@@ -551,6 +551,11 @@
 	    <td><a href="https://leetcode.com/problems/make-sum-divisible-by-p/description/">Leetcode</a></td>
 	</tr>
 	<tr>
+	    <td>Check If Array Pairs Are Divisible by k</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#check-if-array-pairs-are-divisible-by-k">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/check-if-array-pairs-are-divisible-by-k/description/">Leetcode</a></td>
+	</tr>
+	<tr>
 	    <td>(Print/Length of)Largest subarray with k odd numbers</td>
 	    <td><a href="#">Click Here</a></td>
 	    <td><a href="#">GeeksForGeeks</a></td>

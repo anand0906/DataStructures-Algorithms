@@ -1468,10 +1468,10 @@ def bruteForce(n, arr, k):
 <p>The optimized approach uses a hash map (dictionary) to count the frequency of remainders when elements are divided by <strong>k</strong>. This allows us to efficiently determine if pairs can be formed.</p>
 
 
-<h3>Intuition</h3>
+<p><strong>Intuition</strong></p>
 <p>The goal is to determine if the array can be rearranged in such a way that every element pairs with another element, and the sum of the pair is divisible by <strong>k</strong>. This boils down to understanding the remainder (or modulo) when each element is divided by <strong>k</strong> and ensuring these remainders can be paired.</p>
 
-<h3>Step-by-Step Explanation</h3>
+<p><strong>Step-by-Step Explanation</strong></p>
 
 <ol>
     <li><strong>Check if n is even:</strong>
