@@ -458,6 +458,24 @@
 	    <td><a href="https://leetcode.com/problems/count-vowel-strings-in-ranges/description/">LeetCode</a></td>
 	</tr>
 	<tr>
+		<th colspan="3">2D-Prefix Sum</th>
+	</tr>
+	<tr>
+	    <td>Prefix Sum In 2D-Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#prefix-sum-2d">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Range Sum Queries in 2D-Immutable</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#range-sum-query-2d">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/range-sum-query-2d-immutable/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Matrix Block Sum</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#matrix-block-sum">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/matrix-block-sum/description/">LeetCode</a></td>
+	</tr>
+	<tr>
 		<th colspan="3">Subarray Related</th>
 	</tr>
 	<tr>
@@ -524,6 +542,56 @@
 	    <td>Print All subarrays with given xor K</td>
 	    <td><a href="#">Click Here</a></td>
 	    <td><a href="#">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<th colspan="3">Substring With Even/Odd Charcter Frequencies</th>
+	</tr>
+	<tr>
+	    <td>Count of substrings having atmost one odd frequency character.</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#wonderful-substrings--count-of-substring-having-atmost-one-odd-frequency-character">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/number-of-wonderful-substrings/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Print All Substrings having atmost one odd frequency character</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#find-all-substrings-having-atmost-having-one-odd-charcter-frequency">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>(print/length)Longest Substrings having atmost one odd frequency character</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#largest-substring-having-at-most-one-odd-charcter-frequency">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/find-longest-awesome-substring/description/">LeetCode</a></td>
+	</tr><tr>
+	    <td>(print/length)Longest Substrings Which Can Make Palindrome With Swaps</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#largest-substring-having-at-most-one-odd-charcter-frequency">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/find-longest-awesome-substring/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Smallest Substring Having Atmost One Odd frequency character</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#smallest-substring-having-atmost-one-odd-charcter-frequency">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Of Substring with even frequency of vowels</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-of-substrings-having-even-number-of-vowels">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Print All Substrings With Even Frequency Of Vowels</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#print-all-substrings-having-even-count-of-vowels">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>(Print/length)Longest Substring With Even Frequency Of Vowels</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#find-the-longest-substring-containing-vowels-in-even-count">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>(Print/length)Smallest Substring With Even Frequency Of Vowels</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#smallest-substring-containing-vowels-in-even-counts">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
+		<th colspan="3">Divisible By K</th>
 	</tr>
 	<tr>
 	    <td>Longest Subarray Whose Sum Divisible By K</td>
