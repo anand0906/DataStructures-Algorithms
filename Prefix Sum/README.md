@@ -2425,3 +2425,1639 @@ def optimized(n,arr1,arr2,k):
     <li><strong>Time Complexity:</strong> O(n log n) due to merge sort.</li>
     <li><strong>Space Complexity:</strong> O(n) for the temporary array used during the merge process.</li>
 </ul>
+
+
+<br>
+<br>
+
+<h2>Wonderful Substrings : Count of substring having atmost one odd frequency character.</h2>
+<p><strong>Problem Statement</strong><br>
+A "wonderful" substring is defined as a substring with at most one character appearing an odd number of times. For example:</p>
+<ul>
+    <li>"ccjjc" and "abab" are wonderful.</li>
+    <li>"ab" is not wonderful since both 'a' and 'b' appear once, which is odd.</li>
+</ul>
+<p>Given a string <code>word</code> (consisting only of the first ten lowercase English letters 'a' to 'j'), we aim to return the number of non-empty "wonderful" substrings in <code>word</code>, counting each occurrence of the same substring separately if it appears multiple times.</p>
+
+<p><strong>(or)</strong></p>
+
+<p>Given a string, the goal is to count the number of substrings that can be rearranged to form a palindrome.</p>
+<p>For a substring to be a valid candidate for rearranging into a palindrome:</p>
+<ul>
+    <li><strong>If the length of the substring is even</strong>, all characters should have even frequencies.</li>
+    <li><strong>If the length is odd</strong>, only one character can have an odd frequency; all others must have even frequencies.</li>
+</ul>
+<p>Thus, we’re looking for substrings that have at most one character with an odd frequency.</p>
+
+
+<p><strong>Sample Test Cases</strong></p>
+
+<p><strong>Test Case 1</strong></p>
+<p><strong>Input:</strong><br>
+<code>word = "ccjjc"</code><br>
+<code>n = len(word)</code></p>
+<p><strong>Output:</strong><br>
+<code>Output: 10</code></p>
+<p><strong>Explanation:</strong><br>
+The "wonderful" substrings of <code>"ccjjc"</code> are:</p>
+<ul>
+    <li>Single characters: "c", "c", "j", "j", "c"</li>
+    <li>Pairs: "cc", "jj", "jc"</li>
+    <li>Larger substrings: "ccj", "cjjc"</li>
+</ul>
+<p>In total, there are <strong>10</strong> substrings that meet the "wonderful" condition.</p>
+
+<p><strong>Test Case 2</strong></p>
+<p><strong>Input:</strong><br>
+<code>word = "abab"</code><br>
+<code>n = len(word)</code></p>
+<p><strong>Output:</strong><br>
+<code>Output: 6</code></p>
+<p><strong>Explanation:</strong><br>
+The "wonderful" substrings of <code>"abab"</code> are:</p>
+<ul>
+    <li>Single characters: "a", "b", "a", "b"</li>
+    <li>Larger substrings: "aba", "bab"</li>
+</ul>
+<p>In total, there are <strong>6</strong> wonderful substrings.</p>
+
+<p><strong>Test Case 3</strong></p>
+<p><strong>Input:</strong><br>
+<code>word = "aaa"</code><br>
+<code>n = len(word)</code></p>
+<p><strong>Output:</strong><br>
+<code>Output: 6</code></p>
+<p><strong>Explanation:</strong><br>
+The "wonderful" substrings of <code>"aaa"</code> are:</p>
+<ul>
+    <li>Single characters: "a", "a", "a"</li>
+    <li>Pairs: "aa", "aa"</li>
+    <li>The entire substring: "aaa"</li>
+</ul>
+<p>In total, there are <strong>6</strong> wonderful substrings.</p>
+
+<p><strong>Test Case 4</strong></p>
+<p><strong>Input:</strong><br>
+<code>word = "abcd"</code><br>
+<code>n = len(word)</code></p>
+<p><strong>Output:</strong><br>
+<code>Output: 4</code></p>
+<p><strong>Explanation:</strong><br>
+The "wonderful" substrings of <code>"abcd"</code> are only the single characters:</p>
+<ul>
+    <li>"a", "b", "c", "d"</li>
+</ul>
+<p>Since each character appears once, these are the only substrings that satisfy the condition.</p>
+
+<p><strong>Test Case 5</strong></p>
+<p><strong>Input:</strong><br>
+<code>word = "aaabaaa"</code><br>
+<code>n = len(word)</code></p>
+<p><strong>Output:</strong><br>
+<code>Output: 15</code></p>
+<p><strong>Explanation:</strong><br>
+The "wonderful" substrings of <code>"aaabaaa"</code> include:</p>
+<ul>
+    <li>Single characters: "a", "a", "a", "b", "a", "a", "a"</li>
+    <li>Pairs: "aa", "aa", "ba", "aa", "aa"</li>
+    <li>Larger substrings: "aaa", "aabaa", "aaabaa", "aaabaaa"</li>
+</ul>
+<p>In total, there are <strong>15</strong> substrings that meet the "wonderful" condition.</p>
+
+<p><strong>Approach 1: Brute Force</strong></p>
+
+<p><strong>Intuition</strong><br>
+To solve this problem using a brute-force approach:</p>
+<ol>
+    <li>Consider all possible substrings of the given word.</li>
+    <li>For each substring, check if it meets the condition (at most one character appears an odd number of times).</li>
+    <li>Count all substrings that meet this "wonderful" condition.</li>
+</ol>
+
+<p><strong>Steps to Solve</strong></p>
+<ol>
+    <li>Loop through every possible starting index of a substring (<code>i</code>).</li>
+    <li>For each <code>i</code>, loop through every possible ending index (<code>j</code>).</li>
+    <li>Within the substring <code>word[i:j+1]</code>, count the frequency of each character.</li>
+    <li>Check the number of characters with odd frequencies (<code>oddCnt</code>). If <code>oddCnt &lt;= 1</code>, count this substring as "wonderful."</li>
+    <li>Return the count of "wonderful" substrings.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+from collections import defaultdict
+def bruteForce(n,word):
+    cnt=0
+    for i in range(n):
+        for j in range(i,n):
+            freq=defaultdict(int)
+            for k in range(i,j+1):
+                freq[word[k]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                cnt+=1
+    return cnt
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n^3)</code> due to three nested loops.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code> additional space for counting characters.</li>
+</ul>
+
+<p><strong>Approach 2: Better Approach</strong></p>
+
+<p><strong>Intuition</strong><br>
+Instead of recalculating character frequencies from scratch for each substring, maintain a running frequency dictionary from each starting index <code>i</code>. This way, we only add one character at a time, reducing redundant calculations.</p>
+
+<p><strong>Steps to Solve</strong></p>
+<ol>
+    <li>Loop through each starting index <code>i</code>.</li>
+    <li>Initialize a frequency dictionary for tracking character frequencies.</li>
+    <li>For each ending index <code>j</code> starting from <code>i</code>, increment the frequency of <code>word[j]</code>.</li>
+    <li>Check if the current substring has at most one odd frequency. If so, count it as "wonderful."</li>
+    <li>Continue to the next starting index after processing all substrings starting from <code>i</code>.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+def better(n,word):
+    cnt=0
+    for i in range(n):
+        freq=defaultdict(int)
+        for j in range(i,n):
+            freq[word[j]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                cnt+=1
+    return cnt
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n^2)</code>, as we reduced the nested loops from three to two.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code>, constant space for frequency dictionary.</li>
+</ul>
+
+<p><strong>Optimized Approach</strong></p>
+<p>In this problem, we need to find substrings with atmost one odd charcter. that means we can have</p>
+<ul>
+    <li>Substrings can have even frequency of charcters</li>
+    <li>Substrings can have one odd charcter frequency</li>
+</ul>
+<p>To solve this problem, we can track frequency of each charcter like above approaches, and check if it is satisfying requirement.</p>
+<p>We can Divide this problem into two things</p>
+<p><strong>Even frequency substrings</strong></p>
+<p>As we are traversing through given string, we can track the count of each character up till current position</p>
+<p>Since we are taking care of odd or even only, we can represent</p>
+<ul>
+    <li>Odd Frequency With -> 1</li>
+    <li>Even Frequency With -> 0</li>
+</ul>
+<p>For example, in the string "aabacacabc", if we track each character frequency, it will be as follows</p>
+
+<table>
+  <tr>
+    <th>Index</th>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+  </tr>
+  <tr>
+    <th>Character</th>
+    <td>a</td>
+    <td>a</td>
+    <td>b</td>
+    <td>a</td>
+    <td>c</td>
+    <td>a</td>
+    <td>c</td>
+    <td>a</td>
+    <td>b</td>
+    <td>c</td>
+  </tr>
+  <tr>
+    <th>Prefix - 'a'</th>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <th>Prefix - 'b'</th>
+    <td>0</td>
+    <td>0</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <th>Prefix - 'c'</th>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>1</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>1</td>
+  </tr>
+</table>
+
+<p><strong>Explanation</strong></p>
+
+<ul>
+  <li>Each row under <strong>Prefix - 'x'</strong> shows a binary value (0 or 1) that indicates whether the count of that character up to that point is <strong>even (0)</strong> or <strong>odd (1)</strong>.</li>
+  <li><strong>Prefix - 'a'</strong>: Tracks the parity of the count of 'a'.</li>
+  <li><strong>Prefix - 'b'</strong>: Tracks the parity of the count of 'b'.</li>
+  <li><strong>Prefix - 'c'</strong>: Tracks the parity of the count of 'c'.</li>
+</ul>
+
+<ol>
+  <li>For instance, at index 7, the prefix for <strong>'a'</strong>, <strong>'b'</strong>, and <strong>'c'</strong> is <strong>1 1 0</strong>, which means:</li>
+  <ul>
+    <li>'a' and 'b' appear an odd number of times up to that index.</li>
+    <li>'c' appears an even number of times up to that index.</li>
+  </ul>
+</ol>
+<p>As mentioned in the above table, at any index, if the current frequency pattern occurs the same as a previous prefix pattern, then removing that previously existing pattern will result in a substring with an even frequency for all characters.</p>
+
+<p><strong>Example</strong></p>
+
+<ul>
+  <li>Consider the string <strong>"aabacacabc"</strong>.</li>
+  <li>Let's say we have tracked the prefix patterns up to index 7, where the prefix pattern (or binary representation of frequencies) is <strong>b110</strong>, meaning:</li>
+  <ul>
+    <li><strong>'a'</strong> and <strong>'b'</strong> have an odd count up to index 7.</li>
+    <li><strong>'c'</strong> has an even count up to index 7.</li>
+  </ul>
+  <li>Now, if we find that this prefix pattern <strong>b110</strong> has already been encountered at a previous index, say index 3, it indicates that the substring between indices 4 and 7 has all characters with even frequencies.</li>
+</ul>
+
+<p><strong>Why?</strong></p>
+
+<ul>
+  <li>Because the same prefix pattern at two different indices means that removing the substring between them gives us a balanced frequency count for each character.</li>
+  <li>So, any substring between two identical prefix patterns will have <strong>even frequencies</strong> for all characters, as these repeated patterns cancel out any odd counts in between.</li>
+</ul>
+
+<p>This principle allows us to quickly identify even-frequency substrings by using prefix patterns efficiently, without checking each substring individually.</p>
+
+<p><strong>One Odd Frequency</strong></p>
+<p>Just like in the even frequency case, if we find that the current prefix pattern differs by exactly one bit from a previously seen pattern, then removing the substring between these two indices will result in a substring where only one character has an odd frequency, while all others have even frequencies.</p>
+
+<p><strong>Example</strong></p>
+
+<ul>
+  <li>Consider the string <strong>"aabacacabc"</strong>.</li>
+  <li>Let’s say that at index 7, we have a prefix pattern represented as <strong>b110</strong> (meaning:</li>
+  <ul>
+    <li><strong>'a'</strong> and <strong>'b'</strong> have an odd count up to index 7.</li>
+    <li><strong>'c'</strong> has an even count up to index 7.</li>
+  </ul>
+  <li>Now, we can check if there exists any previous prefix pattern that differs from <strong>b110</strong> by only one bit.</li>
+</ul>
+
+<p><strong>How Does This Work?</strong></p>
+
+<ul>
+  <li>If we find a previous pattern that differs by one bit, say <strong>b010</strong>, it would mean:</li>
+  <ul>
+    <li>The substring between these two points will have the same even/odd frequency for each character, except for one specific character, which will appear an odd number of times.</li>
+  </ul>
+  <li>In this case, the resulting substring will have <strong>only one character with an odd frequency</strong>, meeting the "at most one odd" requirement.</li>
+</ul>
+
+<p>This technique allows us to efficiently find substrings with exactly one odd frequency by comparing the current prefix pattern with past patterns that differ by one bit, without manually counting frequencies for each character in each substring.</p>
+
+<p>So, now we got some approach to solve problem</p>
+<p>Inorder to achieve above table, we can use bit manipulation</p>
+<p>We can assign specific bit position to represent unique character like as follows</p>
+<ul>
+    <li>a -> 0000000001</li>
+    <li>b -> 0000000010</li>
+    <li>c -> 0000000100</li>
+    <li>d -> 0000001000</li>
+    <li>e -> 0000010000</li>
+    <li>f -> 0000100000</li>
+    <li>g -> 0001000000</li>
+    <li>h -> 0010000000</li>
+    <li>i -> 0100000000</li>
+    <li>j -> 1000000000</li>
+    <li>....so on</li>
+</ul>
+<p>since this problem deals with a-j, we can track only above bits</p>
+<p>This particular pattern we can get using left shift</p>
+
+```python
+print(1<<0) #1
+print(1<<1) #10
+print(1<<2) #100
+
+print(1<<(ord(word[i])-ord('a'))) # we can use this while iterating in word
+```
+<p>We can use XOR operation , to track frequnecy for each character at each position</p>
+<p><strong>Example:</strong> For the string <strong>"aabac"</strong>:</p>
+
+<ul>
+  <li>Starting with a bit mask of <strong>0</strong> (all bits are 0 initially).</li>
+  <li>At each character, we toggle the bit for that character using XOR.</li>
+  <li>Let’s go through each character and update the bit mask:</li>
+  <ul>
+    <li><strong>Character 'a' (index 0)</strong>: Toggle the 0th bit → bit mask becomes <strong>b0001</strong>.</li>
+    <li><strong>Character 'a' (index 1)</strong>: Toggle the 0th bit again → bit mask becomes <strong>b0000</strong> (even count of 'a').</li>
+    <li><strong>Character 'b' (index 2)</strong>: Toggle the 1st bit → bit mask becomes <strong>b0010</strong>.</li>
+    <li><strong>Character 'a' (index 3)</strong>: Toggle the 0th bit → bit mask becomes <strong>b0011</strong>.</li>
+    <li><strong>Character 'c' (index 4)</strong>: Toggle the 2nd bit → bit mask becomes <strong>b0111</strong>.</li>
+  </ul>
+</ul>
+<p>So, by the end of "aabac", our bit mask is <strong>b0111</strong>, meaning that:</p>
+
+<ul>
+  <li><strong>'a'</strong>, <strong>'b'</strong>, and <strong>'c'</strong> have odd counts.</li>
+</ul>
+
+<p><strong>2. Using XOR to Track Frequency Changes</strong></p>
+
+<ul>
+  <li>As seen in the example above, XOR allows us to toggle the specific bit for a character.</li>
+  <li>When we encounter a character, we use XOR to switch its bit:</li>
+  <ul>
+    <li>If the bit was 0 (even count), XOR will make it 1 (odd count).</li>
+    <li>If the bit was 1 (odd count), XOR will make it 0 (even count).</li>
+  </ul>
+</ul>
+<p>This will create same pattern as above table</p>
+<p><strong>Why XOR is Useful:</strong></p>
+<ul>
+  <li>Using XOR to toggle bits means that, as we go through the string, we only need one variable (the bit mask) to keep track of the entire pattern of even/odd frequencies.</li>
+  <li>This bit mask is enough to quickly check if we’ve seen the same frequency pattern before, or one that differs by one bit, allowing us to efficiently count valid substrings without re-checking character frequencies manually.</li>
+</ul>
+
+<p>This function <code>optimized(n, word)</code> counts the number of substrings in <code>word</code> where at most one character appears an odd number of times. Let's break down each part to understand how it works.</p>
+
+<p><strong>Step-by-Step Explanation</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Initialize Variables:</strong></p>
+    <code>
+      ans = 0<br>
+      prefix = {}<br>
+      prefix[0] = 1<br>
+      currentXor = 0
+    </code>
+    <ul>
+      <li><code>ans</code>: This variable stores the total count of valid substrings.</li>
+      <li><code>prefix</code>: This dictionary keeps track of previously seen bit masks (or frequency patterns) and their counts.</li>
+      <li><code>prefix[0] = 1</code>: We initialize <code>prefix[0]</code> to 1 to handle cases where a valid substring starts from the beginning of <code>word</code>.</li>
+      <li><code>currentXor</code>: This variable will store the bit mask representing the even/odd frequency pattern for characters up to the current position.</li>
+    </ul>
+  </li>
+  
+  <li>
+    <p><strong>Loop Through Each Character in the Word:</strong></p>
+    <code>for i in range(n):</code>
+    <ul>
+      <li>For each character in <code>word</code>, we update the <code>currentXor</code> bit mask to track the frequency pattern up to that point.</li>
+    </ul>
+  </li>
+
+  <li>
+    <p><strong>Calculate the Bit Mask for the Current Character:</strong></p>
+    <code>
+      mask = 1 << (ord(word[i]) - ord('a'))<br>
+      currentXor ^= mask
+    </code>
+    <ul>
+      <li><code>mask</code> is calculated by shifting <code>1</code> to the left by <code>(ord(word[i]) - ord('a'))</code> positions. This shifts the bit corresponding to the current character to its unique position in the 26-bit representation for lowercase letters.</li>
+      <li><code>currentXor ^= mask</code> uses XOR to toggle the bit for the current character:</li>
+      <ul>
+        <li>If the bit is 0, XOR makes it 1 (odd count).</li>
+        <li>If the bit is 1, XOR makes it 0 (even count).</li>
+      </ul>
+    </ul>
+  </li>
+
+  <li>
+    <p><strong>Check for Substrings with All Characters Having Even Frequencies:</strong></p>
+    <code>
+      if currentXor in prefix:<br>
+          ans += prefix[currentXor]
+    </code>
+    <ul>
+      <li>If <code>currentXor</code> has been seen before in <code>prefix</code>, it means we’ve encountered the same frequency pattern at a previous position.</li>
+      <li>We add <code>prefix[currentXor]</code> to <code>ans</code>, which counts the number of valid even-frequency substrings ending at this position.</li>
+    </ul>
+  </li>
+
+  <li>
+    <p><strong>Check for Substrings with Exactly One Odd Frequency:</strong></p>
+    <code>
+      for k in range(10):<br>
+          mask = 1 << k<br>
+          oddXor = currentXor ^ mask<br>
+          if oddXor in prefix:<br>
+              ans += prefix[oddXor]
+    </code>
+    <ul>
+      <li>For each possible character (from 'a' to 'j'), we calculate <code>oddXor</code>, which represents a frequency pattern where only one character has an odd count.</li>
+      <li><code>oddXor = currentXor ^ mask</code> toggles each bit individually, simulating one character having an odd count.</li>
+      <li>If this <code>oddXor</code> pattern exists in <code>prefix</code>, it means we have valid substrings with exactly one odd-frequency character, so we add <code>prefix[oddXor]</code> to <code>ans</code>.</li>
+    </ul>
+  </li>
+
+  <li>
+    <p><strong>Update the Prefix Dictionary:</strong></p>
+    <code>
+      if currentXor in prefix:<br>
+          prefix[currentXor] += 1<br>
+      else:<br>
+          prefix[currentXor] = 1
+    </code>
+    <ul>
+      <li>Finally, we update <code>prefix</code> to record the current bit mask <code>currentXor</code>.</li>
+      <li>If <code>currentXor</code> is already in <code>prefix</code>, we increment its count by 1; otherwise, we set it to 1.</li>
+    </ul>
+  </li>
+
+  <li>
+    <p><strong>Return the Answer:</strong></p>
+    <code>return ans</code>
+    <ul>
+      <li>After processing all characters, <code>ans</code> contains the total number of valid substrings where at most one character appears an odd number of times.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Summary of Logic</strong></p>
+
+<ul>
+  <li><strong>Bit Mask with XOR</strong>: Each character toggles its bit in <code>currentXor</code>, giving us an efficient way to track even/odd frequency patterns.</li>
+  <li><strong>Prefix Dictionary</strong>: By keeping track of previously seen patterns in <code>prefix</code>, we can check for valid substrings with all even frequencies or with exactly one odd frequency in constant time.</li>
+  <li><strong>Efficient Substring Counting</strong>: Instead of counting characters in each substring individually, we use bit masks and XOR to quickly calculate valid substrings.</li>
+</ul>
+
+<p><strong>Code</strong></p>
+
+```python
+def optimized(n,word):
+    ans=0
+    prefix={}
+    prefix[0]=1
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(currentXor in prefix):
+            ans+=prefix[currentXor] # for adding even subtring count
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if oddXor in prefix:
+                ans+=prefix[oddXor] # for adding one odd subtring count
+        if(currentXor in prefix):
+            prefix[currentXor]+=1
+        else:
+            prefix[currentXor]=1
+    return ans
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n)</code>, since we process each character once.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code>, with fixed-size prefix array for tracking.</li>
+</ul>
+
+
+<p><strong>Space Optimized Approach</strong></p>
+
+<p>Instead of using map, we can use an array</p>
+<p>Since max xor value can be, 1111111111 , if all charcters are unique</p>
+<p>So, we can have array of size 1<<10 (10000000000), then we can store all values</p>
+
+<p><strong>Code</strong></p>
+
+```python
+def optimized2(n,word):
+    ans=0
+    prefix=[None]*1024 # at most j(9 position), so max value 1<<10 == 1024
+    prefix[0]=1
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(prefix[currentXor] is not None):
+            ans+=prefix[currentXor] # for adding even subtring count
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if prefix[oddXor] is not None:
+                ans+=prefix[oddXor] # for adding one odd subtring count
+        if(prefix[currentXor] is not None):
+            prefix[currentXor]+=1
+        else:
+            prefix[currentXor]=1
+    return ans
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n)</code>, since we process each character once.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code>, with fixed-size prefix array for tracking.</li>
+</ul>
+
+
+<br>
+<br>
+
+<h2>Find All Substrings Having Atmost Having One Odd Charcter Frequency</h2>
+<p>It is similar to previous problem, here we are printing all substrings instead of counting</p>
+<p>So, here we have to track indices and print that substring</p>
+
+<p><strong>Code</strong></p>
+
+```python
+from collections import defaultdict
+def bruteForce(n,word):
+    ans=[]
+    for i in range(n):
+        for j in range(i,n):
+            freq=defaultdict(int)
+            for k in range(i,j+1):
+                freq[word[k]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                ans.append(word[i:j+1])
+    return sorted(ans)
+
+def better(n,word):
+    ans=[]
+    for i in range(n):
+        freq=defaultdict(int)
+        for j in range(i,n):
+            freq[word[j]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                ans.append(word[i:j+1])
+    return sorted(ans)
+
+def optimized(n,word):
+    ans=[]
+    prefix={}
+    prefix[0]=[-1]
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(currentXor in prefix):
+            for j in prefix[currentXor]:
+                ans.append(word[j+1:i+1])
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if oddXor in prefix:
+                for j in prefix[oddXor]:
+                    ans.append(word[j+1:i+1])
+        if(currentXor in prefix):
+            prefix[currentXor].append(i)
+        else:
+            prefix[currentXor]=[i]
+    return sorted(ans)
+
+def optimized2(n,word):
+    ans=[]
+    prefix=[None]*1024 # at most j(9 position), so max value 1<<10 == 1024
+    prefix[0]=[-1]
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(prefix[currentXor] is not None):
+            for j in prefix[currentXor]:
+                ans.append(word[j+1:i+1])
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if(prefix[oddXor] is not None):
+                for j in prefix[oddXor]:
+                    ans.append(word[j+1:i+1])
+        if(prefix[currentXor] is not None):
+            prefix[currentXor].append(i)
+        else:
+            prefix[currentXor]=[i]
+    return sorted(ans)
+            
+
+word=input()
+n=len(word)
+print(bruteForce(n,word))
+print(better(n,word))
+print(optimized(n,word))
+print(optimized2(n,word))
+
+```
+
+<br>
+<br>
+
+<h2>Largest Substring Having At Most One Odd Charcter Frequency</h2>
+<p>It is also similar to previous problem, here we are just fiding length of longest substring</p>
+<p><strong>Problem Statement</strong></p>
+<p>Given a string <code>s</code>, an "awesome" substring is defined as a substring that can be rearranged into a palindrome by swapping its characters. The task is to return the length of the longest awesome substring in <code>s</code>.</p>
+
+<p><strong>Sample Test Cases</strong></p>
+
+<p><strong>Input :</strong>s = "3242415"</p>
+<p><strong>Output :</strong>5</p>
+<p><strong>Explanation :</strong>"24241" is the longest awesome substring, we can form the palindrome "24142" with some swaps.</p>
+
+<p><strong>Input :</strong>s = "12345678"</p>
+<p><strong>Output :</strong>1</p>
+
+<p><strong>Input :</strong>s = "213123"</p>
+<p><strong>Output :</strong>6</p>
+<p><strong>Explanation :</strong>"213123" is the longest awesome substring, we can form the palindrome "231132" with some swaps.</p>
+
+
+<p><strong>Approaches</strong></p>
+
+<p><strong>1. Brute Force Approach</strong></p>
+<p>This approach uses a nested loop to consider all possible substrings and checks each for palindrome potential by counting character frequencies.</p>
+
+<p><strong>Steps</strong></p>
+<ol>
+    <li>Loop through each starting index <code>i</code> of the substring.</li>
+    <li>For each <code>i</code>, loop through every ending index <code>j</code>.</li>
+    <li>Within the substring <code>s[i:j+1]</code>, count the frequency of each character using a dictionary.</li>
+    <li>Count characters with odd frequencies.</li>
+    <li>If there’s at most one odd frequency, calculate the substring length and update the maximum length if this substring is longer.</li>
+    <li>Return the maximum length found.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+from collections import defaultdict
+def bruteForce(n,word):
+    ans=0
+    for i in range(n):
+        for j in range(i,n):
+            freq=defaultdict(int)
+            for k in range(i,j+1):
+                freq[word[k]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                length=j-i+1
+                ans=max(ans,length)
+    return ans
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n^3)</code> due to three nested loops.</li>
+    <li><strong>Space Complexity:</strong> <code>O(n)</code> for the frequency dictionary.</li>
+</ul>
+
+<p><strong>2. Better Approach</strong></p>
+<p>This approach reduces the number of redundant computations by maintaining a running frequency dictionary from each starting index <code>i</code>.</p>
+
+<p><strong>Steps</strong></p>
+<ol>
+    <li>Loop through each starting index <code>i</code>.</li>
+    <li>Maintain a dictionary <code>freq</code> for character frequencies.</li>
+    <li>For each ending index <code>j</code> starting from <code>i</code>, update <code>freq</code> with the character at <code>s[j]</code>.</li>
+    <li>Count characters with odd frequencies.</li>
+    <li>If there’s at most one odd frequency, calculate the substring length and update the maximum length if this substring is longer.</li>
+    <li>Return the maximum length found.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+from collections import defaultdict
+def better(n,word):
+    ans=0
+    for i in range(n):
+        freq=defaultdict(int)
+        for j in range(i,n):
+            freq[word[j]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                length=j-i+1
+                ans=max(ans,length)
+    return ans
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n^2)</code> due to two nested loops.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code> for the frequency dictionary.</li>
+</ul>
+
+<p><strong>3. Optimized Approach</strong></p>
+<p>This approach leverages the XOR bit manipulation trick to track even and odd character counts more efficiently using a "mask" that represents each character's occurrence count.</p>
+
+<p>Here we are just tracking first occurance xor pattern, so that we can track largest length</p>
+
+<p><strong>Steps</strong></p>
+<ol>
+    <li>Initialize a prefix dictionary <code>prefix</code> to store XOR results with the starting index <code>-1</code>.</li>
+    <li>Use <code>currentXor</code> to track the cumulative XOR of characters.</li>
+    <li>For each character, update <code>currentXor</code> using its mask.</li>
+    <li>If <code>currentXor</code> exists in <code>prefix</code>, compute the substring length and update the maximum length.</li>
+    <li>For each bit, check if toggling that bit in <code>currentXor</code> yields a value in <code>prefix</code> (allows for one odd frequency).</li>
+    <li>Update <code>prefix</code> with <code>currentXor</code> if it doesn’t already exist.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+def optimized(n,word):
+    ans=0
+    prefix={}
+    prefix[0]=-1
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(currentXor in prefix):
+            length=i-prefix[currentXor]
+            ans=max(ans,length)
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if oddXor in prefix:
+                length=i-prefix[oddXor]
+                ans=max(ans,length)
+        if(currentXor not in prefix):
+            prefix[currentXor]=i
+    return ans
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n)</code> as each character is processed once.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code> with fixed-size prefix dictionary.</li>
+</ul>
+
+<p><strong>4. More Optimized Approach</strong></p>
+<p>This approach optimizes further by using a fixed-size list for tracking XOR prefixes up to 1024, as the mask for each character fits in a 10-bit integer.</p>
+
+<p><strong>Steps</strong></p>
+<ol>
+    <li>Initialize a list <code>prefix</code> of size 1024 for XOR results.</li>
+    <li>Use <code>currentXor</code> to track the cumulative XOR.</li>
+    <li>For each character, update <code>currentXor</code> with its mask.</li>
+    <li>Check if <code>currentXor</code> has been encountered before in <code>prefix</code>, and update <code>ans</code> if it gives a longer substring.</li>
+    <li>For each bit, toggle the bit in <code>currentXor</code> and check if it’s in <code>prefix</code> (for one odd character).</li>
+    <li>Update <code>prefix</code> with the current XOR if it’s the first time seeing it.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+def optimized2(n,word):
+    ans=0
+    prefix=[None]*1024 # at most j(9 position), so max value 1<<10 == 1024
+    prefix[0]=-1
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(prefix[currentXor] is not None):
+            length=i-prefix[currentXor]
+            ans=max(ans,length)
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if prefix[oddXor] is not None:
+                length=i-prefix[oddXor]
+                ans=max(ans,length)
+        if(prefix[currentXor] is None):
+            prefix[currentXor]=i
+    return ans
+```
+
+
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n)</code> as each character is processed once.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code> with fixed-size prefix array.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Smallest Substring Having Atmost One Odd Charcter Frequency</h2>
+<p>It is simlar to previous problem, here we are finding length of smallest substring</p>
+
+<p><strong>Code</strong></p>
+
+```python
+from collections import defaultdict
+def bruteForce(n,word):
+    ans=n+1
+    for i in range(n):
+        for j in range(i,n):
+            freq=defaultdict(int)
+            for k in range(i,j+1):
+                freq[word[k]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                length=j-i+1
+                ans=min(ans,length)
+    return ans
+
+def better(n,word):
+    ans=n+1
+    for i in range(n):
+        freq=defaultdict(int)
+        for j in range(i,n):
+            freq[word[j]]+=1
+            oddCnt=0
+            for key,val in freq.items():
+                if(val & 1):
+                    oddCnt+=1
+            if(oddCnt<=1):
+                length=j-i+1
+                ans=min(ans,length)
+    return ans
+
+
+#We can track latest position of xor pattern, so that we can track smallest length
+
+def optimized(n,word):
+    ans=n+1
+    prefix={}
+    prefix[0]=-1
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(currentXor in prefix):
+            length=i-prefix[currentXor]
+            ans=min(ans,length)
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if oddXor in prefix:
+                length=i-prefix[oddXor]
+                ans=min(ans,length)
+        prefix[currentXor]=i
+    return ans
+
+def optimized2(n,word):
+    ans=n+1
+    prefix=[None]*1024 # at most j(9 position), so max value 1<<10 == 1024
+    prefix[0]=-1
+    currentXor=0
+    for i in range(n):
+        mask=1<<(ord(word[i])-ord('a'))
+        currentXor^=mask
+        if(prefix[currentXor] is not None):
+            length=i-prefix[currentXor]
+            ans=min(ans,length)
+        for k in range(10): # since string can contain at most a to j charcters 
+            mask=1<<k
+            oddXor=currentXor^mask
+            if prefix[oddXor] is not None:
+                length=i-prefix[oddXor]
+                ans=min(ans,length)
+        prefix[currentXor]=i
+    return ans
+            
+
+word=input()
+n=len(word)
+print(bruteForce(n,word))
+print(better(n,word))
+print(optimized(n,word))
+print(optimized2(n,word))
+```
+
+<br>
+<br>
+
+<h2>Find the Longest Substring Containing Vowels in Even Count</h2>
+<p><strong>Problem Statement</strong></p>
+<p>Given the string <code>s</code>, return the size of the longest substring containing each vowel an even number of times. The vowels are 'a', 'e', 'i', 'o', and 'u'.</p>
+
+<p><strong>Example Test Cases</strong></p>
+<ul>
+    <li><strong>Example 1:</strong></li>
+    <ul>
+        <li><strong>Input:</strong> <code>s = "eleetminicoworoep"</code></li>
+        <li><strong>Output:</strong> <code>13</code></li>
+        <li><strong>Explanation:</strong> The longest substring is "leetminicowor" which contains two each of the vowels: e, i, and o, and zero of the vowels: a and u.</li>
+    </ul>
+    <li><strong>Example 2:</strong></li>
+    <ul>
+        <li><strong>Input:</strong> <code>s = "leetcodeisgreat"</code></li>
+        <li><strong>Output:</strong> <code>5</code></li>
+        <li><strong>Explanation:</strong> The longest substring is "leetc" which contains two e's.</li>
+    </ul>
+    <li><strong>Example 3:</strong></li>
+    <ul>
+        <li><strong>Input:</strong> <code>s = "bcbcbc"</code></li>
+        <li><strong>Output:</strong> <code>6</code></li>
+        <li><strong>Explanation:</strong> In this case, the given string "bcbcbc" is the longest because all vowels: a, e, i, o, and u appear zero times.</li>
+    </ul>
+</ul>
+
+<p><strong>Approaches</strong></p>
+
+<p><strong>1. Brute Force Approach</strong></p>
+<p>This approach checks all possible substrings and counts the occurrences of vowels.</p>
+
+<p><strong>Steps</strong></p>
+<ol>
+    <li>Loop through each starting index <code>i</code>.</li>
+    <li>For each starting index, loop through each ending index <code>j</code>.</li>
+    <li>Count the occurrences of each vowel in the substring <code>s[i:j+1]</code>.</li>
+    <li>Check if all vowels have even counts.</li>
+    <li>If yes, update the maximum length of valid substrings found.</li>
+    <li>Return the maximum length.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+def bruteForce(n,word):
+    maxi=0
+    for i in range(n):
+        for j in range(i,n):
+            cntVowels={k:0 for k in 'aeiou'}
+            for k in range(i,j+1):
+                if(word[k] in 'aeiou'):
+                    cntVowels[word[k]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                length=j-i+1
+                maxi=max(maxi,length)
+    return maxi
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n^3)</code> due to three nested loops.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code> for the vowel count dictionary.</li>
+</ul>
+
+<p><strong>2. Better Approach</strong></p>
+<p>This approach reduces redundant computations by maintaining a running frequency dictionary from each starting index <code>i</code>.</p>
+
+<p><strong>Steps</strong></p>
+<ol>
+    <li>Loop through each starting index <code>i</code>.</li>
+    <li>Maintain a dictionary <code>cntVowels</code> for character frequencies.</li>
+    <li>For each ending index <code>j</code> starting from <code>i</code>, update <code>cntVowels</code> with the character at <code>s[j]</code>.</li>
+    <li>Check if all vowels have even counts.</li>
+    <li>If yes, update the maximum length found.</li>
+    <li>Return the maximum length.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+def better(n,word):
+    maxi=0
+    for i in range(n):
+        cntVowels={k:0 for k in 'aeiou'}
+        for j in range(i,n):
+            if(word[j] in 'aeiou'):
+                cntVowels[word[j]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                length=j-i+1
+                maxi=max(maxi,length)
+    return maxi
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n^2)</code> due to two nested loops.</li>
+    <li><strong>Space Complexity:</strong> <code>O(1)</code> for the vowel count dictionary.</li>
+</ul>
+
+<p><strong>3. Optimized Approach</strong></p>
+<p>This approach leverages bit manipulation to track the even and odd occurrences of vowels more efficiently using a mask.</p>
+
+<p>It is similar to wonderful substrings, where we are tracking every character, but here we will take care of only vowels</p>
+
+<p><strong>Steps</strong></p>
+<ol>
+    <li>Initialize a prefix dictionary to store XOR results with the starting index <code>-1</code>.</li>
+    <li>Use <code>currentXor</code> to track the cumulative XOR of vowel occurrences.</li>
+    <li>For each character, if it is a vowel, update <code>currentXor</code> using its mask.</li>
+    <li>Check if <code>currentXor</code> exists in the prefix; if so, compute the substring length.</li>
+    <li>For each bit (representing vowels), toggle it in <code>currentXor</code> and check if the resulting value has been seen before.</li>
+    <li>Update the prefix with <code>currentXor</code> if it’s the first time seeing it.</li>
+</ol>
+
+<p><strong>Code</strong></p>
+
+```python
+def optimized(n,word):
+    prefix={0:-1}
+    currentXor=0
+    maxi=0
+    for i in range(n):
+        if(word[i] in 'aeiou'):
+            mask=1<<(ord(word[i])-ord('a'))
+            currentXor^=mask
+        if(currentXor in prefix):
+            length=i-prefix[currentXor]
+            maxi=max(maxi,length)
+        if(currentXor not in prefix):
+            prefix[currentXor]=i
+    return maxi
+```
+
+<p><strong>Complexity</strong></p>
+<ul>
+    <li><strong>Time Complexity:</strong> <code>O(n)</code> due to a single loop.</li>
+    <li><strong>Space Complexity:</strong> <code>O(n)</code> for the prefix dictionary in the worst case.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Smallest Substring Containing Vowels in Even Counts</h2>
+<p>It is similar to previous problem, but here we are tracking length of smallest substring</p>
+
+<p><strong>Code</strong></p>
+
+```python
+def bruteForce(n,word):
+    mini=n+1
+    for i in range(n):
+        for j in range(i,n):
+            cntVowels={k:0 for k in 'aeiou'}
+            for k in range(i,j+1):
+                if(word[k] in 'aeiou'):
+                    cntVowels[word[k]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                length=j-i+1
+                mini=min(mini,length)
+    return mini
+
+def better(n,word):
+    mini=n+1
+    for i in range(n):
+        cntVowels={k:0 for k in 'aeiou'}
+        for j in range(i,n):
+            if(word[j] in 'aeiou'):
+                cntVowels[word[j]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                length=j-i+1
+                mini=min(mini,length)
+    return mini
+
+def optimized(n,word):
+    prefix={0:-1}
+    currentXor=0
+    mini=n+1
+    for i in range(n):
+        if(word[i] in 'aeiou'):
+            mask=1<<(ord(word[i])-ord('a'))
+            currentXor^=mask
+        if(currentXor in prefix):
+            length=i-prefix[currentXor]
+            mini=min(mini,length)
+        prefix[currentXor]=i
+    return mini
+word=input()
+n=len(word)
+print(bruteForce(n,word))
+print(better(n,word))
+print(optimized(n,word))
+```
+
+<br>
+<br>
+
+<h2>Count Of Substrings Having Even Number Of Vowels</h2>
+<p>It is similar to previous problem, but here finding count of all possible substrings</p>
+
+<p><strong>Code</strong></p>
+
+```python
+def bruteForce(n,word):
+    ans=0
+    for i in range(n):
+        for j in range(i,n):
+            cntVowels={k:0 for k in 'aeiou'}
+            for k in range(i,j+1):
+                if(word[k] in 'aeiou'):
+                    cntVowels[word[k]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                ans+=1
+    return ans
+
+def better(n,word):
+    ans=0
+    for i in range(n):
+        cntVowels={k:0 for k in 'aeiou'}
+        for j in range(i,n):
+            if(word[j] in 'aeiou'):
+                cntVowels[word[j]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                ans+=1
+    return ans
+
+def optimized(n,word):
+    prefix={0:1}
+    currentXor=0
+    cnt=0
+    for i in range(n):
+        if(word[i] in 'aeiou'):
+            mask=1<<(ord(word[i])-ord('a'))
+            currentXor^=mask
+        if(currentXor in prefix):
+            cnt+=prefix[currentXor]
+        if(currentXor in prefix):
+            prefix[currentXor]+=1
+        else:
+            prefix[currentXor]=1
+    return cnt
+word=input()
+n=len(word)
+print(bruteForce(n,word))
+print(better(n,word))
+print(optimized(n,word))
+```
+
+<br>
+<br>
+
+<h2>Print All SubStrings Having Even Count Of Vowels</h2>
+<p>It is similar to previous problem, here we are printing all possible substrings</p>
+
+<p><strong>Code</strong></p>
+
+```python
+def bruteForce(n,word):
+    ans=[]
+    for i in range(n):
+        for j in range(i,n):
+            cntVowels={k:0 for k in 'aeiou'}
+            for k in range(i,j+1):
+                if(word[k] in 'aeiou'):
+                    cntVowels[word[k]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                ans.append(word[i:j+1])
+    return sorted(ans)
+
+def better(n,word):
+    ans=[]
+    for i in range(n):
+        cntVowels={k:0 for k in 'aeiou'}
+        for j in range(i,n):
+            if(word[j] in 'aeiou'):
+                cntVowels[word[j]]+=1
+            flag=True
+            for ch,cnt in cntVowels.items():
+                if(cnt%2!=0):
+                    flag=False
+                    break
+            if(flag):
+                ans.append(word[i:j+1])
+    return sorted(ans)
+
+def optimized(n,word):
+    prefix={0:[-1]}
+    currentXor=0
+    ans=[]
+    for i in range(n):
+        if(word[i] in 'aeiou'):
+            mask=1<<(ord(word[i])-ord('a'))
+            currentXor^=mask
+        if(currentXor in prefix):
+            for j in prefix[currentXor]:
+                ans.append(word[j+1:i+1])
+        if(currentXor in prefix):
+            prefix[currentXor].append(i)
+        else:
+            prefix[currentXor]=[i]
+    return sorted(ans)
+word=input()
+n=len(word)
+print(bruteForce(n,word))
+print(better(n,word))
+print(optimized(n,word))
+```
+
+<br>
+<br>
+
+<h2>Prefix Sum 2D</h2>
+<p><strong>2D Prefix Sum</strong> is a method used to quickly calculate the sum of elements within any sub-rectangle (subset) of a 2D matrix. By creating a new matrix, called the <strong>prefix sum matrix</strong>, we can access these sums without repeatedly adding up elements from the original matrix. This approach is especially useful when we need to perform multiple sum queries on the same matrix.</p>
+
+<p><strong>Step-by-Step Explanation of 2D Prefix Sum</strong></p>
+
+<ol>
+    <li>
+        <strong>Definition of Prefix Sum Matrix:</strong>
+        <ul>
+            <li>A <strong>prefix sum matrix</strong> is a new matrix where each element at position (i, j) represents the sum of all elements in the original matrix from the top-left corner (0,0) to that position (i, j).</li>
+            <li>Each cell in the prefix sum matrix contains the cumulative sum of all cells to its left, above it, and at its position in the original matrix.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Goal of Using 2D Prefix Sum:</strong>
+        <ul>
+            <li>To quickly compute the sum of elements in any rectangular area within the matrix without recalculating from scratch each time.</li>
+            <li>This is particularly efficient for matrices with large dimensions or when there are many queries to handle.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Constructing the Prefix Sum Matrix</strong></p>
+
+<p>Given a matrix <strong>matrix</strong> with dimensions <em>n x m</em>, we create a new matrix <strong>prefix</strong> with the same dimensions. We fill each cell in the prefix matrix according to the position in the original matrix, using these rules:</p>
+
+<ol>
+    <li><strong>Starting Cell (Top-left corner):</strong> 
+        <ul>
+            <li>For the cell at position (0,0), we directly copy the value from the original matrix:
+                <ul>
+                    <li>prefix[0][0] = matrix[0][0]</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>First Row (i=0, j>0):</strong>
+        <ul>
+            <li>For cells in the first row, each cell’s value is the sum of the previous cell in the prefix matrix and the current cell in the original matrix. This accumulates values horizontally:
+                <ul>
+                    <li>prefix[0][j] = prefix[0][j-1] + matrix[0][j]</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>First Column (i>0, j=0):</strong>
+        <ul>
+            <li>For cells in the first column, each cell’s value is the sum of the cell above it in the prefix matrix and the current cell in the original matrix. This accumulates values vertically:
+                <ul>
+                    <li>prefix[i][0] = prefix[i-1][0] + matrix[i][0]</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Remaining Cells (i>0, j>0):</strong>
+        <ul>
+            <li>For other cells, we combine values from the left, above, and the current cell. Because the top and left areas are added twice, we need to subtract the top-left overlap:
+                <ul>
+                    <li>prefix[i][j] = prefix[i][j-1] + prefix[i-1][j] + matrix[i][j] - prefix[i-1][j-1]</li>
+                </ul>
+            </li>
+            <li>Explanation of terms:
+                <ul>
+                    <li>prefix[i][j-1]: Adds the sum from the left.</li>
+                    <li>prefix[i-1][j]: Adds the sum from above.</li>
+                    <li>matrix[i][j]: Adds the current element.</li>
+                    <li>prefix[i-1][j-1]: Subtracts the overlap (top-left), which was added twice.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ol>
+
+<img src="https://assets.leetcode.com/users/images/a79d8b57-1ae3-4735-b862-95898d574521_1715589271.9132378.png">
+
+```python
+def prefixSum(n, m, matrix):
+    prefix = [[0] * m for i in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if i == 0 and j == 0:
+                prefix[i][j] = matrix[i][j]
+            elif i == 0 and j != 0:
+                prefix[i][j] = prefix[i][j - 1] + matrix[i][j]
+            elif i != 0 and j == 0:
+                prefix[i][j] = prefix[i - 1][j] + matrix[i][j]
+            else:
+                prefix[i][j] = (prefix[i][j - 1] + prefix[i - 1][j] + matrix[i][j] - prefix[i - 1][j - 1])
+    return prefix
+
+n, m = map(int, input().split())
+matrix = [list(map(int, input().split())) for i in range(n)]
+print(prefixSum(n, m, matrix))
+```
+
+<br>
+<br>
+
+<h2>Range Sum Query 2D</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a 2D matrix <code>matrix</code>, handle multiple queries of the following type:</p>
+<ul>
+    <li>Calculate the sum of the elements of <code>matrix</code> inside the rectangle defined by its upper-left corner (<code>row1, col1</code>) and lower-right corner (<code>row2, col2</code>).</li>
+</ul>
+<p><strong>Implement the <code>NumMatrix</code> class:</strong></p>
+<ul>
+    <li><code>NumMatrix(int[][] matrix)</code>: Initializes the object with the integer matrix <code>matrix</code>.</li>
+    <li><code>int sumRegion(int row1, int col1, int row2, int col2)</code>: Returns the sum of the elements of <code>matrix</code> inside the rectangle defined by its upper-left corner (<code>row1, col1</code>) and lower-right corner (<code>row2, col2</code>).</li>
+</ul>
+<p>Design an algorithm where <code>sumRegion</code> works in <strong>O(1)</strong> time complexity.</p>
+
+<p><strong>Sample Test Cases</strong></p>
+
+```python
+Input: matrix = [[3, 0, 1, 4, 2],
+                   [5, 6, 3, 2, 1],
+                   [1, 2, 0, 1, 5],
+                   [4, 1, 0, 1, 7],
+                   [1, 0, 3, 0, 5]]
+Queries: [(2, 1, 4, 3), (1, 1, 2, 2), (1, 2, 2, 4)]
+Output: [8, 11, 12]
+```
+
+<p><strong>Brute Force Approach:</strong></p>
+<p><strong>Intuition:</strong> For each query, traverse the elements within the defined rectangle by iterating through each row and column within the boundaries and summing the elements.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize an empty list <code>ans</code> to store the sum results for each query.</li>
+    <li>For each query <code>(row1, col1, row2, col2)</code>:
+        <ul>
+            <li>Initialize <code>sum</code> to 0.</li>
+            <li>Loop through rows from <code>row1</code> to <code>row2</code> and columns from <code>col1</code> to <code>col2</code>.</li>
+            <li>Add each element in the range to <code>sum</code>.</li>
+        </ul>
+    </li>
+    <li>Append <code>sum</code> to <code>ans</code>.</li>
+    <li>Return <code>ans</code> with the sum results for all queries.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteForce(n, m, matrix, q, queries):
+    ans = []
+    for row1, col1, row2, col2 in queries:
+        sum = 0
+        for i in range(row1, row2 + 1):
+            for j in range(col1, col2 + 1):
+                sum += matrix[i][j]
+        ans.append(sum)
+    return ans
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li>Time Complexity: <strong>O(n * m * q)</strong> where <code>q</code> is the number of queries.</li>
+    <li>Space Complexity: <strong>O(1)</strong> for each query since we use only variables for storage.</li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+<p><strong>Intuition:</strong> Precompute a prefix sum matrix where each cell <code>prefix[i][j]</code> stores the cumulative sum from the top-left corner (0, 0) to the cell <code>(i, j)</code> in <code>matrix</code>. This allows us to retrieve the sum of any sub-rectangle using the inclusion-exclusion principle.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Build a <code>prefix</code> matrix where each cell <code>prefix[i][j]</code> stores the cumulative sum of elements from the top-left corner (0, 0) to (i, j).
+        <ul>
+            <li>If <code>(i, j) = (0, 0)</code>: <code>prefix[i][j] = matrix[i][j]</code></li>
+            <li>If <code>i == 0</code>: <code>prefix[i][j] = prefix[i][j - 1] + matrix[i][j]</code></li>
+            <li>If <code>j == 0</code>: <code>prefix[i][j] = prefix[i - 1][j] + matrix[i][j]</code></li>
+            <li>Else: <code>prefix[i][j] = prefix[i][j - 1] + prefix[i - 1][j] + matrix[i][j] - prefix[i - 1][j - 1]</code></li>
+        </ul>
+    </li>
+    <li>For each query <code>(row1, col1, row2, col2)</code>:
+        <ul>
+            <li>Compute the sum of the sub-rectangle as <code>sum = prefix[row2][col2]</code>.</li>
+            <li>If <code>col1 > 0</code>, subtract <code>prefix[row2][col1 - 1]</code>.</li>
+            <li>If <code>row1 > 0</code>, subtract <code>prefix[row1 - 1][col2]</code>.</li>
+            <li>If both <code>row1 > 0</code> and <code>col1 > 0</code>, add back <code>prefix[row1 - 1][col1 - 1]</code> to avoid double subtraction.</li>
+        </ul>
+    </li>
+</ol>
+
+<img src="https://assets.leetcode.com/users/hiepit/image_1578762431.png">
+<img src="https://assets.leetcode.com/users/images/68d54210-31f6-4ca1-880a-e48d32a464ba_1620808878.5816271.png">
+<img src="https://assets.leetcode.com/users/images/81c7aa53-31f1-4780-bda4-780f41c47828_1654237502.484498.png">
+
+<p><strong>Code:</strong></p>
+
+```python
+def prefixSum(n, m, matrix):
+    prefix = [[0] * m for i in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if i == 0 and j == 0:
+                prefix[i][j] = matrix[i][j]
+            elif i == 0:
+                prefix[i][j] = prefix[i][j - 1] + matrix[i][j]
+            elif j == 0:
+                prefix[i][j] = prefix[i - 1][j] + matrix[i][j]
+            else:
+                prefix[i][j] = prefix[i][j - 1] + prefix[i - 1][j] + matrix[i][j] - prefix[i - 1][j - 1]
+    return prefix
+
+def optimized(n, m, matrix, q, queries):
+    ans = []
+    prefix = prefixSum(n, m, matrix)
+    for row1, col1, row2, col2 in queries:
+        sum = prefix[row2][col2]
+        if col1 > 0:
+            sum -= prefix[row2][col1 - 1]
+        if row1 > 0:
+            sum -= prefix[row1 - 1][col2]
+        if row1 > 0 and col1 > 0:
+            sum += prefix[row1 - 1][col1 - 1]
+        ans.append(sum)
+    return ans
+```
+
+<p><strong>Time and Space Complexity:</strong></p>
+<ul>
+    <li>Time Complexity: <strong>O(n * m + q)</strong> where <code>O(n * m)</code> is for constructing the prefix matrix and <code>O(q)</code> is for each query.</li>
+    <li>Space Complexity: <strong>O(n * m)</strong> for storing the prefix matrix.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Matrix Block Sum</h2>
+<p><strong>Problem Statement</strong></p>
+<p>Given a matrix <code>mat</code> of dimensions <code>m x n</code> and an integer <code>k</code>, you need to return another matrix <code>answer</code> where each element <code>answer[i][j]</code> is the sum of all elements in the <code>mat</code> that are within a <code>k</code> distance from <code>mat[i][j]</code>. This includes any element <code>mat[r][c]</code> for which:</p>
+<code>
+i - k ≤ r ≤ i + k, 
+j - k ≤ c ≤ j + k
+</code>
+<p>where <code>(r, c)</code> should be a valid position in the matrix.</p>
+
+<p><strong>Intuition Behind the Solution</strong></p>
+<ul>
+  <li><strong>Efficient Summation</strong>: Using prefix sums allows us to efficiently calculate the sum of elements in a rectangular submatrix in constant time.</li>
+  <li><strong>Bounding Box</strong>: We define a bounding box with <code>(row1, col1)</code> as the top-left corner and <code>(row2, col2)</code> as the bottom-right corner around <code>mat[i][j]</code>, where all elements in this box contribute to the sum.</li>
+  <li><strong>Handling Edge Cases</strong>: For cells near the matrix edges, we adjust the bounding box to stay within the matrix boundaries.</li>
+</ul>
+
+<p><strong>Steps to Solve</strong></p>
+<ol>
+  <li><strong>Calculate Prefix Sum</strong>: Create a <code>prefix</code> matrix where each element at <code>(i, j)</code> holds the sum of all elements from <code>(0, 0)</code> to <code>(i, j)</code>.</li>
+  <li><strong>Define the Bounding Box</strong>: For each element <code>(i, j)</code> in <code>mat</code>, determine a submatrix with <code>(i-k, j-k)</code> as the top-left corner and <code>(i+k, j+k)</code> as the bottom-right corner.</li>
+  <li><strong>Adjust Boundaries</strong>: Ensure the bounding box doesn’t exceed matrix boundaries by clamping values between <code>0</code> and <code>n-1</code> for rows and <code>0</code> and <code>m-1</code> for columns.</li>
+  <li><strong>Compute Sum Using Prefix Matrix</strong>: Use the prefix sum array to compute the sum for each submatrix efficiently.</li>
+</ol>
+
+<p><strong>Code Implementation</strong></p>
+
+```python
+def prefixSum(n, m, matrix):
+    prefix = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if i == 0 and j == 0:
+                prefix[i][j] = matrix[i][j]
+            elif i == 0:
+                prefix[i][j] = prefix[i][j - 1] + matrix[i][j]
+            elif j == 0:
+                prefix[i][j] = prefix[i - 1][j] + matrix[i][j]
+            else:
+                prefix[i][j] = (prefix[i][j - 1] + prefix[i - 1][j] 
+                                + matrix[i][j] - prefix[i - 1][j - 1])
+    return prefix
+
+def optimized(prefix, row1, col1, row2, col2):
+    sum = prefix[row2][col2]
+    if col1 > 0:
+        sum -= prefix[row2][col1 - 1]
+    if row1 > 0:
+        sum -= prefix[row1 - 1][col2]
+    if row1 > 0 and col1 > 0:
+        sum += prefix[row1 - 1][col1 - 1]
+    return sum
+
+class Solution:
+    def matrixBlockSum(self, mat, k):
+        n, m = len(mat), len(mat[0])
+        ans = [[0] * m for _ in range(n)]
+        prefix = prefixSum(n, m, mat)
+        
+        for i in range(n):
+            for j in range(m):
+                row1, col1 = max(0, i - k), max(0, j - k)
+                row2, col2 = min(n - 1, i + k), min(m - 1, j + k)
+                
+                ans[i][j] = optimized(prefix, row1, col1, row2, col2)
+        
+        return ans
+
+n, m = map(int, input().split())
+matrix = [list(map(int, input().split())) for _ in range(n)]
+k = int(input())
+
+ans = Solution().matrixBlockSum(matrix, k)
+print(ans)
+
+```
+
+<p><strong>Explanation of the Code</strong></p>
+<ul>
+  <li><code>prefixSum()</code>: Constructs the prefix sum matrix, which helps to compute the sum of elements in any submatrix in constant time.</li>
+  <li><code>optimized()</code>: Uses the prefix sum matrix to get the sum of elements within any bounding box.</li>
+  <li><code>matrixBlockSum()</code>: Initializes the <code>answer</code> matrix and calculates each cell’s sum by defining and adjusting the bounding box according to the value of <code>k</code>.</li>
+</ul>
+
+<p><strong>Sample Test Case</strong></p>
+<p><strong>Input</strong>:</p>
+<code>
+n = 3, m = 3
+matrix = [[1,2,3],[4,5,6],[7,8,9]]
+k = 1
+</code>
+<p><strong>Output</strong>:</p>
+<code>
+[[12,21,16],
+ [27,45,33],
+ [24,39,28]]
+</code>
+
+<p><strong>Time and Space Complexity</strong></p>
+<ul>
+  <li><strong>Time Complexity</strong>: \(O(n \times m)\) for calculating the prefix sum matrix, and \(O(n \times m)\) for computing each answer cell using the prefix sum array, resulting in an overall complexity of \(O(n \times m)\).</li>
+  <li><strong>Space Complexity</strong>: \(O(n \times m)\) for the prefix sum matrix and the answer matrix.</li>
+</ul>
+
+
+<br>
+<br>
+
