@@ -1573,7 +1573,7 @@ def optimized(n, arr, k):
 <p><strong>Problem Statement:</strong></p>
 <p>You are given a 0-indexed integer array <strong>nums</strong>. A pair of indices (i, j) is a <strong>bad pair</strong> if:</p>
 <ul>
-    <li>i &lt; j</li>
+    <li>i < j</li>
     <li>j - i ≠ nums[j] - nums[i]</li>
 </ul>
 <p>Return the total number of bad pairs in the array.</p>
@@ -1666,7 +1666,7 @@ def bruteForce(n, arr):
 <p>The optimized approach works as follows:</p>
 
 <ol>
-    <li><strong>Total Pairs:</strong> The total number of pairs (i, j) where i &lt; j can be computed using the formula for combinations:</li>
+    <li><strong>Total Pairs:</strong> The total number of pairs (i, j) where i < j can be computed using the formula for combinations:</li>
     <p>Suppose n=3, possible combinations</p>
     <ol>
         <li>i=0 , j=1</li>
@@ -1750,7 +1750,7 @@ def optimized(n, arr):
 <p><strong>Problem Statement:</strong></p>
 <p>You are given an array <strong>nums</strong> that consists of non-negative integers. Define <strong>rev(x)</strong> as the reverse of the non-negative integer <strong>x</strong>. For example, rev(123) = 321, and rev(120) = 21. A pair of indices (i, j) is <strong>nice</strong> if it satisfies all of the following conditions:</p>
 <ul>
-    <li>0 &lt;= i &lt; j &lt; nums.length</li>
+    <li>0 <= i < j < nums.length</li>
     <li>nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])</li>
 </ul>
 <p>Return the number of nice pairs of indices. Since the number of pairs can be too large, return it modulo 10^9 + 7.</p>
@@ -1863,7 +1863,7 @@ def optimized(n, arr):
 
 <h2>Count Of Pairs Whose Absolute Difference Is Equal To K (|nums[i] - nums[j]| == k)</h2>
 <p><strong>Problem Statement:</strong></p>
-<p>Given an integer array <strong>nums</strong> and an integer <strong>k</strong>, return the number of pairs (i, j) where i &lt; j such that |nums[i] - nums[j]| == k.</p>
+<p>Given an integer array <strong>nums</strong> and an integer <strong>k</strong>, return the number of pairs (i, j) where i < j such that |nums[i] - nums[j]| == k.</p>
 
 <p><strong>Test Cases:</strong></p>
 <ul>
@@ -1888,7 +1888,7 @@ def optimized(n, arr):
 </ul>
 
 <p><strong>BruteForce Approach:</strong></p>
-<p><strong>Intuition:</strong> We can check all pairs (i, j) where i &lt; j and calculate the absolute difference between <strong>nums[i]</strong> and <strong>nums[j]</strong>. If the difference is equal to <strong>k</strong>, we increment our counter.</p>
+<p><strong>Intuition:</strong> We can check all pairs (i, j) where i < j and calculate the absolute difference between <strong>nums[i]</strong> and <strong>nums[j]</strong>. If the difference is equal to <strong>k</strong>, we increment our counter.</p>
 
 <p><strong>Steps to Solve:</strong></p>
 <ol>
@@ -2235,8 +2235,8 @@ def optimized(n,arr,k):
 <p><strong>Problem Statement:</strong></p>
 <p>You are given two integer arrays <strong>nums1</strong> and <strong>nums2</strong>, each of size <strong>n</strong>, and an integer <strong>diff</strong>. You need to find the number of pairs (i, j) such that:</p>
 <ul>
-    <li>0 &lt;= i &lt; j &lt;= n - 1</li>
-    <li>nums1[i] - nums1[j] &lt;= nums2[i] - nums2[j] + diff</li>
+    <li>0 <= i < j <= n - 1</li>
+    <li>nums1[i] - nums1[j] <= nums2[i] - nums2[j] + diff</li>
 </ul>
 <p>The objective is to return the number of such pairs.</p>
 
@@ -2293,7 +2293,7 @@ def bruteForce(n,arr1,arr2,k):
 <ol>
     <li>Iterate through each element <strong>i</strong> in <strong>nums1</strong>.</li>
     <li>For each <strong>i</strong>, iterate through each <strong>j</strong> where <strong>j &gt; i</strong>.</li>
-    <li>Check if the condition <strong>nums1[i] - nums1[j] &lt;= nums2[i] - nums2[j] + diff</strong> holds.</li>
+    <li>Check if the condition <strong>nums1[i] - nums1[j] <= nums2[i] - nums2[j] + diff</strong> holds.</li>
     <li>If it does, increment the count.</li>
     <li>Return the total count.</li>
 </ol>
@@ -2311,7 +2311,7 @@ def bruteForce(n,arr1,arr2,k):
     <li>
         <strong>Understanding the Problem Statement</strong>
         <p>The problem asks us to find pairs (i, j) such that:</p>
-        <p>0 ≤ i &lt; j ≤ n - 1 and nums1[i] - nums1[j] ≤ nums2[i] - nums2[j] + diff</p>
+        <p>0 ≤ i < j ≤ n - 1 and nums1[i] - nums1[j] ≤ nums2[i] - nums2[j] + diff</p>
         <p>To simplify this expression, let’s rearrange:</p>
         <p>nums1[i] - nums2[i] ≤ nums1[j] - nums2[j] + diff</p>
         <p>Let’s define a new array <strong>diffArr</strong> where:</p>
@@ -2539,7 +2539,7 @@ To solve this problem using a brute-force approach:</p>
     <li>Loop through every possible starting index of a substring (<code>i</code>).</li>
     <li>For each <code>i</code>, loop through every possible ending index (<code>j</code>).</li>
     <li>Within the substring <code>word[i:j+1]</code>, count the frequency of each character.</li>
-    <li>Check the number of characters with odd frequencies (<code>oddCnt</code>). If <code>oddCnt &lt;= 1</code>, count this substring as "wonderful."</li>
+    <li>Check the number of characters with odd frequencies (<code>oddCnt</code>). If <code>oddCnt <= 1</code>, count this substring as "wonderful."</li>
     <li>Return the count of "wonderful" substrings.</li>
 </ol>
 
@@ -4060,4 +4060,768 @@ k = 1
 
 <br>
 <br>
+
+<h2>Constant time range add operation on an array</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>Given an array of size <strong>N</strong>, initialized with all zeros, you have a series of range update queries. Each query contains a starting index, an ending index, and a value to add to all elements in this range (inclusive). After applying all queries, the goal is to print the final array.</p>
+
+<p><strong>Input Example:</strong></p>
+<ul>
+    <li>N = 5</li>
+    <li>Array = [0, 0, 0, 0, 0]</li>
+    <li>Queries = [(1, 3, 2), (2, 4, 3)]</li>
+</ul>
+<p>Expected Output: [0, 2, 5, 5, 3]</p>
+
+<p><strong>Sample Test Cases:</strong></p>
+<ol>
+    <li><strong>Test Case 1:</strong> N = 5, Queries = [(1, 3, 2), (2, 4, 3)] <br> Output: [0, 2, 5, 5, 3]</li>
+    <li><strong>Test Case 2:</strong> N = 6, Queries = [(0, 2, 1), (1, 4, 2)] <br> Output: [1, 3, 3, 2, 2, 0]</li>
+</ol>
+
+<p><strong>Brute Force Approach:</strong></p>
+<p>In the brute force approach, for each query, you loop through every index in the specified range and add the given value. This results in a much higher time complexity.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize an array arr of size N with all zeros.</li>
+    <li>For each query (start, end, val), iterate from start to end, adding val to each element in this range.</li>
+    <li>After applying all queries, print or return the final array.</li>
+</ol>
+
+<p><strong>Code (Brute Force Solution):</strong></p>
+
+```python
+def apply_queries_brute_force(N, queries):
+    # Step 1: Initialize array
+    arr = [0] * N
+
+    # Step 2: Apply each query directly
+    for start, end, val in queries:
+        for i in range(start, end + 1):
+            arr[i] += val
+
+    return arr
+```
+
+<p><strong>Time and Space Complexity (Brute Force Solution):</strong></p>
+<ul>
+    <li>Time Complexity: O(N * Q), where N is the size of the array, and Q is the number of queries.</li>
+    <li>Space Complexity: O(N) for storing the array.</li>
+</ul>
+
+<p><strong>Optimized Approach:</strong></p>
+<p>Using a <strong>Difference Array</strong> is efficient for this type of range update. The idea is to mark the beginning and end of each range update, which allows us to process all ranges in one pass when we finally calculate the array values.</p>
+
+<ol>
+    <li>For each query (start, end, val), increment the element at the start index by val.</li>
+    <li>Decrement the element at the end + 1 index by val (if it’s within bounds).</li>
+</ol>
+<p>Once all queries are applied, the difference array only contains markers. Performing a cumulative sum across the array translates these markers into the final array values.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize an array arr of size N with all zeros.</li>
+    <li>For each query (start, end, val):</li>
+    <ul>
+        <li>Add val to arr[start].</li>
+        <li>Subtract val from arr[end + 1] if end + 1 < N.</li>
+    </ul>
+    <li>Perform a cumulative sum on arr to get the final updated values.</li>
+</ol>
+
+<p><strong>Code (Optimized Solution):</strong></p>
+
+```python
+def apply_queries(N, queries):
+    # Step 1: Initialize array
+    arr = [0] * N
+
+    # Step 2: Apply range updates using difference array concept
+    for start, end, val in queries:
+        arr[start] += val
+        if end + 1 < N:
+            arr[end + 1] -= val
+
+    # Step 3: Perform cumulative sum to get the final values in the array
+    for i in range(1, N):
+        arr[i] += arr[i - 1]
+
+    return arr
+```
+
+<p><strong>Time and Space Complexity (Optimized Solution):</strong></p>
+<ul>
+    <li>Time Complexity: O(N + Q), where N is the size of the array, and Q is the number of queries.</li>
+    <li>Space Complexity: O(N), since we only use the array of size N.</li>
+</ul>
+
+<br>
+<br>
+
+
+<h2>Constant time range add operation on 2-d Array</h2>
+<p><strong>Problem Statement:</strong></p>
+<p>Given a 2D array of size <strong>N x M</strong>, initialized with all zeros, you have a series of range update queries. Each query contains a top-left and bottom-right coordinate along with a value to add to all elements in this subarray (inclusive). After applying all queries, the goal is to print the final 2D array.</p>
+
+<p><strong>Input Example:</strong></p>
+<ul>
+    <li>N = 4, M = 4</li>
+    <li>Array = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]</li>
+    <li>Queries = [((1, 1), (2, 2), 3), ((0, 0), (3, 3), 2)]</li>
+</ul>
+<p>Expected Output: [[2, 2, 2, 2], [2, 5, 5, 2], [2, 5, 5, 2], [2, 2, 2, 2]]</p>
+
+<p><strong>Sample Test Cases:</strong></p>
+<ol>
+    <li><strong>Test Case 1:</strong> N = 4, M = 4, Queries = [((1, 1), (2, 2), 3), ((0, 0), (3, 3), 2)] <br> Output: [[2, 2, 2, 2], [2, 5, 5, 2], [2, 5, 5, 2], [2, 2, 2, 2]]</li>
+    <li><strong>Test Case 2:</strong> N = 3, M = 3, Queries = [((0, 0), (1, 1), 5), ((1, 1), (2, 2), 2)] <br> Output: [[5, 5, 0], [5, 7, 2], [0, 2, 2]]</li>
+</ol>
+
+<p><strong>Brute Force Solution:</strong></p>
+<p>In the brute force approach, for each query, you loop through every index in the specified 2D range and add the given value. This results in a much higher time complexity.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize a 2D array arr of size N x M with all zeros.</li>
+    <li>For each query ((top_left_x, top_left_y), (bottom_right_x, bottom_right_y), val):</li>
+    <ul>
+        <li>For each i from top_left_x to bottom_right_x, and each j from top_left_y to bottom_right_y, add val to arr[i][j].</li>
+    </ul>
+</ol>
+
+<p><strong>Code (Brute Force Solution):</strong></p>
+
+```python
+def apply_2d_queries_brute_force(N, M, queries):
+    arr = [[0] * M for _ in range(N)]
+    
+    for (tl_x, tl_y), (br_x, br_y), val in queries:
+        for i in range(tl_x, br_x + 1):
+            for j in range(tl_y, br_y + 1):
+                arr[i][j] += val
+                
+    return arr
+```
+
+
+
+<p><strong>Intuition (Optimized Solution):</strong></p>
+<p>For 2D range updates, we can use a <strong>2D Difference Array</strong>. The idea is to mark the top-left and bottom-right boundaries of each subarray range. This allows us to efficiently process all ranges in a single pass when calculating the final array values.</p>
+
+<ol>
+    <li>For each query ((top_left_x, top_left_y), (bottom_right_x, bottom_right_y), val):</li>
+    <ul>
+        <li>Add val to arr[top_left_x][top_left_y].</li>
+        <li>Subtract val from arr[bottom_right_x + 1][top_left_y] if bottom_right_x + 1 is within bounds.</li>
+        <li>Subtract val from arr[top_left_x][bottom_right_y + 1] if bottom_right_y + 1 is within bounds.</li>
+        <li>Add val to arr[bottom_right_x + 1][bottom_right_y + 1] if both are within bounds.</li>
+    </ul>
+</ol>
+<p>Finally, apply a 2D prefix sum to translate these markers into the final values.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Initialize a 2D array arr of size N x M with all zeros.</li>
+    <li>For each query ((top_left_x, top_left_y), (bottom_right_x, bottom_right_y), val):</li>
+    <ul>
+        <li>Add val to arr[top_left_x][top_left_y].</li>
+        <li>If bottom_right_x + 1 < N, subtract val from arr[bottom_right_x + 1][top_left_y].</li>
+        <li>If bottom_right_y + 1 < M, subtract val from arr[top_left_x][bottom_right_y + 1].</li>
+        <li>If both conditions above are met, add val to arr[bottom_right_x + 1][bottom_right_y + 1].</li>
+    </ul>
+    <li>Apply a cumulative 2D prefix sum to calculate the final values in the array.</li>
+</ol>
+
+<p><strong>Code (Optimized Solution):</strong></p>
+
+```python
+def apply_2d_queries(N, M, queries):
+    arr = [[0] * M for _ in range(N)]
+    
+    # Apply the difference array concept for each query
+    for (tl_x, tl_y), (br_x, br_y), val in queries:
+        arr[tl_x][tl_y] += val
+        if br_x + 1 < N:
+            arr[br_x + 1][tl_y] -= val
+        if br_y + 1 < M:
+            arr[tl_x][br_y + 1] -= val
+        if br_x + 1 < N and br_y + 1 < M:
+            arr[br_x + 1][br_y + 1] += val
+    
+    # Compute the prefix sums for rows and columns to get the final values
+    for i in range(N):
+        for j in range(M):
+            if i > 0:
+                arr[i][j] += arr[i - 1][j]
+            if j > 0:
+                arr[i][j] += arr[i][j - 1]
+            if i > 0 and j > 0:
+                arr[i][j] -= arr[i - 1][j - 1]
+    
+    return arr
+```
+
+<p><strong>Time and Space Complexity (Optimized Solution):</strong></p>
+<ul>
+    <li>Time Complexity: O(N * M + Q), where N and M are the dimensions of the array, and Q is the number of queries.</li>
+    <li>Space Complexity: O(N * M) for the 2D array.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Stamping The Grid</h2>
+<p><strong>Problem Statement:</strong></p>
+
+<p>You are given:</p>
+<ul>
+    <li>A binary matrix <code>grid</code> of size <code>m x n</code>, where each cell is either <code>0</code> (empty) or <code>1</code> (occupied).</li>
+    <li>Stamps of size <code>stampHeight x stampWidth</code>.</li>
+</ul>
+
+<p>The task is to determine if it’s possible to fit the stamps on <code>grid</code> such that:</p>
+<ul>
+    <li>All empty cells (<code>0</code>s) are covered.</li>
+    <li>No occupied cells (<code>1</code>s) are covered.</li>
+    <li>Stamps can overlap, but they cannot be rotated.</li>
+    <li>Stamps must remain entirely within the grid’s boundaries.</li>
+</ul>
+
+<p>If it’s possible to cover all empty cells under these conditions, return <strong>True</strong>; otherwise, return <strong>False</strong>.</p>
+
+<p><strong>Example Test Cases</strong></p>
+
+<p><strong>Example 1</strong></p>
+<pre>
+Input:
+grid = [[1,0,0,0],
+        [1,0,0,0],
+        [1,0,0,0],
+        [1,0,0,0],
+        [1,0,0,0]], 
+stampHeight = 4, stampWidth = 3
+Output: true
+Explanation: We can place two overlapping stamps to cover all empty cells.
+We have two overlapping stamps (labeled 1 and 2 in the image) that are able to cover all the empty cells.
+</pre>
+<img src="https://assets.leetcode.com/uploads/2021/11/03/ex1.png">
+
+<p><strong>Example 2</strong></p>
+<pre>
+Input:
+grid = [[1,0,0,0],
+        [0,1,0,0],
+        [0,0,1,0],
+        [0,0,0,1]], 
+stampHeight = 2, stampWidth = 2
+Output: false
+Explanation: We cannot cover all empty cells without covering any occupied cells.
+There is no way to fit the stamps onto all the empty cells without the stamps going outside the grid.
+</pre>
+<img src="https://assets.leetcode.com/uploads/2021/11/03/ex2.png">
+
+<p><strong>Intuition:</strong></p>
+
+<ol>
+    <li><strong>Prefix Sum Optimization:</strong> To efficiently check if a sub-matrix (of size <code>stampHeight x stampWidth</code>) is entirely empty (all <code>0</code>s), we use a <strong>prefix sum array</strong>. This helps compute the sum of elements within any sub-matrix in constant time, allowing us to quickly identify valid stamp placement locations.</li>
+    <li><strong>Marking Coverage with Stamps:</strong> Using a difference array approach, we increment and decrement specific matrix positions to mark where stamps start and end. This helps in tracking regions where stamps overlap, allowing us to verify if all <code>0</code>s are covered.</li>
+</ol>
+
+<p><strong>Steps to Solve:</strong></p>
+
+<ol>
+    <li><strong>Compute the Prefix Sum Array:</strong> Create a <code>prefix</code> array, where <code>prefix[i][j]</code> represents the sum of elements from the top-left corner <code>(0, 0)</code> to <code>(i, j)</code> in <code>grid</code>.</li>
+    <li><strong>Identify Valid Stamp Positions:</strong> Use the <code>getSum()</code> function to check if a region of size <code>stampHeight x stampWidth</code> is empty (<code>sum == 0</code>). If it is, adjust the values in a new <code>mat</code> array to mark where stamps start and stop.</li>
+    <li><strong>Apply Difference Array Technique:</strong> After marking potential stamp regions, compute another prefix sum (<code>prefixMat</code>) on <code>mat</code> to determine which cells are covered by stamps. This array tells us if a cell is stamped by checking for non-zero values in <code>prefixMat</code>.</li>
+    <li><strong>Validate All Empty Cells:</strong> Finally, iterate through <code>grid</code> to ensure all <code>0</code>s in the original <code>grid</code> are covered in <code>prefixMat</code>.</li>
+</ol>
+
+<p><strong>Code Implementation:</strong></p>
+
+```python
+def prefixSum(n, m, matrix):
+    prefix = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            sum = matrix[i][j]
+            if i > 0:
+                sum += prefix[i - 1][j]
+            if j > 0:
+                sum += prefix[i][j - 1]
+            if i > 0 and j > 0:
+                sum -= prefix[i - 1][j - 1]
+            prefix[i][j] = sum
+    return prefix
+
+def getSum(n, m, prefix, row1, col1, row2, col2):
+    sum = prefix[row2][col2]
+    if row1 > 0:
+        sum -= prefix[row1 - 1][col2]
+    if col1 > 0:
+        sum -= prefix[row2][col1 - 1]
+    if row1 > 0 and col1 > 0:
+        sum += prefix[row1 - 1][col1 - 1]
+    return sum
+
+def optimized(n, m, matrix, height, width):
+    prefix = prefixSum(n, m, matrix)
+    mat = [[0] * (m + 1) for _ in range(n + 1)]
+    
+    for i in range(n):
+        for j in range(m):
+            if i + height > n or j + width > m:
+                continue
+            if getSum(n, m, prefix, i, j, i + height - 1, j + width - 1) == 0:
+                mat[i][j] += 1
+                mat[i][j + width] -= 1
+                mat[i + height][j] -= 1
+                mat[i + height][j + width] += 1
+                
+    prefixMat = prefixSum(n + 1, m + 1, mat)
+    
+    for i in range(n):
+        for j in range(m):
+            if prefixMat[i][j] == 0 and matrix[i][j] != 1:
+                return False
+    return True
+
+# Input handling
+n, m = list(map(int, input().split()))
+matrix = [list(map(int, input().split())) for _ in range(n)]
+height = int(input())
+width = int(input())
+print(optimized(n, m, matrix, height, width))
+```
+
+<p><strong>Complexity Analysis:</strong></p>
+
+<ul>
+    <li><strong>Time Complexity:</strong> Calculating the prefix sum for <code>grid</code>: <code>O(m x n)</code>. Checking all possible positions for the stamp and marking them: <code>O(m x n)</code>. Calculating <code>prefixMat</code> for coverage validation: <code>O(m x n)</code>. Overall: <code>O(m x n)</code>.</li>
+    <li><strong>Space Complexity:</strong> Extra space for <code>prefix</code>, <code>mat</code>, and <code>prefixMat</code>: <code>O(m x n)</code>.</li>
+</ul>
+
+<br>
+<br>
+
+<h2>Count Artifacts That Can Be Extracted</h2>
+<p><strong>Problem Statement:</strong></p>
+
+<p>Given:</p>
+<ul>
+    <li>An <code>n x n</code> grid with buried artifacts, represented as a rectangular section of the grid.</li>
+    <li>A 2D integer array <code>artifacts</code> where each artifact is defined by four coordinates: <code>artifacts[i] = [r1i, c1i, r2i, c2i]</code>. Here:</li>
+    <ul>
+        <li><code>(r1i, c1i)</code> is the coordinate of the top-left cell of the artifact.</li>
+        <li><code>(r2i, c2i)</code> is the coordinate of the bottom-right cell of the artifact.</li>
+    </ul>
+    <li>A 2D integer array <code>dig</code>, where each element <code>dig[i] = [ri, ci]</code> indicates that the cell <code>(ri, ci)</code> will be excavated, removing any mud and uncovering any artifact beneath it.</li>
+</ul>
+
+<p>The task is to return the number of artifacts that can be extracted completely, meaning all parts of each artifact are uncovered.</p>
+
+<p><strong>Sample Test Cases:</strong></p>
+<pre>
+Example 1:
+Input: n = 2, artifacts = [[0,0,0,0],[0,1,1,1]], dig = [[0,0],[0,1]]
+Output: 1
+<img src="https://assets.leetcode.com/uploads/2019/09/16/untitled-diagram.jpg">
+The different colors represent different artifacts. Excavated cells are labeled with a 'D' in the grid.
+There is 1 artifact that can be extracted, namely the red artifact.
+The blue artifact has one part in cell (1,1) which remains uncovered, so we cannot extract it.
+Thus, we return 1.
+
+Example 2:
+Input: n = 2, artifacts = [[0,0,0,0],[0,1,1,1]], dig = [[0,0],[0,1],[1,1]]
+Output: 2
+<img src="https://assets.leetcode.com/uploads/2019/09/16/untitled-diagram-1.jpg">
+Both the red and blue artifacts have all parts uncovered (labeled with a 'D') and can be extracted, so we return 2. 
+</pre>
+
+<h2>Brute Force Approach</h2>
+
+<p><strong>Intuition:</strong></p>
+<p>The brute force method involves checking each artifact to see if it is fully uncovered by excavated cells. This is a straightforward method, iterating through each artifact and checking each cell within the artifact's bounds.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Create an <code>n x n</code> matrix initialized to 0.</li>
+    <li>Mark the excavated cells in the matrix (set to 1).</li>
+    <li>For each artifact, iterate over its covered cells.</li>
+    <li>If all cells of an artifact are marked as excavated (1), increment the counter for extractable artifacts.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def bruteForce(n, artifacts, dig):
+    ans = 0
+    matrix = [[0] * n for _ in range(n)]
+    for i, j in dig:
+        matrix[i][j] = 1
+    
+    for row1, col1, row2, col2 in artifacts:
+        covered = True
+        for i in range(row1, row2 + 1):
+            for j in range(col1, col2 + 1):
+                if matrix[i][j] != 1:
+                    covered = False
+                    break
+            if not covered:
+                break
+        if covered:
+            ans += 1
+    return ans
+```
+
+<p><strong>Time Complexity:</strong> <code>O(n^2 * k)</code>, where <code>k</code> is the number of artifacts.</p>
+<p><strong>Space Complexity:</strong> <code>O(n^2)</code> for the excavation matrix.</p>
+
+<h2>Optimized Approach</h2>
+
+<p><strong>Intuition:</strong></p>
+<p>The optimized approach utilizes a prefix sum matrix to efficiently count how many excavated cells are in any rectangular area defined by the artifacts. This allows for quick checks on whether an artifact is fully uncovered.</p>
+
+<p><strong>Steps to Solve:</strong></p>
+<ol>
+    <li>Create an <code>n x n</code> matrix initialized to 0.</li>
+    <li>Mark the excavated cells in the matrix (set to 1).</li>
+    <li>Compute the prefix sum matrix for quick area sum queries.</li>
+    <li>For each artifact, calculate the total number of cells it covers.</li>
+    <li>Using the prefix sum, quickly check if the total excavated cells equal the total cells covered by the artifact.</li>
+    <li>If they match, increment the counter for extractable artifacts.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def prefix(n, m, matrix):
+    prefixSum = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            sum = matrix[i][j]
+            if i > 0:
+                sum += prefixSum[i - 1][j]
+            if j > 0:
+                sum += prefixSum[i][j - 1]
+            if i > 0 and j > 0:
+                sum -= prefixSum[i - 1][j - 1]
+            prefixSum[i][j] = sum
+    return prefixSum
+
+def optimized(n, artifacts, dig):
+    ans = 0
+    matrix = [[0] * n for _ in range(n)]
+    for i, j in dig:
+        matrix[i][j] = 1
+    
+    prefixSum = prefix(n, n, matrix)
+    for row1, col1, row2, col2 in artifacts:
+        totalCells = (row2 - row1 + 1) * (col2 - col1 + 1)
+        sum = prefixSum[row2][col2]
+        
+        if row1 > 0:
+            sum -= prefixSum[row1 - 1][col2]
+        if col1 > 0:
+            sum -= prefixSum[row2][col1 - 1]
+        if row1 > 0 and col1 > 0:
+            sum += prefixSum[row1 - 1][col1 - 1]
+        
+        if sum == totalCells:
+            ans += 1
+    return ans
+```
+
+<p><strong>Time Complexity:</strong> <code>O(n^2)</code> for calculating prefix sums and checking each artifact.</p>
+<p><strong>Space Complexity:</strong> <code>O(n^2)</code> for the excavation matrix and prefix sum matrix.</p>
+
+<br>
+<br>
+
+<h2>Grid Game</h2>
+<p><strong>Problem Statement:</strong></p>
+
+<p>You are given a 0-indexed 2D array <code>grid</code> of size <code>2 x n</code>, where <code>grid[r][c]</code> represents the number of points at position <code>(r, c)</code> on the matrix. Two robots start at <code>(0, 0)</code> and want to reach <code>(1, n-1)</code> by only moving right or down.</p>
+
+<p>After the first robot moves to <code>(1, n-1)</code> and collects points, it sets the points in the cells it traverses to 0. The second robot then moves, trying to maximize its collected points from the remaining cells. The goal is to return the number of points collected by the second robot if both robots play optimally.</p>
+
+<p><strong>Sample Test Cases:</strong></p>
+<pre>
+Example 1:
+Input: grid = [[2,5,4],[1,5,1]]
+Output: 4
+<img src="https://assets.leetcode.com/uploads/2021/09/08/a1.png">
+
+Example 2:
+Input: grid = [[3,3,1],[8,5,2]]
+Output: 4
+<img src="https://assets.leetcode.com/uploads/2021/09/08/a2.png">
+
+Example 3:
+Input: grid = [[1,3,1,15],[1,3,3,1]]
+Output: 7
+<img src="https://assets.leetcode.com/uploads/2021/09/08/a3.png">
+</pre>
+
+<h2>Intuition:</h2>
+<p>To solve this problem, we need to calculate how the first robot's path affects the second robot's potential score. The first robot's objective is to minimize the points available for the second robot while still reaching the end. Hence, both robots will choose paths that are optimal for their respective goals.</p>
+
+<h2>Steps to Solve:</h2>
+<ol>
+    <li>Compute the prefix sums for both rows. This will allow efficient calculation of points collected up to each column.</li>
+    <li>Iterate through each column to simulate the first robot's decision to stop at that column.</li>
+    <li>Calculate the remaining points for the second robot based on the prefix sums after the first robot's path is considered:</li>
+    <ul>
+        <li>For the top row, calculate the total points after the first robot has collected points until the current column.</li>
+        <li>For the bottom row, consider only the points to the left of the current column.</li>
+    </ul>
+    <li>Determine the maximum points the second robot can collect from the remaining options.</li>
+    <li>Find the minimum points the second robot can achieve across all column stops of the first robot.</li>
+</ol>
+
+<p><strong>Code:</strong></p>
+
+```python
+def optimized(n, m, matrix):
+    prefix1, prefix2 = matrix[0].copy(), matrix[1].copy()
+    for i in range(1, m):
+        prefix1[i] += prefix1[i - 1]
+        prefix2[i] += prefix2[i - 1]
+
+    ans = float('inf')
+    for i in range(m):
+        top = prefix1[-1] - prefix1[i]
+        bottom = prefix2[i - 1] if (i > 0) else 0
+        points = max(top, bottom)
+        ans = min(ans, points)
+    
+    return ans
+
+n, m = list(map(int, input().split()))
+matrix = [list(map(int, input().split())) for i in range(n)]
+print(optimized(n, m, matrix))
+```
+
+
+<p><strong>Time Complexity:</strong> <code>O(n + m)</code>, where <code>n</code> is the number of rows (which is fixed as 2) and <code>m</code> is the number of columns.</p>
+<p><strong>Space Complexity:</strong> <code>O(m)</code> for storing prefix sums for the two rows.</p>
+
+<br>
+<br>
+
+<h2>Maximal Square</h2>
+<p><strong>Problem Statement:</strong></p>
+
+<p>Given an <code>m x n</code> binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.</p>
+
+<p><strong>Example Test Cases:</strong></p>
+<pre>
+Example 1:
+Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+Output: 4
+<img src="https://assets.leetcode.com/uploads/2020/11/26/max1grid.jpg">
+
+Example 2:
+Input: matrix = [["0","1"],["1","0"]]
+Output: 1
+<img src="https://assets.leetcode.com/uploads/2020/11/26/max2grid.jpg">
+
+Example 3:
+Input: matrix = [["0"]]
+Output: 0
+</pre>
+
+<h2>Brute Force Approach:</h2>
+<p>The brute force solution involves checking every possible square in the matrix. We define a helper function to check if a square of a given length starting from a specific cell is filled with 1's.</p>
+
+<h2>Steps to Solve (Brute Force):</h2>
+<ol>
+    <li>Initialize a variable <code>maxi</code> to keep track of the largest square length found.</li>
+    <li>Iterate through each cell in the matrix.</li>
+    <li>If the current cell is 1, attempt to create squares of increasing sizes, checking if they are all 1's using the <code>check</code> function.</li>
+    <li>Update <code>maxi</code> with the largest side length found.</li>
+    <li>The area of the largest square is <code>maxi * maxi</code>.</li>
+</ol>
+
+<p><strong>Code (Brute Force):</strong></p>
+
+```python
+def bruteForce(n, m, matrix):
+    maxi = 0
+    def check(row, col, length):
+        for r in range(row, row + length):
+            for c in range(col, col + length):
+                if matrix[r][c] == '0':
+                    return False
+        return True
+    
+    for i in range(n):
+        for j in range(m):
+            if matrix[i][j] == '1':
+                for sideLen in range(1, min(n - i, m - j) + 1):
+                    temp = check(i, j, sideLen)
+                    if temp:
+                        maxi = max(maxi, sideLen)
+    area = maxi * maxi
+    return area
+```
+
+<h2>Time and Space Complexity (Brute Force):</h2>
+<p><strong>Time Complexity:</strong> <code>O(n^2 * m^2)</code> because for each cell, we may check a square of size up to <code>min(n, m)</code>.</p>
+<p><strong>Space Complexity:</strong> <code>O(1)</code>, as we are using only a few additional variables.</p>
+
+<h2>Optimized Approach:</h2>
+<p>The optimized solution uses dynamic programming to store the maximum side length of squares ending at each cell.</p>
+
+<h2>Steps to Solve (Optimized):</h2>
+<ol>
+    <li>Create a <code>dp</code> array where <code>dp[i][j]</code> stores the size of the largest square whose bottom-right corner is at <code>(i, j)</code>.</li>
+    <li>Initialize the first row and column of the <code>dp</code> array based on the input matrix.</li>
+    <li>For each cell that contains a 1, calculate the value of <code>dp[i][j]</code> as:</li>
+    <ul>
+        <li><code>dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1</code></li>
+    </ul>
+    <li>Track the maximum value in the <code>dp</code> array during the calculation.</li>
+    <li>The area of the largest square is the maximum side length squared.</li>
+</ol>
+
+<p><strong>Code (Optimized):</strong></p>
+
+
+```python
+def optimized(n, m, matrix):
+    dp = [[0] * m for i in range(n)]
+    for i in range(n):
+        dp[i][0] = int(matrix[i][0])
+    for j in range(m):
+        dp[0][j] = int(matrix[0][j])
+    
+    maxi = 0
+    for i in range(n):
+        for j in range(m):
+            if matrix[i][j] != '1':
+                continue
+            left = dp[i][j-1] if j > 0 else 0
+            top = dp[i-1][j] if i > 0 else 0
+            diagonal = dp[i-1][j-1] if i > 0 and j > 0 else 0
+            
+            dp[i][j] = min(left, top, diagonal) + 1
+            maxi = max(dp[i][j], maxi)
+    
+    area = maxi * maxi
+    return area
+```
+
+<h2>Time and Space Complexity (Optimized):</h2>
+<p><strong>Time Complexity:</strong> <code>O(n * m)</code>, as we traverse each cell once.</p>
+<p><strong>Space Complexity:</strong> <code>O(n * m)</code> for the <code>dp</code> array to store intermediate results.</p>
+
+
+<br>
+<br>
+
+<h2>Maximum Difference Score in a Grid</h2>
+<p><strong>Problem Statement:</strong></p>
+
+<p>You are given an <code>m x n</code> matrix <code>grid</code> consisting of positive integers. You can move from a cell in the matrix to any other cell that is either to the bottom or to the right (not necessarily adjacent). The score of a move from a cell with the value <code>c1</code> to a cell with the value <code>c2</code> is <code>c2 - c1</code>.</p>
+
+<p>You can start at any cell, and you have to make at least one move.</p>
+
+<p>Return the maximum total score you can achieve.</p>
+
+<p><strong>Example Test Cases:</strong></p>
+<pre>
+Example 1:
+Input: grid = [[9,5,7,3],[8,9,6,1],[6,7,14,3],[2,5,3,1]]
+Output: 9
+
+Explanation: We start at the cell (0, 1), and we perform the following moves:
+- Move from the cell (0, 1) to (2, 1) with a score of 7 - 5 = 2.
+- Move from the cell (2, 1) to (2, 2) with a score of 14 - 7 = 7.
+The total score is 2 + 7 = 9.
+
+Example 2:
+Input: grid = [[4,3,2],[3,2,1]]
+Output: -1
+
+Explanation: We start at the cell (0, 0), and we perform one move: (0, 0) to (0, 1). The score is 3 - 4 = -1.
+</pre>
+
+<h2>Brute Force Approach:</h2>
+<p>The brute force solution would involve trying every possible starting point and then exploring all possible moves to calculate the score. This is inefficient as it would require examining all potential paths in the grid.</p>
+
+<h2>Steps to Solve (Brute Force):</h2>
+<ol>
+    <li>For each cell in the grid, start from that cell and recursively explore all paths moving only downwards or to the right.</li>
+    <li>At each step, calculate the score of moving to the next cell and accumulate this score.</li>
+    <li>Keep track of the maximum score found during this exploration.</li>
+</ol>
+
+<p><strong>Code (Brute Force):</strong></p>
+
+```python
+def bruteForce(n, m, grid):
+    max_score = -float('inf')
+
+    def dfs(x, y, prev_value, current_score):
+        nonlocal max_score
+        # Calculate the score for this path
+        max_score = max(max_score, current_score)
+        
+        # Explore all valid moves
+        for i in range(x + 1, n):
+            for j in range(y, m):
+                score = grid[i][j] - prev_value
+                dfs(i, j, grid[i][j], current_score + score)
+    
+    for i in range(n):
+        for j in range(m):
+            dfs(i, j, grid[i][j], 0)
+    
+    return max_score
+```
+
+<h2>Time and Space Complexity (Brute Force):</h2>
+<p><strong>Time Complexity:</strong> Exponential in the worst case due to exploring all paths.</p>
+<p><strong>Space Complexity:</strong> <code>O(n * m)</code> for the recursion stack in the worst case.</p>
+
+<h2>Optimized Approach:</h2>
+<p>The optimized solution uses dynamic programming to keep track of the maximum score achievable from each cell.</p>
+
+<h2>Steps to Solve (Optimized):</h2>
+<ol>
+    <li>Create a <code>dp</code> array where <code>dp[i][j]</code> holds the maximum score achievable when reaching cell <code>(i, j)</code>.</li>
+    <li>For each cell in the grid, calculate the possible moves from above and left, and update the score accordingly.</li>
+    <li>Track the overall maximum score in a separate variable.</li>
+</ol>
+
+<p><strong>Code (Optimized):</strong></p>
+
+```python
+def optimized(n, m, matrix):
+    ans = -float('inf')
+    dp = [[0] * m for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(m):
+            top = left = float('inf')
+            if i > 0:
+                top = matrix[i-1][j]
+            if j > 0:
+                left = matrix[i][j-1]
+                
+            includeTop = dp[i-1][j] + matrix[i][j] - top if i > 0 else float('-inf')
+            excludeTop = matrix[i][j] - top if i > 0 else float('-inf')
+            includeLeft = dp[i][j-1] + matrix[i][j] - left if j > 0 else float('-inf')
+            excludeLeft = matrix[i][j] - left if j > 0 else float('-inf')
+            
+            dp[i][j] = max(includeTop, excludeTop, includeLeft, excludeLeft)
+            ans = max(ans, dp[i][j])
+    
+    return ans
+```
+
+<h2>Time and Space Complexity (Optimized):</h2>
+<p><strong>Time Complexity:</strong> <code>O(n * m)</code>, since we iterate through each cell once.</p>
+<p><strong>Space Complexity:</strong> <code>O(n * m)</code> for the <code>dp</code> array to store intermediate results.</p>
 
