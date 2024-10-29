@@ -476,6 +476,31 @@
 	    <td><a href="https://leetcode.com/problems/matrix-block-sum/description/">LeetCode</a></td>
 	</tr>
 	<tr>
+	    <td>Stamping The Grid</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#stamping-the-grid">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/stamping-the-grid/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Count Artifacts That Can Be Extracted</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#count-artifacts-that-can-be-extracted">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/count-artifacts-that-can-be-extracted/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Grid Game</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#grid-game">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/grid-game/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Maximal Square (Related To DP)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#maximal-square">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/maximal-square/description/">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Maximum Difference Score in a Grid (Related To DP)</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#maximum-difference-score-in-a-grid">Click Here</a></td>
+	    <td><a href="https://leetcode.com/problems/maximum-difference-score-in-a-grid/description/">LeetCode</a></td>
+	</tr>
+	<tr>
 		<th colspan="3">Subarray Related</th>
 	</tr>
 	<tr>

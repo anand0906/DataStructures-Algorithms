@@ -4563,10 +4563,10 @@ Output: 7
 <img src="https://assets.leetcode.com/uploads/2021/09/08/a3.png">
 </pre>
 
-<h2>Intuition:</h2>
+<p><strong>Intuition:</strong></p>
 <p>To solve this problem, we need to calculate how the first robot's path affects the second robot's potential score. The first robot's objective is to minimize the points available for the second robot while still reaching the end. Hence, both robots will choose paths that are optimal for their respective goals.</p>
 
-<h2>Steps to Solve:</h2>
+<p><strong>Steps to Solve:<p><strong>
 <ol>
     <li>Compute the prefix sums for both rows. This will allow efficient calculation of points collected up to each column.</li>
     <li>Iterate through each column to simulate the first robot's decision to stop at that column.</li>
@@ -4634,7 +4634,7 @@ Output: 0
 <h2>Brute Force Approach:</h2>
 <p>The brute force solution involves checking every possible square in the matrix. We define a helper function to check if a square of a given length starting from a specific cell is filled with 1's.</p>
 
-<h2>Steps to Solve (Brute Force):</h2>
+<p><strong>Steps to Solve (Brute Force):</strong></p>
 <ol>
     <li>Initialize a variable <code>maxi</code> to keep track of the largest square length found.</li>
     <li>Iterate through each cell in the matrix.</li>
@@ -4666,14 +4666,14 @@ def bruteForce(n, m, matrix):
     return area
 ```
 
-<h2>Time and Space Complexity (Brute Force):</h2>
+<p><strong>Time and Space Complexity (Brute Force):</strong></p>
 <p><strong>Time Complexity:</strong> <code>O(n^2 * m^2)</code> because for each cell, we may check a square of size up to <code>min(n, m)</code>.</p>
 <p><strong>Space Complexity:</strong> <code>O(1)</code>, as we are using only a few additional variables.</p>
 
 <h2>Optimized Approach:</h2>
 <p>The optimized solution uses dynamic programming to store the maximum side length of squares ending at each cell.</p>
 
-<h2>Steps to Solve (Optimized):</h2>
+<p><strong>Steps to Solve (Optimized):</strong></p>s
 <ol>
     <li>Create a <code>dp</code> array where <code>dp[i][j]</code> stores the size of the largest square whose bottom-right corner is at <code>(i, j)</code>.</li>
     <li>Initialize the first row and column of the <code>dp</code> array based on the input matrix.</li>
@@ -4712,7 +4712,7 @@ def optimized(n, m, matrix):
     return area
 ```
 
-<h2>Time and Space Complexity (Optimized):</h2>
+<p><strong>Time and Space Complexity (Optimized):</strong></p>
 <p><strong>Time Complexity:</strong> <code>O(n * m)</code>, as we traverse each cell once.</p>
 <p><strong>Space Complexity:</strong> <code>O(n * m)</code> for the <code>dp</code> array to store intermediate results.</p>
 
@@ -4747,10 +4747,10 @@ Output: -1
 Explanation: We start at the cell (0, 0), and we perform one move: (0, 0) to (0, 1). The score is 3 - 4 = -1.
 </pre>
 
-<h2>Brute Force Approach:</h2>
+<p><strong>Brute Force Approach:</strong></p>
 <p>The brute force solution would involve trying every possible starting point and then exploring all possible moves to calculate the score. This is inefficient as it would require examining all potential paths in the grid.</p>
 
-<h2>Steps to Solve (Brute Force):</h2>
+<p><strong>Steps to Solve (Brute Force):</strong></p>
 <ol>
     <li>For each cell in the grid, start from that cell and recursively explore all paths moving only downwards or to the right.</li>
     <li>At each step, calculate the score of moving to the next cell and accumulate this score.</li>
@@ -4781,14 +4781,14 @@ def bruteForce(n, m, grid):
     return max_score
 ```
 
-<h2>Time and Space Complexity (Brute Force):</h2>
+<p><strong>Time and Space Complexity (Brute Force):</strong></p>
 <p><strong>Time Complexity:</strong> Exponential in the worst case due to exploring all paths.</p>
 <p><strong>Space Complexity:</strong> <code>O(n * m)</code> for the recursion stack in the worst case.</p>
 
 <h2>Optimized Approach:</h2>
 <p>The optimized solution uses dynamic programming to keep track of the maximum score achievable from each cell.</p>
 
-<h2>Steps to Solve (Optimized):</h2>
+<p><strong>Steps to Solve (Optimized):</strong></p>
 <ol>
     <li>Create a <code>dp</code> array where <code>dp[i][j]</code> holds the maximum score achievable when reaching cell <code>(i, j)</code>.</li>
     <li>For each cell in the grid, calculate the possible moves from above and left, and update the score accordingly.</li>
@@ -4821,7 +4821,7 @@ def optimized(n, m, matrix):
     return ans
 ```
 
-<h2>Time and Space Complexity (Optimized):</h2>
+<p><strong>Time and Space Complexity (Optimized):</strong></p>
 <p><strong>Time Complexity:</strong> <code>O(n * m)</code>, since we iterate through each cell once.</p>
 <p><strong>Space Complexity:</strong> <code>O(n * m)</code> for the <code>dp</code> array to store intermediate results.</p>
 
