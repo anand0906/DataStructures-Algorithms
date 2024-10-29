@@ -4438,7 +4438,7 @@ Output: 2
 Both the red and blue artifacts have all parts uncovered (labeled with a 'D') and can be extracted, so we return 2. 
 </pre>
 
-<h2>Brute Force Approach</h2>
+<p><strong>Brute Force Approach</strong></p>
 
 <p><strong>Intuition:</strong></p>
 <p>The brute force method involves checking each artifact to see if it is fully uncovered by excavated cells. This is a straightforward method, iterating through each artifact and checking each cell within the artifact's bounds.</p>
@@ -4477,7 +4477,7 @@ def bruteForce(n, artifacts, dig):
 <p><strong>Time Complexity:</strong> <code>O(n^2 * k)</code>, where <code>k</code> is the number of artifacts.</p>
 <p><strong>Space Complexity:</strong> <code>O(n^2)</code> for the excavation matrix.</p>
 
-<h2>Optimized Approach</h2>
+<p><strong>Optimized Approach</strong></p>
 
 <p><strong>Intuition:</strong></p>
 <p>The optimized approach utilizes a prefix sum matrix to efficiently count how many excavated cells are in any rectangular area defined by the artifacts. This allows for quick checks on whether an artifact is fully uncovered.</p>
@@ -4631,7 +4631,7 @@ Input: matrix = [["0"]]
 Output: 0
 </pre>
 
-<h2>Brute Force Approach:</h2>
+<p><strong>Brute Force Approach:</strong></p>
 <p>The brute force solution involves checking every possible square in the matrix. We define a helper function to check if a square of a given length starting from a specific cell is filled with 1's.</p>
 
 <p><strong>Steps to Solve (Brute Force):</strong></p>
@@ -4670,7 +4670,7 @@ def bruteForce(n, m, matrix):
 <p><strong>Time Complexity:</strong> <code>O(n^2 * m^2)</code> because for each cell, we may check a square of size up to <code>min(n, m)</code>.</p>
 <p><strong>Space Complexity:</strong> <code>O(1)</code>, as we are using only a few additional variables.</p>
 
-<h2>Optimized Approach:</h2>
+<p><strong>Optimized Approach:</strong></p>
 <p>The optimized solution uses dynamic programming to store the maximum side length of squares ending at each cell.</p>
 
 <p><strong>Steps to Solve (Optimized):</strong></p>s
@@ -4785,7 +4785,7 @@ def bruteForce(n, m, grid):
 <p><strong>Time Complexity:</strong> Exponential in the worst case due to exploring all paths.</p>
 <p><strong>Space Complexity:</strong> <code>O(n * m)</code> for the recursion stack in the worst case.</p>
 
-<h2>Optimized Approach:</h2>
+<p><strong>Optimized Approach:</strong></p>
 <p>The optimized solution uses dynamic programming to keep track of the maximum score achievable from each cell.</p>
 
 <p><strong>Steps to Solve (Optimized):</strong></p>
