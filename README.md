@@ -476,6 +476,16 @@
 	    <td><a href="https://leetcode.com/problems/matrix-block-sum/description/">LeetCode</a></td>
 	</tr>
 	<tr>
+	    <td>Range Adding 1-D Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#constant-time-range-add-operation-on-an-array">Click Here</a></td>
+	    <td><a href="">LeetCode</a></td>
+	</tr>
+	<tr>
+	    <td>Range Adding 2-D Array</td>
+	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#constant-time-range-add-operation-on-2-d-array">Click Here</a></td>
+	    <td><a href="#">LeetCode</a></td>
+	</tr>
+	<tr>
 	    <td>Stamping The Grid</td>
 	    <td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Prefix%20Sum#stamping-the-grid">Click Here</a></td>
 	    <td><a href="https://leetcode.com/problems/stamping-the-grid/description/">LeetCode</a></td>
