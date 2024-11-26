@@ -190,30 +190,20 @@ This combined approach ensures that we can efficiently calculate the maximum for
 
 ```python
 from collections import deque
-def optimized(n, arr, k):
-    final = []
-    q = deque()
-    
-    # Process the first k elements
+def optimized(n,arr,k):
+    q=deque()
     for i in range(k):
-        while q and arr[i] >= arr[q[-1]]:
-            q.pop()  # Remove indices of elements smaller than the current element
-        q.append(i)  # Add current index
-    
-    # Process the rest of the array
-    for i in range(k, n):
-        final.append(arr[q[0]])  # Add the maximum of the previous window
-        
-        # Remove elements out of the current window
-        while q and q[0] <= i - k:
+        while q and arr[i]>=arr[q[-1]]:
+            q.pop()
+        q.append(i)
+    final=[arr[q[0]]]
+    for i in range(k,n):
+        while q and q[0]<=i-k:
             q.popleft()
-        
-        while q and arr[i] >= arr[q[-1]]:
-            q.pop()  # Maintain the maximum in the deque
-        
-        q.append(i)  # Add the current index
-    
-    final.append(arr[q[0]])  # Add the maximum of the last window
+        while q and arr[i]>=arr[q[-1]]:
+            q.pop()
+        q.append(i)
+        final.append(arr[q[0]])
     return final
 ```
 
