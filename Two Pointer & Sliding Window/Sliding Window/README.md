@@ -318,40 +318,44 @@ This method allows us to compute the sum of the minimum and maximum of all subar
 
 ```python
 from collections import deque
-def optimized(n, arr, k):
-    total = 0
-    smaller = deque()  # For min
-    greater = deque()  # For max
+
+def optimized_min_max_sum(n, arr, k):
+    min_q = deque()  # For tracking the minimum elements
+    max_q = deque()  # For tracking the maximum elements
 
     # Process the first k elements
     for i in range(k):
-        while smaller and arr[i] <= arr[smaller[-1]]:
-            smaller.pop()  # Remove indices of elements larger than current
-        while greater and arr[i] >= arr[greater[-1]]:
-            greater.pop()  # Remove indices of elements smaller than current
-        smaller.append(i)  # Add current index for min
-        greater.append(i)  # Add current index for max
+        while min_q and arr[i] <= arr[min_q[-1]]:
+            min_q.pop()
+        while max_q and arr[i] >= arr[max_q[-1]]:
+            max_q.pop()
+        min_q.append(i)
+        max_q.append(i)
     
+    # Initialize the total sum with the first window
+    total = arr[min_q[0]] + arr[max_q[0]]
+
     # Process the rest of the array
     for i in range(k, n):
-        total += (arr[smaller[0]] + arr[greater[0]])  # Add min and max of the previous window
+        # Remove indices outside the current window
+        while min_q and min_q[0] <= i - k:
+            min_q.popleft()
+        while max_q and max_q[0] <= i - k:
+            max_q.popleft()
         
-        # Remove elements out of the current window
-        while smaller and smaller[0] <= i - k:
-            smaller.popleft()
-        while greater and greater[0] <= i - k:
-            greater.popleft()
-        
-        # Maintain the order for the new element
-        while smaller and arr[i] <= arr[smaller[-1]]:
-            smaller.pop()
-        while greater and arr[i] >= arr[greater[-1]]:
-            greater.pop()
-        smaller.append(i)  # Add current index for min
-        greater.append(i)  # Add current index for max
+        # Add the current element to the deques
+        while min_q and arr[i] <= arr[min_q[-1]]:
+            min_q.pop()
+        while max_q and arr[i] >= arr[max_q[-1]]:
+            max_q.pop()
+        min_q.append(i)
+        max_q.append(i)
+
+        # Update the total with the minimum and maximum of the current window
+        total += arr[min_q[0]] + arr[max_q[0]]
     
-    total += (arr[smaller[0]] + arr[greater[0]])  # Add min and max of the last window
     return total
+
 ```
 
 <p><strong>Time and Space Complexity:</strong></p>
