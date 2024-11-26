@@ -292,14 +292,14 @@
 		<td><a href="https://www.naukri.com/code360/problems/sum-of-minimum-and-maximum-elements-of-all-subarrays-of-size-k_1171047">CodingNinjas</a></td>
 	</tr>
 	<tr>
-		<td>Count Of Distinct Elements In All Subarrays Of Size k</td>
-		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#count-of-distinct-elements-in-all-subarrays-of-size-k">Click Here</a></td>
-		<td><a href="https://www.geeksforgeeks.org/problems/count-distinct-elements-in-every-window/1">GeeksForGeeks</a></td>
-	</tr>
-	<tr>
 		<td>Find First Negative Number Of Subarray Of Size k</td>
 		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#find-first-negative-number-of-subarray-of-size-k">Click Here</a></td>
 		<td><a href="https://www.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<td>Count Of Distinct Elements In All Subarrays Of Size k</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Two%20Pointer%20%26%20Sliding%20Window/Sliding%20Window#count-of-distinct-elements-in-all-subarrays-of-size-k">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/count-distinct-elements-in-every-window/1">GeeksForGeeks</a></td>
 	</tr>
 	<tr>
 		<td>Maximum Points You Can Obtain from Cards</td>
