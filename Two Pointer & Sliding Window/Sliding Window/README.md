@@ -607,32 +607,26 @@ The optimized approach uses a **deque** (double-ended queue) to keep track of th
 
 ```python
 from collections import deque
-def optimized(n, arr, k):
-    ans = []
-    q = deque()
-    
-    # Process the first k elements
+def optimized(n,arr,k):
+    q=deque()
     for i in range(k):
-        if arr[i] < 0:  # If it's negative, store its index
+        if(arr[i]<0):
             q.append(i)
-
-    # Process the rest of the array
-    for i in range(k, n):
-        if q:  # If there are negative numbers, take the first one
-            ans.append(arr[q[0]])
-        else:
-            ans.append(0)  # No negative number in the current window
-
-        # Remove indices that are out of the bounds of the current window
-        while q and q[0] <= i - k:
+    final=[]
+    if(q):
+        final.append(arr[q[0]])
+    else:
+        final.append(0)
+    for i in range(k,n):
+        while q and q[0]<=i-k:
             q.popleft()
-
-        if arr[i] < 0:  # If the new element is negative, add its index to the deque
+        if(arr[i]<0):
             q.append(i)
-
-    # Process the last window
-    ans.append(arr[q[0]] if q else 0)
-    return ans
+        if(q):
+            final.append(arr[q[0]])
+        else:
+            final.append(0)
+    return final
 ```
 
 <p><strong>Time and Space Complexity:</strong></p>
