@@ -722,3 +722,51 @@
 	    <td><a href="https://leetcode.com/problems/number-of-pairs-satisfying-inequality/description/">LeetCode</a></td>
 	</tr>
 </table>
+
+
+<h2>Stack</h2>
+
+<table>
+	<tr>
+		<th>Problem</th>
+		<th>Article</th>
+		<th>Practice</th>
+	</tr>
+	<tr>
+		<th colspan="3">Basics</th>
+	</tr>
+	<tr>
+		<td>Implementation of stack using array</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Stack#implementation-of-stack-using-array">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/implement-stack-using-array/1">GeeksForGeeks</a></td>
+	</tr>
+	<tr>
+		<td>Implementation of stack using Linked List</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Stack#implementation-of-stack-using-linked-list">Click Here</a></td>
+		<td><a href="https://www.geeksforgeeks.org/problems/implement-stack-using-linked-list/1">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Implementation of stack using queue</td>
+		<td><a href="#">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/implement-stack-using-queues/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td>Implementation of MinStack</td>
+		<td><a href="https://github.com/anand0906/DataStructures-Algorithms/tree/main/Stack#design-a-min-stack">Click Here</a></td>
+		<td><a href="https://leetcode.com/problems/min-stack/description/">Leetcode</a></td>
+	</tr>
+	<tr>
+		<th colspan="3">Based on Expressions</th>
+	</tr>
+	<tr>
+		<td></td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><a href="">Click Here</a></td>
+		<td><a href="">Leetcode</a></td>
+	</tr>
+	
+</table>
