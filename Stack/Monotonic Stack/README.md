@@ -24,6 +24,8 @@ There are four types of monotonic stacks based on the order of elements (from bo
 | **Strictly Decreasing** | Each element is strictly less than the previous one.       | `[9, 8, 5, 4, 1]`    |
 | **Non-increasing**      | Each element is less than or equal to the previous one.    | `[9, 9, 8, 5, 5, 1]` |
 
+<img src="https://assets.leetcode.com/users/images/e290dfef-faf5-40aa-8615-574a50519c22_1715063778.8476539.jpeg"/>
+
 ---
 
 ### 🔢 Time and Space Complexity 🔢
