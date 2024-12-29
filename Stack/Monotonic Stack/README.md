@@ -38,6 +38,7 @@ There are four types of monotonic stacks based on the order of elements (from bo
 ### 🔄 Building a Monotonic Stack 🔄
 
 To maintain a monotonic property (increasing or decreasing), we carefully decide when to remove elements from the stack before pushing a new element.
+In the following examples, stack will always maintain monotonic order.
 
 ---
 
