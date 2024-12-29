@@ -100,7 +100,7 @@ for i in range(n):
 
 ---
 
-#### 🔾 Non-increasing Stack 🔾
+#### ⬇️ Non-increasing Stack ⬇️
 
 A **non-increasing stack** allows duplicate or equal values.
 
