@@ -306,4 +306,104 @@ def reverse_nse(n, arr):
 Similarly, you can reverse the logic for previous greater and smaller elements by iterating in reverse order. The logic for stack manipulation remains the same. 🌐
 
 ---
+# NGE Circular Array
 
+You are given a circular array of integers `arr` of size `n`. For each element in the array, find the **next greater element (NGE)** in the circular manner.
+
+- If no such element exists, return `-1` for that position.
+- Circular means after the last element, the search continues from the beginning of the array.
+
+---
+
+**Sample Test Cases**
+
+**Input 1:**
+
+```plaintext
+n = 4  
+arr = [1, 2, 1, 3]
+```
+
+**Output 1:**
+
+```plaintext
+[2, 3, 3, -1]
+```
+
+Explanation :
+
+- For `arr[0] = 1`: NGE is `2`.
+- For `arr[1] = 2`: NGE is `3`.
+- For `arr[2] = 1`: NGE is `3`.
+- For `arr[3] = 3`: No NGE exists, so `-1`.
+
+---
+
+**Input 2:**
+
+```plaintext
+n = 3  
+arr = [3, 1, 2]
+```
+
+**Output 2:**
+
+```plaintext
+[-1, 2, 3]
+```
+
+**Explanation :**
+
+- For `arr[0] = 3`: No NGE exists.
+- For `arr[1] = 1`: NGE is `2`.
+- For `arr[2] = 2`: NGE is `3`.
+
+---
+
+**Brute Force Approach**
+
+1. Use a nested loop to check the next greater element for each position.
+2. For each element `arr[i]`, start checking from `i + 1` circularly.
+3. If a greater element is found, record it as the NGE for `arr[i]` and break out of the loop.
+4. If no greater element exists after traversing the entire array, store `-1` for that position.
+
+```python
+def bruteForceNGE(n, arr):
+    ans = [-1] * n
+    for i in range(n):
+        for j in range(i + 1, i + n):
+            index = j % n
+            if arr[index] > arr[i]:
+                ans[i] = arr[index]
+                break
+    return ans
+```
+
+---
+
+**Optimized Approach (Using Stack)**
+
+1. Use a stack to store indices of elements whose NGE is yet to be determined.
+2. Traverse the array twice (to handle the circular nature).
+3. For each element, check if it can serve as the NGE for elements indexed in the stack:
+   - While the stack is not empty and the current element is greater than the element at the index stored at the top of the stack, assign the current element as the NGE.
+   - Pop the index from the stack after finding its NGE.
+4. Push the current index onto the stack if it hasn’t found its NGE yet.
+5. Elements left in the stack after the traversal will have `-1` as their NGE.
+
+---
+
+```python
+def optimizedNGE(n, arr):
+    ans = [-1] * n
+    stack = []
+    for i in range(2 * n):  # Traverse twice for circular behavior
+        i = i % n
+        while stack and arr[i] > arr[stack[-1]]:
+            index = stack.pop()
+            ans[index] = arr[i]
+        stack.append(i)
+    return ans
+```
+
+---
