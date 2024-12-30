@@ -271,7 +271,7 @@ For `arr = [4, 5, 2, 10]`, the output will be `[-1, 4, -1, 2]`.
 
 ##
 
-### Solving Right To Left
+## **Solving Right To Left**
 
 For some problems, it may be more intuitive or efficient to iterate through the array from right to left instead of left to right. This approach can simplify the logic for finding previous elements or reverse the logic for finding next elements.
 
@@ -281,7 +281,7 @@ For some problems, it may be more intuitive or efficient to iterate through the 
 2. Use the same monotonic stack rules but adjust the comparison logic as needed.
 3. The stack manipulations and result assignments remain the same, ensuring efficiency.
 
-### Reverse NGE:
+**Reverse NGE**:
 
 Find the **next greater element** to the left by iterating from right to left.
 
@@ -298,7 +298,7 @@ def reverse_nge(n, arr):
     return ans
 ```
 
-### Reverse NSE:
+**Reverse NSE**:
 
 Find the **next smaller element** to the left by iterating from right to left.
 
@@ -315,7 +315,7 @@ def reverse_nse(n, arr):
     return ans
 ```
 
-### Reverse PGE and PSE:
+**Reverse PGE and PSE**:
 
 Similarly, you can reverse the logic for previous greater and smaller elements by iterating in reverse order. The logic for stack manipulation remains the same.
 
