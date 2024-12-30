@@ -407,7 +407,6 @@ def optimizedNGE(n, arr):
 ```
 
 ---
-
 ## Daily Temperatures 🌤⛅🔋
 
 You are given an array `temperatures` where each element represents the temperature of a day. For each day `i`, you need to calculate how many days you would have to wait to get a warmer temperature. If there is no future day with a higher temperature, set `answer[i]` to `0`. 🌤⛅🔋
@@ -416,10 +415,10 @@ You are given an array `temperatures` where each element represents the temperat
 
 **Sample Test Cases** 📊🔢🔄
 
-#### Example 1: 🌡️🌇📈
+**Example 1: 🌡️🌇📈**
 
 - **Input:** `temperatures = [73, 74, 75, 71, 69, 72, 76, 73]`
-- **Output:** `[1, 1, 4, 2, 1, 1, 0, 0]`   
+- **Output:** `[1, 1, 4, 2, 1, 1, 0, 0]` \
   **Explanation:**
   - For day 0 (73°F), the next warmer day is day 1 (74°F), so `answer[0] = 1`.
   - For day 1 (74°F), the next warmer day is day 2 (75°F), so `answer[1] = 1`.
@@ -428,12 +427,12 @@ You are given an array `temperatures` where each element represents the temperat
 
 ---
 
-#### Example 2: 👆☀️🌤
+**Example 2: 👆☀️🌤**
 
 - **Input:** `temperatures = [30, 40, 50, 60]`
 - **Output:** `[1, 1, 1, 0]`
 
-#### Example 3: 🌤🌱⛅
+**Example 3: 🌤🌱⛅**
 
 - **Input:** `temperatures = [30, 60, 90]`
 - **Output:** `[1, 1, 0]`
@@ -442,7 +441,7 @@ You are given an array `temperatures` where each element represents the temperat
 
 **Approach** 🌱🌧☀️
 
-#### 1. Brute Force Approach 🌡️⚡️🌧
+**1. Brute Force Approach 🌡️⚡️🌧**
 
 1. Iterate through each temperature in the array using two nested loops.
 2. For each day `i`, compare the temperature with all subsequent days `j > i` to find the first day with a warmer temperature.
@@ -477,7 +476,7 @@ def bruteForce(n, arr):
 
 ---
 
-#### 2. Optimized Approach using Stack 🔼🌈☀️
+**2. Optimized Approach using Stack 🔼🌈☀️**
 
 The optimized approach uses a **Next Greater Element Problems Approach**: 🔼🌈☀️
 
@@ -515,5 +514,7 @@ def optimized(n, arr):
 - Complexity: **O(n)**. 📃⌚⭐
 
 ---
+
+
 
 
