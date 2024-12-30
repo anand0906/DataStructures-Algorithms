@@ -139,18 +139,18 @@ By following these rules, you can efficiently build and maintain different types
 
 ## **1. Next Greater Element (NGE)**
 
-### Problem:
+#### Problem:
 
 For every element in the array, find the **next greater element** to its right. If no such element exists, return `-1`.
 
-### Approach:
+#### Approach:
 
 - Use a **non-increasing monotonic stack**:
   - As you iterate through the array, check if the current element is greater than the element at the top of the stack.
   - If it is, pop elements from the stack. The popped element's **next greater element** will be the current element.
   - Push the current index into the stack.
 
-### Code:
+#### Code:
 
 ```python
 def nge(n, arr):
@@ -164,7 +164,7 @@ def nge(n, arr):
     return ans
 ```
 
-### Example:
+#### Example:
 
 For `arr = [4, 5, 2, 10]`, the output will be `[5, 10, 10, -1]`.
 
