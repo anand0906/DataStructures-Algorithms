@@ -306,7 +306,7 @@ def reverse_nse(n, arr):
 Similarly, you can reverse the logic for previous greater and smaller elements by iterating in reverse order. The logic for stack manipulation remains the same. 🌐
 
 ---
-# NGE Circular Array
+## NGE Circular Array
 
 You are given a circular array of integers `arr` of size `n`. For each element in the array, find the **next greater element (NGE)** in the circular manner.
 
