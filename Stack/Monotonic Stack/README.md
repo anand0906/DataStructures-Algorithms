@@ -407,3 +407,113 @@ def optimizedNGE(n, arr):
 ```
 
 ---
+
+## Daily Temperatures 🌤⛅🔋
+
+You are given an array `temperatures` where each element represents the temperature of a day. For each day `i`, you need to calculate how many days you would have to wait to get a warmer temperature. If there is no future day with a higher temperature, set `answer[i]` to `0`. 🌤⛅🔋
+
+---
+
+**Sample Test Cases** 📊🔢🔄
+
+#### Example 1: 🌡️🌇📈
+
+- **Input:** `temperatures = [73, 74, 75, 71, 69, 72, 76, 73]`
+- **Output:** `[1, 1, 4, 2, 1, 1, 0, 0]`   
+  **Explanation:**
+  - For day 0 (73°F), the next warmer day is day 1 (74°F), so `answer[0] = 1`.
+  - For day 1 (74°F), the next warmer day is day 2 (75°F), so `answer[1] = 1`.
+  - For day 2 (75°F), the next warmer day is day 6 (76°F), so `answer[2] = 4`.
+  - For day 6 (76°F), there is no warmer day, so `answer[6] = 0`. 🌡️🌇📈
+
+---
+
+#### Example 2: 👆☀️🌤
+
+- **Input:** `temperatures = [30, 40, 50, 60]`
+- **Output:** `[1, 1, 1, 0]`
+
+#### Example 3: 🌤🌱⛅
+
+- **Input:** `temperatures = [30, 60, 90]`
+- **Output:** `[1, 1, 0]`
+
+---
+
+**Approach** 🌱🌧☀️
+
+#### 1. Brute Force Approach 🌡️⚡️🌧
+
+1. Iterate through each temperature in the array using two nested loops.
+2. For each day `i`, compare the temperature with all subsequent days `j > i` to find the first day with a warmer temperature.
+3. Store the difference `(j - i)` in the result array.
+4. If no such day exists, store `0`. 🌡️⚡️🌧
+
+**Code:** 🔧🔥✨
+
+```python
+def bruteForce(n, arr):
+    ans = []
+    for i in range(n):
+        for j in range(i + 1, n):
+            if arr[j] > arr[i]:
+                days = j - i
+                ans.append(days)
+                break
+        else:
+            ans.append(0)
+    return ans
+```
+
+**Time Complexity:** 🔢⌚✨
+
+- Outer loop runs `n` times.
+- Inner loop runs for up to `n - i` iterations.
+- Worst-case complexity: **O(n²)**. 🔢⌚✨
+
+**Space Complexity:** 📃🔧⭐
+
+- Uses only an `ans` array, so **O(n)**. 📃🔧⭐
+
+---
+
+#### 2. Optimized Approach using Stack 🔼🌈☀️
+
+The optimized approach uses a **Next Greater Element Problems Approach**: 🔼🌈☀️
+
+1. Traverse the temperatures from left to right.
+2. Maintain a stack to keep track of indices of temperatures in decreasing order.
+3. For the current day `i`, check the stack:
+   - If the current temperature is warmer than the temperature at the index on top of the stack, calculate the difference in indices and update the answer.
+   - Continue until the stack is empty or the condition fails.
+4. Append the current index to the stack.
+
+**Code:** 🔧🌤🔃
+
+```python
+def optimized(n, arr):
+    ans = [0] * n  # Initialize answer array with zeros
+    stack = []  # Stack to store indices
+
+    for i in range(n):
+        while stack and arr[i] > arr[stack[-1]]:
+            ind = stack.pop()
+            ans[ind] = i - ind
+        stack.append(i)
+    
+    return ans
+```
+
+**Time Complexity:** 🌡️✨📈
+
+- Each temperature is pushed and popped from the stack at most once.
+- Complexity: **O(n)**. 🌡️✨📈
+
+**Space Complexity:** 📃⌚⭐
+
+- The stack holds up to `n` indices.
+- Complexity: **O(n)**. 📃⌚⭐
+
+---
+
+
