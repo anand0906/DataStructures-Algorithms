@@ -515,6 +515,100 @@ def optimized(n, arr):
 
 ---
 
+## **Stock Span** 🌟📊✨
+
+You are given an array `prices` of stock prices where `prices[i]` represents the price of a stock on day `i`. Your task is to calculate the **span** of the stock's price for each day. 🌟📊✨
+
+The **span** of the stock's price on a given day is the maximum number of consecutive days (including the current day) the price has been less than or equal to the price on that day.
+
+---
+
+**Sample Test Cases** 📉📈📋
+
+**Example 1:**
+
+**Input:**\
+`prices = [100, 80, 60, 70, 60, 75, 85]`\
+**Output:**\
+`[1, 1, 1, 2, 1, 4, 6]` 📉📈📋
+
+**Explanation:**
+
+- On day 0, the span is 1 (just that day).  
+- On day 3 (price = 70), the span is 2 (days 2 and 3).  
+- On day 5 (price = 75), the span is 4 (days 2, 3, 4, and 5).  
+- On day 6 (price = 85), the span is 6 (all previous days). 📉📈📋
+
+---
+
+**Example 2:**
+
+**Input:**\
+`prices = [10, 20, 30, 40]`\
+**Output:**\
+`[1, 2, 3, 4]` 📊🌞✨
+
+**Explanation:**\
+Every day the price increases, so the span is the number of days up to and including that day. 📊🌞✨
+
+---
+
+**Approach** 🛠️🔎📊
+
+**1. Brute Force Approach** 🐢📉🔧
+
+- For each day `i`, iterate backward to find the nearest day where the price is higher.  
+- If no such day is found, the span is `i + 1`. 🐢📉🔧
+
+---
+
+```python
+def bruteForce(n, arr):
+    ans = [1] * n  # Initialize the span array with 1
+    for i in range(n):
+        for j in range(i - 1, -1, -1):  # Traverse backward from day i
+            if arr[j] > arr[i]:  # Break if a higher price is found
+                ans[i] = i - j
+                break
+        else:
+            ans[i] = i + 1  # Span is the entire length up to day i
+    return ans
+```
+
+**Time Complexity:** O(n²) due to the nested loops.\
+**Space Complexity:** O(n) to store the result array. 🐢📉🔧
+
+---
+
+**2. Optimized Approach using a Stack** 🚀📈✨
+
+We need to find previous greater element for each element and the difference between them will be our answer.\
+So we can use PGE using strictly decreasing monotonic stack. 🚀📈✨
+
+- For each day, find out a previous day where price is higher than current day's price. 🚀📈✨
+
+
+```python
+def optimized(n, arr):
+    ans = [1] * n  # Initialize the span array with 1
+    stack = []  # Stack to store indices
+    for i in range(n):
+        # Remove elements from the stack that are less than or equal to the current price
+        while stack and arr[i] >= arr[stack[-1]]:
+            stack.pop()
+        if stack:  # If stack is not empty
+            ans[i] = i - stack[-1]
+        else:  # If stack is empty, span is the entire length up to day i
+            ans[i] = i + 1
+        stack.append(i)  # Add the current day to the stack
+    return ans
+```
+
+**Time Complexity:** O(n) because each index is pushed and popped at most once.\
+**Space Complexity:** O(n) for the stack. 🚀📈✨
+
+---
+
 
 
 
