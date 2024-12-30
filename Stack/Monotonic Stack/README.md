@@ -133,15 +133,14 @@ This table summarizes the condition you check before deciding whether to remove 
 
 By following these rules, you can efficiently build and maintain different types of monotonic stacks.
 
-# Problems
+# Problems 🌟
 
 ---
 
-## **1. Next Greater Element (NGE)**
+## 1. Next Greater Element (NGE) 🏆
 
 **Problem:**
-
-For every element in the array, find the **next greater element** to its right. If no such element exists, return `-1`.
+For every element in the array, find the **next greater element** to its right. If no such element exists, return `-1`. 🔄
 
 **Approach:**
 
@@ -165,25 +164,23 @@ def nge(n, arr):
 ```
 
 **Example:**
-
-For `arr = [4, 5, 2, 10]`, the output will be `[5, 10, 10, -1]`.
+For `arr = [4, 5, 2, 10]`, the output will be `[5, 10, 10, -1]`. 🎮
 
 ---
 
-## **2. Next Smaller Element (NSE)**
+## 2. Next Smaller Element (NSE) 🍎
 
-**Problem**:
+**Problem:**
+For every element in the array, find the **next smaller element** to its right. If no such element exists, return `-1`. 🚀
 
-For every element in the array, find the **next smaller element** to its right. If no such element exists, return `-1`.
-
-**Approach**:
+**Approach:**
 
 - Use a **non-decreasing monotonic stack**:
   - As you iterate through the array, check if the current element is smaller than the element at the top of the stack.
   - If it is, pop elements from the stack. The popped element's **next smaller element** will be the current element.
   - Push the current index into the stack.
 
-**Code**:
+**Code:**
 
 ```python
 def nse(n, arr):
@@ -197,25 +194,23 @@ def nse(n, arr):
     return ans
 ```
 
-**Example**:
-
-For `arr = [4, 5, 2, 10]`, the output will be `[2, 2, -1, -1]`.
+**Example:**
+For `arr = [4, 5, 2, 10]`, the output will be `[2, 2, -1, -1]`. 🔼
 
 ---
 
-## **3. Previous Greater Element (PGE)**
+## 3. Previous Greater Element (PGE) 🎨
 
-**Problem**:
+**Problem:**
+For every element in the array, find the **previous greater element** to its left. If no such element exists, return `-1`. 🔮
 
-For every element in the array, find the **previous greater element** to its left. If no such element exists, return `-1`.
-
-**Approach**:
+**Approach:**
 
 - Use a **strictly decreasing monotonic stack**:
   - Before adding a new element, remove all elements smaller than or equal to it from the stack.
   - The top of the stack becomes the **previous greater element** for the current element.
 
-**Code**:
+**Code:**
 
 ```python
 def pge(n, arr):
@@ -230,25 +225,23 @@ def pge(n, arr):
     return ans
 ```
 
-**Example**:
-
-For `arr = [4, 5, 2, 10]`, the output will be `[-1, -1, 5, -1]`.
+**Example:**
+For `arr = [4, 5, 2, 10]`, the output will be `[-1, -1, 5, -1]`. 🎩
 
 ---
 
-## **4. Previous Smaller Element (PSE)**
+## 4. Previous Smaller Element (PSE) 🌱
 
-**Problem**:
+**Problem:**
+For every element in the array, find the **previous smaller element** to its left. If no such element exists, return `-1`. 🔇
 
-For every element in the array, find the **previous smaller element** to its left. If no such element exists, return `-1`.
-
-**Approach**:
+**Approach:**
 
 - Use a **strictly increasing monotonic stack**:
   - Before adding a new element, remove all elements larger than or equal to it from the stack.
   - The top of the stack becomes the **previous smaller element** for the current element.
 
-**Code**:
+**Code:**
 
 ```python
 def pse(n, arr):
@@ -263,27 +256,23 @@ def pse(n, arr):
     return ans
 ```
 
-**Example**:
-
-For `arr = [4, 5, 2, 10]`, the output will be `[-1, 4, -1, 2]`.
+**Example:**
+For `arr = [4, 5, 2, 10]`, the output will be `[-1, 4, -1, 2]`. 💪
 
 ---
 
-##
+## Solving Right To Left →← 😃
 
-## **Solving Right To Left**
+For some problems, it may be more intuitive or efficient to iterate through the array from right to left instead of left to right. This approach can simplify the logic for finding previous elements or reverse the logic for finding next elements. 🎉
 
-For some problems, it may be more intuitive or efficient to iterate through the array from right to left instead of left to right. This approach can simplify the logic for finding previous elements or reverse the logic for finding next elements.
-
-**Approach**:
+**Approach:**
 
 1. Reverse the traversal direction to iterate from the end of the array toward the beginning.
 2. Use the same monotonic stack rules but adjust the comparison logic as needed.
-3. The stack manipulations and result assignments remain the same, ensuring efficiency.
+3. The stack manipulations and result assignments remain the same, ensuring efficiency. 🎯
 
-**Reverse NGE**:
-
-Find the **next greater element** to the left by iterating from right to left.
+**Reverse NGE:**
+Find the **next greater element** to the left by iterating from right to left. 🍅
 
 ```python
 def reverse_nge(n, arr):
@@ -298,9 +287,8 @@ def reverse_nge(n, arr):
     return ans
 ```
 
-**Reverse NSE**:
-
-Find the **next smaller element** to the left by iterating from right to left.
+**Reverse NSE:**
+Find the **next smaller element** to the left by iterating from right to left. 🍒
 
 ```python
 def reverse_nse(n, arr):
@@ -315,14 +303,7 @@ def reverse_nse(n, arr):
     return ans
 ```
 
-**Reverse PGE and PSE**:
-
-Similarly, you can reverse the logic for previous greater and smaller elements by iterating in reverse order. The logic for stack manipulation remains the same.
+Similarly, you can reverse the logic for previous greater and smaller elements by iterating in reverse order. The logic for stack manipulation remains the same. 🌐
 
 ---
-
-
-
-
-
 
