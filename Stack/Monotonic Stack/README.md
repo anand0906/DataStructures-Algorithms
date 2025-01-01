@@ -612,3 +612,233 @@ def optimized(n, arr):
 
 
 
+## Removing K Digits 🌟✨🌟
+
+We are given:
+
+1. A **string** `num` 📜 showing a number (e.g., "1432219").
+2. A number `k` 🔢, meaning how many digits to remove.
+
+**Goal:**
+
+Take away `k` digits so the number left is the **smallest possible**.
+- The answer **can’t have extra zeros** unless it’s just "0".
+
+---
+
+🌟 **Key Points to Understand:** ✨🌟
+
+**1. Place Value in Numbers:**
+
+Digits in a number matter most depending on where they are.
+
+- The **leftmost digits** are worth the most. 💵
+- Example: In `1432219`, the `1` is worth millions, but the `9` is just worth 9. 📉
+
+**To make the number smallest:**
+1. **Keep the small digits on the left.**
+2. **Remove bigger digits first**, as this will shrink the number the most. 📉🔢
+
+**2. What Happens When We Remove Digits?**
+
+When a digit goes away, the next digit slides over to fill its spot.
+- Removing **bigger digits** early makes space for **smaller digits**. 🪄
+
+**Example 1:**
+`num = "1432219", k = 3`
+- Taking out the first `4` gives "132219", which is smaller than leaving the `4`.
+
+**Example 2:**
+`num = "5432", k = 1`
+- Removing `5` gives "432". 🏹
+- Removing any other digit makes the number bigger.
+
+**3. Which Digits Should Go?**
+
+Look at each digit and the one after it:
+- If the current digit is **bigger than the next one**, remove it to shrink the number. 📉
+- If the current digit is **smaller**, leave it, as it helps keep the number small.
+
+**Why This Works:**
+
+- Removing digits that "break the order" puts smaller numbers first. 🪄
+- This makes the smallest number possible.
+
+---
+
+🌟 **Step-by-Step Examples:** ✨🌟
+
+**Case 1: Simple Example**
+
+**Input:** `num = "1432219", k = 3`
+We need to remove 3 digits.
+
+1. **Step 1:** Compare digits one by one.
+   - `1` vs `4`: `1 < 4` → Keep `1`. 👍
+   - `4` vs `3`: `4 > 3` → Remove `4`. Result: "132219".
+
+2. **Step 2:** Keep going.
+   - `3` vs `2`: `3 > 2` → Remove `3`. Result: "12219". 🎯
+
+3. **Step 3:** Keep going again.
+   - `2` vs `2`: `2 = 2` → Keep the first `2`. 👍
+   - `2` vs `1`: `2 > 1` → Remove the second `2`. Result: "1219".
+
+**Final Result:** "1219" 🏆
+
+---
+
+**Case 2: Numbers That Grow**
+
+**Input:** `num = "12345", k = 2`
+We need to remove 2 digits.
+
+1. **Step 1:** Compare digits.
+   - `1` vs `2`: `1 < 2` → Keep `1`. 👍
+   - `2` vs `3`: `2 < 3` → Keep `2`.
+   - `3` vs `4`: `3 < 4` → Keep `3`.
+
+2. **Step 2:** Remove the last two digits (`4` and `5`). Result: "123". 🎯
+
+**Final Result:** "123" 🏆
+
+---
+
+**Case 3: Numbers That Shrink**
+
+**Input:** `num = "54321", k = 2`
+We need to remove 2 digits.
+
+1. **Step 1:** Compare digits.
+   - `5` vs `4`: `5 > 4` → Remove `5`. Result: "4321". 🎯
+   - `4` vs `3`: `4 > 3` → Remove `4`. Result: "321".
+
+**Final Result:** "321" 🏆
+
+---
+
+**Case 4: Watch Out for Zeros**
+
+**Input:** `num = "10200", k = 1`
+We need to remove 1 digit.
+
+1. **Step 1:** Compare digits.
+   - `1` vs `0`: `1 > 0` → Remove `1`. Result: "0200". 🎯
+
+2. **Step 2:** Take off the leading zero.
+   - "0200" → "200".
+
+**Final Result:** "200" 🏆
+
+---
+
+**Case 5: Edge Case**
+
+**Input:** `num = "10", k = 2`
+We need to remove all digits.
+
+1. Remove both digits: "10" → "0". 🎯
+
+**Final Result:** "0" 🏆
+
+---
+
+🌟 **Ways to Solve It** ✨🌟
+
+**1. Simple Brute Force Way:**
+
+#### Steps:
+
+1. Go through the number and find a digit that is **bigger than the next one**.
+2. Remove that digit. ✂️
+3. Do this `k` times.
+4. Put the number back into a string and take away any leading zeros.
+
+#### Code:
+
+```python
+def bruteForce(num, k):
+    num = list(num)  # Turn into a list to make changes
+    for _ in range(k):
+        n = len(num)
+        i = 1
+        # Find the first digit bigger than the next one
+        while i < n and num[i] >= num[i - 1]:
+            i += 1
+        # Remove the digit
+        if i < n:
+            del num[i - 1]
+        else:
+            del num[-1]  # If no bigger digit is found, remove the last one
+    # Put it back into a string and remove leading zeros
+    return "".join(num).lstrip('0') or "0"
+```
+
+---
+
+**2. Faster Stack-Based Way:**
+
+#### Idea:
+
+Use a **stack** to keep digits in **non-decreasing order**:
+
+1. Go through the number one digit at a time. 🔄
+2. If the digit is smaller than the one on top of the stack, remove the bigger one. ✂️
+3. Add the current digit to the stack. 📥
+4. When done, if `k > 0`, take off the last digits from the stack.
+
+#### Code:
+
+```python
+def optimized(num,k):
+    arr=list(num)
+    stack=[]
+    for i in range(len(arr)):
+        while stack and arr[i]<stack[-1] and k>0:
+            stack.pop()
+            k-=1
+        stack.append(arr[i])
+    while stack and k>0:
+        stack.pop()
+        k-=1
+    ans="".join(stack).lstrip('0')
+    return "0" if ans=="" else ans
+```
+
+---
+
+| **Making the Largest Number Instead:** |
+| --------------------------------------- |
+
+```python
+def bruteForce(num, k):
+    num = list(num)  # Turn into a list to make changes
+    for _ in range(k):
+        n = len(num)
+        i = 1
+        # Find the first digit smaller than the next one
+        while i < n and num[i] <= num[i - 1]:
+            i += 1
+        # Remove the digit
+        if i < n:
+            del num[i - 1]
+        else:
+            del num[-1]  # If no smaller digit is found, remove the last one
+    # Put it back into a string and remove leading zeros
+    return "".join(num).lstrip('0') or "0"
+
+def optimized(num,k):
+    arr=list(num)
+    stack=[]
+    for i in range(len(arr)):
+        while stack and arr[i]>stack[-1] and k>0:
+            stack.pop()
+            k-=1
+        stack.append(arr[i])
+    while stack and k>0:
+        stack.pop()
+        k-=1
+    ans="".join(stack).lstrip('0')
+    return "0" if ans=="" else ans
+```
+
