@@ -747,14 +747,14 @@ We need to remove all digits.
 
 **1. Simple Brute Force Way:**
 
-#### Steps:
+**Steps**:
 
 1. Go through the number and find a digit that is **bigger than the next one**.
 2. Remove that digit. ✂️
 3. Do this `k` times.
 4. Put the number back into a string and take away any leading zeros.
 
-#### Code:
+**Code**:
 
 ```python
 def bruteForce(num, k):
@@ -778,7 +778,7 @@ def bruteForce(num, k):
 
 **2. Faster Stack-Based Way:**
 
-#### Idea:
+**Idea**:
 
 Use a **stack** to keep digits in **non-decreasing order**:
 
@@ -787,7 +787,7 @@ Use a **stack** to keep digits in **non-decreasing order**:
 3. Add the current digit to the stack. 📥
 4. When done, if `k > 0`, take off the last digits from the stack.
 
-#### Code:
+**Code**:
 
 ```python
 def optimized(num,k):
@@ -827,6 +827,7 @@ def bruteForce(num, k):
     # Put it back into a string and remove leading zeros
     return "".join(num).lstrip('0') or "0"
 
+# Use non-increasing monotonic stack
 def optimized(num,k):
     arr=list(num)
     stack=[]
