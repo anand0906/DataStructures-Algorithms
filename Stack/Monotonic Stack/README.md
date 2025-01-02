@@ -842,3 +842,241 @@ def optimized(num,k):
     return "0" if ans=="" else ans
 ```
 
+---
+
+## Lexicographically Smallest and Largest Strings ✨📚✨
+
+Lexicographical order is similar to dictionary order. In this context:
+
+- A **lexicographically smaller string** appears earlier in the dictionary.
+- A **lexicographically larger string** appears later. ✍️📖📜
+
+**Key Concept** 🧩🔑🧩
+
+- The comparison is made character by character, starting from the first character.
+- The first differing character decides which string is smaller or larger.
+
+---
+
+**Lexicographically Smallest String** 🌟⬇️🌟
+
+- A string where **smaller characters (a, b, c, etc.) come before larger characters (x, y, z, etc.)**.
+- This is achieved by arranging the characters in **ascending order**.
+
+**Lexicographically Largest String** 🌟⬆️🌟
+
+- A string where **larger characters come before smaller characters**.
+- This is achieved by arranging the characters in **descending order**.
+
+---
+
+**How Comparison Works** 🛠️⚖️🛠️
+
+1. Compare the first character of both strings.
+2. If the first character is the same, move to the next character and repeat.
+3. The first string to have a "smaller" character is lexicographically smaller.
+
+---
+
+**Examples** 📝📊📝
+
+1. **"ab" vs. "ba"**:
+   - Compare first characters: `'a'` < `'b'`, so "ab" is smaller.
+2. **"cat" vs. "car"**:
+   - Compare character by character: `'c'` = `'c'`, `'a'` = `'a'`, but `'t'` > `'r'`.
+   - So, "cat" is larger.
+
+**Sorting a String** 🗂️🔡🗂️
+
+Suppose we are given **"anand"**:
+
+1. **Lexicographically Smallest**:
+
+   - Arrange characters in ascending order: **"aadnn"**.
+   - Smaller letters come first.
+
+2. **Lexicographically Largest**:
+
+   - Arrange characters in descending order: **"nndaa"**.
+   - Larger letters come first.
+
+---
+
+| **Order**            | **Definition**                        | **Example (Input: "anand")** |
+| -------------------- | ------------------------------------- | ---------------------------- |
+| Smallest (Ascending) | Characters sorted in increasing order | "aadnn"                      |
+| Largest (Descending) | Characters sorted in decreasing order | "nndaa"                      |
+
+
+## Removing Duplicate Letters ✨✏✨
+
+In this problem, we need to find the smallest string after removing duplicate characters, while preserving the relative order of the characters in the original string. 📝⚙️🔥
+
+---
+
+**Brute Force Approach 🧠🔄🔀**
+
+A brute-force solution involves:
+
+1. Finding all subsequences of the string that do not contain duplicate characters.
+2. Returning the smallest subsequence (lexicographically).
+
+This approach, while correct, is highly inefficient because the number of subsequences grows exponentially with the size of the string. ⚠️🕱️⌛
+
+
+```python
+def bruteForce(n, s):
+    ans = None  # To store the smallest lexicographical subsequence
+    unqCnt = len(set(s))  # Total number of unique characters in the string
+
+    def recursive(sub, pos, visited):
+        nonlocal ans
+        # Base Case: End of the string
+        if pos == n:
+            # Check if the current subsequence is smaller and valid
+            if (ans is None or sub < ans) and sub != "" and len(visited) == unqCnt:
+                ans = sub
+            return
+
+        # Exclude the current character and recurse
+        recursive(sub, pos + 1, visited.copy())
+
+        # Include the current character if not visited
+        if s[pos] not in visited:
+            visited[s[pos]] = 1  # Mark character as visited
+            recursive(sub + s[pos], pos + 1, visited.copy())
+
+    recursive("", 0, {})  # Start recursion with an empty subsequence
+    return ans
+```
+
+---
+
+**Key Observations and Optimized Approach 🔬⚖️🌐**
+
+To solve the problem efficiently, we rely on these key observations:
+
+1. **Lexicographically Smallest Order:**
+
+   - To form a smaller string, characters should appear in **increasing order**.
+   - However, we cannot simply sort the string because we need to preserve the **original order** of characters.
+
+2. **Using a Monotonic Stack**:
+
+   - A **monotonic increasing stack** helps maintain the increasing nature of characters while preserving their relative order.
+   - This data structure will allow us to efficiently manage which characters to keep or discard. 🛠️🗃️📊
+
+---
+
+**Intuitive Explanation 🔨🤖🌌**
+
+1. **Goal**:
+
+   - Include every unique character exactly once.
+   - Ensure the result is the smallest possible string lexicographically.
+
+2. **Building the Result**:
+
+   - Traverse the string from left to right.
+   - Use a stack to store characters in the correct order.
+
+3. **Decision Making**:
+
+   - For each character, decide whether to include it in the stack based on the following rules:
+
+     a. **Character is Already Visited**:
+     - If the current character is already in the stack, skip it to avoid duplicates.
+       b. **Maintain Increasing Order**:
+     - If the current character is smaller than the top of the stack and the top character appears later in the string, pop the top character.
+     - This ensures the result remains lexicographically smaller while ensuring that all characters are included eventually.
+
+4. **Tracking Visits**:
+
+   - Use a `visited` set to track characters already in the stack.
+   - Use a `last_occurrence` map to know if a character appears again later in the string. ⚡️🔧🔬
+
+---
+
+**Step-by-Step Algorithm 🔢🔄🕴️**
+
+1. Compute the **last occurrence** of each character in the string.
+2. Initialize:
+   - An empty stack.
+   - A `visited` set to track characters already in the stack.
+3. Traverse the string:
+   - If the character is not in `visited`:
+     - While the stack is not empty and:
+       - The current character is smaller than the top of the stack.
+       - The top character appears later in the string.
+     - Pop the top character from the stack and remove it from `visited`.
+     - Push the current character onto the stack and mark it as `visited`.
+4. Convert the stack to the final string. ⚖️📁✔️
+
+
+```python
+def optimized(n, s):
+    visited = {i: False for i in set(s)}  # Tracks if a character is in the stack
+    lastPos = {i: s.rfind(i) for i in set(s)}  # Last occurrence index of each character
+    stack = []  # Monotonic stack to store the result characters
+
+    for i in range(n):
+        # Skip characters already in the stack
+        if visited[s[i]]:
+            continue
+
+        # Maintain stack's increasing order and remove characters that appear later
+        while stack and s[i] < stack[-1] and lastPos[stack[-1]] > i:
+            temp = stack.pop()  # Remove top of the stack
+            visited[temp] = False  # Mark it as not visited
+
+        # Add current character to the stack
+        stack.append(s[i])
+        visited[s[i]] = True  # Mark it as visited
+
+    # Join the stack to form the final answer
+    ans = "".join(stack)
+    return ans
+```
+
+---
+
+**Why It Works 🔄⚙️🔧**
+
+1. **Maintains Order**:
+
+   - By iterating from left to right and only removing characters that reappear later, the stack preserves the original relative order of characters.
+
+2. **Ensures Smallest String**:
+
+   - By maintaining an increasing stack, smaller characters are prioritized, ensuring a lexicographically smaller result.
+
+3. **Efficiently Includes All Characters**:
+
+   - The use of `last_occurrence` guarantees that even if a character is removed, it will be added later if needed. 🔄🔢🌍
+
+---
+
+**Example 📊🔢✨**
+
+#### Input: `"cbacdcbc"`
+
+1. **Last Occurrences**:
+
+   - `'c'`: 7, `'b'`: 6, `'a'`: 2, `'d'`: 4
+
+2. **Process Each Character**:
+
+   - `'c'`: Add to stack (stack: `['c']`).
+   - `'b'`: Add to stack (stack: `['c', 'b']`).
+   - `'a'`: Remove `'b'` and `'c'` (stack: `['a']`). Add `'a'`.
+   - `'c'`: Add to stack (stack: `['a', 'c']`).
+   - `'d'`: Add to stack (stack: `['a', 'c', 'd']`).
+   - `'c'`: Skip (already visited).
+   - `'b'`: Add to stack (stack: `['a', 'c', 'd', 'b']`).
+   - `'c'`: Skip (already visited).
+
+3. **Final Stack**: `['a', 'c', 'd', 'b']`
+
+4. **Result**: `"acdb"` ✨📖✔️
+
+
