@@ -1059,7 +1059,7 @@ def optimized(n, s):
 
 **Example 📊🔢✨**
 
-#### Input: `"cbacdcbc"`
+**Input: `"cbacdcbc"`**
 
 1. **Last Occurrences**:
 
