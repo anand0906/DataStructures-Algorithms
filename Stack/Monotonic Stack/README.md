@@ -1153,21 +1153,23 @@ print(solve(n,arr,k))
 ```
 
 ---
-## The 132 Pattern Problem
+## **Detecting 132 Pattern in an Array**
 
-The **132 Pattern** problem involves finding a subsequence of three integers  in an array such that  and . This requires identifying three indices  (in that order) that satisfy: 🎯✨💡
+Given an array of `n` integers `nums`, a **132 pattern** is a subsequence of three integers `nums[i]`, `nums[j]`, and `nums[k]` such that:
 
-1. ,
-2. .
+- `i < j < k`
+- `nums[i] < nums[k] < nums[j]`
+
+Return `true` if there exists a 132 pattern in `nums`, otherwise return `false`.
 
 ---
 
-**Approach 1: Brute Force**
+**Brute Force Approach**
 
-The brute force method involves checking all possible combinations of indices  to see if the condition  holds true. 🚀🔍📊
+In the brute force approach, we check all possible combinations of indices `i`, `j`, and `k` where `i < j < k` to verify if the condition `nums[i] < nums[k] < nums[j]` holds true.
 
 ```python
-def brute_force(n, arr):
+def bruteForce(n, arr):
     for i in range(n):
         for j in range(i + 1, n):
             for k in range(j + 1, n):
@@ -1176,93 +1178,90 @@ def brute_force(n, arr):
     return False
 ```
 
-- **Time Complexity**: , as it involves three nested loops iterating over the array. 📈⏳
-- **Space Complexity**: , as no additional space is used. 💾✨
+- **Time Complexity:** `O(n^3)`, due to three nested loops.
+- **Space Complexity:** `O(1)`, as no extra space is used.
 
 ---
 
-**Approach 2: Better Approach**
+**Better Approach**
 
-**Insight**
+The condition `nums[i] < nums[k] < nums[j]` (with `i < j < k`) can be rearranged as:
 
-Rearranging the condition , we get: 🌟🧠📐
+- `nums[i] < nums[j] > nums[k]`
+- `nums[i] < nums[k]`
 
-1. , where  is the smallest,  is the largest, and  lies between them.
-2. To satisfy this:
-   - &#x20;must have a **previous greater element** ().
-   - &#x20;must have a **previous smaller element** ().
+This indicates:
 
-**Steps**
+1. `nums[j]` should be greater than `nums[k]` (Point 1).
+2. `nums[i]` should be smaller than both `nums[j]` and `nums[k]` (Point 2).
 
-1. Use a **Previous Greater Element (PGE)** approach to find the nearest index  to the left of  such that . 🌉📈📌
-2. Track the **minimum element up to each index** to check if  exists before  and  such that . 📉📝🔍
+To solve this efficiently:
+
+1. Use a **Previous Greater Element (PGE)** approach to determine, for each index `k`, the previous index `j` where `nums[j] > nums[k]`.
+2. Maintain an array of the smallest element encountered up to each index to check if there exists an `i` such that `nums[i] < nums[k]`.
 
 ```python
 def better(n, arr):
-    # Step 1: Calculate Previous Greater Element (PGE)
     PGE = [None] * n
     stack = []
+
+    # Calculate Previous Greater Element (PGE)
     for i in range(n):
         while stack and arr[i] >= arr[stack[-1]]:
             stack.pop()
         if stack:
             PGE[i] = stack[-1]
         stack.append(i)
-    
-    # Step 2: Track the minimum element up to each index
+
+    # Calculate minimum element up to each index
     MINI = [None] * n
-    current_min = float('inf')
+    currentMin = float('inf')
     for i in range(n):
-        MINI[i] = current_min
-        current_min = min(current_min, arr[i])
-    
-    # Step 3: Verify the 132 pattern
+        MINI[i] = currentMin
+        currentMin = min(currentMin, arr[i])
+
+    # Check for 132 pattern
     for i in range(n):
         if PGE[i] is not None and arr[i] > MINI[PGE[i]]:
             return True
+
     return False
 ```
 
-- **Time Complexity**: , as both the PGE computation and the minimum tracking use a single loop. ⏱️🔄
-- **Space Complexity**: , due to the PGE and MINI arrays. 🗂️✨
+- **Time Complexity:** `O(n)`, due to linear traversals and stack operations.
+- **Space Complexity:** `O(n)`, for the `PGE` and `MINI` arrays.
 
 ---
 
-**Approach 3: Optimized Approach**
+**Optimized Approach**
 
-**Insight**
+To further optimize, we can combine the logic of identifying `nums[j] > nums[k]` (Point 1) and tracking the minimum element (Point 2) into a single loop. Here:
 
-Instead of computing  and  separately, we combine them into a single loop: 🛠️⚡📈
-
-1. Use a **stack** to track the previous greater element ().
-2. Maintain a running **minimum** () while traversing the array.
-
-**Steps**
-
-- Iterate over the array and maintain: 🔄🎯📂
-  - A stack containing tuples .
-  - If  satisfies , we have found the 132 pattern.
+1. Use a stack to maintain indices and values for elements that could potentially form the `132` pattern.
+2. Track the smallest element encountered so far.
 
 ```python
 def optimized(n, arr):
-    stack = []  # Stack to store (index, current_min)
-    current_min = float('inf')
+    stack = []  # Stack to store tuples of (index, minimum value so far)
+    currentMin = float('inf')
+
     for i in range(n):
-        # Remove elements from stack that are smaller than or equal to the current element
+        # Remove elements from stack that are less than or equal to the current element
         while stack and arr[i] >= arr[stack[-1][0]]:
             stack.pop()
-        # Check if the current element forms a 132 pattern
+
+        # Check if current element can form a 132 pattern
         if stack and arr[i] > stack[-1][1]:
             return True
-        # Push the current element index and minimum value into the stack
-        stack.append((i, current_min))
-        # Update the current minimum
-        current_min = min(current_min, arr[i])
+
+        # Push the current index and the current minimum value onto the stack
+        stack.append((i, currentMin))
+
+        # Update the current minimum value
+        currentMin = min(currentMin, arr[i])
+
     return False
 ```
 
-- **Time Complexity**: , as each element is pushed and popped from the stack once. ⏳📉
-- **Space Complexity**: , due to the stack. 📦✨
-
----
-
+- **Time Complexity:** `O(n)`, as each element is processed at most twice.
+- **Space Complexity:** `O(n)`, due to the stack.
