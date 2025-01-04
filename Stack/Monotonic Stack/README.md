@@ -1153,3 +1153,116 @@ print(solve(n,arr,k))
 ```
 
 ---
+## The 132 Pattern Problem
+
+The **132 Pattern** problem involves finding a subsequence of three integers  in an array such that  and . This requires identifying three indices  (in that order) that satisfy: 🎯✨💡
+
+1. ,
+2. .
+
+---
+
+**Approach 1: Brute Force**
+
+The brute force method involves checking all possible combinations of indices  to see if the condition  holds true. 🚀🔍📊
+
+```python
+def brute_force(n, arr):
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                if arr[i] < arr[k] < arr[j]:
+                    return True
+    return False
+```
+
+- **Time Complexity**: , as it involves three nested loops iterating over the array. 📈⏳
+- **Space Complexity**: , as no additional space is used. 💾✨
+
+---
+
+**Approach 2: Better Approach**
+
+**Insight**
+
+Rearranging the condition , we get: 🌟🧠📐
+
+1. , where  is the smallest,  is the largest, and  lies between them.
+2. To satisfy this:
+   - &#x20;must have a **previous greater element** ().
+   - &#x20;must have a **previous smaller element** ().
+
+**Steps**
+
+1. Use a **Previous Greater Element (PGE)** approach to find the nearest index  to the left of  such that . 🌉📈📌
+2. Track the **minimum element up to each index** to check if  exists before  and  such that . 📉📝🔍
+
+```python
+def better(n, arr):
+    # Step 1: Calculate Previous Greater Element (PGE)
+    PGE = [None] * n
+    stack = []
+    for i in range(n):
+        while stack and arr[i] >= arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            PGE[i] = stack[-1]
+        stack.append(i)
+    
+    # Step 2: Track the minimum element up to each index
+    MINI = [None] * n
+    current_min = float('inf')
+    for i in range(n):
+        MINI[i] = current_min
+        current_min = min(current_min, arr[i])
+    
+    # Step 3: Verify the 132 pattern
+    for i in range(n):
+        if PGE[i] is not None and arr[i] > MINI[PGE[i]]:
+            return True
+    return False
+```
+
+- **Time Complexity**: , as both the PGE computation and the minimum tracking use a single loop. ⏱️🔄
+- **Space Complexity**: , due to the PGE and MINI arrays. 🗂️✨
+
+---
+
+**Approach 3: Optimized Approach**
+
+**Insight**
+
+Instead of computing  and  separately, we combine them into a single loop: 🛠️⚡📈
+
+1. Use a **stack** to track the previous greater element ().
+2. Maintain a running **minimum** () while traversing the array.
+
+**Steps**
+
+- Iterate over the array and maintain: 🔄🎯📂
+  - A stack containing tuples .
+  - If  satisfies , we have found the 132 pattern.
+
+```python
+def optimized(n, arr):
+    stack = []  # Stack to store (index, current_min)
+    current_min = float('inf')
+    for i in range(n):
+        # Remove elements from stack that are smaller than or equal to the current element
+        while stack and arr[i] >= arr[stack[-1][0]]:
+            stack.pop()
+        # Check if the current element forms a 132 pattern
+        if stack and arr[i] > stack[-1][1]:
+            return True
+        # Push the current element index and minimum value into the stack
+        stack.append((i, current_min))
+        # Update the current minimum
+        current_min = min(current_min, arr[i])
+    return False
+```
+
+- **Time Complexity**: , as each element is pushed and popped from the stack once. ⏳📉
+- **Space Complexity**: , due to the stack. 📦✨
+
+---
+
