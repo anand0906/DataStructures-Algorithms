@@ -1153,3 +1153,267 @@ print(solve(n,arr,k))
 ```
 
 ---
+
+## **Sum of Subarray Minimums**
+
+✨✨✨ Given an array of integers `arr`, you need to calculate the sum of the minimum values of all contiguous subarrays of `arr`. ✨✨✨
+
+For example, if `arr = [3, 1, 2, 4]`, we calculate:
+
+- Subarrays: `[3], [3, 1], [3, 1, 2], [3, 1, 2, 4], [1], [1, 2], [1, 2, 4], [2], [2, 4], [4]`
+- Minimum values: `3, 1, 1, 1, 1, 1, 1, 2, 2, 4`
+- Sum of minimums: `3 + 1 + 1 + 1 + 1 + 1 + 1 + 2 + 2 + 4 = 17` ✨✨✨
+
+---
+
+**1. Brute Force Approach**
+
+✨✨✨ This method involves iterating over all possible subarrays and finding the minimum value in each. ✨✨✨
+
+Steps:
+
+1. Loop through all starting indices of subarrays (`i`).
+2. For each `i`, loop through all possible ending indices (`j`).
+3. Find the minimum value in the subarray `[i, j]`.
+4. Add this minimum value to the total sum.
+
+```python
+def bruteForce(n, arr):
+    ans = 0
+    for i in range(n):
+        for j in range(i, n):
+            mini = float('inf')
+            for k in range(i, j + 1):
+                mini = min(mini, arr[k])
+            ans += mini
+    return ans
+```
+
+Time Complexity:
+
+- Finding all subarrays: O(N\*\*2)
+- Calculating the minimum for each subarray: O(N)\
+  Total\:O(N\*\*3)
+
+Space Complexity\:O(1) ✨✨✨
+
+---
+
+**2. Better Approach**
+
+✨✨✨ Instead of finding the minimum for every subarray repeatedly, maintain a rolling minimum while expanding the subarray. ✨✨✨
+
+Steps:
+
+1. Loop through all starting indices of subarrays (`i`).
+2. Expand the subarray one element at a time (`j`) and update the rolling minimum.
+3. Add this rolling minimum to the total sum.
+
+```python
+def better(n, arr):
+    ans = 0
+    for i in range(n):
+        mini = float('inf')
+        for j in range(i, n):
+            mini = min(mini, arr[j])
+            ans += mini
+    return ans
+```
+
+Time Complexity: O(N\*\*2)\
+Space Complexity: O(1) ✨✨✨
+
+---
+
+**Optimized Approach ✨✨✨**
+
+Instead of finding the minimum element for every subarray individually, which can be computationally expensive, we can optimize the solution by calculating the contribution of every element as the minimum element in all subarrays where it is the minimum. Here's how:
+
+---
+
+Given an array `arr = [3, 1, 2, 4]`, we want to calculate the sum of all subarray minimums. Each element in the array contributes to the sum as the minimum element in multiple subarrays.
+
+**Subarray-Minimum Calculation (Traditional Approach): 🔢🔢🔢**
+
+1. For every possible subarray, find its minimum element.
+2. Multiply this minimum value by the number of subarrays it contributes to.
+
+Example:
+
+For the array `[3, 1, 2, 4]`, the subarray minimums are:
+
+| Subarray       | Minimum Element |
+| -------------- | --------------- |
+| `[3]`          | 3               |
+| `[3, 1]`       | 1               |
+| `[3, 1, 2]`    | 1               |
+| `[3, 1, 2, 4]` | 1               |
+| `[1]`          | 1               |
+| `[1, 2]`       | 1               |
+| `[1, 2, 4]`    | 1               |
+| `[2]`          | 2               |
+| `[2, 4]`       | 2               |
+| `[4]`          | 4               |
+
+The total sum is: 3×1+1×6+2×2+4×1=17 🎯🎯🎯
+
+---
+
+Instead of explicitly enumerating all subarrays and calculating the minimum, we determine **how many subarrays an element is the minimum in**. This depends on the position of the **Previous Smaller Element (PSE)** and the **Next Smaller Element (NSE)** for each element.
+
+- **Left Contribution**: The subarrays that end at the current element where this element is the minimum.
+- **Right Contribution**: The subarrays that start at the current element where this element is the minimum.
+
+#### Example for `[3, 1, 2, 4]`: 🔎🔎🔎
+
+- For `3`:
+
+  - The nearest smaller element on the left is `None` (no such element exists).
+  - The nearest smaller element on the right is `1` (at index 1).
+  - Contribution: 1 subarray (`[3]`).
+
+- For `1`:
+
+  - The nearest smaller element on the left is `None`.
+  - The nearest smaller element on the right is `None` (no smaller element exists).
+  - Contribution: 6 subarrays (`[1]`, `[3, 1]`, `[1, 2]`, `[3, 1, 2]`, `[1, 2, 4]`, `[3, 1, 2, 4]`).
+
+- For `2`:
+
+  - The nearest smaller element on the left is `1`.
+  - The nearest smaller element on the right is `None`.
+  - Contribution: 2 subarrays (`[2]`, `[1, 2]`).
+
+- For `4`:
+
+  - The nearest smaller element on the left is `2`.
+  - The nearest smaller element on the right is `None`.
+  - Contribution: 1 subarray (`[4]`).
+
+---
+
+*Formula: 🌐🌐🌐*
+
+For each element at index , we calculate:
+
+*Left Contribution=i−PSE[i]−1*\
+*Right Contribution=NSE[i]−i−1*
+
+*Total Contribution=((left×right)+right)×arr[i]*
+
+---
+
+Here’s the Python code:
+
+```python
+def solve(n,arr):
+    PSE=[-1]*n
+    stack=[]
+    for i in range(n):
+        while stack and arr[i]<arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            PSE[i]=stack[-1]
+        stack.append(i)
+    NSE=[n]*n
+    stack=[]
+    for i in range(n):
+        while stack and arr[i]<arr[stack[-1]]:
+            index=stack.pop()
+            NSE[index]=i
+        stack.append(i)
+    ans=0
+    for i in range(n):
+        left=i-PSE[i]-1
+        right=NSE[i]-i
+        ans+=((left*right+right)*arr[i])
+    return ans
+```
+
+---
+
+1. **Time Complexity**: O(N)
+
+   - The PSE and NSE calculations both require a single pass through the array with a stack, making them O(N)  each.
+   - The final loop to calculate the total sum is O(N)
+   - Overall: O(N)
+
+2. **Space Complexity**: O(1)
+
+   - We use two arrays (`PSE` and `NSE`) of size  and a stack, leading to  space O(N)
+
+--- ✨✨✨
+
+###
+
+**More Optimized Approach: 🏆🏆🏆**
+
+Given the input sequence `A = [3, 1, 2, 5, 4]`, we can cycle through the array and write out all subarrays ending with the i-th element:
+
+- `[3]`
+- `[3, 1]`, `[1]`
+- `[3, 1, 2]`, `[1, 2]`, `[2]`
+- `[3, 1, 2, 5]`, `[1, 2, 5]`, `[2, 5]`, `[5]`
+- `[3, 1, 2, 5, 4]`, `[1, 2, 5, 4]`, `[2, 5, 4]`, `[5, 4]`, `[4]`
+
+We can denote by `result[i]` the sum of the minimum values of those subarrays ending with the i-th element. Here are the results:
+
+- `3`
+- `1 + 1`
+- `1 + 1 + 2`
+- `1 + 1 + 2 + 5`
+- `1 + 1 + 2 + 4 + 4`
+
+Result: `[3, 2, 4, 9, 12]` 🌟🌟🌟
+
+---
+
+**Observed Pattern: 🧪🧪🧪**
+
+1. If `A[i-1] <= A[i]`, then:
+
+   `result[i] = result[i-1] + A[i]`
+
+   - This happens because subarrays ending with the i-th element are essentially the same as subarrays for the (i-1)-th element with the extra element `A[i]` added to each of them, plus one extra subarray `[A[i]]`.
+
+2. Otherwise, if we find the previous less or equal value `A[j] <= A[i] (j < i)`, then:
+
+   `result[i] = result[j] + A[i] * (i-j)`
+
+   - This is because the subarrays ending with the i-th element can be divided into:
+     - Subarrays starting from the previous less value `A[j]`.
+     - Subarrays consisting of only elements after `j` up to `i`.
+
+---
+
+This forms the basis of the solution. We build a monotonously increasing stack to find the previous less or equal value and reuse its sum:
+
+```python
+class Solution:
+    def solve(self, n, arr):
+        result = [0] * n
+        stack = []
+        for i in range(n):
+            while stack and arr[i] < arr[stack[-1]]:
+                stack.pop()
+            if stack:
+                prevSmaller = stack[-1]
+                result[i] = result[prevSmaller] + (i - prevSmaller) * arr[i]
+            else:
+                result[i] = (i + 1) * arr[i]
+            stack.append(i)
+        return sum(result)
+```
+
+---
+
+1. **Time Complexity**: O(N)
+
+   - Each element is pushed and popped from the stack exactly once.
+
+2. **Space Complexity**: O(N)
+
+   - The stack and result array both have space complexity O(N).
+
+---
+
