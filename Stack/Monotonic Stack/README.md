@@ -1154,6 +1154,120 @@ print(solve(n,arr,k))
 
 ---
 
+## **Detecting 132 Pattern in an Array**
+
+Given an array of `n` integers `nums`, a **132 pattern** is a subsequence of three integers `nums[i]`, `nums[j]`, and `nums[k]` such that:
+
+- `i < j < k`
+- `nums[i] < nums[k] < nums[j]`
+
+Return `true` if there exists a 132 pattern in `nums`, otherwise return `false`.
+
+---
+
+**Brute Force Approach**
+
+In the brute force approach, we check all possible combinations of indices `i`, `j`, and `k` where `i < j < k` to verify if the condition `nums[i] < nums[k] < nums[j]` holds true.
+
+```python
+def bruteForce(n, arr):
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                if arr[i] < arr[k] < arr[j]:
+                    return True
+    return False
+```
+
+- **Time Complexity:** `O(n^3)`, due to three nested loops.
+- **Space Complexity:** `O(1)`, as no extra space is used.
+
+---
+
+**Better Approach**
+
+The condition `nums[i] < nums[k] < nums[j]` (with `i < j < k`) can be rearranged as:
+
+- `nums[i] < nums[j] > nums[k]`
+- `nums[i] < nums[k]`
+
+This indicates:
+
+1. `nums[j]` should be greater than `nums[k]` (Point 1).
+2. `nums[i]` should be smaller than both `nums[j]` and `nums[k]` (Point 2).
+
+To solve this efficiently:
+
+1. Use a **Previous Greater Element (PGE)** approach to determine, for each index `k`, the previous index `j` where `nums[j] > nums[k]`.
+2. Maintain an array of the smallest element encountered up to each index to check if there exists an `i` such that `nums[i] < nums[k]`.
+
+```python
+def better(n, arr):
+    PGE = [None] * n
+    stack = []
+
+    # Calculate Previous Greater Element (PGE)
+    for i in range(n):
+        while stack and arr[i] >= arr[stack[-1]]:
+            stack.pop()
+        if stack:
+            PGE[i] = stack[-1]
+        stack.append(i)
+
+    # Calculate minimum element up to each index
+    MINI = [None] * n
+    currentMin = float('inf')
+    for i in range(n):
+        MINI[i] = currentMin
+        currentMin = min(currentMin, arr[i])
+
+    # Check for 132 pattern
+    for i in range(n):
+        if PGE[i] is not None and arr[i] > MINI[PGE[i]]:
+            return True
+
+    return False
+```
+
+- **Time Complexity:** `O(n)`, due to linear traversals and stack operations.
+- **Space Complexity:** `O(n)`, for the `PGE` and `MINI` arrays.
+
+---
+
+**Optimized Approach**
+
+To further optimize, we can combine the logic of identifying `nums[j] > nums[k]` (Point 1) and tracking the minimum element (Point 2) into a single loop. Here:
+
+1. Use a stack to maintain indices and values for elements that could potentially form the `132` pattern.
+2. Track the smallest element encountered so far.
+
+```python
+def optimized(n, arr):
+    stack = []  # Stack to store tuples of (index, minimum value so far)
+    currentMin = float('inf')
+
+    for i in range(n):
+        # Remove elements from stack that are less than or equal to the current element
+        while stack and arr[i] >= arr[stack[-1][0]]:
+            stack.pop()
+
+        # Check if current element can form a 132 pattern
+        if stack and arr[i] > stack[-1][1]:
+            return True
+
+        # Push the current index and the current minimum value onto the stack
+        stack.append((i, currentMin))
+
+        # Update the current minimum value
+        currentMin = min(currentMin, arr[i])
+
+    return False
+```
+
+- **Time Complexity:** `O(n)`, as each element is processed at most twice.
+- **Space Complexity:** `O(n)`, due to the stack.
+
+---
 ## **Sum of Subarray Minimums**
 
 ✨✨✨ Given an array of integers `arr`, you need to calculate the sum of the minimum values of all contiguous subarrays of `arr`. ✨✨✨
@@ -1264,7 +1378,7 @@ Instead of explicitly enumerating all subarrays and calculating the minimum, we 
 - **Left Contribution**: The subarrays that end at the current element where this element is the minimum.
 - **Right Contribution**: The subarrays that start at the current element where this element is the minimum.
 
-#### Example for `[3, 1, 2, 4]`: 🔎🔎🔎
+**Example for `[3, 1, 2, 4]`: 🔎🔎🔎**
 
 - For `3`:
 
@@ -1416,116 +1530,3 @@ class Solution:
    - The stack and result array both have space complexity O(N).
 
 ---
-
-## **Detecting 132 Pattern in an Array**
-
-Given an array of `n` integers `nums`, a **132 pattern** is a subsequence of three integers `nums[i]`, `nums[j]`, and `nums[k]` such that:
-
-- `i < j < k`
-- `nums[i] < nums[k] < nums[j]`
-
-Return `true` if there exists a 132 pattern in `nums`, otherwise return `false`.
-
----
-
-**Brute Force Approach**
-
-In the brute force approach, we check all possible combinations of indices `i`, `j`, and `k` where `i < j < k` to verify if the condition `nums[i] < nums[k] < nums[j]` holds true.
-
-```python
-def bruteForce(n, arr):
-    for i in range(n):
-        for j in range(i + 1, n):
-            for k in range(j + 1, n):
-                if arr[i] < arr[k] < arr[j]:
-                    return True
-    return False
-```
-
-- **Time Complexity:** `O(n^3)`, due to three nested loops.
-- **Space Complexity:** `O(1)`, as no extra space is used.
-
----
-
-**Better Approach**
-
-The condition `nums[i] < nums[k] < nums[j]` (with `i < j < k`) can be rearranged as:
-
-- `nums[i] < nums[j] > nums[k]`
-- `nums[i] < nums[k]`
-
-This indicates:
-
-1. `nums[j]` should be greater than `nums[k]` (Point 1).
-2. `nums[i]` should be smaller than both `nums[j]` and `nums[k]` (Point 2).
-
-To solve this efficiently:
-
-1. Use a **Previous Greater Element (PGE)** approach to determine, for each index `k`, the previous index `j` where `nums[j] > nums[k]`.
-2. Maintain an array of the smallest element encountered up to each index to check if there exists an `i` such that `nums[i] < nums[k]`.
-
-```python
-def better(n, arr):
-    PGE = [None] * n
-    stack = []
-
-    # Calculate Previous Greater Element (PGE)
-    for i in range(n):
-        while stack and arr[i] >= arr[stack[-1]]:
-            stack.pop()
-        if stack:
-            PGE[i] = stack[-1]
-        stack.append(i)
-
-    # Calculate minimum element up to each index
-    MINI = [None] * n
-    currentMin = float('inf')
-    for i in range(n):
-        MINI[i] = currentMin
-        currentMin = min(currentMin, arr[i])
-
-    # Check for 132 pattern
-    for i in range(n):
-        if PGE[i] is not None and arr[i] > MINI[PGE[i]]:
-            return True
-
-    return False
-```
-
-- **Time Complexity:** `O(n)`, due to linear traversals and stack operations.
-- **Space Complexity:** `O(n)`, for the `PGE` and `MINI` arrays.
-
----
-
-**Optimized Approach**
-
-To further optimize, we can combine the logic of identifying `nums[j] > nums[k]` (Point 1) and tracking the minimum element (Point 2) into a single loop. Here:
-
-1. Use a stack to maintain indices and values for elements that could potentially form the `132` pattern.
-2. Track the smallest element encountered so far.
-
-```python
-def optimized(n, arr):
-    stack = []  # Stack to store tuples of (index, minimum value so far)
-    currentMin = float('inf')
-
-    for i in range(n):
-        # Remove elements from stack that are less than or equal to the current element
-        while stack and arr[i] >= arr[stack[-1][0]]:
-            stack.pop()
-
-        # Check if current element can form a 132 pattern
-        if stack and arr[i] > stack[-1][1]:
-            return True
-
-        # Push the current index and the current minimum value onto the stack
-        stack.append((i, currentMin))
-
-        # Update the current minimum value
-        currentMin = min(currentMin, arr[i])
-
-    return False
-```
-
-- **Time Complexity:** `O(n)`, as each element is processed at most twice.
-- **Space Complexity:** `O(n)`, due to the stack.
