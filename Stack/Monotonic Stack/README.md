@@ -1744,3 +1744,97 @@ print(solve(n, m, matrix))  # Output: 6
 
 This solution is efficient for larger binary matrices and leverages the histogram technique for maximal rectangles. 🌈✨📊
 
+---
+
+## **Next Greater Node In Linked List**🌐🌐🌐
+
+You are given the head of a singly linked list with  nodes. For each node in the list, find the value of the next greater node. The next greater node for a given node is the first node after it with a strictly larger value.\
+If no such node exists, the next greater node value is set to `0`.
+
+Return an array `answer` where `answer[i]` is the value of the next greater node for the -th node (1-indexed).  🌐🌐🌐
+
+---
+
+**Sample Test Cases** 📊📊📊
+
+**Test Case 1:**
+
+**Input**: `head = [2, 1, 5]`\
+**Output**: `[5, 5, 0]`\
+**Explanation**:
+
+- The next greater node for `2` is `5`.
+- The next greater node for `1` is `5`.
+- The next greater node for `5` does not exist, so it is `0`.
+
+**Test Case 2:**
+
+**Input**: `head = [2, 7, 4, 3, 5]`\
+**Output**: `[7, 0, 5, 5, 0]`\
+**Explanation**:
+
+- The next greater node for `2` is `7`.
+- The next greater node for `7` does not exist, so it is `0`.
+- The next greater node for `4` is `5`.
+- The next greater node for `3` is `5`.
+- The next greater node for `5` does not exist, so it is `0`.  📊📊📊
+
+---
+
+**Intuition (in Simple Words)** 🧐🧐🧐
+
+1. Use a **monotonic decreasing stack** to keep track of nodes whose next greater element is not yet found.
+2. As you traverse the list:
+   - If the current node's value is **greater** than the values in the stack, pop those nodes and update their next greater value in the result list.
+   - If not, push the current node into the stack.
+3. At the end of the traversal, the remaining nodes in the stack do not have any next greater nodes, so their result remains `0`.
+
+The stack ensures we only process each node **once**, making it efficient.  🧐🧐🧐
+
+---
+
+```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def solve(head):
+    # Convert Linked List to an Array
+    values = []
+    while head:
+        values.append(head.val)
+        head = head.next
+    
+    n = len(values)
+    ans = [0] * n  # Initialize result array with 0
+    stack = []  # Stack to store indices of the values array
+    
+    for i in range(n):
+        # Check for next greater elements in the stack
+        while stack and values[i] > values[stack[-1]]:
+            index = stack.pop()
+            ans[index] = values[i]
+        stack.append(i)  # Push current index to stack
+    
+    return ans
+```
+
+
+---
+
+**Time and Space Complexity** ⏳⏳⏳
+
+1. **Time Complexity**:  
+   - Traversing the linked list: \( O(n) \)  
+   - Each node is pushed and popped from the stack at most once: \( O(n) \)  
+   **Overall**: \( O(n) \)
+
+2. **Space Complexity**:  
+   - Stack stores indices: \( O(n) \)  
+   - Array `values` for storing the linked list values: \( O(n) \)  
+   - Result array `ans`: \( O(n) \)  
+   **Overall**: \( O(n) \)  ⏳⏳⏳
+
+This approach is optimal for solving the problem. ⏳⏳⏳
+
