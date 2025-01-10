@@ -1530,3 +1530,217 @@ class Solution:
    - The stack and result array both have space complexity O(N).
 
 ---
+
+
+## **Largest Rectangle in Histogram** 🎨🎯✨
+
+The task is to find the **largest rectangular area** that can be formed in a histogram represented by an array of integers `heights`. Each bar has a width of 1.
+
+---
+
+<img src="https://www.danielleskosky.com/wp-content/uploads/media-uploads/largest-rectangle/lr-figK.png">
+
+
+
+**1. Brute Force Approach** 🚀📊📐
+
+This is the simplest approach where we consider every bar height as the height of a potential rectangle and calculate the maximum possible area.
+
+**Steps:**
+
+1. For each bar `i`, find the first smaller bar to its left (`leftMin`).
+2. Similarly, find the first smaller bar to its right (`rightMin`).
+3. Calculate the width of the rectangle that can be formed using the bar `i`:
+4. Calculate the area of the rectangle:
+5. Update the maximum area if the current rectangle's area is larger.
+
+**Code:**
+
+```python
+def bruteForce(n, arr):
+    maxi = 0
+    for i in range(n):
+        # Find the first smaller bar to the left
+        leftMin = -1
+        for j in range(i-1, -1, -1):
+            if arr[j] < arr[i]:
+                leftMin = j
+                break
+        
+        # Find the first smaller bar to the right
+        rightMin = n
+        for j in range(i+1, n):
+            if arr[j] < arr[i]:
+                rightMin = j
+                break
+        
+        # Calculate width and area
+        width = rightMin - leftMin - 1
+        area = arr[i] * width
+        maxi = max(maxi, area)
+    return maxi
+```
+
+**Time Complexity: O(n^2)**\
+**Space Complexity: O(1)**
+
+---
+
+**2. Better Approach (Using Precomputed Arrays for Left and Right Boundaries)** 📊🛠️💡
+
+Here, we improve the brute force approach by precomputing the nearest smaller elements to the left (`PSE`) and to the right (`NSE`) for all bars.
+
+**Steps:**
+
+1. Precompute the nearest smaller element (NSE) to the right using a **monotonic stack**.
+2. Precompute the previous smaller element (PSE) to the left using a **monotonic stack**.
+3. For each bar, calculate:
+
+   and the area:
+4. Update the maximum area.
+
+**Code:**
+
+```python
+def better(n, arr):
+    PSE = [-1] * n  # Previous Smaller Element
+    NSE = [n] * n   # Next Smaller Element
+    stack = []
+    
+    # Calculate NSE for each bar
+    for i in range(n):
+        while stack and arr[i] < arr[stack[-1]]:
+            index = stack.pop()
+            NSE[index] = i
+        stack.append(i)
+    
+    stack = []
+    # Calculate PSE for each bar
+    for i in range(n):
+        while stack and arr[i] < arr[stack[-1]]:
+            index = stack.pop()
+        if stack:
+            PSE[i] = stack[-1]
+        stack.append(i)
+    
+    # Calculate maximum area
+    maxi = 0
+    for i in range(n):
+        width = NSE[i] - PSE[i] - 1
+        area = arr[i] * width
+        maxi = max(maxi, area)
+    
+    return maxi
+```
+
+**Time Complexity: O(n)**\
+**Space Complexity: O(n)**
+
+---
+
+**3. Optimized Approach (Single Stack Method)** 🏗️🔢✨
+
+This approach uses a single monotonic stack to calculate the maximum rectangle area in one traversal.
+
+**Steps:**
+
+1. Traverse the histogram bars.
+2. For each bar, pop elements from the stack while the current bar height is smaller than the height at the top of the stack.
+3. For each popped element:
+   - Calculate the rectangle height as the height of the popped bar.
+   - Calculate the width:
+     - Left boundary: The new top of the stack after popping, or -1 if the stack is empty.
+     - Right boundary: The current index.
+   - Calculate the area and update the maximum area.
+4. After the traversal, process any remaining elements in the stack similarly.
+
+**Code:**
+
+```python
+def optimized(n, arr):
+    stack = []
+    maxi = 0
+    
+    for i in range(n):
+        while stack and arr[i] < arr[stack[-1]]:
+            index = stack.pop()
+            height = arr[index]
+            leftMin = stack[-1] if stack else -1
+            rightMin = i
+            width = rightMin - leftMin - 1
+            maxi = max(maxi, width * height)
+        stack.append(i)
+    
+    while stack:
+        index = stack.pop()
+        height = arr[index]
+        leftMin = stack[-1] if stack else -1
+        rightMin = n
+        width = rightMin - leftMin - 1
+        maxi = max(maxi, width * height)
+    
+    return maxi
+```
+
+**Time Complexity: O(n)**\
+**Space Complexity: O(n)**
+
+---
+
+---
+
+## **Maximal Rectangle** 🌟📏📋
+
+The maximal rectangle problem asks for the largest rectangle containing only `'1'`s in a binary matrix. This can be solved by treating each row of the matrix as the base of a histogram and using the **optimized approach**.
+
+<img src="https://www.algotree.org/images/Binary_Matrix.svg">
+
+**Steps:**
+
+1. Preprocess the matrix to calculate histogram heights for each row:
+   - If `matrix[i][j] == '1'`, the height is incremented by 1 from the row above.
+   - Otherwise, the height is reset to 0.
+2. For each row's histogram, use the `optimized` function to calculate the maximum area.
+3. Track and return the global maximum area.
+
+**Code:**
+
+```python
+def solve(n, m, matrix):
+    # Preprocess the matrix to calculate histogram heights
+    mat = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if matrix[i][j] == '1':
+                if i == 0:
+                    mat[i][j] = 1
+                else:
+                    mat[i][j] = 1 + mat[i-1][j]
+    
+    # Find the maximal rectangle for each row's histogram
+    maxi = 0
+    for i in range(n):
+        ans = optimized(m, mat[i])
+        maxi = max(maxi, ans)
+    
+    return maxi
+```
+
+**Example Usage:**
+
+```python
+matrix = [
+    ["1", "0", "1", "0", "0"],
+    ["1", "0", "1", "1", "1"],
+    ["1", "1", "1", "1", "1"],
+    ["1", "0", "0", "1", "0"]
+]
+n, m = 4, 5
+print(solve(n, m, matrix))  # Output: 6
+```
+
+**Time Complexity:** O(n×m) \
+**Space Complexity:** O(n×m)
+
+This solution is efficient for larger binary matrices and leverages the histogram technique for maximal rectangles. 🌈✨📊
+
