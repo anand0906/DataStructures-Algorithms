@@ -1838,3 +1838,137 @@ def solve(head):
 
 This approach is optimal for solving the problem. ⏳⏳⏳
 
+
+---
+
+## **Remove Nodes From Linked List**
+
+✨✨✨
+
+**Problem Statement**
+
+You are given the head of a linked list. Your task is to remove every node from the linked list that has a node with a greater value to its right. Return the head of the modified linked list.
+
+✨✨✨
+
+---
+
+**Input 1:**
+
+```plaintext
+head = [5, 2, 13, 3, 8]
+```
+
+**Output 1:**
+
+```plaintext
+[13, 8]
+```
+
+**Explanation:**
+
+- Node `5` is removed because `13` is to its right.
+- Node `2` is removed because `13` is to its right.
+- Node `3` is removed because `8` is to its right.
+- Nodes `13` and `8` are retained as there are no greater values to their right.
+
+✨✨✨
+
+---
+
+**Input 2:**
+
+```plaintext
+head = [1, 1, 1, 1]
+```
+
+**Output 2:**
+
+```plaintext
+[1, 1, 1, 1]
+```
+
+**Explanation:**
+Since all nodes have the same value, no nodes need to be removed.
+
+✨✨✨
+
+---
+
+**Intuition**
+
+✨✨✨
+
+1. **Traverse the List Backwards:**
+
+   - To efficiently determine whether a node has a greater value to its right, it's helpful to traverse the list from the end to the start.
+
+2. **Use a Stack to Track Maximum Values:**
+
+   - Use a stack to maintain a list of "valid" nodes that should remain in the list. As we traverse backward, if the current node's value is smaller than the top of the stack, it means the current node has a greater value to its right and should be removed.
+
+3. **Build the New List:**
+
+   - Once we identify the valid nodes using the stack, rebuild the linked list from these nodes.
+
+✨✨✨
+
+---
+
+Here is an efficient Python implementation:
+
+```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def solve(head):
+    if not head:
+        return None
+
+    stack = []
+    current = head
+
+    # Traverse the linked list
+    while current:
+        # Remove nodes from the stack if their values are less than the current node's value
+        while stack and stack[-1].val < current.val:
+            stack.pop()
+        stack.append(current)
+        current = current.next
+
+    # Build the new linked list from the stack
+    dummy = ListNode(0)
+    current = dummy
+    for node in stack:
+        current.next = node
+        current = current.next
+
+    # End the new linked list
+    current.next = None
+
+    return dummy.next
+```
+
+✨✨✨
+
+---
+
+**Time and Space Complexity**
+
+✨✨✨
+
+1. **Time Complexity:**
+
+   - Each node is pushed and popped from the stack exactly once, resulting in an  time complexity where  is the number of nodes in the linked list.
+
+2. **Space Complexity:**
+
+   - The stack stores up to  nodes in the worst case, giving a space complexity of .
+
+✨✨✨
+
+---
+
+
