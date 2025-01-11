@@ -1972,3 +1972,123 @@ def solve(head):
 ---
 
 
+ &#x20;**Steps to Make Array Non-decreasing**📚🌟✨
+
+You are given a 0-indexed integer array `nums`. In one step, remove all elements `nums[i]` where `nums[i - 1] > nums[i]` for all . 📈🌟✨
+
+Return the number of steps performed until `nums` becomes a non-decreasing array. 📈🌟✨
+
+---
+
+**Sample Test Cases** 📈🚀✨
+
+Example 1 📈🌟✨
+
+**Input:**\
+`nums = [5,3,4,4,7,3,6,11,8,5,11]`\
+**Output:**\
+`3` 📈🌟✨
+
+**Explanation:**
+
+- Step 1: `[5,3,4,4,7,3,6,11,8,5,11]` becomes `[5,4,4,7,6,11,11]`.
+- Step 2: `[5,4,4,7,6,11,11]` becomes `[5,4,7,11,11]`.
+- Step 3: `[5,4,7,11,11]` becomes `[5,7,11,11]`.
+
+The final array `[5,7,11,11]` is non-decreasing. 📈🌟✨
+
+---
+
+Example 2 📈🌟✨
+
+**Input:**\
+`nums = [4,5,7,7,13]`\
+**Output:**\
+`0` 📈🌟✨
+
+**Explanation:**\
+The array is already non-decreasing. 📈🌟✨
+
+---
+
+**Intuition** 🧐🌟✨
+
+The key is understanding how elements are "eaten" by larger elements. The number of steps required depends on how many elements a larger number can eat while maintaining the correct order. 🧐🌟✨
+
+Observations:
+
+1. If a larger number comes before smaller numbers, it will "eat" all smaller numbers it can, but the smaller numbers will simultaneously "eat" the numbers smaller than themselves. 🧐🌟✨
+2. This means the process happens in parallel, and we need to track the maximum "eating" steps required for any element. 🧐🌟✨
+
+---
+
+**Steps to Solve** 🔍🌟✨
+
+1. **Maintain a Stack:** Use a stack to keep track of indices of elements in decreasing order from the back of the array. 🔍🌟✨
+
+   - This helps us simulate the "eating" process efficiently. 🔍🌟✨
+
+2. **Track Maximum Eating Steps:** Use an auxiliary array `maxEat` to track the number of steps each element takes to stabilize. 🔍🌟✨
+
+   - If a larger element eats a smaller element, its eating count will depend on the count of the smaller element. 🔍🌟✨
+
+3. **Update Maximum:** At each step, calculate the global maximum of eating steps required. 🔍🌟✨
+
+---
+
+
+```python
+def solve(n, arr):
+    stack = []
+    maxEat = [0] * n
+    maxi = 0
+    
+    # Traverse from right to left
+    for i in range(n - 1, -1, -1):
+        while stack and arr[i] > arr[stack[-1]]:
+            index = stack.pop()
+            maxEat[i] = max(maxEat[i] + 1, maxEat[index])
+        
+        stack.append(i)
+        maxi = max(maxi, maxEat[i])
+    
+    return maxi
+```
+
+---
+
+**Time and Space Complexity** ⌛🌟✨
+
+**Time Complexity:**
+
+- O(n) : Each element is pushed and popped from the stack once. ⌛🌟✨
+
+**Space Complexity:**
+
+- O(n) : Stack and `maxEat` array require  space. ⌛🌟✨
+
+---
+
+**Explanation of the Example** 📊🌟✨
+
+For `nums = [5,3,4,4,7,3,6,11,8,5,11]`: 📊🌟✨
+
+1. **Initialization:**
+
+   - `maxEat = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]` 📊🌟✨
+   - `stack = []` 📊🌟✨
+
+2. **Processing Elements:**\
+   Traverse from the right to the left and update `maxEat` as elements "eat" others. 📊🌟✨
+
+   **Step-by-step Updates:**
+
+   - Process `11`: Push to `stack`.
+   - Process `5`: No smaller elements to eat. Push to `stack`.
+   - Process `8`: Eats `5`. Update `maxEat[8]`.
+   - Continue... 📊🌟✨
+
+   Final `maxEat` will indicate the maximum number of steps. 📊🌟✨
+
+3. **Result:** The maximum in `maxEat` gives the result: `3`. 📊🌟✨
+
